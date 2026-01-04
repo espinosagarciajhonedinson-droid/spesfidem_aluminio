@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pasarela de Pago Segura | Spesfidem Aluminio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Outfit:wght@800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --primary: #020617;
+            --accent: #3b82f6;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--primary);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .checkout-box {
+            background: white;
+            padding: 3rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .security-badge {
+            color: #10b981;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .method {
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.8rem;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .method:hover {
+            border-color: var(--accent);
+            background: #f1f5f9;
+        }
+
+        .btn-pay {
+            background: var(--primary);
+            color: white;
+            width: 100%;
+            padding: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .back {
+            display: block;
+            margin-top: 2rem;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="checkout-box">
+        <div class="security-badge">
+            <i class="fas fa-lock"></i> PAGO 100% SEGURO Y CIFRADO
+        </div>
+        <h2 style="font-family: 'Outfit', sans-serif; color: var(--accent);">Portal de Pagos</h2>
+        <h1 id="methodTitle">Procesando...</h1>
+
+        <div id="methodInfo"
+            style="margin: 2rem 0; padding: 2rem; background: #f1f5f9; border-radius: 1rem; text-align: left; line-height: 1.6;">
+            <!-- Content injected by JS -->
+        </div>
+
+        <button class="btn-pay" id="mainRedirectBtn">Continuar al Pago Seguro</button>
+
+        <p style="margin-top: 1.5rem; font-size: 0.8rem; color: #64748b;">
+            <i class="fas fa-shield-alt"></i> Sus datos financieros están protegidos por encriptación avanzada de
+            Spesfidem Aluminio.
+        </p>
+
+        <a href="index.html" class="back">← Cancelar y volver al sitio</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const method = params.get('method');
+            const title = document.getElementById('methodTitle');
+            const info = document.getElementById('methodInfo');
+            const btn = document.getElementById('mainRedirectBtn');
+
+            const content = {
+                'transferencia': {
+                    title: 'Transferencia Directa',
+                    html: `
+                        <p><strong>Nequi / DaviPlata:</strong> 323 204 5129</p>
+                        <p><strong>Banco de Bogotá:</strong> Ahorros 583092325</p>
+                        <p><em>Seleccione esta opción para transferir desde su app bancaria.</em></p>
+                    `,
+                    btnText: 'Confirmar y Enviar Comprobante (WhatsApp)',
+                    link: 'https://wa.me/573046291152?text=Hola,%20acabo%20de%20realizar%20un%20pago%20por%20transferencia.'
+                },
+                'pse': {
+                    title: 'Pago por PSE / Bancos',
+                    html: `
+                        <p>Será redirigido al portal seguro de PSE para realizar el débito de su cuenta de ahorros o corriente de cualquier banco nacional.</p>
+                    `,
+                    btnText: 'Redirigir a Portal PSE Seguro',
+                    link: '#' // Simulated landing
+                },
+                'tarjeta': {
+                    title: 'Tarjeta de Crédito',
+                    html: `
+                        <p>Procesamiento seguro para tarjetas Visa, MasterCard y American Express.</p>
+                    `,
+                    btnText: 'Ir a Pasarela de Crédito Segura',
+                    link: '#' // Simulated landing
+                }
+            };
+
+            const selected = content[method] || content['transferencia'];
+            title.textContent = selected.title;
+            info.innerHTML = selected.html;
+            btn.textContent = selected.btnText;
+
+            btn.onclick = () => {
+                if (selected.link === '#') {
+                    alert('Simulación: Redirigiendo a canal de pago encriptado de Spesfidem Aluminio...');
+                } else {
+                    window.location.href = selected.link;
+                }
+            };
+        });
+    </script>
+</body>
+
+</html>
