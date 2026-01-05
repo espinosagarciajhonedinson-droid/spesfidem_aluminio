@@ -212,6 +212,9 @@
                             Nombre Cliente</th>
                         <th
                             style="padding: 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">
+                            Documento</th>
+                        <th
+                            style="padding: 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">
                             Teléfonos</th>
                         <th
                             style="padding: 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">
@@ -285,10 +288,17 @@
                 Editar Cliente</h2>
             <form onsubmit="saveEditClient(event)" style="display:flex; flex-direction:column; gap:1rem;">
                 <input type="hidden" id="editId">
-                <div>
-                    <label style="font-weight:bold; font-size:0.9rem; color:#64748b;">Nombre Completo</label>
-                    <input type="text" id="editName" required
-                        style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px;">
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+                    <div>
+                        <label style="font-weight:bold; font-size:0.9rem; color:#64748b;">Nombre Completo</label>
+                        <input type="text" id="editName" required
+                            style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px;">
+                    </div>
+                    <div>
+                        <label style="font-weight:bold; font-size:0.9rem; color:#64748b;">Documento</label>
+                        <input type="text" id="editDoc" required
+                            style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px;">
+                    </div>
                 </div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
                     <div>

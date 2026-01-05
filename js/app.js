@@ -82,6 +82,7 @@ class ClientDB {
                 const matches = !query ||
                     client.fullName.toLowerCase().includes(query) ||
                     client.cellphone.includes(query) ||
+                    (client.idCard && client.idCard.toLowerCase().includes(query)) ||
                     (client.city && client.city.toLowerCase().includes(query));
 
                 if (matches) {
@@ -510,6 +511,7 @@ async function loadAdminData() {
                 </td>
                 <td>${client.date}</td>
                 <td style="font-weight:bold;">${client.fullName}</td>
+                <td style="color:#64748b; font-family:monospace;">${client.idCard || 'N/A'}</td>
                 <td>
                     <div>Cel: ${client.cellphone}</div>
                     ${client.landline ? `<div style="font-size:0.8rem; color:#64748b;">Fijo: ${client.landline}</div>` : ''}
@@ -686,6 +688,7 @@ async function openEditModal(id) {
 
     document.getElementById('editId').value = client.id;
     document.getElementById('editName').value = client.fullName;
+    document.getElementById('editDoc').value = client.idCard || '';
     document.getElementById('editCel').value = client.cellphone;
     document.getElementById('editTel').value = client.landline || '';
     document.getElementById('editCity').value = client.city;
@@ -800,6 +803,7 @@ async function saveEditClient(e) {
     if (!client) return;
 
     client.fullName = document.getElementById('editName').value;
+    client.idCard = document.getElementById('editDoc').value;
     client.cellphone = document.getElementById('editCel').value;
     client.landline = document.getElementById('editTel').value;
     client.city = document.getElementById('editCity').value;

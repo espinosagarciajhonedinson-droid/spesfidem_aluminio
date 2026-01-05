@@ -130,23 +130,81 @@
             <p>* La vigencia de esta simulación de precios es de 15 días calendario.</p>
         </div>
 
+        <div id="registrationForm"
+            style="margin-top: 3rem; background: #f8fafc; padding: 2.5rem; border-radius: 12px; border: 1px solid #e2e8f0;">
+            <h3
+                style="color: var(--primary); font-family: 'Outfit'; margin-top: 0; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem;">
+                <i class="fas fa-user-edit" style="color: var(--accent);"></i> Formulario de Registro de Pedido
+            </h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div style="grid-column: span 1;">
+                    <label
+                        style="display: block; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; text-transform: uppercase;">Nombre
+                        Completo / Empresa</label>
+                    <input type="text" id="regFullName"
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;"
+                        placeholder="Ej: Jhon Doe">
+                </div>
+                <div style="grid-column: span 1;">
+                    <label
+                        style="display: block; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; text-transform: uppercase;">Documento
+                        de Identidad</label>
+                    <input type="text" id="regDoc"
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;"
+                        placeholder="C.C. / NIT">
+                </div>
+                <div>
+                    <label
+                        style="display: block; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; text-transform: uppercase;">Celular
+                        de Contacto</label>
+                    <input type="text" id="regCellphone"
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;"
+                        placeholder="323...">
+                </div>
+                <div>
+                    <label
+                        style="display: block; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; text-transform: uppercase;">Correo
+                        Electrónico</label>
+                    <input type="email" id="regEmail"
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;"
+                        placeholder="correo@ejemplo.com">
+                </div>
+                <div>
+                    <label
+                        style="display: block; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; text-transform: uppercase;">Ciudad
+                        / Municipio</label>
+                    <input type="text" id="regCity"
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;"
+                        placeholder="Ej: Ibagué">
+                </div>
+                <div>
+                    <label
+                        style="display: block; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; text-transform: uppercase;">Dirección
+                        de Obra / Entrega</label>
+                    <input type="text" id="regAddress"
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;"
+                        placeholder="Carrera... #...">
+                </div>
+            </div>
+        </div>
+
         <div class="no-print" style="margin-top: 3rem; display: flex; gap: 1rem; justify-content: center;">
             <button onclick="window.print()" class="btn-primary"
                 style="background:#64748b; padding: 0.8rem 1.5rem; border-radius: 6px; border:none; color:white; font-weight:600; cursor:pointer;">
                 <i class="fas fa-print"></i> Imprimir Cotización
             </button>
             <button onclick="confirmOrder()" class="btn-primary"
-                style="background:#059669; padding: 0.8rem 1.5rem; border-radius: 6px; border:none; color:white; font-weight:600; cursor:pointer;">
-                <i class="fas fa-check-circle"></i> Confirmar y Registrar Pedido
+                style="background:#059669; padding: 1rem 2rem; border-radius: 6px; border:none; color:white; font-weight:700; cursor:pointer; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);">
+                <i class="fas fa-check-circle"></i> REGISTRARSE
             </button>
-            <button onclick="window.location.href='index.html'"
+            <button onclick="window.location.href='simulator.html'"
                 style="background:transparent; border:1px solid #cbd5e1; padding: 0.8rem 1.5rem; border-radius: 6px; color:#64748b; font-weight:600; cursor:pointer;">
                 Modificar
             </button>
         </div>
     </div>
 
-    <script src="js/app.js"></script>
+    <script src="js/app.js?v=102"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             // Wait for DB to be initialized from app.js
@@ -197,10 +255,33 @@
             const data = JSON.parse(sessionStorage.getItem('currentQuotation'));
             if (!data) return;
 
+            // Get Form Data
+            const regFullName = document.getElementById('regFullName').value.trim();
+            const regDoc = document.getElementById('regDoc').value.trim();
+            const regCellphone = document.getElementById('regCellphone').value.trim();
+            const regEmail = document.getElementById('regEmail').value.trim();
+            const regCity = document.getElementById('regCity').value.trim();
+            const regAddress = document.getElementById('regAddress').value.trim();
+
+            // Validate
+            if (!regFullName || !regDoc || !regCellphone || !regCity || !regAddress) {
+                alert('Por favor complete todos los campos obligatorios: Nombre, Documento, Celular, Ciudad y Dirección.');
+                document.getElementById('registrationForm').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+
+            // Update Quotation Data
+            data.fullName = regFullName;
+            data.idCard = regDoc;
+            data.cellphone = regCellphone;
+            data.email = regEmail;
+            data.city = regCity;
+            data.address = regAddress;
+
             try {
                 if (typeof db !== 'undefined') {
                     await db.save(data);
-                    alert('¡Pedido registrado con éxito! Pronto nos contactaremos.');
+                    alert('¡Registro exitoso! Sus datos han sido guardados en el sistema administrativo. Ahora puede proceder al pago.');
                     sessionStorage.removeItem('currentQuotation');
                     window.location.href = 'checkout.html';
                 } else {
