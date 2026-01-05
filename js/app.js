@@ -545,6 +545,7 @@ async function loadAdminData() {
                 <td><div style="font-weight:600; color:var(--accent); font-size:0.85rem;">${getProductString(client)}</div></td>
                 <td>${client.email}</td>
                 <td style="max-width:200px;">${client.address}</td>
+                <td style="font-weight:700; color:#059669; font-size:1rem;">$${(client.grandTotal || 0).toLocaleString()}</td>
                 <td><span class="status-badge status-${(client.status || 'Pendiente').toLowerCase()}">${client.status || 'Pendiente'}</span></td>
                 <td style="display:flex; gap:0.5rem;">
                     <button onclick="openEditModal(${client.id})" class="btn-edit" style="background:#f59e0b; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;"><i class="fas fa-edit"></i></button>
@@ -961,12 +962,12 @@ async function downloadCSV() {
         }
 
         // Header
-        let csv = "Fecha,Nombre,Documento,Celular,Fijo,Ciudad,Direccion,Email,Productos,Estado\n";
+        let csv = "Fecha,Nombre,Documento,Celular,Fijo,Ciudad,Direccion,Email,Productos,Valor Total,Estado de Pago\n";
 
         // Rows
         clientsToExport.forEach(c => {
             const prods = getProductString(c).replace(/,/g, " |");
-            csv += `"${c.date || ''}","${c.fullName || ''}","${c.idCard || 'N/A'}","${c.cellphone || ''}","${c.landline || ''}","${c.city || ''}","${c.address || ''}","${c.email || ''}","${prods}","${c.status || 'Pendiente'}"\n`;
+            csv += `"${c.date || ''}","${c.fullName || ''}","${c.idCard || 'N/A'}","${c.cellphone || ''}","${c.landline || ''}","${c.city || ''}","${c.address || ''}","${c.email || ''}","${prods}","$${(c.grandTotal || 0).toLocaleString()}","${c.status || 'Pendiente'}"\n`;
         });
 
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
