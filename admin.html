@@ -233,6 +233,9 @@
                             Valor Total</th>
                         <th
                             style="padding: 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">
+                            Estado de Entrega</th>
+                        <th
+                            style="padding: 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">
                             Estado de Pago</th>
                         <th
                             style="padding: 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">
@@ -330,13 +333,24 @@
                     <input type="email" id="editEmail" required
                         style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px;">
                 </div>
-                <div>
-                    <label style="font-weight:bold; font-size:0.9rem; color:#64748b;">Estado de Pago</label>
-                    <select id="editStatus"
-                        style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px;">
-                        <option value="Pendiente">Pendiente</option>
-                        <option value="Pagado">Pagado</option>
-                    </select>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+                    <div>
+                        <label style="font-weight:bold; font-size:0.9rem; color:#64748b;">Estado de Entrega</label>
+                        <select id="editDeliveryStatus"
+                            style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px;">
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Entregado">Entregado</option>
+                            <option value="Cancelado">Cancelado</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-weight:bold; font-size:0.9rem; color:#64748b;">Estado de Pago</label>
+                        <select id="editPaymentStatus"
+                            style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px;">
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Pagado">Pagado</option>
+                        </select>
+                    </div>
                 </div>
                 <!-- Product Slots for Editing (Up to 10) -->
                 <div
