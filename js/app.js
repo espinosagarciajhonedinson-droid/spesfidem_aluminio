@@ -8,173 +8,102 @@ const DB_NAME = 'SpesfidemDB';
 const DB_VERSION = 1;
 const STORE_NAME = 'clients';
 
-// --- Database Layer (IndexedDB) ---
+// --- Database Layer (Python Server API) ---
 class ClientDB {
     constructor() {
-        this.db = null;
+        this.apiUrl = '/api/clients';
     }
 
+    // Initialization is simple health check or no-op
     async init() {
-        return new Promise((resolve, reject) => {
-            const request = indexedDB.open(DB_NAME, DB_VERSION);
-            request.onupgradeneeded = (event) => {
-                const db = event.target.result;
-                if (!db.objectStoreNames.contains(STORE_NAME)) {
-                    db.createObjectStore(STORE_NAME, { keyPath: 'id' });
-                }
-            };
-            request.onsuccess = (event) => {
-                this.db = event.target.result;
-                resolve();
-            };
-            request.onerror = (event) => reject(event.target.error);
-        });
+        console.log("Connected to Spesfidem Persistent Server");
     }
 
     async save(client) {
-        return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction([STORE_NAME], 'readwrite');
-            const store = transaction.objectStore(STORE_NAME);
-            const request = store.put(client);
-            request.onsuccess = () => resolve();
-            request.onerror = () => reject(request.error);
-        });
+        try {
+            const response = await fetch(this.apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(client)
+            });
+            if (!response.ok) throw new Error('Error saving to server');
+        } catch (e) {
+            console.error(e);
+            throw e;
+        }
     }
 
     async delete(id) {
-        return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction([STORE_NAME], 'readwrite');
-            const store = transaction.objectStore(STORE_NAME);
-            const request = store.delete(id);
-            request.onsuccess = () => resolve();
-            request.onerror = () => reject(request.error);
-        });
+        try {
+            const response = await fetch(`${this.apiUrl}/${id}`, { method: 'DELETE' });
+            if (!response.ok) throw new Error('Error deleting from server');
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async getAll() {
+        try {
+            // Anti-caching timestamp
+            const response = await fetch(`${this.apiUrl}?t=${Date.now()}`);
+            if (!response.ok) return [];
+            return await response.json();
+        } catch (e) {
+            console.error("Fetch error:", e);
+            return [];
+        }
     }
 
     async getById(id) {
-        return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction([STORE_NAME], 'readonly');
-            const store = transaction.objectStore(STORE_NAME);
-            const request = store.get(id);
-            request.onsuccess = () => resolve(request.result);
-            request.onerror = () => reject(request.error);
-        });
+        // Fetch all and find (Simpler for this scale)
+        const clients = await this.getAll();
+        return clients.find(c => String(c.id) === String(id)) || null;
     }
 
     async getByIdCard(idCard) {
-        return new Promise((resolve, reject) => {
-            if (!idCard) {
-                resolve(null);
-                return;
-            }
-            const transaction = this.db.transaction([STORE_NAME], 'readonly');
-            const store = transaction.objectStore(STORE_NAME);
-            const request = store.openCursor();
-            request.onsuccess = (event) => {
-                const cursor = event.target.result;
-                if (cursor) {
-                    if (cursor.value.idCard === idCard) {
-                        resolve(cursor.value);
-                    } else {
-                        cursor.continue();
-                    }
-                } else {
-                    resolve(null);
-                }
-            };
-            request.onerror = () => reject(request.error);
-        });
+        if (!idCard) return null;
+        const clients = await this.getAll();
+        // Normalize comparison
+        return clients.find(c => String(c.idCard).trim() === String(idCard).trim()) || null;
     }
 
     async getPaged(page, pageSize, searchQuery = '') {
-        return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction([STORE_NAME], 'readonly');
-            const store = transaction.objectStore(STORE_NAME);
-            const request = store.openCursor(null, 'prev'); // Newest first
-            const results = [];
-            let skipped = 0;
-            const skip = (page - 1) * pageSize;
-            const query = searchQuery.toLowerCase();
+        const clients = await this.getAll();
+        // Sort Newest First (descending ID/Timestamp)
+        clients.sort((a, b) => b.id - a.id);
 
-            request.onsuccess = (event) => {
-                const cursor = event.target.result;
-                if (!cursor) {
-                    resolve({ items: results });
-                    return;
-                }
+        const query = searchQuery.toLowerCase();
+        const filtered = clients.filter(c =>
+            !query ||
+            (c.fullName && c.fullName.toLowerCase().includes(query)) ||
+            (c.cellphone && String(c.cellphone).includes(query)) ||
+            (c.idCard && String(c.idCard).includes(query)) ||
+            (c.city && c.city.toLowerCase().includes(query))
+        );
 
-                const client = cursor.value;
-                const matches = !query ||
-                    client.fullName.toLowerCase().includes(query) ||
-                    client.cellphone.includes(query) ||
-                    (client.idCard && client.idCard.toLowerCase().includes(query)) ||
-                    (client.city && client.city.toLowerCase().includes(query));
+        const start = (page - 1) * pageSize;
+        const pageItems = filtered.slice(start, start + pageSize);
 
-                if (matches) {
-                    if (skipped < skip) {
-                        skipped++;
-                    } else if (results.length < pageSize) {
-                        results.push(client);
-                    }
-                }
-
-                if (results.length < pageSize || !matches) {
-                    cursor.continue();
-                } else {
-                    resolve({ items: results });
-                }
-            };
-            request.onerror = () => reject(request.error);
-        });
+        return { items: pageItems };
     }
 
     async count(searchQuery = '') {
-        return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction([STORE_NAME], 'readonly');
-            const store = transaction.objectStore(STORE_NAME);
-            const query = searchQuery.toLowerCase();
+        const clients = await this.getAll();
+        const query = searchQuery.toLowerCase();
+        if (!query) return clients.length;
 
-            if (!query) {
-                const request = store.count();
-                request.onsuccess = () => resolve(request.result);
-                request.onerror = () => reject(request.error);
-            } else {
-                let count = 0;
-                const request = store.openCursor();
-                request.onsuccess = (event) => {
-                    const cursor = event.target.result;
-                    if (cursor) {
-                        const client = cursor.value;
-                        if (client.fullName.toLowerCase().includes(query) || client.cellphone.includes(query)) {
-                            count++;
-                        }
-                        cursor.continue();
-                    } else {
-                        resolve(count);
-                    }
-                };
-            }
-        });
+        return clients.filter(c =>
+            (c.fullName && c.fullName.toLowerCase().includes(query)) ||
+            (c.cellphone && String(c.cellphone).includes(query))
+        ).length;
     }
 }
 
 const db = new ClientDB();
 
-// --- Initialization & Migrations ---
+// --- Initialization ---
 async function migrateData() {
-    const rawData = localStorage.getItem(DB_KEY);
-    if (rawData) {
-        try {
-            const clients = JSON.parse(rawData);
-            for (const client of clients) {
-                await db.save(client);
-            }
-            localStorage.removeItem(DB_KEY);
-            console.log("Migration to IndexedDB complete.");
-        } catch (e) {
-            console.error("Migration failed:", e);
-        }
-    }
+    // Disabled for Server Mode
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -931,6 +860,96 @@ function openGallery(cat) {
 }
 
 // --- Admin Auth & Utilities ---
+
+function logout() {
+    if (confirm("¿Seguro que desea cerrar sesión?")) {
+        sessionStorage.removeItem("isAdmin");
+        window.location.reload();
+    }
+}
+
+/* --- PQR LOGIC --- */
+function updateCharCount(textarea) {
+    const count = textarea.value.length;
+    const counterDisplay = document.getElementById('charCount');
+    counterDisplay.textContent = `${count} / 500`;
+
+    if (count >= 500) {
+        counterDisplay.style.color = '#ef4444'; // Red warning
+    } else {
+        counterDisplay.style.color = '#64748b';
+    }
+}
+
+function updateFileName(input) {
+    const display = document.getElementById('fileNameDisplay');
+    if (input.files && input.files.length > 0) {
+        display.textContent = input.files[0].name;
+        display.style.color = '#facc15';
+    } else {
+        display.textContent = 'Seleccionar Archivo (Img, PDF)';
+        display.style.color = '#cbd5e1';
+    }
+}
+
+function handlePQRSubmit(e) {
+    e.preventDefault();
+
+    // Get form values
+    const form = e.target;
+    const type = form.userType.value;
+    const name = form.pqrName.value;
+    const city = form.pqrCity.value;
+    const phone = form.pqrPhone.value;
+    const email = form.pqrEmail.value;
+    const message = form.pqrMessage.value;
+
+    // Construct Email Body
+    const subject = `PQR: ${type} - ${name}`;
+    const body = `
+Hola Spesfidem Aluminio,
+
+Envío la siguiente solicitud desde el formulario web:
+
+--- DATOS DEL USUARIO ---
+Tipo: ${type}
+Nombre: ${name}
+Ciudad: ${city}
+Celular: ${phone}
+Correo: ${email}
+
+--- MENSAJE ---
+${message}
+    `.trim();
+
+    // Check file for alert (still needed as browser restriction warning)
+    const fileInput = document.getElementById('pqrFile');
+    if (fileInput.files.length > 0) {
+        alert("NOTA IMPORTANTE:\n\nPor seguridad del navegador, el archivo seleccionado NO se puede adjuntar automáticamente.\n\nPor favor, ARRASTRE O ADJUNTE SU ARCHIVO manualmente en el correo que se abrirá a continuación.");
+    }
+
+    // UX Feedback - IMMEDIATE ACTION
+    const btn = form.querySelector('button[type="submit"]');
+    btn.innerHTML = '<i class="fas fa-check"></i> PROCESANDO...';
+    btn.disabled = true;
+
+    // Open Mail Client IMMEDIATELY
+    window.location.href = `mailto:spesfidemaluminio@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    // Show Success Modal (simulating "Received" feedback)
+    const modal = document.getElementById('pqrSuccessModal');
+    if (modal) {
+        modal.style.display = 'flex';
+    } else {
+        // Fallback if modal not present (e.g. old page cache)
+        alert("¡Gracias! Su solicitud ha sido procesada. Por favor confirme el envío en su correo.");
+        window.location.href = 'index.html';
+    }
+}
+
+function closePQRModal() {
+    window.location.href = 'index.html';
+}
 function adminLogin(e) {
     e.preventDefault();
     const user = document.getElementById('adminUser').value;

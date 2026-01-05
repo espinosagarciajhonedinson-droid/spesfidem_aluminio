@@ -18,7 +18,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://spesfidem.com">
 
-    <link rel="stylesheet" href="css/style.css?v=135">
+    <link rel="stylesheet" href="css/style.css?v=138">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -151,9 +151,11 @@
     <section id="beneficios"
         style="padding: var(--section-pad); background: #020617; position: relative; overflow: hidden;">
         <div class="nav-container">
-            <div style="text-align: center; margin-bottom: 5rem;" data-aos="fade-up">
-                <h2 class="section-title-silver">La Promesa Spesfidem</h2>
-                <p style="color: #94a3b8; font-size: 1.2rem; max-width: 700px; margin: 0 auto;">Invertir en Spesfidem es
+            <div style="text-align: center; margin-bottom: 3rem;" data-aos="fade-up">
+                <h2 class="section-title-elite" style="margin-bottom: 2rem;">La Promesa Spesfidem</h2>
+                <p
+                    style="color: #cbd5e1; font-size: 1.4rem; max-width: 800px; margin: 0 auto; line-height: 1.5; font-weight: 500;">
+                    Invertir en Spesfidem es
                     asegurar el valor, la eficiencia y la belleza eterna de su propiedad.</p>
             </div>
 
@@ -288,7 +290,7 @@
 
     <!-- Products Section (The "All Types" Catalog) -->
     <section id="productos" style="padding: var(--section-pad);">
-        <h2 class="section-title" style="font-size: 4rem; letter-spacing: 5px;">CATÁLOGOS ÉLITE</h2>
+        <h2 class="section-title-elite">CATÁLOGOS ÉLITE</h2>
         <p
             style="text-align: center; color: var(--accent); margin-bottom: 5rem; font-weight: 800; letter-spacing: 8px; font-size: 1.2rem; text-transform: uppercase; text-shadow: 0 0 20px var(--accent-glow);">
             RESPONSABILIDAD Y CUMPLIMIENTO</p>
@@ -431,130 +433,99 @@
 
 
 
-            <!-- 2. Registro de Pedido Compacto -->
-            <div id="registro-rapido" style="flex: 1; min-width: 300px;">
-                <div class="glass-panel" style="border-top: 4px solid #059669; padding: 2.5rem;">
-                    <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: white; font-family: 'Outfit';">Finalizar
-                        Pedido</h3>
-                    <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 2rem;">Formalice su configuración del
-                        simulador o solicite una visita técnica.</p>
-
-                    <form id="clientForm" onsubmit="saveClient(event)">
-                        <div class="form-group" style="margin-bottom: 1.2rem;">
-                            <input type="text" id="fullName" class="form-control" placeholder="Nombre Completo" required
-                                style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px;">
-                        </div>
-                        <div class="form-group" style="margin-bottom: 1.2rem;">
-                            <input type="tel" id="cellphone" class="form-control" placeholder="WhatsApp / Celular"
-                                required
-                                style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px;">
-                        </div>
-                        <div class="form-group" style="margin-bottom: 1.2rem;">
-                            <input type="text" id="city" class="form-control" placeholder="Ciudad (Ej: Ibagué)" required
-                                style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px;">
-                        </div>
-                        <div class="form-group" style="margin-bottom: 2rem;">
-                            <input type="email" id="email" class="form-control" placeholder="Correo Electrónico"
-                                required
-                                style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px;">
-                            <input type="hidden" id="address" value="No especificada">
-                        </div>
-
-                        <button type="submit" class="btn-primary"
-                            style="background: #059669; border: none; padding: 1.2rem; width: 100%; font-size: 1.1rem; border-radius: 12px;">
-                            COORDINAR PEDIDO <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-
         </div>
     </section>
 
     <!-- Testimonials Section -->
     <section id="testimonios" style="padding: var(--section-pad); background: rgba(2, 6, 23, 0.5);">
         <div class="nav-container">
-            <h2 class="section-title">VOCES DEL ÉLITE</h2>
+            <h2 class="section-title-elite">VOCES DEL ÉLITE</h2>
             <p
                 style="text-align: center; color: var(--accent); margin-bottom: 5rem; font-weight: 700; letter-spacing: 5px;">
                 CONFIANZA RESPALDADA POR RESULTADOS</p>
 
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:2.5rem;">
+            <div class="testimonials-carousel">
                 <!-- Testimonio 1 -->
-                <div class="glass-panel testimonial-card" data-aos="fade-up">
-                    <i class="fas fa-quote-left fa-2x quote-icon"></i>
-                    <p class="testimonial-text">"La precisión en el montaje de las ventanas corredizas en mi oficina fue
+                <div class="testimonial-card-premium" data-aos="fade-left">
+                    <i class="fas fa-quote-left quote-icon-premium"></i>
+                    <p class="testimonial-text-premium">"La precisión en el montaje de las ventanas corredizas en mi
+                        oficina fue
                         impecable. El aislamiento acústico es sorprendente. Muy recomendados."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">RJ</div>
-                        <div>
-                            <h4 class="author-name">Ricardo Jiménez</h4>
-                            <small class="author-title">Arquitecto Independiente</small>
+                    <div class="testimonial-author-premium">
+                        <div class="author-avatar-premium">RJ</div>
+                        <div class="author-info-premium">
+                            <span class="author-name-premium">Ricardo Jiménez</span>
+                            <span class="author-title-premium">Arquitecto Independiente</span>
                         </div>
                     </div>
                 </div>
                 <!-- Testimonio 2 -->
-                <div class="glass-panel testimonial-card" data-aos="fade-up" data-aos-delay="100">
-                    <i class="fas fa-quote-left fa-2x quote-icon"></i>
-                    <p class="testimonial-text">"Las divisiones de baño en vidrio templado le dieron un toque ultra
+                <div class="testimonial-card-premium" data-aos="fade-left" data-aos-delay="100">
+                    <i class="fas fa-quote-left quote-icon-premium"></i>
+                    <p class="testimonial-text-premium">"Las divisiones de baño en vidrio templado le dieron un toque
+                        ultra
                         moderno a mi casa. El cumplimiento en el tiempo fue puntual y limpio."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">AM</div>
-                        <div>
-                            <h4 class="author-name">Andrea Morales</h4>
-                            <small class="author-title">Propietaria Residencial</small>
+                    <div class="testimonial-author-premium">
+                        <div class="author-avatar-premium">AM</div>
+                        <div class="author-info-premium">
+                            <span class="author-name-premium">Andrea Morales</span>
+                            <span class="author-title-premium">Propietaria Residencial</span>
                         </div>
                     </div>
                 </div>
                 <!-- Testimonio 3 -->
-                <div class="glass-panel testimonial-card" data-aos="fade-up" data-aos-delay="200">
-                    <i class="fas fa-quote-left fa-2x quote-icon"></i>
-                    <p class="testimonial-text">"Excelente servicio y asesoría técnica. Se nota el conocimiento profundo
+                <div class="testimonial-card-premium" data-aos="fade-left" data-aos-delay="200">
+                    <i class="fas fa-quote-left quote-icon-premium"></i>
+                    <p class="testimonial-text-premium">"Excelente servicio y asesoría técnica. Se nota el conocimiento
+                        profundo
                         en el manejo del aluminio de alta gama y perfiles pesados."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">CP</div>
-                        <div>
-                            <h4 class="author-name">Carlos Perdomo</h4>
-                            <small class="author-title">Constructor</small>
+                    <div class="testimonial-author-premium">
+                        <div class="author-avatar-premium">CP</div>
+                        <div class="author-info-premium">
+                            <span class="author-name-premium">Carlos Perdomo</span>
+                            <span class="author-title-premium">Constructor</span>
                         </div>
                     </div>
                 </div>
-                <!-- Testimonio 4 (NUEVO) -->
-                <div class="glass-panel testimonial-card" data-aos="fade-up" data-aos-delay="100">
-                    <i class="fas fa-quote-left fa-2x quote-icon"></i>
-                    <p class="testimonial-text">"Instalamos fachadas flotantes con Spesfidem y el resultado superó
+                <!-- Testimonio 4 -->
+                <div class="testimonial-card-premium" data-aos="fade-left" data-aos-delay="300">
+                    <i class="fas fa-quote-left quote-icon-premium"></i>
+                    <p class="testimonial-text-premium">"Instalamos fachadas flotantes con Spesfidem y el resultado
+                        superó
                         nuestras expectativas. Estética impecable y soporte técnico continuo."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar" style="background: #0ea5e9;">GS</div>
-                        <div>
-                            <h4 class="author-name">Gabriel Salazar</h4>
-                            <small class="author-title">Director de Proyectos</small>
+                    <div class="testimonial-author-premium">
+                        <div class="author-avatar-premium">GS</div>
+                        <div class="author-info-premium">
+                            <span class="author-name-premium">Gabriel Salazar</span>
+                            <span class="author-title-premium">Director de Proyectos</span>
                         </div>
                     </div>
                 </div>
-                <!-- Testimonio 5 (NUEVO) -->
-                <div class="glass-panel testimonial-card" data-aos="fade-up" data-aos-delay="200">
-                    <i class="fas fa-quote-left fa-2x quote-icon"></i>
-                    <p class="testimonial-text">"La durabilidad de sus acabados en pintura electrostática es fenomenal.
+                <!-- Testimonio 5 -->
+                <div class="testimonial-card-premium" data-aos="fade-left" data-aos-delay="400">
+                    <i class="fas fa-quote-left quote-icon-premium"></i>
+                    <p class="testimonial-text-premium">"La durabilidad de sus acabados en pintura electrostática es
+                        fenomenal.
                         Tres años después y las puertas lucen como nuevas."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar" style="background: #0ea5e9;">ML</div>
-                        <div>
-                            <h4 class="author-name">Marta Lozano</h4>
-                            <small class="author-title">Administradora Comercial</small>
+                    <div class="testimonial-author-premium">
+                        <div class="author-avatar-premium">ML</div>
+                        <div class="author-info-premium">
+                            <span class="author-name-premium">Marta Lozano</span>
+                            <span class="author-title-premium">Administradora Comercial</span>
                         </div>
                     </div>
                 </div>
-                <!-- Testimonio 6 (NUEVO) -->
-                <div class="glass-panel testimonial-card" data-aos="fade-up" data-aos-delay="300">
-                    <i class="fas fa-quote-left fa-2x quote-icon"></i>
-                    <p class="testimonial-text">"Confío todos mis proyectos de vidrio templado a Jhon. Su puntualidad y
+                <!-- Testimonio 6 -->
+                <div class="testimonial-card-premium" data-aos="fade-left" data-aos-delay="500">
+                    <i class="fas fa-quote-left quote-icon-premium"></i>
+                    <p class="testimonial-text-premium">"Confío todos mis proyectos de vidrio templado a Jhon. Su
+                        puntualidad y
                         ojo para el detalle técnico son inigualables en Ibagué."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar" style="background: #0ea5e9;">HV</div>
-                        <div>
-                            <h4 class="author-name">Hugo Valderrama</h4>
-                            <small class="author-title">Ingeniero Civil</small>
+                    <div class="testimonial-author-premium">
+                        <div class="author-avatar-premium">HV</div>
+                        <div class="author-info-premium">
+                            <span class="author-name-premium">Hugo Valderrama</span>
+                            <span class="author-title-premium">Ingeniero Civil</span>
                         </div>
                     </div>
                 </div>
@@ -563,41 +534,78 @@
     </section>
 
     <!-- FAQ Section -->
-    <section id="faq" class="faq-section-premium" style="padding: var(--section-pad); background: #020617;">
-        <div class="nav-container">
-            <h2 class="section-title-gold" data-aos="fade-up">DUDAS COMUNES</h2>
-            <div class="faq-grid-horizontal">
-                <div class="faq-item" data-aos="fade-up">
-                    <div class="faq-question" onclick="toggleFAQ(this)">
+    <section id="faq" class="faq-section-premium"
+        style="padding: var(--section-pad); background: radial-gradient(circle at center, #020617 0%, #000000 100%); position: relative;">
+        <!-- Gold Glow Background -->
+        <div
+            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; height: 60%; background: radial-gradient(circle, rgba(234, 179, 8, 0.05) 0%, transparent 70%); pointer-events: none;">
+        </div>
+
+        <div class="nav-container" style="position: relative; z-index: 2;">
+            <h2 class="section-title-elite" data-aos="fade-up">DUDAS COMUNES</h2>
+            <div class="faq-grid-elite">
+                <!-- FAQ 1 -->
+                <div class="faq-card-elite" data-aos="fade-up">
+                    <div class="faq-question-elite" onclick="toggleFAQ(this)">
                         <span>¿Qué garantía ofrecen en sus productos?</span>
-                        <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-chevron-down faq-icon-elite"></i>
                     </div>
-                    <div class="faq-answer">
+                    <div class="faq-answer-elite">
                         <p>Ofrecemos una garantía de hasta 5 años en la estructura de aluminio y 1 año en herrajes y
-                            sellado milimétrico.</p>
+                            sellado milimétrico. Calidad certificada.</p>
                     </div>
                 </div>
-                <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
-                    <div class="faq-question" onclick="toggleFAQ(this)">
+                <!-- FAQ 2 -->
+                <div class="faq-card-elite" data-aos="fade-up" data-aos-delay="100">
+                    <div class="faq-question-elite" onclick="toggleFAQ(this)">
                         <span>¿Realizan visitas técnicas sin compromiso?</span>
-                        <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-chevron-down faq-icon-elite"></i>
                     </div>
-                    <div class="faq-answer">
+                    <div class="faq-answer-elite">
                         <p>Sí, realizamos visitas técnicas en Ibagué y alrededores para toma de medidas y asesoría
                             especializada sin costo adicional.</p>
                     </div>
                 </div>
-                <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
-                    <div class="faq-question" onclick="toggleFAQ(this)">
+                <!-- FAQ 3 -->
+                <div class="faq-card-elite" data-aos="fade-up" data-aos-delay="200">
+                    <div class="faq-question-elite" onclick="toggleFAQ(this)">
                         <span>¿Cuánto tiempo tarda la instalación?</span>
-                        <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-chevron-down faq-icon-elite"></i>
                     </div>
-                    <div class="faq-answer">
+                    <div class="faq-answer-elite">
                         <p>Dependiendo de la magnitud del proyecto, una instalación estándar puede tardar entre 5 a 10
                             días hábiles tras la fabricación final.</p>
                     </div>
                 </div>
+                <!-- FAQ 4 (Mantenimiento) -->
+                <div class="faq-card-elite" data-aos="fade-up" data-aos-delay="300">
+                    <div class="faq-question-elite" onclick="toggleFAQ(this)">
+                        <span>¿Hacen mantenimiento a estructuras antiguas?</span>
+                        <i class="fas fa-chevron-down faq-icon-elite"></i>
+                    </div>
+                    <div class="faq-answer-elite">
+                        <p>Sí, ofrecemos servicios de mantenimiento preventivo y correctivo para renovar la vida útil de
+                            sus ventanas y puertas existentes.</p>
+                    </div>
+                </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Help Center Strip (Replaces PQR Form) -->
+    <section id="help-center"
+        style="padding: 4rem 2rem; background: #020617; border-top: 1px solid rgba(255,255,255,0.05); text-align: center;">
+        <div class="nav-container">
+            <h2 class="section-title-pqr" style="font-size: 1.8rem; margin-bottom: 1.5rem;">¿NECESITA REPORTAR ALGO?
+            </h2>
+            <p style="color: #94a3b8; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Su satisfacción es nuestra prioridad. Hemos habilitado un canal exclusivo para escuchar sus sugerencias
+                y reclamos.
+            </p>
+            <a href="pqr.html" class="btn-primary"
+                style="display: inline-flex; width: auto; background: transparent; border: 1px solid #facc15; color: #facc15;">
+                <i class="fas fa-envelope-open-text"></i> IR A SUGERENCIAS Y RECLAMOS
+            </a>
         </div>
     </section>
 
@@ -718,7 +726,7 @@
 
 
 
-    <script src="js/app.js?v=135"></script>
+    <script src="js/app.js?v=138"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({

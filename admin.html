@@ -128,22 +128,24 @@
             <li style="margin-bottom: 1rem;"><a href="#"
                     style="color:white; text-decoration:none; font-size: 0.9rem;"><i class="fas fa-users"
                         style="margin-right:0.5rem;"></i> Clientes</a></li>
-            <li style="margin-bottom: 1rem;"><a href="index.html"
-                    style="color: #94a3b8; text-decoration:none; font-size: 0.9rem;"><i class="fas fa-external-link-alt"
-                        style="margin-right:0.5rem;"></i> Ver Sitio Web</a></li>
+            <li style="margin-bottom: 1rem;"><a href="index.html" <li style="margin-bottom: 1rem;"><a href="#"
+                        onclick="logout()"
+                        style="color: #ef4444; text-decoration:none; font-size: 0.9rem; font-weight: bold;"><i
+                            class="fas fa-sign-out-alt" style="margin-right:0.5rem;"></i> CERRAR SESIÓN</a></li>
         </ul>
     </div>
 
     <div class="main-content">
         <header
-            style="margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+            style="margin-bottom: 3rem; display: flex; flex-direction: column; gap: 0.8rem; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
 
-            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                <div style="display: flex; align-items: center; gap: 1rem;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 1rem;">
+                <!-- Left Section: Title & Counter -->
+                <div style="display: flex; align-items: center; gap: 1rem; flex: 1; min-width: 200px;">
                     <div>
                         <h1 style="font-size: 1.2rem; color: #0f172a; margin: 0;">Panel de Control</h1>
                     </div>
-                    <!-- Compact Total Counter -->
                     <div
                         style="background: #f1f5f9; padding: 0.25rem 0.75rem; border-radius: 20px; display: flex; align-items: center; gap: 0.4rem;">
                         <i class="fas fa-users" style="color: #0f172a; font-size: 0.8rem;"></i>
@@ -152,12 +154,24 @@
                     </div>
                 </div>
 
-                <div style="display: flex; align-items: center; gap: 0.8rem;">
-                    <span style="color: #64748b; font-size: 0.85rem;"><strong>Jhon Edinson</strong></span>
+                <!-- Center Section: User Profile -->
+                <div
+                    style="display: flex; align-items: center; gap: 0.8rem; flex: 1; justify-content: center; background: #f8fafc; padding: 0.5rem 1.5rem; border-radius: 50px; border: 1px solid #e2e8f0; min-width: 250px;">
                     <div
-                        style="width: 32px; height: 32px; background: #cbd5e1; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem;">
+                        style="width: 32px; height: 32px; background: #0f172a; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem;">
                         <i class="fas fa-user"></i>
                     </div>
+                    <span style="color: #334155; font-size: 0.95rem;">Hola, <strong>Jhon Edinson</strong></span>
+                </div>
+
+                <!-- Right Section: Logout -->
+                <div style="display: flex; align-items: center; justify-content: flex-end; flex: 1; min-width: 150px;">
+                    <button onclick="logout()"
+                        style="background: #ef4444; color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 6px; cursor: pointer; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; transition: background 0.3s; box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);"
+                        onmouseover="this.style.background='#dc2626'" onmouseout="this.style.background='#ef4444'"
+                        title="Cerrar Sesión">
+                        <i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN
+                    </button>
                 </div>
             </div>
 
@@ -196,7 +210,7 @@
 
         <!-- Full Width Table Container -->
         <div
-            style="background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); overflow-x: auto; width: 100%;">
+            style="background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); overflow-x: auto; width: 100%; margin-top: 2rem;">
             <table style="width: 100%; border-collapse: collapse; min-width: 900px;">
                 <thead style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
                     <tr class="table-header-row">
@@ -372,7 +386,7 @@
         </div>
     </div>
 
-    <script src="js/app.js?v=135"></script>
+    <script src="js/app.js?v=138"></script>
 </body>
 
 </html>

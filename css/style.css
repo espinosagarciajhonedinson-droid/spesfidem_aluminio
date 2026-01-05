@@ -846,3 +846,397 @@ header {
         display: block;
     }
 }
+
+/* --- PREMIUM TESTIMONIALS V2 (Platinum & Gold - High Contrast) --- */
+.testimonials-section {
+    padding: var(--section-pad);
+    /* Deep/Royal Dark Background to make white cards POP */
+    background: radial-gradient(circle at center, #020617 0%, #000000 100%);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Background Gold Glow Effect */
+.testimonials-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 60%;
+    background: radial-gradient(circle, rgba(234, 179, 8, 0.05) 0%, transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.testimonials-carousel {
+    display: flex;
+    gap: 3rem;
+    /* More spacing for luxury feel */
+    overflow-x: auto;
+    padding: 4rem 2rem;
+    /* ample padding for shadows */
+    scroll-snap-type: x mandatory;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* Hide scrollbar for cleaner look */
+    position: relative;
+    z-index: 10;
+}
+
+.testimonials-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.testimonial-card-premium {
+    flex: 0 0 420px;
+    /* Slightly wider */
+    scroll-snap-align: center;
+    /* PLATINUM CARD STYLE: Pure White/Off-White */
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 3rem;
+    position: relative;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    /* Luxury Border Effect (Gold/Bronze) */
+    border: 1px solid rgba(234, 179, 8, 0.2);
+    /* Subtle Gold border */
+
+    /* Deep Elevation Shadow */
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+}
+
+/* Golden Top Accent Line */
+.testimonial-card-premium::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, #ca8a04 0%, #facc15 50%, #ca8a04 100%);
+    /* Gold Gradient */
+    border-radius: 20px 20px 0 0;
+}
+
+.testimonial-card-premium:hover {
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 0 30px 60px -15px rgba(234, 179, 8, 0.25);
+    /* Golden Glow on hover */
+    border-color: #eab308;
+}
+
+.quote-icon-premium {
+    /* Gold Icon */
+    background: linear-gradient(135deg, #ca8a04 0%, #facc15 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    opacity: 0.8;
+}
+
+.testimonial-text-premium {
+    font-family: 'Outfit', sans-serif;
+    /* Cleaner font for reading */
+    font-size: 1.25rem;
+    /* Large and readable */
+    line-height: 1.6;
+    color: #1e293b;
+    /* Dark Slate - High Contrast */
+    font-weight: 500;
+    font-style: italic;
+    margin-bottom: 2.5rem;
+}
+
+.testimonial-author-premium {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    border-top: 1px solid #e2e8f0;
+    /* Light gray divider */
+    padding-top: 1.5rem;
+}
+
+.author-avatar-premium {
+    width: 60px;
+    height: 60px;
+    /* Gold Avatar Background */
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border: 2px solid #facc15;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    color: #facc15;
+    /* Gold Text */
+    font-size: 1.4rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.author-info-premium {
+    display: flex;
+    flex-direction: column;
+}
+
+.author-name-premium {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    color: #0f172a;
+    /* Very Dark - Max Contrast */
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.author-title-premium {
+    color: #ca8a04;
+    /* Dark Gold */
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    margin-top: 0.2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .testimonial-card-premium {
+        flex: 0 0 85vw;
+        /* Much wider on mobile */
+        padding: 2rem;
+    }
+
+    .testimonial-text-premium {
+        font-size: 1.1rem;
+    }
+}
+
+/* --- TITLE ELITE: LIQUID GOLD EFFECT --- */
+.section-title-elite {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    /* MASSIVE */
+    font-weight: 900;
+    text-align: center;
+    margin: 0 auto 3rem auto;
+    /* Center alignment */
+    text-transform: uppercase;
+    letter-spacing: 6px;
+
+    /* Liquid Gold Gradient */
+    background: linear-gradient(to bottom,
+            #fef08a 0%,
+            /* Lightest Gold */
+            #facc15 30%,
+            /* Bright Gold */
+            #ca8a04 60%,
+            /* Deep Gold */
+            #854d0e 100%
+            /* Bronze Shadow */
+        );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* Metallic Shine & Shadow */
+    filter: drop-shadow(0 4px 6px rgba(133, 77, 14, 0.5));
+    position: relative;
+    display: table;
+    /* Reliable centering for text gradient wrapper */
+}
+
+/* Optional: Underline Accent */
+.section-title-elite::after {
+    content: '';
+    display: block;
+    width: 60%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent 0%, #facc15 50%, transparent 100%);
+    margin: 1rem auto 0 auto;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(250, 204, 21, 0.6);
+}
+
+/* --- FAQ ELITE (Platinum & Gold) --- */
+.faq-grid-elite {
+    display: flex;
+    /* Changed from grid to flex wrap for perfect centering */
+    flex-wrap: wrap;
+    justify-content: center;
+    /* Forces cards to center */
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.faq-card-elite {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 0;
+    /* Padding inside content */
+    border: 1px solid rgba(234, 179, 8, 0.2);
+    box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    transition: all 0.4s ease;
+    position: relative;
+}
+
+.faq-card-elite::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #ca8a04 0%, #facc15 50%, #ca8a04 100%);
+}
+
+.faq-card-elite:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px -10px rgba(234, 179, 8, 0.2);
+    border-color: #eab308;
+}
+
+.faq-question-elite {
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background: #ffffff;
+    transition: background 0.3s;
+}
+
+.faq-question-elite:hover {
+    background: #fdfce7;
+    /* Very light yellow tint */
+}
+
+.faq-question-elite span {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #0f172a;
+    width: 90%;
+}
+
+.faq-icon-elite {
+    color: #ca8a04;
+    transition: transform 0.3s ease;
+}
+
+.faq-card-elite.active .faq-icon-elite {
+    transform: rotate(180deg);
+}
+
+.faq-answer-elite {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background: #f8fafc;
+    /* Very light gray for answer area */
+    border-top: 1px solid #e2e8f0;
+}
+
+.faq-card-elite.active .faq-answer-elite {
+    max-height: 200px;
+    /* Adjust based on content */
+    padding: 1.5rem 2rem;
+    transition: max-height 0.4s ease-in;
+}
+
+.faq-answer-elite p {
+    color: #475569;
+    /* Slate 600 */
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* --- PQR SPECIFIC TITLE (Clean Silver) --- */
+.section-title-pqr {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.5rem;
+    /* Much smaller than Elite */
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #e2e8f0;
+    /* Silver/White - No Gold Gradient */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* --- PQR ELITE COMPONENTS --- */
+.radio-elite {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    color: #cbd5e1;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.radio-elite input {
+    display: none;
+}
+
+.radio-mark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ca8a04;
+    border-radius: 50%;
+    margin-right: 10px;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.radio-elite input:checked~.radio-mark {
+    background: #facc15;
+    box-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
+    border-color: #facc15;
+}
+
+.file-upload-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.file-input-elite {
+    display: none;
+}
+
+.file-label-elite {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px dashed rgba(250, 204, 21, 0.4);
+    color: #cbd5e1;
+    padding: 1.2rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 500;
+}
+
+.file-label-elite:hover {
+    background: rgba(250, 204, 21, 0.05);
+    border-color: #facc15;
+    color: #facc15;
+}
+
+.file-label-elite i {
+    font-size: 1.2rem;
+}
