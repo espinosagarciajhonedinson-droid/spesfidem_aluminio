@@ -936,12 +936,12 @@ async function downloadCSV() {
         }
 
         // Header
-        let csv = "Fecha,Nombre,Celular,Fijo,Ciudad,Direccion,Email,Productos,Estado\n";
+        let csv = "Fecha,Nombre,Documento,Celular,Fijo,Ciudad,Direccion,Email,Productos,Estado\n";
 
         // Rows
         clientsToExport.forEach(c => {
             const prods = getProductString(c).replace(/,/g, " |");
-            csv += `"${c.date || ''}","${c.fullName || ''}","${c.cellphone || ''}","${c.landline || ''}","${c.city || ''}","${c.address || ''}","${c.email || ''}","${prods}","${c.status || 'Pendiente'}"\n`;
+            csv += `"${c.date || ''}","${c.fullName || ''}","${c.idCard || 'N/A'}","${c.cellphone || ''}","${c.landline || ''}","${c.city || ''}","${c.address || ''}","${c.email || ''}","${prods}","${c.status || 'Pendiente'}"\n`;
         });
 
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
