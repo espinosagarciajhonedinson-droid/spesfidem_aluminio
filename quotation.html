@@ -149,9 +149,19 @@
                     <label
                         style="display: block; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; text-transform: uppercase;">Documento
                         de Identidad</label>
-                    <input type="text" id="regDoc"
-                        style="width: 100%; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;"
-                        placeholder="C.C. / NIT">
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="text" id="regDoc"
+                            style="flex: 1; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;"
+                            placeholder="C.C. / NIT">
+                        <button type="button" onclick="searchExistingClient()"
+                            style="padding: 0.8rem 1.2rem; background: #e2e8f0; border: none; border-radius: 6px; color: #0f172a; cursor: pointer; font-weight: 700; transition: 0.3s;"
+                            onmouseover="this.style.background='#cbd5e1'" onmouseout="this.style.background='#e2e8f0'"
+                            title="¿Ya eres cliente? Carga tus datos automáticamente">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <small style="color: #64748b; font-size: 0.75rem; margin-top: 0.3rem; display: block;">¿Ya
+                        registrado? Ingresa tu documento y da clic en la lupa.</small>
                 </div>
                 <div>
                     <label
@@ -251,6 +261,43 @@
             document.getElementById('grandTotal').textContent = '$' + (data.grandTotal || 0).toLocaleString();
         });
 
+        async function searchExistingClient() {
+            const doc = document.getElementById('regDoc').value.trim();
+            if (!doc) {
+                alert("Por favor ingrese su Documento o NIT para buscar.");
+                return;
+            }
+
+            try {
+                if (typeof db === 'undefined') {
+                    await db.init();
+                }
+                const client = await db.getByIdCard(doc);
+                if (client) {
+                    document.getElementById('regFullName').value = client.fullName || '';
+                    document.getElementById('regCellphone').value = client.cellphone || '';
+                    document.getElementById('regEmail').value = client.email || '';
+                    document.getElementById('regCity').value = client.city || '';
+                    document.getElementById('regAddress').value = client.address || '';
+
+                    // Visual feedback
+                    const fields = ['regFullName', 'regCellphone', 'regEmail', 'regCity', 'regAddress'];
+                    fields.forEach(f => {
+                        const el = document.getElementById(f);
+                        el.style.border = '2px solid #10b981';
+                        el.style.background = '#f0fdf4';
+                    });
+
+                    alert(`¡Hola ${client.fullName}! Hemos cargado tus datos registrados. Puedes modificarlos si es necesario.`);
+                } else {
+                    alert("No encontramos un registro previo con este documento. Por favor, completa tus datos para el primer registro.");
+                }
+            } catch (e) {
+                console.error("Search failed:", e);
+                alert("Error al buscar el cliente.");
+            }
+        }
+
         async function confirmOrder() {
             const data = JSON.parse(sessionStorage.getItem('currentQuotation'));
             if (!data) return;
@@ -280,12 +327,11 @@
 
             try {
                 if (typeof db !== 'undefined') {
-                    // Check for duplicate registration by ID Card
+                    // No longer blocking unique registrations, instead we just reuse/update
+                    // but we alert the user that the order will be logged.
                     const existingClient = await db.getByIdCard(regDoc);
                     if (existingClient) {
-                        alert(`El documento ${regDoc} ya se encuentra registrado a nombre de: ${existingClient.fullName}. Solo se permite un registro por documento.`);
-                        document.getElementById('regDoc').focus();
-                        return;
+                        console.log("Existing client found, updating record with new order.");
                     }
 
                     await db.save(data);
