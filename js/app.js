@@ -61,6 +61,31 @@ class ClientDB {
         });
     }
 
+    async getByIdCard(idCard) {
+        return new Promise((resolve, reject) => {
+            if (!idCard) {
+                resolve(null);
+                return;
+            }
+            const transaction = this.db.transaction([STORE_NAME], 'readonly');
+            const store = transaction.objectStore(STORE_NAME);
+            const request = store.openCursor();
+            request.onsuccess = (event) => {
+                const cursor = event.target.result;
+                if (cursor) {
+                    if (cursor.value.idCard === idCard) {
+                        resolve(cursor.value);
+                    } else {
+                        cursor.continue();
+                    }
+                } else {
+                    resolve(null);
+                }
+            };
+            request.onerror = () => reject(request.error);
+        });
+    }
+
     async getPaged(page, pageSize, searchQuery = '') {
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction([STORE_NAME], 'readonly');

@@ -280,6 +280,14 @@
 
             try {
                 if (typeof db !== 'undefined') {
+                    // Check for duplicate registration by ID Card
+                    const existingClient = await db.getByIdCard(regDoc);
+                    if (existingClient) {
+                        alert(`El documento ${regDoc} ya se encuentra registrado a nombre de: ${existingClient.fullName}. Solo se permite un registro por documento.`);
+                        document.getElementById('regDoc').focus();
+                        return;
+                    }
+
                     await db.save(data);
                     alert('¡Registro exitoso! Sus datos han sido guardados en el sistema administrativo. Ahora puede proceder al pago.');
                     sessionStorage.removeItem('currentQuotation');
