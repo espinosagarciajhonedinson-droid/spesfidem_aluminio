@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 :root {
     /* Ultra-Modern "Architectural Tech" Palette */
     --bg-deep: #020617;
@@ -160,6 +164,38 @@ body {
 
 .premium-logo:hover {
     transform: scale(1.02);
+}
+
+/* Mobile Menu Transitions */
+.big-menu {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.big-menu.active {
+    display: flex !important;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(15, 23, 42, 0.98);
+    backdrop-filter: blur(20px);
+    padding: 2rem;
+    gap: 1.5rem;
+    border-bottom: 1px solid var(--accent);
+    animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .logo-icon-svg {
@@ -792,754 +828,832 @@ header {
 
     .big-menu {
         display: none;
-        /* Mobile menu logic pending */
+
+        .big-menu {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 1rem;
+            background: rgba(15, 23, 42, 0.98);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .big-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu-btn {
+            display: block;
+        }
     }
 
-    .nav-container {
-        /* Keep row for logo + hamburger */
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-
-    .big-menu {
-        display: none;
-        width: 100%;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 1rem;
-        background: rgba(15, 23, 42, 0.98);
-        padding: 1rem;
-        border-radius: 8px;
-    }
-
-    .big-menu.active {
+    /* --- TOAST NOTIFICATIONS --- */
+    .toast-container {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 2000;
         display: flex;
+        flex-direction: column;
+        gap: 1rem;
     }
 
-    .mobile-menu-btn {
-        display: block;
-    }
-}
-
-/* --- TOAST NOTIFICATIONS --- */
-.toast-container {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    z-index: 2000;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.toast {
-    background: rgba(15, 23, 42, 0.95);
-    color: white;
-    padding: 1rem 1.5rem;
-    border-radius: 8px;
-    border-left: 4px solid var(--accent);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-    min-width: 300px;
-    transform: translateX(120%);
-    transition: transform 0.3s ease-out;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    backdrop-filter: blur(8px);
-}
-
-.toast.show {
-    transform: translateX(0);
-}
-
-.toast-message {
-    font-size: 0.95rem;
-    line-height: 1.5;
-}
-
-.toast i {
-    font-size: 1.2rem;
-    color: var(--accent);
-}
-
-/* --- FAQ ACCORDION --- */
-.faq-item {
-    margin-bottom: 1rem;
-    border: 1px solid var(--glass-border);
-    border-radius: 1rem;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.02);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.faq-question {
-    padding: 1.5rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.faq-question:hover {
-    background: rgba(56, 189, 248, 0.05);
-}
-
-.faq-question i {
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.faq-answer {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    background: rgba(0, 0, 0, 0.3);
-}
-
-.faq-answer p {
-    padding: 1.5rem 2rem;
-    color: #94a3b8;
-    line-height: 1.6;
-}
-
-.faq-item.active {
-    border-color: var(--accent);
-    background: rgba(56, 189, 248, 0.02);
-    box-shadow: 0 10px 30px -10px rgba(56, 189, 248, 0.2);
-}
-
-.faq-item.active .faq-answer {
-    max-height: 500px;
-}
-
-.faq-item.active .faq-question i {
-    transform: rotate(180deg);
-}
-
-/* --- PHASE 3: INTERACTIVE GLOW EFFECTS --- */
-.btn-primary.btn-pulse {
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-}
-
-.btn-primary.btn-pulse::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
-    transform: translate(-100%, -100%);
-    transition: transform 0.6s ease;
-    z-index: -1;
-}
-
-.btn-primary.btn-pulse:hover::after {
-    transform: translate(0, 0);
-}
-
-.btn-primary.btn-pulse:hover {
-    box-shadow: 0 0 30px var(--accent-glow);
-    transform: translateY(-3px) scale(1.02);
-}
-
-.glass-panel:hover {
-    border-color: var(--accent);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(56, 189, 248, 0.1);
-    transform: translateY(-5px);
-}
-
-/* --- PREMIUM QUALITY BADGE (Elite Gold) --- */
-.quality-badge-elite {
-    display: inline-flex;
-    position: relative;
-    padding: 1.5rem 3rem;
-    background: linear-gradient(135deg, #fbbf24 0%, #d97706 50%, #b45309 100%);
-    border-radius: 4rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(251, 191, 36, 0.3);
-    overflow: hidden;
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    margin-bottom: 3rem;
-    align-items: center;
-    transform: perspective(1000px) rotateX(10deg);
-    animation: badgeFloat 4s ease-in-out infinite;
-}
-
-@keyframes badgeFloat {
-
-    0%,
-    100% {
-        transform: perspective(1000px) rotateX(10deg) translateY(0);
+    .toast {
+        background: rgba(15, 23, 42, 0.95);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        border-left: 4px solid var(--accent);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+        min-width: 300px;
+        transform: translateX(120%);
+        transition: transform 0.3s ease-out;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        backdrop-filter: blur(8px);
     }
 
-    50% {
-        transform: perspective(1000px) rotateX(10deg) translateY(-10px);
-    }
-}
-
-.badge-shimmer {
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 200%;
-    height: 100%;
-    background: linear-gradient(120deg,
-            transparent,
-            rgba(255, 255, 255, 0.6) 50%,
-            transparent);
-    transform: skewX(-25deg);
-    animation: shimmerScan 3s infinite linear;
-}
-
-@keyframes shimmerScan {
-    0% {
-        left: -100%;
+    .toast.show {
+        transform: translateX(0);
     }
 
-    100% {
-        left: 100%;
-    }
-}
-
-.badge-content {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-}
-
-.badge-icon {
-    color: white;
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
-}
-
-.badge-text-wrap {
-    text-align: left;
-}
-
-.badge-val {
-    display: block;
-    font-size: 1.8rem;
-    font-weight: 900;
-    color: white;
-    letter-spacing: 2px;
-    line-height: 1;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.badge-brand {
-    display: block;
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.9);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* --- ENHANCED TESTIMONIAL CARDS --- */
-.testimonial-card {
-    padding: 2.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 350px;
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.testimonial-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    border-color: var(--accent);
-    background: rgba(56, 189, 248, 0.05);
-}
-
-.quote-icon {
-    color: var(--accent);
-    margin-bottom: 2rem;
-    opacity: 0.8;
-}
-
-.testimonial-text {
-    font-style: italic;
-    font-size: 1.15rem;
-    line-height: 1.8;
-    color: #cbd5e1;
-    margin-bottom: 2.5rem;
-    flex-grow: 1;
-}
-
-.testimonial-author {
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-}
-
-.author-avatar {
-    width: 60px;
-    height: 60px;
-    background: var(--accent);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 1.2rem;
-    color: white;
-    flex-shrink: 0;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.author-name {
-    font-size: 1.2rem;
-    font-weight: 800;
-    color: white;
-    margin-bottom: 0.2rem;
-}
-
-.author-title {
-    color: var(--accent);
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-
-/* --- DIAMOND GLASS QUALITY BADGE (Modern Architectural) --- */
-.quality-badge-diamond {
-    display: inline-flex;
-    position: relative;
-    padding: 1.2rem 2.5rem;
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(20px);
-    border-radius: 12px;
-    border: 1px solid rgba(56, 189, 248, 0.5);
-    box-shadow:
-        0 15px 35px rgba(0, 0, 0, 0.3),
-        inset 0 0 15px rgba(56, 189, 248, 0.1);
-    margin-bottom: 3.5rem;
-    align-items: center;
-    overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.quality-badge-diamond::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: conic-gradient(from 0deg,
-            transparent 0%,
-            var(--accent) 25%,
-            transparent 50%,
-            var(--accent) 75%,
-            transparent 100%);
-    animation: rotateGlow 6s linear infinite;
-    opacity: 0.2;
-    z-index: 0;
-}
-
-@keyframes rotateGlow {
-    from {
-        transform: rotate(0deg);
+    .toast-message {
+        font-size: 0.95rem;
+        line-height: 1.5;
     }
 
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.diamond-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
-    z-index: 1;
-}
-
-.badge-content {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-}
-
-.badge-icon-wrap {
-    width: 50px;
-    height: 50px;
-    background: var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    box-shadow: 0 0 15px var(--accent-glow);
-}
-
-.badge-icon {
-    font-size: 1.5rem;
-    color: white;
-}
-
-.badge-text-wrap {
-    text-align: left;
-}
-
-.badge-val {
-    display: block;
-    font-size: 1.5rem;
-    font-weight: 900;
-    color: white;
-    letter-spacing: 1px;
-    line-height: 1.1;
-    font-family: 'Outfit';
-}
-
-.badge-brand {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--accent);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-.quality-badge-diamond:hover {
-    transform: translateY(-5px) scale(1.05);
-    border-color: white;
-    box-shadow: 0 20px 40px rgba(56, 189, 248, 0.3);
-}
-
-/* --- ROYAL OBSIDIAN GOLD SEAL (Luxury Impact) --- */
-.quality-seal-royal {
-    display: inline-flex;
-    position: relative;
-    padding: 2.5rem 4rem;
-    background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
-    border-radius: 50% / 10%;
-    /* Makes it a slightly rounded rectangle seal */
-    border: 3px solid #ffd700;
-    box-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.8),
-        0 0 30px rgba(255, 215, 0, 0.3),
-        inset 0 0 20px rgba(255, 215, 0, 0.2);
-    margin-bottom: 4rem;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    animation: sealPulse 3s ease-in-out infinite;
-}
-
-@keyframes sealPulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.3);
+    .toast i {
+        font-size: 1.2rem;
+        color: var(--accent);
     }
 
-    50% {
-        transform: scale(1.03);
-        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 50px rgba(255, 215, 0, 0.5);
+    /* --- FAQ ACCORDION --- */
+    .faq-item {
+        margin-bottom: 1rem;
+        border: 1px solid var(--glass-border);
+        border-radius: 1rem;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.02);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-}
 
-.seal-ring {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    right: 5px;
-    bottom: 5px;
-    border: 1px solid rgba(255, 215, 0, 0.5);
-    border-radius: inherit;
-    pointer-events: none;
-}
+    .faq-question {
+        padding: 1.5rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        font-weight: 600;
+    }
 
-.seal-glare {
-    position: absolute;
-    top: -150%;
-    left: -150%;
-    width: 400%;
-    height: 400%;
-    background: linear-gradient(45deg,
-            transparent 45%,
-            rgba(255, 255, 255, 0.8) 50%,
-            transparent 55%);
-    animation: sealGlint 4s infinite linear;
-    z-index: 1;
-}
+    .faq-question:hover {
+        background: rgba(56, 189, 248, 0.05);
+    }
 
-@keyframes sealGlint {
-    0% {
+    .faq-question i {
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+    .faq-answer p {
+        padding: 1.5rem 2rem;
+        color: #94a3b8;
+        line-height: 1.6;
+    }
+
+    .faq-item.active {
+        border-color: var(--accent);
+        background: rgba(56, 189, 248, 0.02);
+        box-shadow: 0 10px 30px -10px rgba(56, 189, 248, 0.2);
+    }
+
+    .faq-item.active .faq-answer {
+        max-height: 500px;
+    }
+
+    .faq-item.active .faq-question i {
+        transform: rotate(180deg);
+    }
+
+    /* --- PHASE 3: INTERACTIVE GLOW EFFECTS --- */
+    .btn-primary.btn-pulse {
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .btn-primary.btn-pulse::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+        transform: translate(-100%, -100%);
+        transition: transform 0.6s ease;
+        z-index: -1;
+    }
+
+    .btn-primary.btn-pulse:hover::after {
         transform: translate(0, 0);
     }
 
-    100% {
-        transform: translate(150%, 150%);
+    .btn-primary.btn-pulse:hover {
+        box-shadow: 0 0 30px var(--accent-glow);
+        transform: translateY(-3px) scale(1.02);
     }
-}
 
-.seal-content {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-}
+    .glass-panel:hover {
+        border-color: var(--accent);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(56, 189, 248, 0.1);
+        transform: translateY(-5px);
+    }
 
-.seal-main-text {
-    margin-bottom: 0.5rem;
-}
+    /* --- PREMIUM QUALITY BADGE (Elite Gold) --- */
+    .quality-badge-elite {
+        display: inline-flex;
+        position: relative;
+        padding: 1.5rem 3rem;
+        background: linear-gradient(135deg, #fbbf24 0%, #d97706 50%, #b45309 100%);
+        border-radius: 4rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(251, 191, 36, 0.3);
+        overflow: hidden;
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        margin-bottom: 3rem;
+        align-items: center;
+        transform: perspective(1000px) rotateX(10deg);
+        animation: badgeFloat 4s ease-in-out infinite;
+    }
 
-.seal-percent {
-    display: block;
-    font-size: 4.5rem;
-    /* Massive size */
-    font-weight: 900;
-    font-family: 'Outfit', sans-serif;
-    color: #ffd700;
-    /* Pure Gold */
-    line-height: 1;
-    text-shadow: 3px 3px 0px rgba(0, 0, 0, 1), 0 0 20px rgba(255, 215, 0, 0.8);
-    letter-spacing: -2px;
-}
+    @keyframes badgeFloat {
 
-.seal-word {
-    display: block;
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: #ffffff;
-    letter-spacing: 12px;
-    margin-top: -5px;
-    text-transform: uppercase;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
+        0%,
+        100% {
+            transform: perspective(1000px) rotateX(10deg) translateY(0);
+        }
 
-.seal-divider {
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #ffd700, transparent);
-    margin: 1rem auto;
-    width: 80%;
-}
+        50% {
+            transform: perspective(1000px) rotateX(10deg) translateY(-10px);
+        }
+    }
 
-.seal-tagline {
-    display: block;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #cbd5e1;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    opacity: 0.8;
-}
+    .badge-shimmer {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 200%;
+        height: 100%;
+        background: linear-gradient(120deg,
+                transparent,
+                rgba(255, 255, 255, 0.6) 50%,
+                transparent);
+        transform: skewX(-25deg);
+        animation: shimmerScan 3s infinite linear;
+    }
 
-/* Enhancing Hero Title for compatibility with new seal */
-.hero h1 {
-    margin-top: 1rem;
-}
+    @keyframes shimmerScan {
+        0% {
+            left: -100%;
+        }
 
-/* --- Adjusting Royal Seal to Medium Size --- */
-.quality-seal-royal {
-    padding: 1.5rem 2.5rem;
-    margin-bottom: 2.5rem;
-}
+        100% {
+            left: 100%;
+        }
+    }
 
-.seal-percent {
-    font-size: 2.8rem;
-    /* Reduced from 4.5rem */
-}
-
-.seal-word {
-    font-size: 1.1rem;
-    /* Reduced from 1.5rem */
-    letter-spacing: 8px;
-    /* Slightly tighter */
-}
-
-.seal-divider {
-    margin: 0.6rem auto;
-}
-
-.seal-tagline {
-    font-size: 0.75rem;
-    /* Slightly smaller */
-    letter-spacing: 2px;
-}
-/* --- 3D REALISTIC FAQ (Floating Cobalt Cards) --- */
-.faq-item {
-    background: linear-gradient(145deg, rgba(30, 58, 138, 0.4) 0%, rgba(15, 23, 42, 0.8) 100%);
-    border: 1px solid rgba(56, 189, 248, 0.2);
-    box-shadow: 
-        0 10px 20px rgba(0,0,0,0.3),
-        inset 0 1px 1px rgba(255,255,255,0.1);
-    transform: perspective(1000px) rotateX(2deg);
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-    margin-bottom: 2rem;
-}
-
-.faq-item:hover {
-    transform: perspective(1000px) rotateX(0deg) translateY(-8px);
-    border-color: var(--accent);
-    box-shadow: 
-        0 20px 40px rgba(0,0,0,0.5),
-        0 0 15px rgba(56, 189, 248, 0.2);
-}
-
-.faq-question {
-    padding: 2rem;
-    font-size: 1.2rem;
-    color: #e2e8f0;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-}
-
-.faq-item.active {
-    background: linear-gradient(145deg, rgba(30, 58, 138, 0.8) 0%, rgba(2, 6, 23, 0.95) 100%);
-    border-color: var(--accent);
-    transform: perspective(1000px) rotateX(0deg) translateY(-5px) scale(1.02);
-    box-shadow: 
-        0 30px 60px rgba(0,0,0,0.6),
-        inset 0 0 20px rgba(56, 189, 248, 0.1);
-}
-
-.faq-item.active .faq-question {
-    color: white;
-    font-weight: 800;
-}
-
-.faq-item.active .faq-question i {
-    color: var(--accent);
-    filter: drop-shadow(0 0 8px var(--accent-glow));
-}
-
-.faq-answer {
-    background: rgba(0, 0, 0, 0.4);
-    border-top: 1px solid rgba(56, 189, 248, 0.1);
-}
-
-.faq-answer p {
-    color: #cbd5e1;
-    font-size: 1.05rem;
-    padding: 2rem;
-    border-left: 4px solid var(--accent);
-    margin: 1rem 2rem;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 0 1rem 1rem 0;
-}
-
-
-/* --- VIBRANT GOLD FAQ TYPOGRAPHY --- */
-.section-title-gold {
-    font-size: 3.5rem;
-    font-weight: 900;
-    text-align: center;
-    margin-bottom: 3.5rem;
-    font-family: 'Outfit', sans-serif;
-    background: linear-gradient(180deg, #ffffff 0%, #fbbf24 100%); /* White to Vibrant Gold */
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    filter: drop-shadow(0 5px 15px rgba(251, 191, 36, 0.4));
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.5); /* extra depth */
-}
-
-.faq-section-premium {
-    position: relative;
-    overflow: hidden;
-}
-
-.faq-section-premium::before {
-    content: '';
-    position: absolute;
-    top: -10%;
-    left: 50%;
-    width: 200%;
-    height: 120%;
-    background: radial-gradient(circle at center, rgba(251, 191, 36, 0.05) 0%, transparent 70%);
-    transform: translateX(-50%);
-    pointer-events: none;
-}
-
-/* --- ULTRA-READABILITY FAQ (Active State) --- */
-.faq-item.active {
-    background: rgba(2, 6, 23, 0.98); /* Near black obsidian for maximum contrast */
-    border-color: #fbbf24; /* Golden border to match the title */
-    box-shadow: 
-        0 40px 100px rgba(0,0,0,0.9),
-        0 0 30px rgba(251, 191, 36, 0.15); /* Soft golden glow */
-}
-
-.faq-item.active .faq-question {
-    color: #fbbf24; /* Gold question for clear focus */
-    font-weight: 800;
-    font-size: 1.3rem; /* Slightly larger */
-}
-
-.faq-answer {
-    border-top: 1px solid rgba(251, 191, 36, 0.1);
-}
-
-.faq-answer p {
-    color: #f8fafc; /* Purest white for reading */
-    font-size: 1.15rem; /* Better reading size */
-    line-height: 1.8; /* Generous spacing */
-    font-weight: 400;
-    padding: 2.5rem;
-    margin: 0;
-    background: transparent;
-    border-left: 6px solid #fbbf24; /* Stronger golden guide */
-}
-
-/* Smooth expansion animation */
-.faq-answer {
-    transition: max-height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* --- HORIZONTAL FAQ GRID --- */
-.faq-grid-horizontal {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    align-items: start;
-    margin-top: 2rem;
-}
-
-@media (max-width: 1024px) {
-    .faq-grid-horizontal {
-        grid-template-columns: 1fr; /* Back to vertical on tablets/mobile */
+    .badge-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
         gap: 1.5rem;
     }
-}
 
-.faq-item {
-    margin-bottom: 0; /* Removing vertical margin since grid handles gap */
-    height: fit-content;
-}
+    .badge-icon {
+        color: white;
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+    }
 
-.faq-question {
-    padding: 1.5rem; /* Slightly tighter for horizontal layout */
-    font-size: 1.1rem;
-}
+    .badge-text-wrap {
+        text-align: left;
+    }
 
-.faq-answer p {
-    padding: 1.5rem; /* Slightly tighter */
-    font-size: 1rem;
-}
+    .badge-val {
+        display: block;
+        font-size: 1.8rem;
+        font-weight: 900;
+        color: white;
+        letter-spacing: 2px;
+        line-height: 1;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
 
-/* --- DIAMOND SILVER TESTIMONIALS TYPOGRAPHY --- */
-.section-title-silver {
-    font-size: 3.8rem;
-    font-weight: 900;
-    text-align: center;
-    margin-bottom: 4rem;
-    font-family: 'Outfit', sans-serif;
-    background: linear-gradient(180deg, #f8fafc 0%, #38bdf8 100%); /* Silver to Sky Blue */
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    filter: drop-shadow(0 8px 15px rgba(56, 189, 248, 0.3));
-    text-shadow: 2px 4px 12px rgba(0,0,0,0.4);
-}
+    .badge-brand {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.9);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* --- ENHANCED TESTIMONIAL CARDS --- */
+    .testimonial-card {
+        padding: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 350px;
+        transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .testimonial-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        border-color: var(--accent);
+        background: rgba(56, 189, 248, 0.05);
+    }
+
+    .quote-icon {
+        color: var(--accent);
+        margin-bottom: 2rem;
+        opacity: 0.8;
+    }
+
+    .testimonial-text {
+        font-style: italic;
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: #cbd5e1;
+        margin-bottom: 2.5rem;
+        flex-grow: 1;
+    }
+
+    .testimonial-author {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+    }
+
+    .author-avatar {
+        width: 60px;
+        height: 60px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 1.2rem;
+        color: white;
+        flex-shrink: 0;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .author-name {
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 0.2rem;
+    }
+
+    .author-title {
+        color: var(--accent);
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    /* --- DIAMOND GLASS QUALITY BADGE (Modern Architectural) --- */
+    .quality-badge-diamond {
+        display: inline-flex;
+        position: relative;
+        padding: 1.2rem 2.5rem;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        border-radius: 12px;
+        border: 1px solid rgba(56, 189, 248, 0.5);
+        box-shadow:
+            0 15px 35px rgba(0, 0, 0, 0.3),
+            inset 0 0 15px rgba(56, 189, 248, 0.1);
+        margin-bottom: 3.5rem;
+        align-items: center;
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .quality-badge-diamond::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(from 0deg,
+                transparent 0%,
+                var(--accent) 25%,
+                transparent 50%,
+                var(--accent) 75%,
+                transparent 100%);
+        animation: rotateGlow 6s linear infinite;
+        opacity: 0.2;
+        z-index: 0;
+    }
+
+    @keyframes rotateGlow {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .diamond-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+        z-index: 1;
+    }
+
+    .badge-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+    }
+
+    .badge-icon-wrap {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .badge-icon {
+        font-size: 1.5rem;
+        color: white;
+    }
+
+    .badge-text-wrap {
+        text-align: left;
+    }
+
+    .badge-val {
+        display: block;
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: white;
+        letter-spacing: 1px;
+        line-height: 1.1;
+        font-family: 'Outfit';
+    }
+
+    .badge-brand {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .quality-badge-diamond:hover {
+        transform: translateY(-5px) scale(1.05);
+        border-color: white;
+        box-shadow: 0 20px 40px rgba(56, 189, 248, 0.3);
+    }
+
+    /* --- ROYAL OBSIDIAN GOLD SEAL (Luxury Impact) --- */
+    .quality-seal-royal {
+        display: inline-flex;
+        position: relative;
+        padding: 2.5rem 4rem;
+        background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+        border-radius: 50% / 10%;
+        /* Makes it a slightly rounded rectangle seal */
+        border: 3px solid #ffd700;
+        box-shadow:
+            0 20px 50px rgba(0, 0, 0, 0.8),
+            0 0 30px rgba(255, 215, 0, 0.3),
+            inset 0 0 20px rgba(255, 215, 0, 0.2);
+        margin-bottom: 4rem;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        animation: sealPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes sealPulse {
+
+        0%,
+        100% {
+            transform: scale(1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
+        50% {
+            transform: scale(1.03);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 50px rgba(255, 215, 0, 0.5);
+        }
+    }
+
+    .seal-ring {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        right: 5px;
+        bottom: 5px;
+        border: 1px solid rgba(255, 215, 0, 0.5);
+        border-radius: inherit;
+        pointer-events: none;
+    }
+
+    .seal-glare {
+        position: absolute;
+        top: -150%;
+        left: -150%;
+        width: 400%;
+        height: 400%;
+        background: linear-gradient(45deg,
+                transparent 45%,
+                rgba(255, 255, 255, 0.8) 50%,
+                transparent 55%);
+        animation: sealGlint 4s infinite linear;
+        z-index: 1;
+    }
+
+    @keyframes sealGlint {
+        0% {
+            transform: translate(0, 0);
+        }
+
+        100% {
+            transform: translate(150%, 150%);
+        }
+    }
+
+    .seal-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+    }
+
+    .seal-main-text {
+        margin-bottom: 0.5rem;
+    }
+
+    .seal-percent {
+        display: block;
+        font-size: 4.5rem;
+        /* Massive size */
+        font-weight: 900;
+        font-family: 'Outfit', sans-serif;
+        color: #ffd700;
+        /* Pure Gold */
+        line-height: 1;
+        text-shadow: 3px 3px 0px rgba(0, 0, 0, 1), 0 0 20px rgba(255, 215, 0, 0.8);
+        letter-spacing: -2px;
+    }
+
+    .seal-word {
+        display: block;
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #ffffff;
+        letter-spacing: 12px;
+        margin-top: -5px;
+        text-transform: uppercase;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .seal-divider {
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #ffd700, transparent);
+        margin: 1rem auto;
+        width: 80%;
+    }
+
+    .seal-tagline {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #cbd5e1;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        opacity: 0.8;
+    }
+
+    /* Enhancing Hero Title for compatibility with new seal */
+    .hero h1 {
+        margin-top: 1rem;
+    }
+
+    /* --- Adjusting Royal Seal to Medium Size --- */
+    .quality-seal-royal {
+        padding: 1.5rem 2.5rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .seal-percent {
+        font-size: 2.8rem;
+        /* Reduced from 4.5rem */
+    }
+
+    .seal-word {
+        font-size: 1.1rem;
+        /* Reduced from 1.5rem */
+        letter-spacing: 8px;
+        /* Slightly tighter */
+    }
+
+    .seal-divider {
+        margin: 0.6rem auto;
+    }
+
+    .seal-tagline {
+        font-size: 0.75rem;
+        /* Slightly smaller */
+        letter-spacing: 2px;
+    }
+
+    /* --- 3D REALISTIC FAQ (Floating Cobalt Cards) --- */
+    .faq-item {
+        background: linear-gradient(145deg, rgba(30, 58, 138, 0.4) 0%, rgba(15, 23, 42, 0.8) 100%);
+        border: 1px solid rgba(56, 189, 248, 0.2);
+        box-shadow:
+            0 10px 20px rgba(0, 0, 0, 0.3),
+            inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        transform: perspective(1000px) rotateX(2deg);
+        transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        margin-bottom: 2rem;
+    }
+
+    .faq-item:hover {
+        transform: perspective(1000px) rotateX(0deg) translateY(-8px);
+        border-color: var(--accent);
+        box-shadow:
+            0 20px 40px rgba(0, 0, 0, 0.5),
+            0 0 15px rgba(56, 189, 248, 0.2);
+    }
+
+    .faq-question {
+        padding: 2rem;
+        font-size: 1.2rem;
+        color: #e2e8f0;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .faq-item.active {
+        background: linear-gradient(145deg, rgba(30, 58, 138, 0.8) 0%, rgba(2, 6, 23, 0.95) 100%);
+        border-color: var(--accent);
+        transform: perspective(1000px) rotateX(0deg) translateY(-5px) scale(1.02);
+        box-shadow:
+            0 30px 60px rgba(0, 0, 0, 0.6),
+            inset 0 0 20px rgba(56, 189, 248, 0.1);
+    }
+
+    .faq-item.active .faq-question {
+        color: white;
+        font-weight: 800;
+    }
+
+    .faq-item.active .faq-question i {
+        color: var(--accent);
+        filter: drop-shadow(0 0 8px var(--accent-glow));
+    }
+
+    .faq-answer {
+        background: rgba(0, 0, 0, 0.4);
+        border-top: 1px solid rgba(56, 189, 248, 0.1);
+    }
+
+    .faq-answer p {
+        color: #cbd5e1;
+        font-size: 1.05rem;
+        padding: 2rem;
+        border-left: 4px solid var(--accent);
+        margin: 1rem 2rem;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 0 1rem 1rem 0;
+    }
+
+
+    /* --- VIBRANT GOLD FAQ TYPOGRAPHY --- */
+    .section-title-gold {
+        font-size: 3.5rem;
+        font-weight: 900;
+        text-align: center;
+        margin-bottom: 3.5rem;
+        font-family: 'Outfit', sans-serif;
+        background: linear-gradient(180deg, #ffffff 0%, #fbbf24 100%);
+        /* White to Vibrant Gold */
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        filter: drop-shadow(0 5px 15px rgba(251, 191, 36, 0.4));
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        /* extra depth */
+    }
+
+    .faq-section-premium {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .faq-section-premium::before {
+        content: '';
+        position: absolute;
+        top: -10%;
+        left: 50%;
+        width: 200%;
+        height: 120%;
+        background: radial-gradient(circle at center, rgba(251, 191, 36, 0.05) 0%, transparent 70%);
+        transform: translateX(-50%);
+        pointer-events: none;
+    }
+
+    /* --- ULTRA-READABILITY FAQ (Active State) --- */
+    .faq-item.active {
+        background: rgba(2, 6, 23, 0.98);
+        /* Near black obsidian for maximum contrast */
+        border-color: #fbbf24;
+        /* Golden border to match the title */
+        box-shadow:
+            0 40px 100px rgba(0, 0, 0, 0.9),
+            0 0 30px rgba(251, 191, 36, 0.15);
+        /* Soft golden glow */
+    }
+
+    .faq-item.active .faq-question {
+        color: #fbbf24;
+        /* Gold question for clear focus */
+        font-weight: 800;
+        font-size: 1.3rem;
+        /* Slightly larger */
+    }
+
+    .faq-answer {
+        border-top: 1px solid rgba(251, 191, 36, 0.1);
+    }
+
+    .faq-answer p {
+        color: #f8fafc;
+        /* Purest white for reading */
+        font-size: 1.15rem;
+        /* Better reading size */
+        line-height: 1.8;
+        /* Generous spacing */
+        font-weight: 400;
+        padding: 2.5rem;
+        margin: 0;
+        background: transparent;
+        border-left: 6px solid #fbbf24;
+        /* Stronger golden guide */
+    }
+
+    /* Smooth expansion animation */
+    .faq-answer {
+        transition: max-height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* --- HORIZONTAL FAQ GRID --- */
+    .faq-grid-horizontal {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        align-items: start;
+        margin-top: 2rem;
+    }
+
+    @media (max-width: 1024px) {
+        .faq-grid-horizontal {
+            grid-template-columns: 1fr;
+            /* Back to vertical on tablets/mobile */
+            gap: 1.5rem;
+        }
+    }
+
+    .faq-item {
+        margin-bottom: 0;
+        /* Removing vertical margin since grid handles gap */
+        height: fit-content;
+    }
+
+    .faq-question {
+        padding: 1.5rem;
+        /* Slightly tighter for horizontal layout */
+        font-size: 1.1rem;
+    }
+
+    .faq-answer p {
+        padding: 1.5rem;
+        /* Slightly tighter */
+        font-size: 1rem;
+    }
+
+    /* --- DIAMOND SILVER TESTIMONIALS TYPOGRAPHY --- */
+    .section-title-silver {
+        font-size: 3.8rem;
+        font-weight: 900;
+        text-align: center;
+        margin-bottom: 4rem;
+        font-family: 'Outfit', sans-serif;
+        background: linear-gradient(180deg, #f8fafc 0%, #38bdf8 100%);
+        /* Silver to Sky Blue */
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        filter: drop-shadow(0 8px 15px rgba(56, 189, 248, 0.3));
+        text-shadow: 2px 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    /* --- Admin Panel Elements --- */
+    .status-badge {
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        display: inline-block;
+    }
+
+    .status-pendiente {
+        background: #e0f2fe;
+        color: #0369a1;
+    }
+
+    .status-entregado {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+    /* Print Styling */
+    @media print {
+
+        .sidebar,
+        .big-menu,
+        .mobile-menu-btn,
+        header,
+        button,
+        .btn-primary,
+        .btn-edit,
+        .btn-delete,
+        .status-badge {
+            display: none !important;
+        }
+
+        .main-content {
+            margin-left: 0 !important;
+            padding: 0 !important;
+        }
+
+        table {
+            box-shadow: none !important;
+            width: 100% !important;
+            border: 1px solid #000 !important;
+        }
+
+        th,
+        td {
+            border: 1px solid #000 !important;
+            color: black !important;
+            padding: 8px !important;
+        }
+
+        body {
+            background: white !important;
+            color: black !important;
+            padding-top: 0 !important;
+        }
+
+        .main-content::before {
+            content: "Sistemas Arquitectónicos Spesfidem - Reporte Técnica";
+            display: block;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    }

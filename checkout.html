@@ -132,44 +132,78 @@
 
             const content = {
                 'transferencia': {
-                    title: 'Transferencia Directa',
+                    title: 'Transferencia Bancaria Directa',
                     html: `
-                        <p><strong>Nequi / DaviPlata:</strong> 323 204 5129</p>
-                        <p><strong>Banco de Bogotá:</strong> Ahorros 583092325</p>
-                        <p><em>Seleccione esta opción para transferir desde su app bancaria.</em></p>
+                        <div style="background: white; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin-bottom: 1rem;">
+                            <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem; padding-bottom:1rem; border-bottom:1px solid #f1f5f9;">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Davivienda_logo.svg?2016" style="height:30px; opacity:0.6;" alt="Bank Icon"> 
+                                <span style="font-weight:bold; color:#0f172a;">Banco de Bogotá</span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div>
+                                    <small style="color:#64748b; display:block;">Cuenta de Ahorros</small>
+                                    <span style="font-family:monospace; font-size:1.2rem; font-weight:bold; color:#334155;">583092325</span>
+                                </div>
+                                <button onclick="navigator.clipboard.writeText('583092325'); alert('Número de cuenta copiado');" style="background:#e2e8f0; border:none; padding:0.5rem; border-radius:0.5rem; cursor:pointer;" title="Copiar"><i class="far fa-copy"></i></button>
+                            </div>
+                            <div style="margin-top:0.5rem;">
+                                <small style="color:#64748b;">Titular: <strong>Spesfidem Aluminio</strong></small>
+                            </div>
+                        </div>
+
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+                            <div style="background: white; padding: 1rem; border-radius: 1rem; text-align:center; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+                                <h4 style="margin:0 0 0.5rem 0; color:#2d0e37;">Nequi</h4>
+                                <p style="margin:0; font-weight:bold;">323 204 5129</p>
+                            </div>
+                            <div style="background: white; padding: 1rem; border-radius: 1rem; text-align:center; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+                                <h4 style="margin:0 0 0.5rem 0; color:#ed1c29;">DaviPlata</h4>
+                                <p style="margin:0; font-weight:bold;">323 204 5129</p>
+                            </div>
+                        </div>
+                        
+                        <p style="text-align:center; margin-top:1.5rem; font-size:0.9rem; color:#64748b;">
+                            <i class="fas fa-camera"></i> Tome una captura de su comprobante y envíela a nuestro WhatsApp para legalizar el pedido.
+                        </p>
                     `,
-                    btnText: 'Confirmar y Enviar Comprobante (WhatsApp)',
-                    link: 'https://wa.me/573046291152?text=Hola,%20acabo%20de%20realizar%20un%20pago%20por%20transferencia.'
+                    btnText: '<i class="fab fa-whatsapp"></i> Enviar Comprobante',
+                    link: 'https://wa.me/573046291152?text=Hola%20Spesfidem,%20adjunto%20mi%20comprobante%20de%20pago%20para%20confirmar%20mi%20pedido.'
                 },
                 'pse': {
-                    title: 'Pago por PSE / Bancos',
+                    title: 'Pago por PSE',
                     html: `
-                        <p>Será redirigido al portal seguro de PSE para realizar el débito de su cuenta de ahorros o corriente de cualquier banco nacional.</p>
+                        <div style="text-align:center; padding:2rem;">
+                            <img src="https://www.pse.com.co/assets/images/logo-pse.png" style="height:60px; margin-bottom:1rem;" alt="PSE Logo">
+                            <p>Será redirigido al portal oficial de PSE.</p>
+                            <p>Allí podrá seleccionar su banco y realizar el débito directo de su cuenta.</p>
+                        </div>
                     `,
-                    btnText: 'Redirigir a Portal PSE Seguro',
-                    link: '#' // Simulated landing
+                    btnText: 'Ir al Portal PSE',
+                    link: 'https://www.pse.com.co/personas' // Real PSE Portal
                 },
                 'tarjeta': {
-                    title: 'Tarjeta de Crédito',
+                    title: 'Pago con Tarjeta de Crédito',
                     html: `
-                        <p>Procesamiento seguro para tarjetas Visa, MasterCard y American Express.</p>
+                        <div style="text-align:center; padding:2rem;">
+                            <div style="display:flex; justify-content:center; gap:1rem; margin-bottom:1.5rem;">
+                                <i class="fas fa-credit-card fa-3x" style="color:#0f172a;"></i>
+                            </div>
+                            <p>Para pagar con tarjeta de crédito, contacte a un asesor para generar un link de pago único y seguro (Wompi/Bold).</p>
+                        </div>
                     `,
-                    btnText: 'Ir a Pasarela de Crédito Segura',
-                    link: '#' // Simulated landing
+                    btnText: 'Solicitar Link de Pago (WhatsApp)',
+                    link: 'https://wa.me/573046291152?text=Hola,%20deseo%20pagar%20con%20tarjeta%20de%20credito.%20%C2%BFPueden%20enviarme%20un%20link%20de%20pago?'
                 }
             };
 
             const selected = content[method] || content['transferencia'];
             title.textContent = selected.title;
             info.innerHTML = selected.html;
-            btn.textContent = selected.btnText;
+            btn.innerHTML = selected.btnText; // Changed to innerHTML to support icons
 
             btn.onclick = () => {
-                if (selected.link === '#') {
-                    alert('Simulación: Redirigiendo a canal de pago encriptado de Spesfidem Aluminio...');
-                } else {
-                    window.location.href = selected.link;
-                }
+                // Direct redirection, no simulation alerts
+                window.open(selected.link, '_blank');
             };
         });
     </script>

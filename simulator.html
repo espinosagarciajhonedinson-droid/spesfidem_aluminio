@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Élite | Spesfidem Aluminio</title>
+    <meta name="description"
+        content="Configure sus proyectos de ventanería y vidrio con el Simulador Élite de Spesfidem Aluminio.">
+    <link rel="stylesheet" href="css/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@300;600;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+            min-height: 100vh;
+            padding-top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .simulator-container {
+            width: 100%;
+            max-width: 1000px;
+            padding: 2rem;
+        }
+
+        .simulator-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 2rem;
+            padding: 3rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .slots-wrapper {
+            max-height: 60vh;
+            overflow-y: auto;
+            padding-right: 10px;
+            margin: 2rem 0;
+        }
+
+        .slots-wrapper::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .slots-wrapper::-webkit-scrollbar-thumb {
+            background: rgba(56, 189, 248, 0.3);
+            border-radius: 10px;
+        }
+
+        .back-link {
+            color: #94a3b8;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+            margin-bottom: 2rem;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+            transform: translateX(-5px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="simulator-container">
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> VOLVER AL INICIO
+        </a>
+
+        <div class="simulator-card">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h1 style="font-size: 3rem; font-family: 'Outfit'; margin-bottom: 1rem; color: white;">Simulador Técnico
+                    <span style="color: var(--accent);">Élite</span>
+                </h1>
+                <p style="color: #94a3b8; font-size: 1.1rem;">Configure hasta 10 productos con precisión milimétrica
+                    para su presupuesto.</p>
+            </div>
+
+            <div id="productSlots" class="slots-wrapper">
+                <div id="slotsContainer" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <!-- Slot 1 -->
+                    <div class="product-slot-card"
+                        style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1.5rem; border: 1px solid rgba(255,255,255,0.1);">
+                        <div style="display:grid; grid-template-columns: 2fr 1fr; gap:1.5rem; margin-bottom: 1rem;">
+                            <select class="form-control product-slot"
+                                style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 1rem; border-radius: 10px;">
+                                <option value="" selected disabled>Seleccione Producto 1...</option>
+                                <optgroup label="Ventanas">
+                                    <option value="Ventana Corrediza">Ventana Corrediza</option>
+                                    <option value="Ventana Proyectante">Ventana Proyectante</option>
+                                    <option value="Ventana Fija">Ventana Fija</option>
+                                </optgroup>
+                                <optgroup label="Puertas">
+                                    <option value="Puerta Principal">Puerta Principal</option>
+                                    <option value="Puerta de Patio">Puerta de Patio</option>
+                                    <option value="Puerta de Baño">Puerta de Baño</option>
+                                </optgroup>
+                                <optgroup label="Especialidades">
+                                    <option value="División de Baño">División de Baño</option>
+                                    <option value="Vidrio Templado">Vidrio Templado</option>
+                                    <option value="Espejos">Espejos</option>
+                                </optgroup>
+                            </select>
+                            <input type="number" class="form-control quantity-slot" min="1" value="1"
+                                style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 1rem; border-radius: 10px;">
+                        </div>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:1rem;">
+                            <select class="form-control color-slot"
+                                style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 10px;">
+                                <option value="Natural">Natural</option>
+                                <option value="Negro">Negro</option>
+                                <option value="Madera">Madera</option>
+                                <option value="Blanco">Blanco</option>
+                                <option value="Champagne">Champagne</option>
+                            </select>
+                            <input type="text" class="form-control size-slot" placeholder="Talla (An x Al)"
+                                style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 10px;">
+                            <select class="form-control glass-slot"
+                                style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 10px;">
+                                <option value="" disabled selected>Vidrio...</option>
+                                <optgroup label="Monolítico">
+                                    <option value="Monolítico 4mm Incoloro">4mm Incoloro</option>
+                                    <option value="Monolítico 5mm Incoloro">5mm Incoloro</option>
+                                </optgroup>
+                                <optgroup label="Templado">
+                                    <option value="Templado 6mm Incoloro">6mm Incoloro</option>
+                                    <option value="Templado 8mm Incoloro">8mm Incoloro</option>
+                                </optgroup>
+                                <optgroup label="Acrílicos">
+                                    <option value="Acrílico Cristal">Acrílico Cristal</option>
+                                    <option value="Acrílico Opalizado">Acrílico Opalizado</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 1.5rem; margin-top: 2rem;">
+                <button type="button" onclick="prepareQuotation(event)" class="btn-primary"
+                    style="flex: 2; padding: 1.5rem; font-size: 1.2rem; justify-content: center; background: var(--accent); border: none; box-shadow: 0 0 40px var(--accent-glow);">
+                    <i class="fas fa-calculator" style="margin-right: 12px;"></i> GENERAR PRESUPUESTO ESTIMADO
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden required fields for collectFormData (Fallback) -->
+    <div style="display:none;">
+        <input type="text" id="fullName" value="Invitado">
+        <input type="text" id="cellphone" value="">
+        <input type="text" id="city" value="">
+        <input type="text" id="address" value="">
+        <input type="text" id="email" value="">
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

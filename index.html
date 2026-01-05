@@ -80,13 +80,15 @@
             <nav class="big-menu">
                 <a href="#hero">Inicio</a>
                 <a href="#productos">Catálogo</a>
+                <a href="#beneficios" style="font-weight: 700;">Promesa</a>
+                <a href="#metodo">Método</a>
+                <a href="#simulador" style="color: var(--accent); font-weight: 800;">Simulador</a>
                 <a href="#perfil">Nosotros</a>
-                <a href="admin.html" style="color:rgba(255,255,255,0.3); margin-right:10px;"
+                <a href="#contacto">Contacto</a>
+                <a href="admin.html" style="color:rgba(255,255,255,0.3); margin-left:10px;"
                     title="Acceso Administrativo">
                     <i class="fas fa-lock"></i>
                 </a>
-                <a href="#contacto" class="btn-primary btn-pulse"
-                    style="padding: 0.5rem 1.5rem; font-size: 1rem;">Cotizar Ahora</a>
             </nav>
             <!-- Mobile Menu Toggler -->
             <div id="mobile-menu-btn" class="mobile-menu-btn"><i class="fas fa-bars"></i></div>
@@ -110,12 +112,23 @@
                 </div>
             </div>
             <h1>Arquitectura <br>Invisible</h1>
-            <p style="text-shadow: 0 2px 4px rgba(0,0,0,0.5);">Sistemas Premium de Aluminio y Vidrio Templado que
-                desaparecen para dejar entrar la luz.
-                Diseño profesional por <strong>Jhon Edinson Espinosa García</strong>.
+            <h2 style="color: #94a3b8; font-size: 1.5rem; margin-bottom: 2rem; font-weight: 300;">El Arte de Desvanecer
+                Fronteras Proyectando Lujo y Confort</h2>
+            <p
+                style="text-shadow: 0 2px 4px rgba(0,0,0,0.5); font-size: 1.2rem; max-width: 800px; margin: 0 auto 2.5rem;">
+                Transformamos espacios comunes en experiencias extraordinarias con sistemas de aluminio de alta
+                ingeniería y vidrio de alto desempeño.
+                Excelencia técnica garantizada por <strong>Jhon Edinson Espinosa García</strong>.
             </p>
-            <div style="display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center;">
-                <a href="#productos" class="btn-primary">Ver Colecciones <i class="fas fa-arrow-right"></i></a>
+            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; margin-top: 1rem;">
+                <a href="https://wa.me/3232045129" class="btn-primary"
+                    style="background: #25d366; border: none; box-shadow: 0 0 30px rgba(37, 211, 102, 0.4);">
+                    <i class="fab fa-whatsapp" style="margin-right: 8px;"></i> ASESORÍA INMEDIATA
+                </a>
+                <a href="simulator.html" class="btn-primary"
+                    style="background: var(--accent); border: none; box-shadow: 0 0 30px var(--accent-glow);">
+                    <i class="fas fa-calculator" style="margin-right: 8px;"></i> SIMULADOR ÉLITE
+                </a>
             </div>
 
             <div class="hero-stats">
@@ -135,21 +148,94 @@
         </div>
     </section>
 
-    <!-- Trust Signals / Why Choose Us -->
-    <section style="padding: 4rem 2rem; background: #0f172a; border-bottom: 1px solid rgba(255,255,255,0.05);">
-        <div class="nav-container"
-            style="display:flex; justify-content:center; gap:4rem; flex-wrap:wrap; text-align:center;">
-            <div data-aos="fade-up" data-aos-delay="100">
-                <i class="fas fa-shield-alt" style="font-size:2.5rem; color:var(--accent); margin-bottom:1rem;"></i>
-                <h3 style="font-size: 1.2rem;">Seguridad Total</h3>
+    <!-- Marketing Benefits Section -->
+    <section id="beneficios"
+        style="padding: var(--section-pad); background: #020617; position: relative; overflow: hidden;">
+        <div class="nav-container">
+            <div style="text-align: center; margin-bottom: 5rem;" data-aos="fade-up">
+                <h2 class="section-title-silver">La Promesa Spesfidem</h2>
+                <p style="color: #94a3b8; font-size: 1.2rem; max-width: 700px; margin: 0 auto;">Invertir en Spesfidem es
+                    asegurar el valor, la eficiencia y la belleza eterna de su propiedad.</p>
             </div>
-            <div data-aos="fade-up" data-aos-delay="200">
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+                <!-- Benefit 1 -->
+                <div class="glass-panel"
+                    style="padding: 3rem; text-align: center; border-bottom: 4px solid var(--accent);"
+                    data-aos="flip-left">
+                    <i class="fas fa-microchip fa-3x" style="color: var(--accent); margin-bottom: 2rem;"></i>
+                    <h3 style="color: white; font-size: 1.5rem; margin-bottom: 1rem;">Ingeniería de Precisión</h3>
+                    <p style="color: #94a3b8; line-height: 1.6;">Cierres herméticos y deslizamientos ultra suaves
+                        gracias a mecanizados milimétricos en cada perfil.</p>
+                </div>
+                <!-- Benefit 2 -->
+                <div class="glass-panel" style="padding: 3rem; text-align: center; border-bottom: 4px solid #10b981;"
+                    data-aos="flip-left" data-aos-delay="100">
+                    <i class="fas fa-leaf fa-3x" style="color: #10b981; margin-bottom: 2rem;"></i>
+                    <h3 style="color: white; font-size: 1.5rem; margin-bottom: 1rem;">Eficiencia Térmica</h3>
+                    <p style="color: #94a3b8; line-height: 1.6;">Ahorro energético real mediante el uso de vidrios con
+                        control térmico y perfiles de alto desempeño.</p>
+                </div>
+                <!-- Benefit 3 -->
+                <div class="glass-panel" style="padding: 3rem; text-align: center; border-bottom: 4px solid #f59e0b;"
+                    data-aos="flip-left" data-aos-delay="200">
+                    <i class="fas fa-lock fa-3x" style="color: #f59e0b; margin-bottom: 2rem;"></i>
+                    <h3 style="color: white; font-size: 1.5rem; margin-bottom: 1rem;">Seguridad Blindada</h3>
+                    <p style="color: #94a3b8; line-height: 1.6;">Herrajes de seguridad y vidrio templado de alta
+                        resistencia contra impactos y vandalismo.</p>
+                </div>
+                <!-- Benefit 4 -->
+                <div class="glass-panel" style="padding: 3rem; text-align: center; border-bottom: 4px solid #8b5cf6;"
+                    data-aos="flip-left" data-aos-delay="300">
+                    <i class="fas fa-gem fa-3x" style="color: #8b5cf6; margin-bottom: 2rem;"></i>
+                    <h3 style="color: white; font-size: 1.5rem; margin-bottom: 1rem;">Estética Atemporal</h3>
+                    <p style="color: #94a3b8; line-height: 1.6;">Acabados que no se degradan con el tiempo, manteniendo
+                        el brillo y la elegancia del primer día.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Methodology Section -->
+    <section id="metodo" style="padding: var(--section-pad); background: #0f172a;">
+        <div class="nav-container">
+            <div style="text-align: center; margin-bottom: 5rem;" data-aos="fade-up">
+                <span
+                    style="color: var(--accent); font-weight: 800; letter-spacing: 2px; text-transform: uppercase;">Excelencia
+                    Paso a Paso</span>
+                <h2 style="font-size: 3rem; font-family: 'Outfit'; color: white; margin-top: 1rem;">Método Spesfidem
+                    Élite</h2>
+            </div>
+
+            <div style="display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center;">
+                <div style="flex: 1; min-width: 250px; text-align: center;" data-aos="zoom-in" data-aos-delay="100">
+                    <div
+                        style="width: 80px; height: 80px; background: rgba(56, 189, 248, 0.1); border: 2px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; color: var(--accent); font-size: 2rem; font-weight: 800;">
+                        1</div>
+                    <h3 style="color: white; margin-bottom: 1rem;">Consultoría Técnica</h3>
+                    <p style="color: #94a3b8;">Analizamos su espacio y necesidades para proponer la mejor solución
+                        estructural y estética.</p>
+                </div>
+                <div style="flex: 1; min-width: 250px; text-align: center;" data-aos="zoom-in" data-aos-delay="200">
+                    <div
+                        style="width: 80px; height: 80px; background: rgba(56, 189, 248, 0.1); border: 2px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; color: var(--accent); font-size: 2rem; font-weight: 800;">
+                        2</div>
+                    <h3 style="color: white; margin-bottom: 1rem;">Diseño & Simulación</h3>
+                    <p style="color: #94a3b8;">Visualizamos el proyecto final mediante nuestro simulador para precisar
+                        medidas y costos.</p>
+                </div>
+                <div style="flex: 1; min-width: 250px; text-align: center;" data-aos="zoom-in" data-aos-delay="300">
+                    <div
+                        style="width: 80px; height: 80px; background: rgba(56, 189, 248, 0.1); border: 2px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; color: var(--accent); font-size: 2rem; font-weight: 800;">
+                        3</div>
+                    <h3 style="color: white; margin-bottom: 1rem;">Instalación Maestra</h3>
+                    <p style="color: #94a3b8;">Ejecución impecable por expertos certificados, garantizando acabados de
+                        lujo y durabilidad.</p>
+                </div>
+            </div>
+            <div data-aos="zoom-in" data-aos-delay="300" style="text-align: center; margin-top: 4rem;">
                 <i class="fas fa-medal" style="font-size:2.5rem; color:var(--accent); margin-bottom:1rem;"></i>
-                <h3 style="font-size: 1.2rem;">Material Premium</h3>
-            </div>
-            <div data-aos="fade-up" data-aos-delay="300">
-                <i class="fas fa-tools" style="font-size:2.5rem; color:var(--accent); margin-bottom:1rem;"></i>
-                <h3 style="font-size: 1.2rem;">Instalación Pro</h3>
+                <h3 style="font-size: 1.2rem; color: white;">Material Certificado</h3>
             </div>
         </div>
     </section>
@@ -271,6 +357,20 @@
                 </div>
             </a>
         </div>
+
+        <!-- Category: Special -->
+        <h3 style="text-align:center; color:var(--accent); margin-bottom:2rem; font-size:2rem; font-family:'Outfit';">
+            Vidrios y Espejos</h3>
+        <div class="catalog-grid" style="margin-bottom:6rem;">
+            <a href="gallery.html?category=espejos" class="product-card" data-aos="fade-up">
+                <div class="product-img"><img src="images/products/vidrio_templado.jpg" alt="Espejos"
+                        onerror="this.style.display='none'"></div>
+                <div class="product-info">
+                    <h3>Espejos Decorativos</h3>
+                    <p>Diseños flotantes y con iluminación.</p>
+                </div>
+            </a>
+        </div>
     </section>
 
     <!-- Contact & Register Section -->
@@ -340,75 +440,66 @@
                 </div>
             </div>
 
-            <!-- Client Database Form -->
-            <div style="flex: 1; min-width: 300px;">
-                <div class="glass-panel" style="border-top: 4px solid var(--accent);">
-                    <h3 style="font-size: 1.8rem; margin-bottom: 1.5rem; color: white;">Registro de Compra</h3>
+            <!-- 1. Simulador Técnico CTA Card -->
+            <div id="simulador-cta" style="flex: 1.5; min-width: 350px;">
+                <div class="glass-panel"
+                    style="border-top: 4px solid var(--accent); padding: 3rem; text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <div style="margin-bottom: 2rem;">
+                        <i class="fas fa-calculator fa-4x"
+                            style="color: var(--accent); margin-bottom: 2rem; filter: drop-shadow(0 0 15px var(--accent-glow));"></i>
+                        <h3 style="font-size: 2.2rem; color: white; margin-bottom: 1.5rem; font-family: 'Outfit';">
+                            Simulador Élite</h3>
+                        <p
+                            style="color: #94a3b8; font-size: 1.1rem; max-width: 450px; margin: 0 auto 2.5rem; line-height: 1.6;">
+                            Configure sus proyectos de aluminio y vidrio con nuestra herramienta técnica exclusiva.
+                            Obtenga presupuestos al instante.
+                        </p>
+                    </div>
+
+                    <a href="simulator.html" class="btn-primary"
+                        style="padding: 1.5rem 3rem; font-size: 1.2rem; justify-content: center; background: var(--accent); border: none; box-shadow: 0 0 40px var(--accent-glow); width: 100%; max-width: 400px; border-radius: 50px;">
+                        <i class="fas fa-play" style="margin-right: 12px;"></i> ENTRAR AL SIMULADOR
+                    </a>
+
+                    <p style="color: #64748b; font-size: 0.95rem; margin-top: 2rem;">
+                        Acceso directo, rápido y sin registros obligatorios.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 2. Registro de Pedido Compacto -->
+            <div id="registro-rapido" style="flex: 1; min-width: 300px;">
+                <div class="glass-panel" style="border-top: 4px solid #059669; padding: 2.5rem;">
+                    <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: white; font-family: 'Outfit';">Finalizar
+                        Pedido</h3>
+                    <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 2rem;">Formalice su configuración del
+                        simulador o solicite una visita técnica.</p>
+
                     <form id="clientForm" onsubmit="saveClient(event)">
-                        <div class="form-group">
-                            <label for="fullName" class="high-contrast-label">Nombre Completo</label>
-                            <input type="text" id="fullName" class="form-control" required placeholder="Ej. Juan Pérez">
+                        <div class="form-group" style="margin-bottom: 1.2rem;">
+                            <input type="text" id="fullName" class="form-control" placeholder="Nombre Completo" required
+                                style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px;">
                         </div>
-                        <div class="form-group">
-                            <label for="cellphone" class="high-contrast-label">Celular</label>
-                            <input type="tel" id="cellphone" class="form-control" required
-                                placeholder="Ej. 300 123 4567">
+                        <div class="form-group" style="margin-bottom: 1.2rem;">
+                            <input type="tel" id="cellphone" class="form-control" placeholder="WhatsApp / Celular"
+                                required
+                                style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px;">
                         </div>
-                        <div class="form-group">
-                            <label for="landline" class="high-contrast-label">Teléfono Fijo (Opcional)</label>
-                            <input type="tel" id="landline" class="form-control" placeholder="Ej. 601 234 5678">
+                        <div class="form-group" style="margin-bottom: 1.2rem;">
+                            <input type="text" id="city" class="form-control" placeholder="Ciudad (Ej: Ibagué)" required
+                                style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px;">
                         </div>
-                        <div class="form-group">
-                            <label for="city" class="high-contrast-label">Ciudad</label>
-                            <input type="text" id="city" class="form-control" required placeholder="Ej. Ibagué">
+                        <div class="form-group" style="margin-bottom: 2rem;">
+                            <input type="email" id="email" class="form-control" placeholder="Correo Electrónico"
+                                required
+                                style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px;">
+                            <input type="hidden" id="address" value="No especificada">
                         </div>
-                        <div class="form-group">
-                            <label for="address" class="high-contrast-label">Dirección de Residencia</label>
-                            <input type="text" id="address" class="form-control" required
-                                placeholder="Ej. Calle 123 # 45-67">
-                        </div>
-                        <div class="form-group">
-                            <label for="email" class="high-contrast-label">Correo Electrónico</label>
-                            <input type="email" id="email" class="form-control" required
-                                placeholder="Ej. juan@email.com">
-                        </div>
-                        <div style="display:grid; grid-template-columns: 2fr 1fr; gap:1rem; margin-bottom: 1.5rem;">
-                            <div class="form-group" style="margin-bottom:0;">
-                                <label for="product" class="high-contrast-label">Producto de Interés</label>
-                                <select id="product" class="form-control" required
-                                    style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
-                                    <option value="" disabled selected>Seleccione el producto...</option>
-                                    <optgroup label="Sistemas de Ventanas" style="background:#0f172a;">
-                                        <option value="Ventana Corrediza">Ventana Corrediza</option>
-                                        <option value="Ventana Proyectante">Ventana Proyectante</option>
-                                        <option value="Ventana Casement">Ventana Casement</option>
-                                        <option value="Ventana Fija">Ventana Fija</option>
-                                        <option value="Ventana Basculante">Ventana Basculante</option>
-                                    </optgroup>
-                                    <optgroup label="Sistemas de Puertas" style="background:#0f172a;">
-                                        <option value="Puerta Principal">Puerta Principal</option>
-                                        <option value="Puerta de Patio">Puerta de Patio</option>
-                                        <option value="Puerta Plegable">Puerta Plegable</option>
-                                        <option value="Puerta de Baño">Puerta de Baño</option>
-                                    </optgroup>
-                                    <optgroup label="Especialidades" style="background:#0f172a;">
-                                        <option value="División de Baño">División de Baño</option>
-                                        <option value="Vidrio Templado">Vidrio Templado</option>
-                                        <option value="Fachada Flotante">Fachada Flotante</option>
-                                        <option value="Pasamanos / Otros">Pasamanos / Otros</option>
-                                    </optgroup>
-                                </select>
-                            </div>
-                            <div class="form-group" style="margin-bottom:0;">
-                                <label for="quantity" class="high-contrast-label">Cantidad</label>
-                                <input type="number" id="quantity" class="form-control" required min="1" value="1"
-                                    style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
-                            </div>
-                        </div>
+
                         <button type="submit" class="btn-primary"
-                            style="width: 100%; text-align: center; background: white; color: var(--bg-deep);">Registrar
-                            y
-                            Continuar</button>
+                            style="background: #059669; border: none; padding: 1.2rem; width: 100%; font-size: 1.1rem; border-radius: 12px;">
+                            COORDINAR PEDIDO <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+                        </button>
                     </form>
                 </div>
             </div>
@@ -616,21 +707,34 @@
     <footer
         style="text-align: center; padding: 4rem 2rem; border-top: 1px solid rgba(255,255,255,0.05); background: #020617;">
         <div style="margin-bottom: 2rem; display: flex; justify-content: center;">
-            <a href="#" class="premium-logo">
-                <svg class="logo-icon-svg" style="width: 30px; height: 30px;" viewBox="0 0 100 100" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <rect x="10" y="10" width="80" height="80" rx="4" stroke="url(#logo-grad-footer)"
-                        stroke-width="8" />
+            <a href="index.html" class="logo-premium-final" style="transform: scale(0.6); margin-top: -1rem;">
+                <svg class="logo-icon-premium" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10" y="15" width="80" height="70" rx="4" stroke="url(#metallic-grad-footer)"
+                        stroke-width="4" fill="url(#metallic-fill-footer)" />
+                    <rect x="20" y="25" width="60" height="50" rx="3" stroke="url(#metallic-grad-footer)"
+                        stroke-width="3" fill="rgba(15, 23, 42, 0.3)" />
+                    <line x1="50" y1="25" x2="50" y2="75" stroke="url(#metallic-grad-footer)" stroke-width="3.5" />
+                    <line x1="20" y1="50" x2="80" y2="50" stroke="url(#metallic-grad-footer)" stroke-width="3.5" />
                     <defs>
-                        <linearGradient id="logo-grad-footer" x1="0" y1="0" x2="100" y2="100"
+                        <linearGradient id="metallic-grad-footer" x1="0" y1="0" x2="100" y2="100"
                             gradientUnits="userSpaceOnUse">
-                            <stop stop-color="#94A3B8" />
-                            <stop offset="1" stop-color="#38BDF8" />
+                            <stop offset="0%" stop-color="#f8fafc" />
+                            <stop offset="25%" stop-color="#cbd5e1" />
+                            <stop offset="50%" stop-color="#94a3b8" />
+                            <stop offset="75%" stop-color="#cbd5e1" />
+                            <stop offset="100%" stop-color="#e2e8f0" />
+                        </linearGradient>
+                        <linearGradient id="metallic-fill-footer" x1="0" y1="0" x2="0" y2="100"
+                            gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="rgba(203, 213, 225, 0.15)" />
+                            <stop offset="50%" stop-color="rgba(148, 163, 184, 0.1)" />
+                            <stop offset="100%" stop-color="rgba(203, 213, 225, 0.15)" />
                         </linearGradient>
                     </defs>
                 </svg>
-                <div class="logo-text">
-                    <span class="logo-main" style="font-size: 1.2rem;">Spesfidem</span>
+                <div class="logo-text-premium" style="text-align: left;">
+                    <span class="logo-brand-premium" style="font-size: 2.2rem; letter-spacing: 2px;">SPESFIDEM</span>
+                    <span class="logo-subtitle-premium" style="font-size: 1rem; letter-spacing: 8px;">ALUMINIO</span>
                 </div>
             </a>
         </div>
@@ -650,7 +754,7 @@
 
 
 
-    <script src="js/app.js"></script>
+    <script src="js/app.js?v=4"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({

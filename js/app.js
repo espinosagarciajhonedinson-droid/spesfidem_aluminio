@@ -1,362 +1,791 @@
 /**
  * Spesfidem Aluminio - App Logic
- * Handles Client Database, Payment Simulation, and Advanced Gallery
+ * Handles Client Database (IndexedDB), 3-Slot Form, and Admin Dashboard
  */
 
 const DB_KEY = 'spesfidem_clients';
+const DB_NAME = 'SpesfidemDB';
+const DB_VERSION = 1;
+const STORE_NAME = 'clients';
 
-//Helper to generate gallery data
-// Helper to generate gallery data with localized reference images
-function generateGalleryData(categoryName, count, title) {
-    const images = [];
-    // We'll attempt to load up to 50 images. The UI will gracefully handle failures.
-    const limit = 50;
-    for (let i = 1; i <= limit; i++) {
-        const src = `./images/gallery/${categoryName}/${i}.jpg`;
-        images.push({
-            src: src,
-            caption: `${title} - Modelo Premium #${i}`,
-            category: categoryName
+// --- Database Layer (IndexedDB) ---
+class ClientDB {
+    constructor() {
+        this.db = null;
+    }
+
+    async init() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open(DB_NAME, DB_VERSION);
+            request.onupgradeneeded = (event) => {
+                const db = event.target.result;
+                if (!db.objectStoreNames.contains(STORE_NAME)) {
+                    db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+                }
+            };
+            request.onsuccess = (event) => {
+                this.db = event.target.result;
+                resolve();
+            };
+            request.onerror = (event) => reject(event.target.error);
         });
     }
-    return images;
-}
 
-// Actual galleries data with localized unique references
-const galleries = {
-    'ventana_corrediza': generateGalleryData('ventana_corrediza', 20, 'Ventana Corrediza'),
-    'ventana_proyectante': generateGalleryData('ventana_proyectante', 20, 'Ventana Proyectante'),
-    'ventana_casement': generateGalleryData('ventana_abatible', 20, 'Ventana Abatible'),
-    'ventana_abatible': generateGalleryData('ventana_abatible', 20, 'Ventana Abatible'),
-    'ventana_batiente': generateGalleryData('ventana_batiente', 20, 'Ventana Batiente'),
-    'ventana_fija': generateGalleryData('ventana_fija', 20, 'Ventana Fija'),
-    'ventana_basculante': generateGalleryData('ventana_basculante', 20, 'Ventana Basculante'),
-    'puerta_principal': generateGalleryData('puerta_principal', 20, 'Puerta Principal'),
-    'puerta_patio': generateGalleryData('puerta_patio', 20, 'Puerta Patio'),
-    'puerta_plegable': generateGalleryData('puerta_plegable', 20, 'Puerta Plegable'),
-    'puerta_bano': generateGalleryData('puerta_bano', 20, 'Puerta Baño'),
-    'division_bano': generateGalleryData('division_bano', 20, 'División Baño')
-};
-
-// --- Gallery State ---
-let currentCategory = null;
-
-// Modified to Open New Page
-function openGallery(categoryId) {
-    if (!galleries[categoryId]) {
-        console.error('Gallery not found for:', categoryId);
-        return;
-    }
-    // Redirect to gallery.html with the category ID
-    window.location.href = `gallery.html?category=${categoryId}`;
-}
-
-// Function to load data on gallery.html
-function initGalleryPage() {
-    const params = new URLSearchParams(window.location.search);
-    const categoryId = params.get('category');
-
-    if (!categoryId || !galleries[categoryId]) {
-        if (grid) {
-            grid.innerHTML = `
-                <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #ef4444;">
-                    <h3><i class="fas fa-exclamation-triangle"></i> Error de Categoría</h3>
-                    <p>No se pudo cargar la galería: ${categoryId ? 'Categoría no encontrada' : 'Falta parámetro de categoría'}</p>
-                    <p><small>Debug: ${categoryId || 'null'}</small></p>
-                    <a href="index.html" class="btn-primary" style="margin-top:1rem; display:inline-block;">Volver al Inicio</a>
-                </div>
-            `;
-        }
-        console.error('Gallery loading failed:', categoryId);
-        return;
+    async save(client) {
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction([STORE_NAME], 'readwrite');
+            const store = transaction.objectStore(STORE_NAME);
+            const request = store.put(client);
+            request.onsuccess = () => resolve();
+            request.onerror = () => reject(request.error);
+        });
     }
 
-    const images = galleries[categoryId];
-    const grid = document.getElementById('galleryGrid');
-    const title = document.getElementById('pageTitle');
-
-    if (title) {
-        // Format title nicely (e.g. ventana_corrediza -> Ventana Corrediza)
-        title.textContent = categoryId.replace(/_/g, ' ').toUpperCase();
+    async delete(id) {
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction([STORE_NAME], 'readwrite');
+            const store = transaction.objectStore(STORE_NAME);
+            const request = store.delete(id);
+            request.onsuccess = () => resolve();
+            request.onerror = () => reject(request.error);
+        });
     }
 
-    if (grid) {
-        grid.innerHTML = ''; // Clear
-        if (images.length === 0) {
-            grid.innerHTML = `<div style="color:white; grid-column:1/-1;">No hay imágenes en esta categoría.</div>`;
-        }
-        // Monitor if any images were actually added
-        if (images.length === 0) {
-            grid.innerHTML = `
-                <div class="empty-gallery-msg">
-                    <h2>Catálogo en Renovación</h2>
-                    <p>Estamos actualizando nuestra base de datos con fotografías reales 4K. Vuelva pronto.</p>
-                </div>
-            `;
-            return;
-        }
+    async getById(id) {
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction([STORE_NAME], 'readonly');
+            const store = transaction.objectStore(STORE_NAME);
+            const request = store.get(id);
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+        });
+    }
 
-        images.forEach(img => {
-            const item = document.createElement('div');
-            item.className = 'gallery-item';
-            item.style.display = 'none'; // Hide initially
+    async getPaged(page, pageSize, searchQuery = '') {
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction([STORE_NAME], 'readonly');
+            const store = transaction.objectStore(STORE_NAME);
+            const request = store.openCursor(null, 'prev'); // Newest first
+            const results = [];
+            let skipped = 0;
+            const skip = (page - 1) * pageSize;
+            const query = searchQuery.toLowerCase();
 
-            const imageObj = new Image();
-            imageObj.src = img.src;
+            request.onsuccess = (event) => {
+                const cursor = event.target.result;
+                if (!cursor) {
+                    resolve({ items: results });
+                    return;
+                }
 
-            imageObj.onload = () => {
-                // Only show if image exists
-                item.style.display = 'block';
-                item.innerHTML = `
-                    <div style="position:relative; overflow:hidden;">
-                        <img src="${img.src}" class="gallery-img" alt="${img.caption}" onclick="viewFullImage('${img.src}')">
-                        <div style="position:absolute; bottom:10px; right:10px; background:rgba(0,0,0,0.7); padding:5px 10px; border-radius:5px; font-size:0.7rem;">
-                            <i class="fas fa-search-plus" style="color:var(--accent);"></i>
-                        </div>
-                    </div>
-                    <div class="gallery-caption">${img.caption}</div>
-                `;
+                const client = cursor.value;
+                const matches = !query ||
+                    client.fullName.toLowerCase().includes(query) ||
+                    client.cellphone.includes(query) ||
+                    (client.city && client.city.toLowerCase().includes(query));
+
+                if (matches) {
+                    if (skipped < skip) {
+                        skipped++;
+                    } else if (results.length < pageSize) {
+                        results.push(client);
+                    }
+                }
+
+                if (results.length < pageSize || !matches) {
+                    cursor.continue();
+                } else {
+                    resolve({ items: results });
+                }
             };
+            request.onerror = () => reject(request.error);
+        });
+    }
 
-            imageObj.onerror = () => {
-                // Remove if 404
-                item.remove();
-            };
+    async count(searchQuery = '') {
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction([STORE_NAME], 'readonly');
+            const store = transaction.objectStore(STORE_NAME);
+            const query = searchQuery.toLowerCase();
 
-            grid.appendChild(item);
+            if (!query) {
+                const request = store.count();
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            } else {
+                let count = 0;
+                const request = store.openCursor();
+                request.onsuccess = (event) => {
+                    const cursor = event.target.result;
+                    if (cursor) {
+                        const client = cursor.value;
+                        if (client.fullName.toLowerCase().includes(query) || client.cellphone.includes(query)) {
+                            count++;
+                        }
+                        cursor.continue();
+                    } else {
+                        resolve(count);
+                    }
+                };
+            }
         });
     }
 }
 
-function viewFullImage(src) {
-    // Simple full screen view for the dedicated page
-    window.open(src, '_blank');
-}
+const db = new ClientDB();
 
-// Reserved for old lightbox just in case
-function closeLightbox() {
-    const lb = document.getElementById('lightbox');
-    if (lb) lb.style.display = "none";
-}
-
-// --- Client Registration Logic ---
-function saveClient(event) {
-    event.preventDefault();
-    const fullName = document.getElementById('fullName').value;
-    const cellphone = document.getElementById('cellphone').value;
-    const landline = document.getElementById('landline').value;
-    const city = document.getElementById('city').value;
-    const address = document.getElementById('address').value;
-    const email = document.getElementById('email').value;
-    const product = document.getElementById('product') ? document.getElementById('product').value : 'N/A';
-    const quantity = document.getElementById('quantity') ? document.getElementById('quantity').value : '1';
-
-    const newClient = {
-        id: Date.now(),
-        fullName,
-        cellphone,
-        landline,
-        city,
-        address,
-        email,
-        product,
-        quantity,
-        date: new Date().toLocaleString()
-    };
-
-    let clients = JSON.parse(localStorage.getItem(DB_KEY)) || [];
-    clients.push(newClient);
-    localStorage.setItem(DB_KEY, JSON.stringify(clients));
-
-    showToast(`¡Gracias ${fullName}! Tus datos han sido registrados.<br>Te contactaremos pronto.`);
-    document.getElementById('clientForm').reset();
-}
-
-// --- Payment Simulation ---
-function simulatePayment(provider) {
-    let message = "";
-    if (provider === 'Nequi') {
-        message = `<strong>Cuenta Nequi</strong><br>Envía a: 323 204 5129<br><em>Envíanos el comprobante al WhatsApp.</em>`;
-    } else if (provider === 'B. Bogota') {
-        message = `<strong>Banco de Bogotá</strong><br>Cuenta Ahorros: 583092325<br>Titular: Spesfidem Aluminio`;
-    } else if (provider === 'DaviPlata') {
-        message = `<strong>DaviPlata</strong><br>Envía a: 323 204 5129`;
-    } else {
-        message = `Iniciando pasarela de pago segura con ${provider}...<br>(Simulación)`;
+// --- Initialization & Migrations ---
+async function migrateData() {
+    const rawData = localStorage.getItem(DB_KEY);
+    if (rawData) {
+        try {
+            const clients = JSON.parse(rawData);
+            for (const client of clients) {
+                await db.save(client);
+            }
+            localStorage.removeItem(DB_KEY);
+            console.log("Migration to IndexedDB complete.");
+        } catch (e) {
+            console.error("Migration failed:", e);
+        }
     }
-    showToast(message);
 }
 
-// --- Toast Logic ---
-function showToast(htmlMessage) {
-    let container = document.querySelector('.toast-container');
-    if (!container) {
-        container = document.createElement('div');
-        container.className = 'toast-container';
-        document.body.appendChild(container);
+document.addEventListener('DOMContentLoaded', async () => {
+    // 1. DB Init
+    try {
+        await db.init();
+        await migrateData();
+    } catch (e) {
+        console.error("App startup failed:", e);
     }
 
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.innerHTML = `
-        <i class="fas fa-info-circle"></i>
-        <div class="toast-message">${htmlMessage}</div>
+    // 2. Mobile Menu
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const menu = document.querySelector('.big-menu');
+    if (mobileBtn && menu) {
+        mobileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menu.classList.toggle('active');
+            const icon = mobileBtn.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
+            }
+        });
+
+        // Close menu on link click
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.remove('active');
+                const icon = mobileBtn.querySelector('i');
+                if (icon) {
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-times');
+                }
+            });
+        });
+
+        // Close on outside click
+        document.addEventListener('click', (e) => {
+            if (!menu.contains(e.target) && !mobileBtn.contains(e.target)) {
+                menu.classList.remove('active');
+                const icon = mobileBtn.querySelector('i');
+                if (icon) {
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-times');
+                }
+            }
+        });
+    }
+
+    // 3. Admin Page Logic
+    if (window.location.pathname.includes('admin.html')) {
+        if (sessionStorage.getItem('isAdmin') === 'true') {
+            const overlay = document.getElementById('loginOverlay');
+            if (overlay) overlay.style.display = 'none';
+            loadAdminData();
+        }
+    }
+
+    // 4. Material Filtering for Shower Divisions
+    document.addEventListener('change', (e) => {
+        if (e.target.classList.contains('product-slot')) {
+            const card = e.target.closest('.product-slot-card') || e.target.closest('.product-slot-card-edit');
+            if (!card) return;
+            const glassSlot = card.querySelector('.glass-slot') || card.querySelector('.edit-glass-slot');
+            if (!glassSlot) return;
+
+            const product = e.target.value;
+            const isBathroom = product.includes('Baño');
+            const groups = glassSlot.querySelectorAll('optgroup');
+
+            groups.forEach(group => {
+                const label = group.label;
+                if (isBathroom) {
+                    // Only allow Tempered Glass or Acrylic for showers
+                    if (label.includes('Templado') || label.includes('Acrílico')) {
+                        group.style.display = '';
+                    } else {
+                        group.style.display = 'none';
+                    }
+                } else {
+                    group.style.display = '';
+                }
+            });
+            // If current selection is hidden, reset it
+            const selected = glassSlot.options[glassSlot.selectedIndex];
+            if (selected && selected.parentElement.style.display === 'none') {
+                glassSlot.value = "";
+            }
+        }
+    });
+
+    // 5. Gallery Init (if on gallery.html)
+    if (window.location.pathname.includes('gallery.html')) {
+        initGalleryPage();
+    }
+
+    // 6. Simulator Slots Init (if on simulator.html)
+    const slotsContainer = document.getElementById('slotsContainer');
+    if (slotsContainer && window.location.pathname.includes('simulator.html')) {
+        initSimulatorSlots(slotsContainer);
+    }
+});
+
+function initSimulatorSlots(container) {
+    const prodOptions = `
+        <option value="" selected disabled>Seleccione Producto...</option>
+        <optgroup label="Sistemas de Ventanas">
+            <option value="Ventana Corrediza">Ventana Corrediza</option>
+            <option value="Ventana Proyectante">Ventana Proyectante</option>
+            <option value="Ventana Fija">Ventana Fija</option>
+        </optgroup>
+        <optgroup label="Sistemas de Puertas">
+            <option value="Puerta Principal">Puerta Principal</option>
+            <option value="Puerta de Patio">Puerta de Patio</option>
+            <option value="Puerta de Baño">Puerta de Baño</option>
+        </optgroup>
+        <optgroup label="Especialidades">
+            <option value="División de Baño">División de Baño</option>
+            <option value="Vidrio Templado">Vidrio Templado</option>
+            <option value="Espejos">Espejos</option>
+        </optgroup>
     `;
 
-    container.appendChild(toast);
-
-    // Trigger reflow
-    void toast.offsetWidth;
-    toast.classList.add('show');
-
-    setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => {
-            toast.remove();
-        }, 300);
-    }, 4000);
+    // Add 9 more slots (1st is static in HTML, or cleared here)
+    for (let i = 2; i <= 10; i++) {
+        const div = document.createElement('div');
+        div.className = 'product-slot-card';
+        div.style.background = 'rgba(255,255,255,0.03)';
+        div.style.padding = '1.2rem';
+        div.style.borderRadius = '1.2rem';
+        div.style.border = '1px solid rgba(255,255,255,0.05)';
+        div.innerHTML = `
+            <div style="display:grid; grid-template-columns: 2fr 1fr; gap:1rem; margin-bottom: 0.8rem;">
+                <select class="form-control product-slot" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                    <option value="">Añadir Producto ${i}...</option>
+                    ${prodOptions}
+                </select>
+                <input type="number" class="form-control quantity-slot" min="1" value="1" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
+            </div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.8rem;">
+                <select class="form-control color-slot" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                    <option value="Natural">Natural</option>
+                    <option value="Negro">Negro</option>
+                    <option value="Madera">Madera</option>
+                    <option value="Blanco">Blanco</option>
+                    <option value="Champagne">Champagne</option>
+                </select>
+                <input type="text" class="form-control size-slot" placeholder="Talla" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                <select class="form-control glass-slot" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                    <option value="">Vidrio...</option>
+                    <optgroup label="Monolítico">
+                        <option value="Monolítico 4mm Incoloro">4mm Incoloro</option>
+                        <option value="Monolítico 5mm Incoloro">5mm Incoloro</option>
+                    </optgroup>
+                    <optgroup label="Templado">
+                        <option value="Templado 6mm Incoloro">6mm Incoloro</option>
+                        <option value="Templado 8mm Incoloro">8mm Incoloro</option>
+                        <option value="Templado 10mm Incoloro">10mm Incoloro</option>
+                    </optgroup>
+                </select>
+            </div>
+        `;
+        container.appendChild(div);
+    }
 }
 
-// --- Admin Panel Logic ---
-function loadAdminData() {
+// --- Client Registration & Quotation Logic ---
+async function saveClient(event) {
+    event.preventDefault();
+    const clientData = collectFormData(false); // Registration mode
+    if (!clientData) return;
+
+    try {
+        await db.save(clientData);
+        showToast("¡Registro Exitoso! Redirigiendo a pagos...", "success");
+        event.target.reset();
+        setTimeout(() => window.location.replace("checkout.html"), 1500);
+    } catch (e) {
+        console.error("Save failed:", e);
+        showToast("Error al guardar registro.", "error");
+    }
+}
+
+function prepareQuotation(event) {
+    if (event) event.preventDefault();
+
+    // Simulation only requires products, no form validation
+    const clientData = collectFormData(true); // Simulation mode
+    if (!clientData) return;
+
+    // Store in sessionStorage for the quotation page
+    sessionStorage.setItem('currentQuotation', JSON.stringify(clientData));
+    window.location.href = 'quotation.html';
+}
+
+function collectFormData(isSimulation = false) {
+    const fullName = document.getElementById('fullName').value || 'Invitado';
+    const cellphone = document.getElementById('cellphone').value || '';
+    const city = document.getElementById('city').value || '';
+    const address = document.getElementById('address').value || '';
+    const email = document.getElementById('email').value || '';
+    const landline = '';
+
+    // If registering, we need actual data
+    if (!isSimulation) {
+        if (!document.getElementById('fullName').value || !cellphone || !city) {
+            showToast("Por favor complete nombre, celular y ciudad en el Registro.", "error");
+            return null;
+        }
+    }
+
+    const items = [];
+    const prodSlots = document.querySelectorAll('.product-slot');
+    const qtySlots = document.querySelectorAll('.quantity-slot');
+    const colorSlots = document.querySelectorAll('.color-slot');
+    const sizeSlots = document.querySelectorAll('.size-slot');
+    const glassSlots = document.querySelectorAll('.glass-slot');
+
+    prodSlots.forEach((slot, i) => {
+        const prod = slot.value;
+        const qty = parseInt(qtySlots[i].value) || 1;
+        if (prod) {
+            // Price calculation logic (Simulator estimation)
+            const basePrice = getBasePrice(prod);
+            const profileMarkup = getProfileMarkup(colorSlots[i].value);
+            const glassMarkup = getGlassMarkup(glassSlots[i].value);
+            const unitPrice = basePrice + profileMarkup + glassMarkup;
+            const total = unitPrice * qty;
+
+            items.push({
+                product: prod,
+                quantity: qty,
+                color: colorSlots[i].value,
+                size: sizeSlots[i].value || 'N/A',
+                glass: glassSlots[i].value,
+                unitPrice: unitPrice,
+                total: total
+            });
+        }
+    });
+
+    if (items.length === 0) {
+        showToast("Seleccione al menos un producto en el Simulador.", "error");
+        // Scroll to simulator if empty
+        document.getElementById('productSlots').scrollIntoView({ behavior: 'smooth' });
+        return null;
+    }
+
+    return {
+        id: Date.now(),
+        date: new Date().toLocaleDateString('es-CO'),
+        fullName, cellphone, landline, city, address, email,
+        status: 'Pendiente',
+        product: items[0].product,
+        quantity: items[0].quantity,
+        items: items,
+        grandTotal: items.reduce((acc, item) => acc + item.total, 0)
+    };
+}
+
+function getBasePrice(product) {
+    const prices = {
+        // Ventanas
+        'Ventana Corrediza': 380000,
+        'Ventana Proyectante': 450000,
+        'Ventana Casement': 480000,
+        'Ventana Fija': 320000,
+        'Ventana Basculante': 430000,
+        // Puertas
+        'Puerta Principal': 1350000,
+        'Puerta de Patio': 980000,
+        'Puerta Plegable': 1500000,
+        'Puerta de Baño': 550000,
+        // Otros
+        'División de Baño': 650000,
+        'Vidrio Templado': 180000,
+        'Espejos': 140000,
+        'Fachada Flotante': 2500000,
+        'Pasamanos / Otros': 220000
+    };
+    return prices[product] || 350000;
+}
+
+function getProfileMarkup(color) {
+    const markups = {
+        'Natural': 0,
+        'Blanco': 0,
+        'Negro': 50000,
+        'Champagne': 80000,
+        'Madera': 160000
+    };
+    return markups[color] || 0;
+}
+
+function getGlassMarkup(glassSpec) {
+    if (!glassSpec) return 0;
+
+    let baseMarkup = 0;
+
+    // Thickness/Type Logic
+    if (glassSpec.includes('4mm')) baseMarkup = 60000;
+    else if (glassSpec.includes('5mm')) baseMarkup = 85000;
+    else if (glassSpec.includes('6mm')) baseMarkup = 155000;
+    else if (glassSpec.includes('8mm')) baseMarkup = 230000;
+    else if (glassSpec.includes('10mm')) baseMarkup = 310000;
+    else if (glassSpec.includes('6.38mm')) baseMarkup = 260000;
+    else if (glassSpec.includes('8.38mm')) baseMarkup = 380000;
+
+    // Type Multipliers/Additives
+    if (glassSpec.includes('Templado')) baseMarkup += 20000;
+    if (glassSpec.includes('Laminado')) baseMarkup += 40000;
+    if (glassSpec.includes('Acrílico')) baseMarkup = 95000; // Base Acrylic cost
+    if (glassSpec.includes('Espejo')) baseMarkup = Math.max(baseMarkup, 100000);
+
+    // Tones
+    if (glassSpec.includes('Bronce')) baseMarkup += 15000;
+    if (glassSpec.includes('Gris')) baseMarkup += 15000;
+    if (glassSpec.includes('Sandblasting')) baseMarkup += 45000;
+
+    return baseMarkup;
+}
+
+// --- Admin Panel Dashboard ---
+let currentPage = 1;
+const pageSize = 50;
+let lastDeletedClient = null;
+let deleteTimeout = null;
+let selectedClientIds = new Set();
+
+async function loadAdminData() {
     const tableBody = document.getElementById('clientTableBody');
     if (!tableBody) return;
 
-    // Use DB_KEY defined at top
-    const clients = JSON.parse(localStorage.getItem(DB_KEY)) || [];
-    const countElement = document.getElementById('clientCount');
+    try {
+        const query = document.getElementById('adminSearch')?.value || '';
+        const { items } = await db.getPaged(currentPage, pageSize, query);
+        const total = await db.count(query);
 
-    if (countElement) countElement.textContent = clients.length;
+        document.getElementById('clientCountHeader').textContent = total;
+        updatePaginationUI(Math.ceil(total / pageSize));
 
-    tableBody.innerHTML = '';
+        tableBody.innerHTML = '';
+        if (items.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="10" style="text-align:center; padding:2rem;">No se encontraron resultados.</td></tr>';
+            return;
+        }
 
-    if (clients.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 2rem;">No hay clientes registrados aún.</td></tr>';
-        return;
-    }
+        items.forEach(client => {
+            const isChecked = selectedClientIds.has(client.id);
+            const row = document.createElement('tr');
+            if (isChecked) row.classList.add('is-selected');
+            row.innerHTML = `
+                <td style="text-align:center;">
+                    <input type="checkbox" class="client-checkbox" value="${client.id}" 
+                        ${isChecked ? 'checked' : ''} 
+                        onclick="toggleSelectClient(${client.id}, this)" 
+                        style="cursor:pointer; width: 16px; height: 16px;">
+                </td>
+                <td>${client.date}</td>
+                <td style="font-weight:bold;">${client.fullName}</td>
+                <td>
+                    <div>Cel: ${client.cellphone}</div>
+                    ${client.landline ? `<div style="font-size:0.8rem; color:#64748b;">Fijo: ${client.landline}</div>` : ''}
+                </td>
+                <td><span style="background:#e0f2fe; color:#0369a1; padding:2px 8px; border-radius:4px; font-weight:600;">${client.city || 'N/A'}</span></td>
+                <td><div style="font-weight:600; color:var(--accent); font-size:0.85rem;">${getProductString(client)}</div></td>
+                <td>${client.email}</td>
+                <td style="max-width:200px;">${client.address}</td>
+                <td><span class="status-badge status-${(client.status || 'Pendiente').toLowerCase()}">${client.status || 'Pendiente'}</span></td>
+                <td style="display:flex; gap:0.5rem;">
+                    <button onclick="openEditModal(${client.id})" class="btn-edit" style="background:#f59e0b; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;"><i class="fas fa-edit"></i></button>
+                    <button onclick="deleteClient(${client.id})" class="btn-delete" style="background:#ef4444; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;"><i class="fas fa-trash-alt"></i></button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
 
-    clients.sort((a, b) => b.id - a.id);
-
-    clients.forEach(client => {
-        const row = document.createElement('tr');
-        // Corrected Column Mapping: Date, Name, Phones, City, Email, Address, Actions
-        row.innerHTML = `
-            <td>${client.date}</td>
-            <td style="font-weight:bold; color:var(--text-dark);">${client.fullName}</td>
-            <td>
-                <div>Cel: ${client.cellphone}</div>
-                ${client.landline ? `<div style="font-size:0.85em; color:#64748b;">Fijo: ${client.landline}</div>` : ''}
-            </td>
-            <td><span style="background:#e0f2fe; color:#0369a1; padding:2px 8px; border-radius:4px; font-weight:600;">${client.city || 'N/A'}</span></td>
-            <td>
-                <div style="font-weight:600; color:var(--accent);">${client.product || 'N/A'}</div>
-                <div style="font-size:0.85em; color:#64748b;">Cant: ${client.quantity || '1'}</div>
-            </td>
-            <td>${client.email}</td>
-            <td style="max-width:200px; word-wrap:break-word;">${client.address}</td>
-            <td style="display:flex; gap:0.5rem;">
-                <button onclick="openEditModal(${client.id})" class="btn-edit" style="background:#f59e0b; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;" title="Editar Datos">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button onclick="deleteClient(${client.id})" class="btn-delete" style="background:#ef4444; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;" title="Eliminar Registro">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-            </td>
-        `;
-        tableBody.appendChild(row);
-    });
-}
-
-// --- Undo Logic ---
-let lastDeletedClient = null;
-let undoTimeout = null;
-
-function deleteClient(id) {
-    if (!confirm("¿Está seguro que desea eliminar este registro?")) return;
-
-    let clients = JSON.parse(localStorage.getItem(DB_KEY)) || [];
-    const clientToDelete = clients.find(c => c.id === id);
-
-    if (clientToDelete) {
-        lastDeletedClient = clientToDelete;
-
-        // Remove from DB
-        clients = clients.filter(c => c.id !== id);
-        localStorage.setItem(DB_KEY, JSON.stringify(clients));
-
-        // Refresh UI
-        loadAdminData();
-
-        // Show Toast with Undo
-        showUndoToast("Registro eliminado.");
+        updateHeaderCheckbox();
+    } catch (e) {
+        console.error("Load data failed:", e);
     }
 }
 
-function undoLastDelete() {
-    if (!lastDeletedClient) return;
+function getProductString(client) {
+    if (client.items && Array.isArray(client.items)) {
+        return client.items.map(item => {
+            const parts = [
+                item.quantity > 1 ? `${item.quantity}x` : '',
+                item.product,
+                item.color && item.color !== 'N/A' ? `(${item.color})` : '',
+                item.glass && item.glass !== 'N/A' ? `| ${item.glass}` : '',
+                item.size && item.size !== 'N/A' ? `[${item.size}]` : ''
+            ].filter(p => p && p.trim() !== '').join(' ');
+            return parts;
+        }).join(', ');
+    }
+    return `${client.quantity || 1}x ${client.product || 'N/A'}`;
+}
 
-    let clients = JSON.parse(localStorage.getItem(DB_KEY)) || [];
-    clients.push(lastDeletedClient);
-    localStorage.setItem(DB_KEY, JSON.stringify(clients));
+function updatePaginationUI(totalPages) {
+    const container = document.getElementById('paginationControls');
+    if (!container) return;
+    container.innerHTML = `
+        <button onclick="changePage(-1)" ${currentPage <= 1 ? 'disabled' : ''} class="btn-nav">Anterior</button>
+        <span style="font-weight:bold; color:#64748b;">Página ${currentPage} de ${totalPages || 1}</span>
+        <button onclick="changePage(1)" ${currentPage >= totalPages ? 'disabled' : ''} class="btn-nav">Siguiente</button>
+    `;
+}
 
-    lastDeletedClient = null;
+function changePage(delta) {
+    currentPage += delta;
     loadAdminData();
-    showToast("Acción deshecha. El cliente ha sido restaurado.");
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function filterClients() {
+    currentPage = 1;
+    loadAdminData();
+}
+
+function updateCSVBtnText() {
+    const btnText = document.getElementById('csvBtnText');
+    if (!btnText) return;
+    if (selectedClientIds.size > 0) {
+        btnText.textContent = `Descargar Seleccionados (${selectedClientIds.size})`;
+    } else {
+        btnText.textContent = "Exportar Todos (CSV)";
+    }
+}
+
+function toggleSelectClient(id, checkbox) {
+    const row = checkbox.closest('tr');
+    if (checkbox.checked) {
+        selectedClientIds.add(id);
+        if (row) row.classList.add('is-selected');
+    } else {
+        selectedClientIds.delete(id);
+        if (row) row.classList.remove('is-selected');
+    }
+    updateCSVBtnText();
+    updateHeaderCheckbox();
+}
+
+function toggleSelectAll(headerCheckbox) {
+    const checkboxes = document.querySelectorAll('.client-checkbox');
+    checkboxes.forEach(cb => {
+        const id = parseInt(cb.value);
+        const row = cb.closest('tr');
+        cb.checked = headerCheckbox.checked;
+        if (headerCheckbox.checked) {
+            selectedClientIds.add(id);
+            if (row) row.classList.add('is-selected');
+        } else {
+            selectedClientIds.delete(id);
+            if (row) row.classList.remove('is-selected');
+        }
+    });
+    updateCSVBtnText();
+}
+
+function updateHeaderCheckbox() {
+    const headerCheckbox = document.getElementById('selectAll');
+    const checkboxes = document.querySelectorAll('.client-checkbox');
+    if (!headerCheckbox || checkboxes.length === 0) return;
+
+    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+    headerCheckbox.checked = allChecked;
+}
+
+// --- Admin Actions ---
+async function deleteClient(id) {
+    if (!confirm("¿Eliminar este cliente?")) return;
+    try {
+        const client = await db.getById(id);
+        if (client) {
+            lastDeletedClient = client;
+            await db.delete(id);
+            loadAdminData();
+            showUndoToast("Registro eliminado.");
+        }
+    } catch (e) { console.error(e); }
+}
+
+async function undoLastDelete() {
+    if (!lastDeletedClient) return;
+    try {
+        await db.save(lastDeletedClient);
+        lastDeletedClient = null;
+        loadAdminData();
+        showToast("Restaurado correctamente.");
+    } catch (e) { console.error(e); }
 }
 
 function showUndoToast(msg) {
+    const container = document.querySelector('.toast-container') || document.body;
+    const toast = document.createElement('div');
+    toast.className = 'toast show';
+    toast.style.cssText = 'display:flex; align-items:center; gap:1rem; padding: 1rem;';
+    toast.innerHTML = `
+        <span>${msg}</span>
+        <button onclick="undoLastDelete(); this.parentElement.remove();" style="background:#fbbf24; border:none; padding:5px 10px; border-radius:4px; font-weight:bold; cursor:pointer;">DESHACER</button>
+    `;
+    container.appendChild(toast);
+    if (deleteTimeout) clearTimeout(deleteTimeout);
+    deleteTimeout = setTimeout(() => {
+        toast.remove();
+        lastDeletedClient = null;
+    }, 6000);
+}
+
+function showToast(msg, type = 'success') {
     let container = document.querySelector('.toast-container');
     if (!container) {
         container = document.createElement('div');
         container.className = 'toast-container';
         document.body.appendChild(container);
     }
-
     const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.style.display = 'flex';
-    toast.style.alignItems = 'center';
-    toast.style.gap = '1rem';
-
-    toast.innerHTML = `
-        <i class="fas fa-trash-alt"></i>
-        <span>${msg}</span>
-        <button onclick="undoLastDelete(); this.parentElement.remove();" style="background:#fbbf24; color:black; border:none; padding:5px 10px; border-radius:4px; font-weight:bold; cursor:pointer;">
-            <i class="fas fa-undo"></i> Deshacer
-        </button>
-    `;
-
+    toast.className = `toast ${type === 'success' ? '' : 'error'}`;
+    toast.innerHTML = `<div class="toast-message">${msg}</div>`;
     container.appendChild(toast);
-
-    // Trigger reflow
     void toast.offsetWidth;
     toast.classList.add('show');
-
     setTimeout(() => {
-        if (toast.parentElement) {
-            toast.classList.remove('show');
-            setTimeout(() => toast.remove(), 300);
-        }
-    }, 6000); // Give them 6 seconds to undo
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 4000);
 }
 
-// --- Edit Client Logic ---
-function openEditModal(id) {
-    let clients = JSON.parse(localStorage.getItem(DB_KEY)) || [];
-    const client = clients.find(c => c.id === id);
+// --- Edit Modal Logic ---
+async function openEditModal(id) {
+    const client = await db.getById(id);
     if (!client) return;
 
     document.getElementById('editId').value = client.id;
-    document.getElementById('editName').value = client.fullName || '';
-    document.getElementById('editCel').value = client.cellphone || '';
+    document.getElementById('editName').value = client.fullName;
+    document.getElementById('editCel').value = client.cellphone;
     document.getElementById('editTel').value = client.landline || '';
-    document.getElementById('editCity').value = client.city || '';
-    document.getElementById('editAddress').value = client.address || '';
-    document.getElementById('editEmail').value = client.email || '';
-    if (document.getElementById('editProduct')) document.getElementById('editProduct').value = client.product || '';
-    if (document.getElementById('editQuantity')) document.getElementById('editQuantity').value = client.quantity || '1';
+    document.getElementById('editCity').value = client.city;
+    document.getElementById('editAddress').value = client.address;
+    document.getElementById('editEmail').value = client.email;
+    document.getElementById('editStatus').value = client.status || 'Pendiente';
 
-    // Show modal
+    const container = document.getElementById('editProductSlots');
+    if (container) {
+        container.innerHTML = '';
+        const prodOptions = `
+            <option value="">Producto...</option>
+            <optgroup label="Sistemas de Ventanas">
+                <option value="Ventana Corrediza">Ventana Corrediza</option>
+                <option value="Ventana Proyectante">Ventana Proyectante</option>
+                <option value="Ventana Casement">Ventana Casement</option>
+                <option value="Ventana Fija">Ventana Fija</option>
+                <option value="Ventana Basculante">Ventana Basculante</option>
+            </optgroup>
+            <optgroup label="Sistemas de Puertas">
+                <option value="Puerta Principal">Puerta Principal</option>
+                <option value="Puerta de Patio">Puerta de Patio</option>
+                <option value="Puerta Plegable">Puerta Plegable</option>
+                <option value="Puerta de Baño">Puerta de Baño</option>
+            </optgroup>
+            <optgroup label="Especialidades">
+                <option value="División de Baño">División de Baño</option>
+                <option value="Vidrio Templado">Vidrio Templado</option>
+                <option value="Espejos">Espejos</option>
+                <option value="Fachada Flotante">Fachada Flotante</option>
+                <option value="Pasamanos / Otros">Pasamanos / Otros</option>
+            </optgroup>
+        `;
+
+        const items = client.items || [{ product: client.product, quantity: client.quantity }];
+
+        for (let i = 0; i < 10; i++) {
+            const item = items[i] || { product: '', quantity: 1, color: 'Natural', size: '', glass: 'Monolítico' };
+            const div = document.createElement('div');
+            div.style.padding = '10px';
+            div.style.borderBottom = '1px solid #eee';
+            div.style.marginBottom = '10px';
+            div.innerHTML = `
+                <div style="display:grid; grid-template-columns: 2fr 1fr; gap:0.5rem; margin-bottom:0.5rem;">
+                    <select class="edit-product-slot" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px;">
+                        ${prodOptions}
+                    </select>
+                    <input type="number" class="edit-quantity-slot" value="${item.quantity}" min="1" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px;">
+                </div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.4rem;">
+                    <select class="edit-color-slot" style="padding:5px; border:1px solid #cbd5e1; border-radius:4px; font-size:0.8rem;">
+                        <option value="Natural">Natural</option>
+                        <option value="Negro">Negro</option>
+                        <option value="Madera">Madera</option>
+                        <option value="Blanco">Blanco</option>
+                        <option value="Champagne">Champagne</option>
+                    </select>
+                    <input type="text" class="edit-size-slot" placeholder="Tamaño" value="${item.size || ''}" style="padding:5px; border:1px solid #cbd5e1; border-radius:4px; font-size:0.8rem;">
+                    <select class="edit-glass-slot" style="padding:5px; border:1px solid #cbd5e1; border-radius:4px; font-size:0.8rem;">
+                        <option value="">Vidrio...</option>
+                        <optgroup label="Monolítico">
+                            <option value="Monolítico 4mm Incoloro">4mm Incoloro</option>
+                            <option value="Monolítico 4mm Bronce">4mm Bronce</option>
+                            <option value="Monolítico 4mm Gris">4mm Gris</option>
+                            <option value="Monolítico 5mm Incoloro">5mm Incoloro</option>
+                        </optgroup>
+                        <optgroup label="Templado">
+                            <option value="Templado 6mm Incoloro">6mm Incoloro</option>
+                            <option value="Templado 6mm Bronce">6mm Bronce</option>
+                            <option value="Templado 6mm Gris">6mm Gris</option>
+                            <option value="Templado 8mm Incoloro">8mm Incoloro</option>
+                        </optgroup>
+                        <optgroup label="Laminado">
+                            <option value="Laminado 6.38mm Incoloro">6.38mm Incoloro</option>
+                            <option value="Laminado 8.38mm Incoloro">8.38mm Incoloro</option>
+                        </optgroup>
+                        <optgroup label="Acrílicos (Baños)">
+                            <option value="Acrílico Azul Brisa">Azul Brisa</option>
+                            <option value="Acrílico Fucsia">Fucsia</option>
+                            <option value="Acrílico Cristal">Cristal (Incoloro)</option>
+                            <option value="Acrílico Opalizado">Opalizado</option>
+                        </optgroup>
+                        <optgroup label="Espejos/Otros">
+                            <option value="Espejo 3mm">Espejo 3mm</option>
+                            <option value="Espejo 4mm">Espejo 4mm</option>
+                            <option value="Vidrio Sandblasting">Sandblasting</option>
+                        </optgroup>
+                    </select>
+                </div>
+            `;
+            const pSlot = div.querySelector('.edit-product-slot');
+            const cSlot = div.querySelector('.edit-color-slot');
+            const gSlot = div.querySelector('.edit-glass-slot');
+            pSlot.value = item.product;
+            cSlot.value = item.color || 'Natural';
+            gSlot.value = item.glass || 'Monolítico';
+            container.appendChild(div);
+        }
+    }
+
     document.getElementById('editOverlay').style.display = 'flex';
 }
 
@@ -364,48 +793,183 @@ function closeEditModal() {
     document.getElementById('editOverlay').style.display = 'none';
 }
 
-function saveEditClient(e) {
+async function saveEditClient(e) {
     e.preventDefault();
     const id = parseInt(document.getElementById('editId').value);
+    const client = await db.getById(id);
+    if (!client) return;
 
-    let clients = JSON.parse(localStorage.getItem(DB_KEY)) || [];
-    const index = clients.findIndex(c => c.id === id);
+    client.fullName = document.getElementById('editName').value;
+    client.cellphone = document.getElementById('editCel').value;
+    client.landline = document.getElementById('editTel').value;
+    client.city = document.getElementById('editCity').value;
+    client.address = document.getElementById('editAddress').value;
+    client.email = document.getElementById('editEmail').value;
+    client.status = document.getElementById('editStatus').value;
 
-    if (index !== -1) {
-        // Update fields
-        clients[index].fullName = document.getElementById('editName').value;
-        clients[index].cellphone = document.getElementById('editCel').value;
-        clients[index].landline = document.getElementById('editTel').value;
-        clients[index].city = document.getElementById('editCity').value;
-        clients[index].address = document.getElementById('editAddress').value;
-        clients[index].email = document.getElementById('editEmail').value;
-        if (document.getElementById('editProduct')) clients[index].product = document.getElementById('editProduct').value;
-        if (document.getElementById('editQuantity')) clients[index].quantity = document.getElementById('editQuantity').value;
+    const items = [];
+    const pSlots = document.querySelectorAll('.edit-product-slot');
+    const qSlots = document.querySelectorAll('.edit-quantity-slot');
+    const colorSlots = document.querySelectorAll('.edit-color-slot');
+    const sizeSlots = document.querySelectorAll('.edit-size-slot');
+    const glassSlots = document.querySelectorAll('.edit-glass-slot');
 
-        localStorage.setItem(DB_KEY, JSON.stringify(clients));
-        loadAdminData();
-        closeEditModal();
-        showToast("Datos del cliente actualizados exitosamente.");
+    pSlots.forEach((slot, i) => {
+        const prod = slot.value;
+        const qty = parseInt(qSlots[i].value) || 1;
+        if (prod) {
+            const basePrice = getBasePrice(prod);
+            const profileMarkup = getProfileMarkup(colorSlots[i].value);
+            const glassMarkup = getGlassMarkup(glassSlots[i].value);
+            const unitPrice = basePrice + profileMarkup + glassMarkup;
+
+            items.push({
+                product: prod,
+                quantity: qty,
+                color: colorSlots[i].value,
+                size: sizeSlots[i].value,
+                glass: glassSlots[i].value,
+                unitPrice: unitPrice,
+                total: unitPrice * qty
+            });
+        }
+    });
+
+    if (items.length > 0) {
+        client.product = items[0].product;
+        client.quantity = items[0].quantity;
+        client.items = items;
+        client.grandTotal = items.reduce((acc, it) => acc + it.total, 0);
     }
-}
 
-// Mobile Menu Toggle
-document.addEventListener('DOMContentLoaded', () => {
-    const mobileBtn = document.getElementById('mobile-menu-btn');
-    const menu = document.querySelector('.big-menu');
-
-    if (mobileBtn && menu) {
-        mobileBtn.addEventListener('click', () => {
-            menu.classList.toggle('active');
-        });
-    }
-
+    await db.save(client);
+    closeEditModal();
     loadAdminData();
-});
-
-// --- FAQ Interactivity ---
-function toggleFAQ(element) {
-    const item = element.parentElement;
-    item.classList.toggle('active');
+    showToast("Cambios guardados correctamente.");
 }
 
+// --- Gallery Logic (for gallery.html) ---
+const galleries = {
+    'ventana_corrediza': 20, 'ventana_proyectante': 20, 'ventana_casement': 20,
+    'ventana_batiente': 20, 'ventana_fija': 20, 'ventana_basculante': 20,
+    'puerta_principal': 20, 'puerta_patio': 20, 'puerta_plegable': 20,
+    'puerta_bano': 20, 'division_bano': 20, 'espejos': 20
+};
+
+function initGalleryPage() {
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get('category');
+    const grid = document.getElementById('galleryGrid');
+    const title = document.getElementById('pageTitle');
+    if (!cat || !grid) return;
+
+    if (title) title.textContent = cat.replace(/_/g, ' ').toUpperCase();
+    grid.innerHTML = '';
+
+    const count = galleries[cat] || 0;
+    for (let i = 1; i <= count; i++) {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        const src = `./images/gallery/${cat}/${i}.jpg`;
+
+        const img = new Image();
+        img.src = src;
+        img.className = 'gallery-img';
+        img.alt = `${cat} Model ${i}`;
+        img.onclick = () => window.open(src, '_blank');
+
+        // Only append if image loads or just allow browser to handle 404
+        img.onerror = () => {
+            item.style.display = 'none'; // Hide if missing
+        };
+
+        item.appendChild(img);
+        const caption = document.createElement('div');
+        caption.className = 'gallery-caption';
+        caption.textContent = `Modelo Premium #${i}`;
+        item.appendChild(caption);
+        grid.appendChild(item);
+    }
+}
+
+// --- Navigation ---
+function openGallery(cat) {
+    window.location.href = `gallery.html?category=${cat}`;
+}
+
+// --- Admin Auth & Utilities ---
+function adminLogin(e) {
+    e.preventDefault();
+    const user = document.getElementById('adminUser').value;
+    const pass = document.getElementById('adminPass').value;
+    const errorMsg = document.getElementById('loginError');
+
+    // Admin Credentials as specified previously
+    if (user === '14298116' && pass === '14298116Je*') {
+        sessionStorage.setItem('isAdmin', 'true');
+        document.getElementById('loginOverlay').style.display = 'none';
+        loadAdminData();
+    } else {
+        if (errorMsg) errorMsg.style.display = 'block';
+    }
+}
+
+async function downloadCSV() {
+    try {
+        let clientsToExport = [];
+        if (selectedClientIds.size > 0) {
+            for (const id of selectedClientIds) {
+                const client = await db.getById(id);
+                if (client) clientsToExport.push(client);
+            }
+        } else {
+            clientsToExport = await db.getAll();
+        }
+
+        if (clientsToExport.length === 0) {
+            showToast("No hay datos para exportar.", "error");
+            return;
+        }
+
+        // Header
+        let csv = "Fecha,Nombre,Celular,Fijo,Ciudad,Direccion,Email,Productos,Estado\n";
+
+        // Rows
+        clientsToExport.forEach(c => {
+            const prods = getProductString(c).replace(/,/g, " |");
+            csv += `"${c.date || ''}","${c.fullName || ''}","${c.cellphone || ''}","${c.landline || ''}","${c.city || ''}","${c.address || ''}","${c.email || ''}","${prods}","${c.status || 'Pendiente'}"\n`;
+        });
+
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", `Spesfidem_Clientes_${new Date().toISOString().split('T')[0]}.csv`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } catch (e) {
+        console.error("Export failed:", e);
+    }
+}
+
+function printClients() {
+    const table = document.querySelector('table');
+    if (!table) return;
+
+    const selectionActive = selectedClientIds.size > 0;
+    if (selectionActive) {
+        table.classList.add('print-selection-active');
+    }
+
+    window.print();
+
+    if (selectionActive) {
+        table.classList.remove('print-selection-active');
+    }
+}
+
+function toggleFAQ(el) {
+    el.parentElement.classList.toggle('active');
+}
