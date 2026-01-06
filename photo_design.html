@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foto Diseño Inteligente | Spesfidem Aluminio</title>
+    <link rel="stylesheet" href="css/style.css?v=162">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@300;600;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #020617;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        .design-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .design-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .design-header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .design-description {
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .design-header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Sidebar Controls */
+        .controls-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            height: fit-content;
+        }
+
+        .control-group h3 {
+            font-size: 1rem;
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .upload-box {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            padding: 2rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-box:hover {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .upload-box input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .product-thumb {
+            aspect-ratio: 1;
+            border-radius: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .product-thumb:hover,
+        .product-thumb.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .product-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slider-control {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        /* Canvas Area */
+        .canvas-area {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 500px;
+        }
+
+        #designCanvas {
+            max-width: 100%;
+            max-height: 80vh;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            cursor: move;
+        }
+
+        .ai-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .actions-bar {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(2, 6, 23, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+            display: none;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="design-container">
+        <!-- Back Button -->
+        <a href="index.html#contacto"
+            style="align-self: flex-start; margin-bottom: 1rem; color: #94a3b8; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; transition: color 0.3s;">
+            <i class="fas fa-arrow-left"></i> Volver a Contacto
+        </a>
+
+        <header class="design-header">
+            <h1>Foto Diseño <span
+                    style="text-transform: uppercase; font-size: 1rem; vertical-align: super; background: #22c55e; color: #000; padding: 2px 8px; border-radius: 4px; font-weight: bold;">BETA</span>
+            </h1>
+            <p class="design-description">Sube una foto de tu espacio y utiliza nuestra Inteligencia de Diseño para
+                visualizar cómo quedarían nuestros productos.</p>
+        </header>
+
+        <div class="workspace-grid">
+            <!-- Sidebar -->
+            <aside class="controls-panel">
+                <!-- Step 1: Upload -->
+                <div class="control-group">
+                    <h3>1. Cargar Espacio (Foto)</h3>
+                    <div class="upload-box">
+                        <input type="file" id="imageInput" accept="image/*">
+                        <i class="fas fa-camera fa-2x" style="margin-bottom: 0.5rem; color: #cbd5e1;"></i>
+                        <p style="font-size: 0.9rem; color: #94a3b8;">Toca para subir foto</p>
+                    </div>
+                    <button id="deletePhotoBtn"
+                        style="width: 100%; margin-top: 0.5rem; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #ef4444; padding: 0.5rem; border-radius: 0.5rem; cursor: pointer; display: none;">
+                        <i class="fas fa-trash"></i> Eliminar Foto
+                    </button>
+                </div>
+
+                <!-- Step 2: Select Product -->
+                <div class="control-group">
+                    <h3>2. Seleccionar Producto</h3>
+                    <select id="categorySelect"
+                        style="width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 0.5rem; margin-bottom: 1rem;">
+                        <option value="ventanas">Ventanas</option>
+                        <option value="puertas">Puertas</option>
+                        <option value="banos">Divisiones de Baño</option>
+                        <option value="espejos">Espejos</option>
+                    </select>
+
+                    <div class="product-list" id="galleryList">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+
+                <!-- Step 3: Adjust -->
+                <div class="control-group">
+                    <h3>3. Ajuste Inteligente</h3>
+                    <label style="font-size: 0.8rem; color: #94a3b8;">Tamaño del Producto</label>
+                    <input type="range" class="slider-control" id="scaleControl" min="10" max="200" value="50">
+
+                    <label style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.8rem; display: block;">Transparencia
+                        (Simular Vidrio)</label>
+                    <input type="range" class="slider-control" id="opacityControl" min="30" max="100" value="95">
+                </div>
+
+                <button id="downloadBtn" class="btn-primary"
+                    style="width: 100%; text-align: center; justify-content: center; background: linear-gradient(135deg, #374151 0%, #9ca3af 45%, #f3f4f6 50%, #9ca3af 55%, #374151 100%) !important; color: #0f172a !important; font-weight: 800; border: 1px solid #cbd5e1 !important; box-shadow: 0 0 20px rgba(156, 163, 175, 0.3);">
+                    <i class="fas fa-download" style="margin-right: 8px;"></i> Guardar Diseño
+                </button>
+            </aside>
+
+            <!-- Canvas -->
+            <main class="canvas-area" id="canvasContainer">
+                <div class="ai-badge"><i class="fas fa-sparkles"></i> AI DESIGN</div>
+                <div class="loading-overlay" id="loading">
+                    <div class="loading-spinner"></div>
+                    <p style="margin-top: 1rem; color: #cbd5e1;">Procesando imagen...</p>
+                </div>
+                <p id="placeholderText" style="color: #64748b; text-align: center;">La visualización aparecerá
+                    aquí<br>cuando subas una foto.</p>
+                <canvas id="designCanvas"></canvas>
+            </main>
+        </div>
+    </div>
+
+    <!-- Logic -->
+    <script>
+        // Constants - In a real app these would come from the database/filesystem
+        const PRODUCTS = {
+            ventanas: [
+                'images/products/ventana_corrediza.jpg',
+                'images/products/ventana_proyectante.jpg',
+                'images/products/ventana_abatible.jpg',
+                'images/products/ventana_batiente.jpg'
+            ],
+            puertas: [
+                'images/products/puerta_principal.jpg'
+            ],
+            banos: [
+                'images/products/division_bano.jpg',
+                'images/products/vidrio_templado.jpg'
+            ],
+            espejos: [
+                'images/products/vidrio_templado.jpg', // Placeholder
+                'images/products/division_bano.jpg'    // Placeholder
+            ]
+        };
+
+        // DOM Elements
+        const imageInput = document.getElementById('imageInput');
+        const categorySelect = document.getElementById('categorySelect');
+        const galleryList = document.getElementById('galleryList');
+        const canvas = document.getElementById('designCanvas');
+        const ctx = canvas.getContext('2d');
+        const canvasContainer = document.getElementById('canvasContainer');
+        const scaleControl = document.getElementById('scaleControl');
+        const opacityControl = document.getElementById('opacityControl');
+        const blendToggle = document.getElementById('blendToggle');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const loading = document.getElementById('loading');
+        const placeholderText = document.getElementById('placeholderText');
+        const deletePhotoBtn = document.getElementById('deletePhotoBtn');
+
+        // State
+        let bgImage = null;
+        let productImg = null;
+        let productScale = 0.5;
+        let productOpacity = 0.95;
+        let useSmartBlend = false;
+        let productX = 0;
+        let productY = 0;
+        let isDragging = false;
+        let startX, startY;
+
+        // Init
+        window.addEventListener('load', () => {
+            renderGallery('ventanas');
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+        });
+
+        // Event Listeners
+        categorySelect.addEventListener('change', (e) => renderGallery(e.target.value));
+
+        imageInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) {
+                loading.style.display = 'flex';
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    bgImage = new Image();
+                    bgImage.onload = () => {
+                        placeholderText.style.display = 'none';
+                        deletePhotoBtn.style.display = 'block';
+                        fitImageToCanvas();
+                        centerProduct();
+                        draw();
+                        loading.style.display = 'none';
+                    };
+                    bgImage.src = event.target.result;
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+
+        deletePhotoBtn.addEventListener('click', () => {
+            bgImage = null;
+            imageInput.value = '';
+            placeholderText.style.display = 'block';
+            deletePhotoBtn.style.display = 'none';
+            resizeCanvas();
+            draw();
+        });
+
+        scaleControl.addEventListener('input', (e) => { productScale = e.target.value / 100; draw(); });
+        opacityControl.addEventListener('input', (e) => { productOpacity = e.target.value / 100; draw(); });
+
+        if (blendToggle) {
+            blendToggle.addEventListener('change', (e) => {
+                useSmartBlend = e.target.checked;
+                draw();
+            });
+        }
+
+        // Dragging Logic
+        canvas.addEventListener('mousedown', startDrag);
+        canvas.addEventListener('mousemove', drag);
+        canvas.addEventListener('mouseup', endDrag);
+        canvas.addEventListener('mouseleave', endDrag);
+
+        canvas.addEventListener('touchstart', startDrag);
+        canvas.addEventListener('touchmove', drag);
+        canvas.addEventListener('touchend', endDrag);
+
+        downloadBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'mi-diseno-spesfidem.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+
+        // Functions
+        function renderGallery(category) {
+            galleryList.innerHTML = '';
+            const images = PRODUCTS[category] || [];
+
+            if (images.length === 0) {
+                galleryList.innerHTML = '<p style="grid-column: 1/-1; color: #64748b; font-size: 0.8rem;">No hay imágenes en esta categoría.</p>';
+            }
+
+            images.forEach(src => {
+                const div = document.createElement('div');
+                div.className = 'product-thumb';
+                div.innerHTML = `<img src="${src}" alt="Producto">`;
+                div.onclick = () => selectProduct(src, div);
+                galleryList.appendChild(div);
+            });
+        }
+
+        function selectProduct(src, el) {
+            document.querySelectorAll('.product-thumb').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+
+            const img = new Image();
+            img.onload = () => {
+                productImg = img;
+                centerProduct();
+                draw();
+            };
+            img.src = src;
+        }
+
+        function resizeCanvas() {
+            const containerWidth = canvasContainer.clientWidth;
+            if (!bgImage) {
+                canvas.width = containerWidth - 40;
+                canvas.height = 500;
+            }
+        }
+
+        function fitImageToCanvas() {
+            const containerW = canvasContainer.clientWidth - 40;
+            const containerH = 600;
+            const ratio = Math.min(containerW / bgImage.width, containerH / bgImage.height);
+            canvas.width = bgImage.width * ratio;
+            canvas.height = bgImage.height * ratio;
+        }
+
+        function centerProduct() {
+            if (!productImg) return;
+            productX = (canvas.width / 2);
+            productY = (canvas.height / 2);
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.globalCompositeOperation = 'source-over'; // Reset
+
+            if (bgImage) {
+                ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+            }
+
+            if (productImg && bgImage) {
+                const w = productImg.width * productScale * (canvas.width / 1000);
+                const h = productImg.height * productScale * (canvas.width / 1000);
+
+                ctx.save();
+                ctx.globalAlpha = productOpacity;
+
+                if (useSmartBlend) {
+                    ctx.globalCompositeOperation = 'multiply'; // "AI" Blend
+                    // Adjust contrast slightly for better multiply effect?
+                    // ctx.filter = 'contrast(1.1)'; 
+                } else {
+                    ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+                    ctx.shadowBlur = 15;
+                }
+
+                ctx.drawImage(productImg, productX - w / 2, productY - h / 2, w, h);
+                ctx.restore();
+            }
+        }
+
+        function startDrag(e) {
+            isDragging = true;
+            const pos = getPos(e);
+            startX = pos.x;
+            startY = pos.y;
+        }
+
+        function drag(e) {
+            if (!isDragging || !productImg) return;
+            e.preventDefault();
+            const pos = getPos(e);
+            const dx = pos.x - startX;
+            const dy = pos.y - startY;
+            productX += dx;
+            productY += dy;
+            startX = pos.x;
+            startY = pos.y;
+            draw();
+        }
+
+        function endDrag() { isDragging = false; }
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return {
+                x: (clientX - rect.left) * (canvas.width / rect.width),
+                y: (clientY - rect.top) * (canvas.height / rect.height)
+            };
+        }
+
+    </script>
+</body>
+
+</html>

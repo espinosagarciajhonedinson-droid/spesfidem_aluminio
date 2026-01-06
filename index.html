@@ -18,7 +18,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://spesfidem.com">
 
-    <link rel="stylesheet" href="css/style.css?v=152">
+    <link rel="stylesheet" href="css/style.css?v=166">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -353,12 +353,37 @@
     </section>
 
     <!-- Contact & Register Section -->
-    <section id="contacto" style="padding: var(--section-pad); background: linear-gradient(to top, #0f172a, #1e293b);">
+    <section id="contacto" class="contact-section"
+        style="padding: var(--section-pad); background: linear-gradient(to top, rgba(15, 23, 42, 0.85), rgba(30, 41, 59, 0.85)), url('images/contact_bg.png'); background-size: cover; background-position: center;">
         <div class="nav-container" style="display: flex; gap: 4rem; flex-wrap: wrap;">
 
             <!-- Contact Info -->
             <div style="flex: 1; min-width: 300px;">
                 <h2 style="font-size: 2.5rem; margin-bottom: 2rem; color: white;">Contáctanos</h2>
+
+                <!-- Buttons Container (Moved Up) -->
+                <div class="contact-buttons-container">
+                    <a href="https://wa.me/573046291152" class="btn-primary btn-contact-action btn-whatsapp-action"
+                        style="background: linear-gradient(135deg, #064e3b 0%, #10b981 45%, #ecfdf5 50%, #10b981 55%, #064e3b 100%) !important; color: white !important; box-shadow: 0 0 25px rgba(16, 185, 129, 0.5); text-shadow: 0 1px 2px rgba(0,0,0,0.7); border: 1px solid #065f46 !important; font-weight: 800;">
+                        <i class="fab fa-whatsapp" style="margin-right: 8px;"></i> CONSULTA
+                    </a>
+                    <a href="simulator.html" class="btn-primary btn-contact-action btn-simulator-action"
+                        style="background: linear-gradient(135deg, #0c4a6e 0%, #0ea5e9 45%, #e0f2fe 50%, #0ea5e9 55%, #0c4a6e 100%) !important; color: white !important; box-shadow: 0 0 25px rgba(14, 165, 233, 0.5); text-shadow: 0 1px 2px rgba(0,0,0,0.7); border: 1px solid #075985 !important; font-weight: 800;">
+                        <i class="fas fa-calculator" style="margin-right: 8px;"></i> SIMULADOR
+                    </a>
+                    <a href="checkout.html" class="btn-primary btn-contact-action btn-payment-action"
+                        style="background: linear-gradient(135deg, #374151 0%, #9ca3af 45%, #f3f4f6 50%, #9ca3af 55%, #374151 100%) !important; color: #0f172a !important; font-weight: 800; border: 1px solid #cbd5e1 !important; box-shadow: 0 0 25px rgba(156, 163, 175, 0.4);">
+                        <i class="fas fa-lock" style="margin-right: 8px;"></i> PAGOS
+                    </a>
+                    <a href="pqr.html" class="btn-primary btn-contact-action btn-pqr-action"
+                        style="background: linear-gradient(135deg, #78350f 0%, #d97706 45%, #fef3c7 50%, #d97706 55%, #78350f 100%) !important; color: #fff !important; text-shadow: 0 1px 3px rgba(0,0,0,0.8); border: 1px solid #92400e !important; font-weight: 800; box-shadow: 0 0 25px rgba(217, 119, 6, 0.5);">
+                        <i class="fas fa-envelope-open-text" style="margin-right: 8px;"></i> PQR
+                    </a>
+                    <a href="photo_design.html" class="btn-primary btn-contact-action btn-design-action"
+                        style="background: linear-gradient(135deg, #4c1d95 0%, #8b5cf6 45%, #f5f3ff 50%, #8b5cf6 55%, #4c1d95 100%) !important; color: #fff !important; text-shadow: 0 1px 2px rgba(0,0,0,0.6); border: 1px solid #5b21b6 !important; font-weight: 800; box-shadow: 0 0 25px rgba(139, 92, 246, 0.5);">
+                        <i class="fas fa-magic" style="margin-right: 8px;"></i> FOTO DISEÑO
+                    </a>
+                </div>
                 <div style="font-size: 1.2rem; margin-bottom: 2rem;">
                     <p style="margin-bottom: 1.5rem;" class="high-contrast-text">
                         <i class="fas fa-phone-alt" style="color:var(--accent); margin-right:1rem;"></i>
@@ -379,66 +404,21 @@
                         <strong>Ibagué, Tolima</strong>
                     </p>
                 </div>
-
-                <!-- Moved Buttons from Hero -->
-                <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2.5rem;">
-                    <a href="https://wa.me/573046291152" class="btn-primary"
-                        style="background: #25d366; border: none; box-shadow: 0 0 30px rgba(37, 211, 102, 0.4);">
-                        <i class="fab fa-whatsapp" style="margin-right: 8px;"></i> CONSULTA DIRECTA
-                    </a>
-                    <a href="simulator.html" class="btn-primary"
-                        style="background: var(--accent); border: none; box-shadow: 0 0 30px var(--accent-glow);">
-                        <i class="fas fa-calculator" style="margin-right: 8px;"></i> SIMULADOR ÉLITE
-                    </a>
-                </div>
-
-
-                <!-- Restored Payment Methods -->
-                <div class="glass-panel" style="border: 2px solid var(--accent); background: rgba(56, 189, 248, 0.1);">
-                    <h3 style="margin-bottom: 1rem; color: white;">Pagos Seguros</h3>
-                    <p style="margin-bottom: 1.5rem; font-size: 1.1rem;" class="high-contrast-text">Aceptamos múltiples
-                        medios de pago:</p>
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center;">
-                        <a href="checkout.html?method=transferencia"
-                            style="text-decoration:none; color:inherit; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 1rem; transition: background 0.3s;"
-                            title="Nequi / DaviPlata">
-                            <i class="fas fa-mobile-alt fa-2x" style="color:var(--accent);"></i>
-                            <p style="font-size: 0.7rem; margin-top: 0.5rem;">Transferencia</p>
-                        </a>
-                        <a href="checkout.html?method=pse"
-                            style="text-decoration:none; color:inherit; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 1rem; transition: background 0.3s;"
-                            title="Bancos Nacionales">
-                            <i class="fas fa-university fa-2x" style="color:var(--accent);"></i>
-                            <p style="font-size: 0.7rem; margin-top: 0.5rem;">PSE / Bancos</p>
-                        </a>
-                        <a href="checkout.html?method=tarjeta"
-                            style="text-decoration:none; color:inherit; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 1rem; transition: background 0.3s;"
-                            title="Tarjetas de Crédito">
-                            <i class="fas fa-credit-card fa-2x" style="color:var(--accent);"></i>
-                            <p style="font-size: 0.7rem; margin-top: 0.5rem;">Visa/Master</p>
-                        </a>
-                    </div>
-                </div>
             </div>
-
-
-
         </div>
     </section>
 
     <!-- Testimonials Section -->
     <section id="testimonios" style="padding: var(--section-pad); background: rgba(2, 6, 23, 0.5);">
         <div class="nav-container">
-            <h2 class="section-title-elite">VOCES DEL ÉLITE</h2>
-            <p
-                style="text-align: center; color: var(--accent); margin-bottom: 5rem; font-weight: 700; letter-spacing: 5px;">
-                CONFIANZA RESPALDADA POR RESULTADOS</p>
+            <!-- Título Voces Elite removido -->
 
             <div class="testimonials-carousel">
                 <!-- Testimonio 1 -->
                 <div class="testimonial-card-premium" data-aos="fade-left">
                     <i class="fas fa-quote-left quote-icon-premium"></i>
-                    <p class="testimonial-text-premium">"La precisión en el montaje de las ventanas corredizas en mi
+                    <p class="testimonial-text-premium">"La precisión en el montaje de las ventanas corredizas
+                        en mi
                         oficina fue
                         impecable. El aislamiento acústico es sorprendente. Muy recomendados."</p>
                     <div class="testimonial-author-premium">
@@ -452,7 +432,8 @@
                 <!-- Testimonio 2 -->
                 <div class="testimonial-card-premium" data-aos="fade-left" data-aos-delay="100">
                     <i class="fas fa-quote-left quote-icon-premium"></i>
-                    <p class="testimonial-text-premium">"Las divisiones de baño en vidrio templado le dieron un toque
+                    <p class="testimonial-text-premium">"Las divisiones de baño en vidrio templado le dieron un
+                        toque
                         ultra
                         moderno a mi casa. El cumplimiento en el tiempo fue puntual y limpio."</p>
                     <div class="testimonial-author-premium">
@@ -466,7 +447,8 @@
                 <!-- Testimonio 3 -->
                 <div class="testimonial-card-premium" data-aos="fade-left" data-aos-delay="200">
                     <i class="fas fa-quote-left quote-icon-premium"></i>
-                    <p class="testimonial-text-premium">"Excelente servicio y asesoría técnica. Se nota el conocimiento
+                    <p class="testimonial-text-premium">"Excelente servicio y asesoría técnica. Se nota el
+                        conocimiento
                         profundo
                         en el manejo del aluminio de alta gama y perfiles pesados."</p>
                     <div class="testimonial-author-premium">
@@ -480,7 +462,8 @@
                 <!-- Testimonio 4 -->
                 <div class="testimonial-card-premium" data-aos="fade-left" data-aos-delay="300">
                     <i class="fas fa-quote-left quote-icon-premium"></i>
-                    <p class="testimonial-text-premium">"Instalamos fachadas flotantes con Spesfidem y el resultado
+                    <p class="testimonial-text-premium">"Instalamos fachadas flotantes con Spesfidem y el
+                        resultado
                         superó
                         nuestras expectativas. Estética impecable y soporte técnico continuo."</p>
                     <div class="testimonial-author-premium">
@@ -494,7 +477,8 @@
                 <!-- Testimonio 5 -->
                 <div class="testimonial-card-premium" data-aos="fade-left" data-aos-delay="400">
                     <i class="fas fa-quote-left quote-icon-premium"></i>
-                    <p class="testimonial-text-premium">"La durabilidad de sus acabados en pintura electrostática es
+                    <p class="testimonial-text-premium">"La durabilidad de sus acabados en pintura
+                        electrostática es
                         fenomenal.
                         Tres años después y las puertas lucen como nuevas."</p>
                     <div class="testimonial-author-premium">
@@ -508,7 +492,8 @@
                 <!-- Testimonio 6 -->
                 <div class="testimonial-card-premium" data-aos="fade-left" data-aos-delay="500">
                     <i class="fas fa-quote-left quote-icon-premium"></i>
-                    <p class="testimonial-text-premium">"Confío todos mis proyectos de vidrio templado a Jhon. Su
+                    <p class="testimonial-text-premium">"Confío todos mis proyectos de vidrio templado a Jhon.
+                        Su
                         puntualidad y
                         ojo para el detalle técnico son inigualables en Ibagué."</p>
                     <div class="testimonial-author-premium">
@@ -541,7 +526,8 @@
                         <i class="fas fa-chevron-down faq-icon-elite"></i>
                     </div>
                     <div class="faq-answer-elite">
-                        <p>Ofrecemos una garantía de hasta 5 años en la estructura de aluminio y 1 año en herrajes y
+                        <p>Ofrecemos una garantía de hasta 5 años en la estructura de aluminio y 1 año en
+                            herrajes y
                             sellado milimétrico. Calidad certificada.</p>
                     </div>
                 </div>
@@ -552,7 +538,8 @@
                         <i class="fas fa-chevron-down faq-icon-elite"></i>
                     </div>
                     <div class="faq-answer-elite">
-                        <p>Sí, realizamos visitas técnicas en Ibagué y alrededores para toma de medidas y asesoría
+                        <p>Sí, realizamos visitas técnicas en Ibagué y alrededores para toma de medidas y
+                            asesoría
                             especializada sin costo adicional.</p>
                     </div>
                 </div>
@@ -563,7 +550,8 @@
                         <i class="fas fa-chevron-down faq-icon-elite"></i>
                     </div>
                     <div class="faq-answer-elite">
-                        <p>Dependiendo de la magnitud del proyecto, una instalación estándar puede tardar entre 5 a 10
+                        <p>Dependiendo de la magnitud del proyecto, una instalación estándar puede tardar entre
+                            5 a 10
                             días hábiles tras la fabricación final.</p>
                     </div>
                 </div>
@@ -574,7 +562,8 @@
                         <i class="fas fa-chevron-down faq-icon-elite"></i>
                     </div>
                     <div class="faq-answer-elite">
-                        <p>Sí, ofrecemos servicios de mantenimiento preventivo y correctivo para renovar la vida útil de
+                        <p>Sí, ofrecemos servicios de mantenimiento preventivo y correctivo para renovar la vida
+                            útil de
                             sus ventanas y puertas existentes.</p>
                     </div>
                 </div>
@@ -582,43 +571,29 @@
         </div>
     </section>
 
-    <!-- Help Center Strip (Replaces PQR Form) -->
-    <section id="help-center"
-        style="padding: 4rem 2rem; background: #020617; border-top: 1px solid rgba(255,255,255,0.05); text-align: center;">
-        <div class="nav-container">
-            <h2 class="section-title-pqr" style="font-size: 1.8rem; margin-bottom: 1.5rem;">¿NECESITA REPORTAR ALGO?
-            </h2>
-            <p style="color: #94a3b8; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-                Su satisfacción es nuestra prioridad. Hemos habilitado un canal exclusivo para escuchar sus sugerencias
-                y reclamos.
-            </p>
-            <a href="pqr.html" class="btn-primary"
-                style="display: inline-flex; width: auto; background: transparent; border: 1px solid #facc15; color: #facc15;">
-                <i class="fas fa-envelope-open-text"></i> IR A SUGERENCIAS Y RECLAMOS
-            </a>
-        </div>
-    </section>
+
 
     <!-- Map Section -->
-    <section id="ubicacion" style="padding: var(--section-pad); background: rgba(2, 6, 23, 0.3);">
-        <div class="nav-container">
-            <h2 class="section-title">NUESTRA UBICACIÓN</h2>
-            <div class="glass-panel"
-                style="padding:0; overflow:hidden; border-radius:1.5rem; height:450px; border: 1px solid var(--accent-glow);">
-                <div
-                    style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1200') center/cover;">
-                    <div
-                        style="background:rgba(2, 6, 23, 0.85); padding:2rem; border-radius:1rem; text-align:center; backdrop-filter:blur(10px); border:1px solid var(--accent);">
-                        <i class="fas fa-map-marker-alt fa-3x" style="color:var(--accent); margin-bottom:1rem;"></i>
-                        <h4 style="font-size:1.5rem; margin-bottom:0.5rem;">Urbanización La Castilla - Ibagué</h4>
-                        <p style="color:#cbd5e1;">Atención personalizada en el sector de la Urbanización La Castilla.
-                        </p>
-                        <a href="https://www.google.com/maps/dir/?api=1&destination=Urbanizacion+La+Castilla+Ibagu%C3%A9+Spesfidem+Aluminio"
-                            target="_blank" class="btn-primary"
-                            style="margin-top:1.5rem; padding:0.6rem 1.5rem; font-size:0.9rem;">Cómo Llegar (Google
-                            Maps)</a>
-                    </div>
-                </div>
+    <!-- Map Section -->
+    <section id="ubicacion"
+        style="padding: var(--section-pad); background: linear-gradient(rgba(2, 6, 23, 0.4), rgba(2, 6, 23, 0.5)), url('images/hero_glass_mansion.png'); background-size: cover; background-position: center; min-height: 500px; display: flex; align-items: center;">
+        <div class="nav-container" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <h2 class="section-title" style="margin-bottom: 3rem; text-shadow: 0 4px 8px rgba(0,0,0,0.8);">
+                NUESTRA
+                UBICACIÓN</h2>
+
+            <div
+                style="background:rgba(2, 6, 23, 0.6); padding:3rem; border-radius:2rem; text-align:center; backdrop-filter:blur(5px); border:1px solid rgba(255, 255, 255, 0.1); max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                <i class="fas fa-map-marker-alt fa-3x"
+                    style="color:var(--accent); margin-bottom:1.5rem; filter: drop-shadow(0 0 10px var(--accent));"></i>
+                <h4 style="font-size:1.8rem; margin-bottom:1rem; color: white;">Urbanización La Castilla</h4>
+                <p style="color:#cbd5e1; font-size: 1.1rem; margin-bottom: 2rem;">Atención personalizada en
+                    Ibagué</p>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=Urbanizacion+La+Castilla+Ibagu%C3%A9+Spesfidem+Aluminio"
+                    target="_blank" class="btn-primary"
+                    style="padding:0.8rem 2rem; font-size:1rem; background: linear-gradient(135deg, #0c4a6e 0%, #0ea5e9 45%, #e0f2fe 50%, #0ea5e9 55%, #0c4a6e 100%) !important; box-shadow: 0 0 25px rgba(14, 165, 233, 0.5); border: 1px solid #075985 !important; font-weight: 800; color: white !important;">
+                    <i class="fas fa-location-arrow" style="margin-right: 8px;"></i> Cómo Llegar
+                </a>
             </div>
         </div>
     </section>
@@ -654,7 +629,8 @@
             </a>
 
             <!-- Kwai -->
-            <a href="#" class="crystal-card" style="--brand-color: #ff5000; --glow-color: #ff8c00;">
+            <a href="https://www.kwai.com/@spesfidemaluminio" target="_blank" class="crystal-card"
+                style="--brand-color: #ff5000; --glow-color: #ff8c00;">
                 <div class="crystal-icon-wrap">
                     <i class="fas fa-play-circle"></i>
                 </div>
