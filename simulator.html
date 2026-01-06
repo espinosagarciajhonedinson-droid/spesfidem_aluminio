@@ -107,7 +107,9 @@
                                     <option value="Puerta de Baño">Puerta de Baño</option>
                                 </optgroup>
                                 <optgroup label="Especialidades">
-                                    <option value="División de Baño">División de Baño</option>
+                                    <option value="División de Baño (Vidrio Templado)">División de Baño (Vidrio
+                                        Templado)</option>
+                                    <option value="División de Baño (Acrílico)">División de Baño (Acrílico)</option>
                                     <option value="Vidrio Templado">Vidrio Templado</option>
                                     <option value="Espejos">Espejos</option>
                                 </optgroup>
@@ -124,14 +126,27 @@
                                 <option value="Blanco">Blanco</option>
                                 <option value="Champagne">Champagne</option>
                             </select>
-                            <input type="text" class="form-control size-slot" placeholder="Talla (An x Al)"
-                                style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 10px;">
+                            <div style="display: flex; gap: 0.5rem;">
+                                <input type="number" class="form-control width-slot" placeholder="Ancho (m)" step="0.01"
+                                    style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; width: 50%;">
+                                <input type="number" class="form-control height-slot" placeholder="Alto (m)" step="0.01"
+                                    style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; width: 50%;">
+                            </div>
                             <select class="form-control glass-slot"
                                 style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 10px;">
                                 <option value="" disabled selected>Vidrio...</option>
-                                <optgroup label="Monolítico">
-                                    <option value="Monolítico 4mm Incoloro">4mm Incoloro</option>
-                                    <option value="Monolítico 5mm Incoloro">5mm Incoloro</option>
+                                <optgroup label="Monolítico (Crudo)">
+                                    <option value="Claro (4mm)">Claro (4mm)</option>
+                                    <option value="Claro (5mm)">Claro (5mm)</option>
+                                    <option value="Bronce">Bronce</option>
+                                    <option value="Gris (Humo)">Gris (Humo)</option>
+                                    <option value="Azul">Azul</option>
+                                    <option value="Verde">Verde</option>
+                                </optgroup>
+                                <optgroup label="Reflectivo / Especial">
+                                    <option value="Bronce Reflectivo">Bronce Reflectivo</option>
+                                    <option value="Azul Reflectivo">Azul Reflectivo</option>
+                                    <option value="Esmeralizado (Sandblasted)">Esmeralizado</option>
                                 </optgroup>
                                 <optgroup label="Templado">
                                     <option value="Templado 6mm Incoloro">6mm Incoloro</option>
@@ -144,6 +159,24 @@
                             </select>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Payment Plan Selection -->
+            <div
+                style="margin-top: 2rem; background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1.5rem; border: 1px solid rgba(255,255,255,0.1);">
+                <h3 style="color: white; margin-bottom: 1rem; font-family: 'Outfit';">Plan de Pago Preferido</h3>
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; color: #cbd5e1; cursor: pointer;">
+                        <input type="radio" name="paymentPlan" value="75-25" checked
+                            style="accent-color: var(--accent); transform: scale(1.2);">
+                        <span><strong style="color: var(--accent);">75% Anticipo</strong> - 25% Contra Entrega</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; color: #cbd5e1; cursor: pointer;">
+                        <input type="radio" name="paymentPlan" value="100"
+                            style="accent-color: var(--accent); transform: scale(1.2);">
+                        <span><strong style="color: #4ade80;">100% Pago Total</strong> (Prioridad en Producción)</span>
+                    </label>
                 </div>
             </div>
 

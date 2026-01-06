@@ -222,7 +222,8 @@ function initSimulatorSlots(container) {
             <option value="Puerta de Baño">Puerta de Baño</option>
         </optgroup>
         <optgroup label="Especialidades">
-            <option value="División de Baño">División de Baño</option>
+            <option value="División de Baño (Vidrio Templado)">División de Baño (Vidrio Templado)</option>
+            <option value="División de Baño (Acrílico)">División de Baño (Acrílico)</option>
             <option value="Vidrio Templado">Vidrio Templado</option>
             <option value="Espejos">Espejos</option>
         </optgroup>
@@ -252,12 +253,24 @@ function initSimulatorSlots(container) {
                     <option value="Blanco">Blanco</option>
                     <option value="Champagne">Champagne</option>
                 </select>
-                <input type="text" class="form-control size-slot" placeholder="Talla" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                <div style="display: flex; gap: 0.5rem;">
+                    <input type="number" class="form-control width-slot" placeholder="Ancho (m)" step="0.01" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); width: 50%;">
+                    <input type="number" class="form-control height-slot" placeholder="Alto (m)" step="0.01" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); width: 50%;">
+                </div>
                 <select class="form-control glass-slot" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
                     <option value="">Vidrio...</option>
-                    <optgroup label="Monolítico">
-                        <option value="Monolítico 4mm Incoloro">4mm Incoloro</option>
-                        <option value="Monolítico 5mm Incoloro">5mm Incoloro</option>
+                    <optgroup label="Monolítico (Crudo)">
+                        <option value="Claro (4mm)">Claro (4mm)</option>
+                        <option value="Claro (5mm)">Claro (5mm)</option>
+                        <option value="Bronce">Bronce</option>
+                        <option value="Gris (Humo)">Gris (Humo)</option>
+                        <option value="Azul">Azul</option>
+                        <option value="Verde">Verde</option>
+                    </optgroup>
+                    <optgroup label="Reflectivo / Especial">
+                        <option value="Bronce Reflectivo">Bronce Reflectivo</option>
+                        <option value="Azul Reflectivo">Azul Reflectivo</option>
+                        <option value="Esmeralizado (Sandblasted)">Esmeralizado</option>
                     </optgroup>
                     <optgroup label="Templado">
                         <option value="Templado 6mm Incoloro">6mm Incoloro</option>
@@ -308,6 +321,10 @@ function collectFormData(isSimulation = false) {
     const email = document.getElementById('email').value || '';
     const landline = '';
 
+    // Payment Plan
+    const paymentPlanInput = document.querySelector('input[name="paymentPlan"]:checked');
+    const paymentPlan = paymentPlanInput ? paymentPlanInput.value : '75-25';
+
     // If registering, we need actual data
     if (!isSimulation) {
         if (!document.getElementById('fullName').value || !cellphone || !city) {
@@ -320,7 +337,6 @@ function collectFormData(isSimulation = false) {
     const prodSlots = document.querySelectorAll('.product-slot');
     const qtySlots = document.querySelectorAll('.quantity-slot');
     const colorSlots = document.querySelectorAll('.color-slot');
-    const sizeSlots = document.querySelectorAll('.size-slot');
     const glassSlots = document.querySelectorAll('.glass-slot');
 
     prodSlots.forEach((slot, i) => {
@@ -334,11 +350,15 @@ function collectFormData(isSimulation = false) {
             const unitPrice = basePrice + profileMarkup + glassMarkup;
             const total = unitPrice * qty;
 
+            const width = document.querySelectorAll('.width-slot')[i].value;
+            const height = document.querySelectorAll('.height-slot')[i].value;
+            const sizeString = (width && height) ? `${width}m x ${height}m` : 'N/A';
+
             items.push({
                 product: prod,
                 quantity: qty,
                 color: colorSlots[i].value,
-                size: sizeSlots[i].value || 'N/A',
+                size: sizeString,
                 glass: glassSlots[i].value,
                 unitPrice: unitPrice,
                 total: total
@@ -361,6 +381,7 @@ function collectFormData(isSimulation = false) {
         product: items[0].product,
         quantity: items[0].quantity,
         items: items,
+        paymentPlan: paymentPlan,
         grandTotal: items.reduce((acc, item) => acc + item.total, 0)
     };
 }
@@ -379,7 +400,9 @@ function getBasePrice(product) {
         'Puerta Plegable': 1500000,
         'Puerta de Baño': 550000,
         // Otros
-        'División de Baño': 650000,
+        'División de Baño': 650000, // Legacy fallback
+        'División de Baño (Vidrio Templado)': 650000,
+        'División de Baño (Acrílico)': 580000, // Slightly cheaper base
         'Vidrio Templado': 180000,
         'Espejos': 140000,
         'Fachada Flotante': 2500000,
@@ -420,9 +443,15 @@ function getGlassMarkup(glassSpec) {
     if (glassSpec.includes('Espejo')) baseMarkup = Math.max(baseMarkup, 100000);
 
     // Tones
-    if (glassSpec.includes('Bronce')) baseMarkup += 15000;
-    if (glassSpec.includes('Gris')) baseMarkup += 15000;
-    if (glassSpec.includes('Sandblasting')) baseMarkup += 45000;
+    // Standard Colors
+    if (glassSpec.includes('Bronce') && !glassSpec.includes('Reflectivo')) baseMarkup += 15000;
+    if (glassSpec.includes('Gris') || glassSpec.includes('Humo')) baseMarkup += 15000;
+    if (glassSpec.includes('Azul') && !glassSpec.includes('Reflectivo')) baseMarkup += 15000;
+    if (glassSpec.includes('Verde')) baseMarkup += 15000;
+
+    // Specialties
+    if (glassSpec.includes('Reflectivo')) baseMarkup += 55000;
+    if (glassSpec.includes('Esmeralizado') || glassSpec.includes('Sandblasted')) baseMarkup += 45000;
 
     return baseMarkup;
 }
@@ -474,7 +503,20 @@ async function loadAdminData() {
                 <td><div style="font-weight:600; color:var(--accent); font-size:0.85rem;">${getProductString(client)}</div></td>
                 <td>${client.email}</td>
                 <td style="max-width:200px;">${client.address}</td>
-                <td style="font-weight:700; color:#059669; font-size:1rem;">$${(client.grandTotal || 0).toLocaleString()}</td>
+                <td>
+                    <div style="font-weight:700; color:#059669; font-size:1rem;">$${(client.grandTotal || 0).toLocaleString()}</div>
+                    ${client.paymentPlan === '75-25' ?
+                    `<div style="font-size:0.75rem; color:#64748b; margin-top:2px;">
+                            75%: $${Math.round((client.grandTotal || 0) * 0.75).toLocaleString()}<br>
+                            25%: $${Math.round((client.grandTotal || 0) * 0.25).toLocaleString()}
+                         </div>`
+                    : '<div style="font-size:0.75rem; color:#16a34a; font-weight:600;">Pago 100%</div>'}
+                </td>
+                <td>
+                    ${client.paymentPlan === '100' ?
+                    '<span style="background:#dcfce7; color:#166534; padding:2px 8px; border-radius:4px; font-weight:600; font-size:0.8rem;">100% Total</span>' :
+                    '<span style="background:#e0e7ff; color:#3730a3; padding:2px 8px; border-radius:4px; font-weight:600; font-size:0.8rem;">75% / 25%</span>'}
+                </td>
                 <td><span class="status-badge status-${(client.deliveryStatus || 'Pendiente').toLowerCase()}">${client.deliveryStatus || 'Pendiente'}</span></td>
                 <td><span class="status-badge status-${(client.paymentStatus || 'Cancelado').toLowerCase()}">${client.paymentStatus || 'Cancelado'}</span></td>
                 <td style="display:flex; gap:0.5rem;">
@@ -652,6 +694,7 @@ async function openEditModal(id) {
     document.getElementById('editEmail').value = client.email;
     document.getElementById('editDeliveryStatus').value = client.deliveryStatus || 'Pendiente';
     document.getElementById('editPaymentStatus').value = client.paymentStatus || 'Cancelado';
+    document.getElementById('editPaymentPlan').value = client.paymentPlan || '75-25';
 
     const container = document.getElementById('editProductSlots');
     if (container) {
@@ -672,7 +715,8 @@ async function openEditModal(id) {
                 <option value="Puerta de Baño">Puerta de Baño</option>
             </optgroup>
             <optgroup label="Especialidades">
-                <option value="División de Baño">División de Baño</option>
+                <option value="División de Baño (Vidrio Templado)">División de Baño (Vidrio Templado)</option>
+                <option value="División de Baño (Acrílico)">División de Baño (Acrílico)</option>
                 <option value="Vidrio Templado">Vidrio Templado</option>
                 <option value="Espejos">Espejos</option>
                 <option value="Fachada Flotante">Fachada Flotante</option>
@@ -768,6 +812,7 @@ async function saveEditClient(e) {
     client.email = document.getElementById('editEmail').value;
     client.deliveryStatus = document.getElementById('editDeliveryStatus').value;
     client.paymentStatus = document.getElementById('editPaymentStatus').value;
+    client.paymentPlan = document.getElementById('editPaymentPlan').value;
 
     const items = [];
     const pSlots = document.querySelectorAll('.edit-product-slot');

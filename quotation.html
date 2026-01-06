@@ -122,6 +122,8 @@
         <div class="total-row">
             Subtotal: <span id="grandTotal" style="margin-left: 1rem;"></span> COP
         </div>
+        <!-- Payment Breakdown Container -->
+        <div id="paymentBreakdown" style="border-bottom: 2px solid #e2e8f0; padding-bottom: 1rem;"></div>
 
         <div
             style="margin-top: 2rem; border-top: 1px solid #e2e8f0; padding-top: 1.5rem; color: #64748b; font-size: 0.85rem;">
@@ -259,6 +261,35 @@
             }
 
             document.getElementById('grandTotal').textContent = '$' + (data.grandTotal || 0).toLocaleString();
+
+            // Payment Breakdown Logic
+            const total = data.grandTotal || 0;
+            const breakdownContainer = document.getElementById('paymentBreakdown');
+            const plan = data.paymentPlan || '75-25';
+
+            if (breakdownContainer) {
+                if (plan === '75-25') {
+                    const advance = Math.round(total * 0.75);
+                    const balance = Math.round(total * 0.25);
+                    breakdownContainer.innerHTML = `
+                        <div style="display:flex; justify-content:flex-end; padding:0.5rem 1.5rem; color:#64748b;">
+                            <span style="margin-right:1rem;">Anticipo Sugerido (75%):</span>
+                            <span style="width:120px; text-align:right;">$${advance.toLocaleString()}</span>
+                        </div>
+                        <div style="display:flex; justify-content:flex-end; padding:0.5rem 1.5rem; font-weight:700; color:#0f172a;">
+                            <span style="margin-right:1rem;">Saldo Contra Entrega (25%):</span>
+                            <span style="width:120px; text-align:right;">$${balance.toLocaleString()}</span>
+                        </div>
+                    `;
+                } else if (plan === '100') {
+                    breakdownContainer.innerHTML = `
+                        <div style="display:flex; justify-content:flex-end; padding:0.5rem 1.5rem; color:#16a34a; font-weight:700;">
+                            <span style="margin-right:1rem;">PAGO TOTAL (100%):</span>
+                            <span style="width:120px; text-align:right;">$${total.toLocaleString()}</span>
+                        </div>
+                    `;
+                }
+            }
         });
 
         async function searchExistingClient() {

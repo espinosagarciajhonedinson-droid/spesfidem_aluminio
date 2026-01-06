@@ -50,5 +50,32 @@
         ],
         "grandTotal": 2280000,
         "idCard": "14298116"
+    },
+    {
+        "id": 1767715298095,
+        "date": "6/1/2026",
+        "fullName": "jhon espinosa",
+        "cellphone": "3232045129",
+        "landline": "",
+        "city": "ibague",
+        "address": "11-00",
+        "email": "fucad4316@hotmail.com",
+        "status": "Pendiente",
+        "product": "Ventana Proyectante",
+        "quantity": 1,
+        "items": [
+            {
+                "product": "Ventana Proyectante",
+                "quantity": 1,
+                "color": "Natural",
+                "size": "N/A",
+                "glass": "",
+                "unitPrice": 450000,
+                "total": 450000
+            }
+        ],
+        "paymentPlan": "75-25",
+        "grandTotal": 450000,
+        "idCard": "14298116"
     }
 ]
