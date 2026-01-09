@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SISTEMA DE CORTES - SPESFIDEM ALUMINIO</title>
+    <!-- SheetJS with Formula Support -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --excel-border: #000;
+            --excel-orange: #f6b26b;
+            --excel-red: #cc0000;
+            --excel-yellow: #f1c232;
+            --excel-blue: #d9e3f0;
+        }
+
+        body {
+            font-family: 'Calibri', 'Arial', sans-serif;
+            margin: 0;
+            background: #fff;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            color: #000;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 320px;
+            background: #0f172a;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            border-right: 2px solid #3b82f6;
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            background: #1e293b;
+            border-bottom: 2px solid #3b82f6;
+        }
+
+        .sidebar-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: #3b82f6;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: none;
+            background: #334155;
+            color: white;
+            margin-top: 15px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .system-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .system-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #1e293b;
+            font-size: 0.85rem;
+            transition: 0.2s;
+            border-radius: 4px;
+            color: #cbd5e1;
+        }
+
+        .system-item:hover {
+            background: #334155;
+            color: white;
+        }
+
+        .system-item.active {
+            background: #3b82f6;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Main */
+        .main {
+            flex: 1;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+        }
+
+        .toolbar {
+            padding: 12px 40px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            background: #fff;
+            font-weight: bold;
+            text-decoration: none;
+            color: #000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .btn-green {
+            background: #1d6f42;
+            color: white;
+            border-color: #175a35;
+        }
+
+        /* Excel Table Structure */
+        .sheet-area {
+            padding: 40px;
+            margin: 0 auto;
+            width: fit-content;
+            min-width: 900px;
+        }
+
+        .excel-table {
+            border-collapse: collapse;
+            border: 2.5px solid #000;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .excel-table td {
+            border: 1px solid #000;
+            padding: 5px 12px;
+            font-size: 14px;
+            height: 26px;
+            color: #000;
+        }
+
+        .title-row {
+            color: var(--excel-red);
+            font-weight: bold;
+            font-size: 22px;
+            text-transform: uppercase;
+            text-align: center;
+            height: 50px;
+            background: #fff;
+        }
+
+        .label-cell {
+            background: var(--excel-orange);
+            font-weight: bold;
+            width: 180px;
+            text-transform: uppercase;
+            font-size: 13px;
+        }
+
+        .input-cell {
+            background: var(--excel-yellow);
+            font-weight: bold;
+            width: 150px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .header-row {
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+            background: #fff;
+            height: 35px;
+        }
+
+        .group-label {
+            font-weight: bold;
+            text-align: center;
+            vertical-align: middle;
+            background: #fff;
+            font-size: 14px;
+        }
+
+        .val-cell {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .measure-val {
+            font-size: 18px;
+            font-weight: 900;
+            color: #000;
+        }
+
+        .glass-blue-header {
+            background: var(--excel-blue);
+            color: #3b82f6;
+            font-weight: bold;
+            text-align: center;
+            font-size: 11px;
+            padding: 2px !important;
+        }
+
+        input.cell-input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            font-size: inherit;
+            font-weight: inherit;
+            outline: none;
+            text-align: inherit;
+            color: inherit;
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #0f172a;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(59, 130, 246, 0.1);
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media print {
+
+            .sidebar,
+            .toolbar {
+                display: none !important;
+            }
+
+            .main {
+                overflow: visible;
+            }
+
+            .sheet-area {
+                padding: 0;
+            }
+
+            .excel-table {
+                border-width: 3px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="loader">
+        <div class="spinner"></div>
+        <p>SINCRONIZANDO CALCULADORA MAESTRA...</p>
+    </div>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>Sistemas Técnicos</h3>
+            <input type="text" class="search-box" id="search" placeholder="Buscar por nombre..."
+                oninput="filterSystems()">
+        </div>
+        <div class="system-list" id="sys-list"></div>
+    </div>
+
+    <div class="main">
+        <div class="toolbar">
+            <a href="admin.html" class="btn"><i class="fas fa-arrow-left"></i> VOLVER</a>
+            <h3 id="top-name" style="margin:0; text-transform:uppercase;">Orden de Producción</h3>
+            <button class="btn btn-green" onclick="window.print()"><i class="fas fa-print"></i> IMPRIMIR CORTES</button>
+        </div>
+
+        <div class="sheet-area">
+            <table class="excel-table">
+                <tr>
+                    <td colspan="6" class="title-row" id="lbl-title">CARGANDO...</td>
+                </tr>
+                <tr>
+                    <td class="label-cell">ALTURA TOTAL</td>
+                    <td class="input-cell"><input type="number" id="inp-h" class="cell-input" step="0.1"
+                            oninput="runCalculation()"></td>
+                    <td colspan="4" style="font-weight: bold;">CENTIMETROS</td>
+                </tr>
+                <tr>
+                    <td class="label-cell">ANCHO TOTAL</td>
+                    <td class="input-cell"><input type="number" id="inp-w" class="cell-input" step="0.1"
+                            oninput="runCalculation()"></td>
+                    <td colspan="4" style="font-weight: bold;">CENTIMETROS</td>
+                </tr>
+                <tr>
+                    <td class="label-cell">CANTIDAD</td>
+                    <td class="input-cell"><input type="number" id="inp-qty" class="cell-input" value="1"
+                            oninput="runCalculation()"></td>
+                    <td colspan="4">UNIDADES A FABRICAR</td>
+                </tr>
+                <tr>
+                    <td class="label-cell">REF. ALUMINIO</td>
+                    <td colspan="5" id="lbl-ref-alu" style="font-weight:bold;">-</td>
+                </tr>
+                <tr>
+                    <td class="label-cell">REF. VIDRIO</td>
+                    <td colspan="5" id="lbl-ref-vid" style="font-weight:bold;">-</td>
+                </tr>
+
+                <tr class="header-row">
+                    <td style="width: 280px;">DESCRIPCION</td>
+                    <td style="width: 120px;">REF.</td>
+                    <td style="width: 250px;">MEDIDAS EN CENTIMETROS</td>
+                    <td style="width: 80px;">CANT.</td>
+                    <td style="width: 120px;">ANGULO</td>
+                    <td style="display:none">DUMMY</td>
+                </tr>
+                <tbody id="table-body"></tbody>
+
+                <tr>
+                    <td colspan="6" style="border:none; height:20px;"></td>
+                </tr>
+                <tr>
+                    <td class="label-cell" style="background:#f5f5f5">FECHA ORDEN</td>
+                    <td colspan="2"><input type="text" id="date-orden" class="cell-input"></td>
+                    <td class="label-cell" style="background:#f5f5f5">FECHA ENTREGA</td>
+                    <td colspan="2"><input type="text" class="cell-input"></td>
+                </tr>
+                <tr>
+                    <td class="label-cell" style="background:#f5f5f5; height:60px;">OBSERVACIONES</td>
+                    <td colspan="3"><textarea class="cell-input"
+                            style="height:100%; border:none; resize:none; padding:5px;"></textarea></td>
+                    <td class="label-cell" style="background:#f5f5f5">ENCARGADO</td>
+                    <td><input type="text" class="cell-input"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let rawSystems = [];
+        let currentActiveIdx = -1;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            document.getElementById('date-orden').value = new Date().toLocaleDateString('es-ES');
+            await initExcelEngine();
+            document.getElementById('loader').style.display = 'none';
+        });
+
+        async function initExcelEngine() {
+            try {
+                const resp = await fetch('assets/documents/tabla_descuentos.xlsx?v=' + Date.now());
+                const data = await resp.arrayBuffer();
+                const wb = XLSX.read(new Uint8Array(data), { type: 'array', cellFormula: true });
+
+                wb.SheetNames.forEach(sheetName => {
+                    const ws = wb.Sheets[sheetName];
+                    const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+                    if (rows.length < 5) return;
+
+                    const sys = {
+                        name: (rows[1] && rows[1].find(c => c && c.toString().trim() !== "") ? rows[1].find(c => c && c.toString().trim() !== "") : sheetName).toString(),
+                        hRef: null, wRef: null,
+                        hBase: 0, wBase: 0,
+                        refAlu: (rows[5] && rows[5][2] ? rows[5][2] : '-').toString(),
+                        refVid: (rows[6] && rows[6][2] ? rows[6][2] : '-').toString(),
+                        cells: {}, // Address -> { val, formula }
+                        materialRows: [] // List of row indices to display
+                    };
+
+                    // Store all cells
+                    Object.keys(ws).forEach(addr => {
+                        if (addr[0] === '!') return;
+                        const cell = ws[addr];
+                        sys.cells[addr] = {
+                            val: cell.v || 0,
+                            formula: cell.f || null
+                        };
+                    });
+
+                    // Detect Height/Width references (usually row 3/4)
+                    for (let r = 0; r < 8; r++) {
+                        (rows[r] || []).forEach((cVal, c) => {
+                            const txt = cVal ? cVal.toString().toUpperCase() : "";
+                            if (txt.includes("ALTURA")) {
+                                sys.hRef = XLSX.utils.encode_cell({ r: r, c: c + 1 });
+                                sys.hBase = parseFloat(rows[r][c + 1]) || 0;
+                            } else if (txt.includes("ANCHO")) {
+                                sys.wRef = XLSX.utils.encode_cell({ r: r, c: c + 1 });
+                                sys.wBase = parseFloat(rows[r][c + 1]) || 0;
+                            }
+                        });
+                    }
+
+                    // Fallbacks
+                    if (!sys.hRef) sys.hRef = "D3";
+                    if (!sys.wRef) sys.wRef = "D4";
+
+                    // Map Material Rows from row 9+
+                    let lastGroup = "";
+                    for (let i = 8; i < rows.length; i++) {
+                        const rData = rows[i];
+                        if (!rData[1] && !rData[0]) continue;
+
+                        if (rData[0] && rData[0].toString().trim() !== "" && isNaN(parseFloat(rData[0]))) {
+                            lastGroup = rData[0].toString().trim();
+                        }
+
+                        const m = {
+                            group: lastGroup,
+                            desc: (rData[1] || "").toString(),
+                            ref: (rData[2] || "-").toString(),
+                            addr1: XLSX.utils.encode_cell({ r: i, c: 3 }), // Column D
+                            addr2: XLSX.utils.encode_cell({ r: i, c: 4 }), // Column E
+                            cant: rData[5] || rData[6] || "1",
+                            corte: (rData[7] || rData[6] || "90").toString(),
+                            isGlass: lastGroup.toUpperCase().includes("VIDRIO") || (rData[1] && rData[1].toString().toUpperCase().includes("VIDRIO"))
+                        };
+
+                        // For glass, if current row has 0 values, maybe look at next row
+                        if (m.isGlass && !ws[m.addr1] && !ws[m.addr2]) {
+                            const nextRowAddr1 = XLSX.utils.encode_cell({ r: i + 1, c: 3 });
+                            const nextRowAddr2 = XLSX.utils.encode_cell({ r: i + 1, c: 4 });
+                            if (ws[nextRowAddr1] || ws[nextRowAddr2]) {
+                                m.addr1 = nextRowAddr1;
+                                m.addr2 = nextRowAddr2;
+                            }
+                        }
+
+                        sys.materialRows.push(m);
+                    }
+                    rawSystems.push(sys);
+                });
+
+                renderSidebar();
+                if (rawSystems.length > 0) selectIdx(0);
+
+            } catch (e) {
+                console.error(e);
+                alert("Error cargando calculadora maestra: " + e.message);
+            }
+        }
+
+        function renderSidebar() {
+            const list = document.getElementById('sys-list');
+            list.innerHTML = rawSystems.map((s, i) => `<div class="system-item" id="sys-li-${i}" onclick="selectIdx(${i})">${s.name}</div>`).join('');
+        }
+
+        function filterSystems() {
+            const q = document.getElementById('search').value.toLowerCase();
+            document.querySelectorAll('.system-item').forEach((li, i) => {
+                li.style.display = rawSystems[i].name.toLowerCase().includes(q) ? 'block' : 'none';
+            });
+        }
+
+        function selectIdx(i) {
+            document.querySelectorAll('.system-item').forEach(li => li.classList.remove('active'));
+            document.getElementById(`sys-li-${i}`).classList.add('active');
+            currentActiveIdx = i;
+            const s = rawSystems[i];
+            document.getElementById('lbl-title').innerText = s.name;
+            document.getElementById('top-name').innerText = "PRODUCCIÓN: " + s.name;
+            document.getElementById('inp-h').value = s.hBase;
+            document.getElementById('inp-w').value = s.wBase;
+            document.getElementById('lbl-ref-alu').innerText = s.refAlu;
+            document.getElementById('lbl-ref-vid').innerText = s.refVid;
+            runCalculation();
+        }
+
+        // Dependency-resolving calculator
+        function runCalculation() {
+            if (currentActiveIdx === -1) return;
+            const hVal = parseFloat(document.getElementById('inp-h').value) || 0;
+            const wVal = parseFloat(document.getElementById('inp-w').value) || 0;
+            const s = rawSystems[currentActiveIdx];
+
+            // Deep copy of cell states for this calculation
+            const state = {};
+            Object.keys(s.cells).forEach(addr => {
+                state[addr] = { ...s.cells[addr] };
+            });
+
+            // Set inputs
+            if (state[s.hRef]) state[s.hRef].val = hVal;
+            if (state[s.wRef]) state[s.wRef].val = wVal;
+
+            // Iterate to resolve formulas (multi-pass evaluator)
+            // We do 5 passes to handle most dependency chains (H -> Horizontal -> Vidrio)
+            for (let pass = 0; pass < 5; pass++) {
+                Object.keys(state).forEach(addr => {
+                    const cell = state[addr];
+                    if (cell.formula) {
+                        cell.val = evalExcelFormula(cell.formula, state);
+                    }
+                });
+            }
+
+            // Render Table
+            const body = document.getElementById('table-body');
+            body.innerHTML = '';
+            let currentGrp = "";
+            s.materialRows.forEach(m => {
+                const tr = document.createElement('tr');
+
+                let groupCell = "";
+                if (m.group !== currentGrp) {
+                    groupCell = `<td class="group-label" style="color:red;">${m.group}</td>`;
+                    currentGrp = m.group;
+                } else {
+                    groupCell = `<td style="border-top:none; border-bottom:none;"></td>`;
+                }
+
+                let resultUI = "";
+                if (m.isGlass) {
+                    const hRes = state[m.addr1] ? state[m.addr1].val : 0;
+                    const wRes = state[m.addr2] ? state[m.addr2].val : 0;
+                    resultUI = `
+                    <table style="width:100%; border-collapse:collapse; height:100%; border:none;">
+                        <tr><td class="glass-blue-header" style="border:none; border-right:1px solid #000; border-bottom:1px solid #000;">ALTURA</td><td class="glass-blue-header" style="border:none; border-bottom:1px solid #000;">ANCHO</td></tr>
+                        <tr><td class="val-cell measure-val" style="border:none; border-right:1px solid #000;">${Number(hRes).toFixed(1)}</td><td class="val-cell measure-val" style="border:none;">${Number(wRes).toFixed(1)}</td></tr>
+                    </table>
+                `;
+                } else {
+                    const res = state[m.addr1] ? state[m.addr1].val : 0;
+                    resultUI = `<span class="measure-val">${Number(res).toFixed(1)}</span>`;
+                }
+
+                tr.innerHTML = `
+                ${groupCell}
+                <td style="font-weight:${m.isGlass ? 'bold' : 'normal'}">${m.desc}</td>
+                <td class="val-cell">${m.ref}</td>
+                <td class="val-cell" style="padding:0">${resultUI}</td>
+                <td class="val-cell">${m.cant}</td>
+                <td class="val-cell">${m.corte}</td>
+            `;
+                body.appendChild(tr);
+            });
+        }
+
+        function evalExcelFormula(formula, state) {
+            try {
+                let clean = formula.startsWith('=') ? formula.substring(1) : formula;
+                // Solve cell references: $D$3, D3, etc.
+                let mathStr = clean.replace(/\$?[A-Z]+\$?[0-9]+/g, (match) => {
+                    const addr = match.replace(/\$/g, "");
+                    return (state[addr] ? "(" + state[addr].val + ")" : "0");
+                });
+                // Handle percentage (if any)
+                mathStr = mathStr.replace(/([0-9.]+)%/g, "($1/100)");
+
+                // Basic math evaluation
+                return Function('"use strict"; return (' + mathStr + ')')();
+            } catch (e) {
+                return 0;
+            }
+        }
+    </script>
+</body>
+
+</html>
