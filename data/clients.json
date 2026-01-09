@@ -77,5 +77,74 @@
         "paymentPlan": "75-25",
         "grandTotal": 450000,
         "idCard": "14298116"
+    },
+    {
+        "id": 1767920456588,
+        "date": "8/1/2026",
+        "fullName": "jhon espinosa",
+        "cellphone": "3232045129",
+        "landline": "",
+        "city": "ibague",
+        "address": "11-00",
+        "email": "fucad4316@hotmail.com",
+        "status": "Pendiente",
+        "product": "Ventana Fija",
+        "quantity": 1,
+        "items": [
+            {
+                "product": "Ventana Fija",
+                "quantity": 1,
+                "color": "Natural",
+                "size": "N/A",
+                "glass": "",
+                "unitPrice": 320000,
+                "total": 320000
+            }
+        ],
+        "paymentPlan": "75-25",
+        "subtotal": 320000,
+        "iva": 60800,
+        "grandTotal": 380800,
+        "serial": 1,
+        "idCard": "14298116"
+    },
+    {
+        "id": 1767920555610,
+        "date": "8/1/2026",
+        "fullName": "DILANN ESPINOSA",
+        "cellphone": "3232501444",
+        "landline": "",
+        "city": "TOLIMA",
+        "address": ", -.SA-3241",
+        "email": "FUCAGDAK.M.,MACÑOERS",
+        "status": "Pendiente",
+        "product": "Ventana Fija",
+        "quantity": 1,
+        "items": [
+            {
+                "product": "Ventana Fija",
+                "quantity": 1,
+                "color": "Natural",
+                "size": "N/A",
+                "glass": "",
+                "unitPrice": 320000,
+                "total": 320000
+            },
+            {
+                "product": "División de Baño (Acrílico)",
+                "quantity": 1,
+                "color": "Natural",
+                "size": "N/A",
+                "glass": "",
+                "unitPrice": 580000,
+                "total": 580000
+            }
+        ],
+        "paymentPlan": "75-25",
+        "subtotal": 900000,
+        "iva": 171000,
+        "grandTotal": 1071000,
+        "serial": 2,
+        "idCard": "1105474045"
     }
 ]

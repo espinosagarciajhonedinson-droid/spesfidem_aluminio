@@ -41,6 +41,7 @@
             font-size: 2.5rem;
             background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
         }
@@ -251,13 +252,22 @@
                 <!-- Step 1: Upload -->
                 <div class="control-group">
                     <h3>1. Cargar Espacio (Foto)</h3>
-                    <div class="upload-box">
-                        <input type="file" id="imageInput" accept="image/*">
-                        <i class="fas fa-camera fa-2x" style="margin-bottom: 0.5rem; color: #cbd5e1;"></i>
-                        <p style="font-size: 0.9rem; color: #94a3b8;">Toca para subir foto</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                        <div class="upload-box" style="padding: 1.2rem 0.5rem;">
+                            <input type="file" id="imageInput" accept="image/*">
+                            <i class="fas fa-upload"
+                                style="font-size: 1.2rem; margin-bottom: 0.4rem; color: #cbd5e1;"></i>
+                            <p style="font-size: 0.75rem; color: #94a3b8;">Galería</p>
+                        </div>
+                        <div class="upload-box" id="cameraBtn"
+                            style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.2rem 0.5rem;">
+                            <i class="fas fa-camera"
+                                style="font-size: 1.2rem; margin-bottom: 0.4rem; color: #cbd5e1;"></i>
+                            <p style="font-size: 0.75rem; color: #94a3b8;">Cámara</p>
+                        </div>
                     </div>
                     <button id="deletePhotoBtn"
-                        style="width: 100%; margin-top: 0.5rem; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #ef4444; padding: 0.5rem; border-radius: 0.5rem; cursor: pointer; display: none;">
+                        style="width: 100%; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #ef4444; padding: 0.6rem; border-radius: 0.8rem; cursor: pointer; display: none; font-size: 0.9rem; font-weight: 600;">
                         <i class="fas fa-trash"></i> Eliminar Foto
                     </button>
                 </div>
@@ -298,12 +308,39 @@
             <!-- Canvas -->
             <main class="canvas-area" id="canvasContainer">
                 <div class="ai-badge"><i class="fas fa-sparkles"></i> AI DESIGN</div>
-                <div class="loading-overlay" id="loading">
+
+                <!-- Camera Overlay -->
+                <div id="cameraInterface"
+                    style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 20; background: #000; border-radius: 1.5rem; overflow: hidden;">
+                    <video id="cameraFeed" autoplay playsinline
+                        style="width: 100%; height: 100%; object-fit: cover;"></video>
+                    <div
+                        style="position: absolute; bottom: 30px; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+                        <button id="captureBtn"
+                            style="width: 70px; height: 70px; border-radius: 50%; background: white; border: 5px solid rgba(255,255,255,0.3); cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(0,0,0,0.4);">
+                            <div style="width: 50px; height: 50px; border-radius: 50%; background: #ef4444;"></div>
+                        </button>
+                        <p style="color: white; font-size: 0.8rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">Capturar
+                            Foto</p>
+                    </div>
+                    <button id="closeCameraBtn"
+                        style="position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.5); color: white; border: none; font-size: 1.5rem; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div id="cameraStatus"
+                        style="position: absolute; top: 20px; left: 20px; color: white; background: rgba(0,0,0,0.5); padding: 5px 12px; border-radius: 20px; font-size: 0.7rem; backdrop-filter: blur(5px);">
+                        <i class="fas fa-circle"
+                            style="color: #ef4444; font-size: 0.5rem; vertical-align: middle; margin-right: 5px;"></i>
+                        EN VIVO
+                    </div>
+                </div>
+
+                <div class="loading-overlay" id="loading" style="border-radius: 1.5rem;">
                     <div class="loading-spinner"></div>
                     <p style="margin-top: 1rem; color: #cbd5e1;">Procesando imagen...</p>
                 </div>
                 <p id="placeholderText" style="color: #64748b; text-align: center;">La visualización aparecerá
-                    aquí<br>cuando subas una foto.</p>
+                    aquí<br>cuando subas una foto o uses la cámara.</p>
                 <canvas id="designCanvas"></canvas>
             </main>
         </div>
@@ -346,6 +383,11 @@
         const loading = document.getElementById('loading');
         const placeholderText = document.getElementById('placeholderText');
         const deletePhotoBtn = document.getElementById('deletePhotoBtn');
+        const cameraBtn = document.getElementById('cameraBtn');
+        const cameraInterface = document.getElementById('cameraInterface');
+        const cameraFeed = document.getElementById('cameraFeed');
+        const captureBtn = document.getElementById('captureBtn');
+        const closeCameraBtn = document.getElementById('closeCameraBtn');
 
         // State
         let bgImage = null;
@@ -357,6 +399,7 @@
         let productY = 0;
         let isDragging = false;
         let startX, startY;
+        let stream = null;
 
         // Init
         window.addEventListener('load', () => {
@@ -367,6 +410,9 @@
 
         // Event Listeners
         categorySelect.addEventListener('change', (e) => renderGallery(e.target.value));
+        cameraBtn.addEventListener('click', openCamera);
+        captureBtn.addEventListener('click', capturePhoto);
+        closeCameraBtn.addEventListener('click', closeCamera);
 
         imageInput.addEventListener('change', (e) => {
             if (e.target.files && e.target.files[0]) {
@@ -536,6 +582,65 @@
                 x: (clientX - rect.left) * (canvas.width / rect.width),
                 y: (clientY - rect.top) * (canvas.height / rect.height)
             };
+        }
+
+        // Camera Functions
+        async function openCamera() {
+            try {
+                const constraints = {
+                    video: {
+                        facingMode: 'environment', // Use back camera if available
+                        width: { ideal: 1920 },
+                        height: { ideal: 1080 }
+                    },
+                    audio: false
+                };
+
+                stream = await navigator.mediaDevices.getUserMedia(constraints);
+                cameraFeed.srcObject = stream;
+                cameraInterface.style.display = 'block';
+            } catch (err) {
+                console.error("Error accessing camera: ", err);
+                alert("No se pudo acceder a la cámara. Por favor asegúrate de dar los permisos necesarios o verifica si tu navegador es compatible.");
+            }
+        }
+
+        function capturePhoto() {
+            if (!stream || !cameraFeed.videoWidth) return;
+
+            loading.style.display = 'flex';
+
+            // Create a temporary canvas to capture the frame at high resolution
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = cameraFeed.videoWidth;
+            tempCanvas.height = cameraFeed.videoHeight;
+            const tempCtx = tempCanvas.getContext('2d');
+
+            // Draw the current video frame to the temporary canvas
+            tempCtx.drawImage(cameraFeed, 0, 0, tempCanvas.width, tempCanvas.height);
+
+            // Convert to image
+            const dataUrl = tempCanvas.toDataURL('image/jpeg', 0.9);
+
+            bgImage = new Image();
+            bgImage.onload = () => {
+                placeholderText.style.display = 'none';
+                deletePhotoBtn.style.display = 'block';
+                fitImageToCanvas();
+                centerProduct();
+                draw();
+                loading.style.display = 'none';
+                closeCamera();
+            };
+            bgImage.src = dataUrl;
+        }
+
+        function closeCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            cameraInterface.style.display = 'none';
         }
 
     </script>

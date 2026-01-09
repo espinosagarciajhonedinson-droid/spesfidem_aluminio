@@ -112,8 +112,19 @@
             th:first-child,
             td:first-child,
             th:last-child,
-            td:last-child {
+            td:last-child,
+            /* Hide planning and city to save space on print */
+            th:nth-child(6),
+            td:nth-child(6),
+            th:nth-child(8),
+            td:nth-child(8),
+            th:nth-child(9),
+            td:nth-child(9) {
                 display: none !important;
+            }
+
+            .print-only {
+                display: block !important;
             }
         }
     </style>
@@ -128,14 +139,35 @@
             <li style="margin-bottom: 1rem;"><a href="#"
                     style="color:white; text-decoration:none; font-size: 0.9rem;"><i class="fas fa-users"
                         style="margin-right:0.5rem;"></i> Clientes</a></li>
-            <li style="margin-bottom: 1rem;"><a href="index.html" <li style="margin-bottom: 1rem;"><a href="#"
-                        onclick="logout()"
-                        style="color: #ef4444; text-decoration:none; font-size: 0.9rem; font-weight: bold;"><i
-                            class="fas fa-sign-out-alt" style="margin-right:0.5rem;"></i> CERRAR SESIÓN</a></li>
+            <li style="margin-bottom: 1rem;"><a href="cortes.html"
+                    style="color:var(--accent); text-decoration:none; font-size: 0.9rem; font-weight: bold;"><i
+                        class="fas fa-cut" style="margin-right:0.5rem;"></i> CORTES</a></li>
+            <li style="margin-bottom: 1rem;"><a href="index.html"
+                    style="color:white; text-decoration:none; font-size: 0.9rem;"><i class="fas fa-home"
+                        style="margin-right:0.5rem;"></i> Volver al Sitio</a></li>
+            <li style="margin-bottom: 1rem;"><a href="#" onclick="logout()"
+                    style="color: #ef4444; text-decoration:none; font-size: 0.9rem; font-weight: bold;"><i
+                        class="fas fa-sign-out-alt" style="margin-right:0.5rem;"></i> CERRAR SESIÓN</a></li>
         </ul>
     </div>
 
     <div class="main-content">
+        <div class="print-only"
+            style="display: none; border-bottom: 2px solid #0f172a; padding-bottom: 1rem; margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1 style="color: #0f172a; margin: 0; font-size: 1.5rem;">SPESFIDEM <span
+                            style="color:#3b82f6">ALUMINIO</span></h1>
+                    <p style="margin: 5px 0 0 0; color: #64748b; font-size: 0.9rem;">Reporte Consolidado de Clientes y
+                        Pedidos</p>
+                </div>
+                <div style="text-align: right; font-size: 0.8rem; color: #64748b;">
+                    <p style="margin: 0;">Fecha de Impresión: <span id="printDate"></span></p>
+                    <p style="margin: 2px 0 0 0;">Generado por: Administrador Jhon Edinson</p>
+                </div>
+            </div>
+        </div>
+
         <header
             style="margin-bottom: 3rem; display: flex; flex-direction: column; gap: 0.8rem; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
 
@@ -223,6 +255,9 @@
                             Fecha</th>
                         <th
                             style="padding: 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">
+                            N° Cotización</th>
+                        <th
+                            style="padding: 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">
                             Nombre Cliente</th>
                         <th
                             style="padding: 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">
@@ -244,7 +279,13 @@
                             Dirección</th>
                         <th
                             style="padding: 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">
-                            Valor Total</th>
+                            Subtotal</th>
+                        <th
+                            style="padding: 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">
+                            IVA (19%)</th>
+                        <th
+                            style="padding: 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">
+                            Total</th>
                         <th
                             style="padding: 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">
                             Plan Pago</th>
@@ -397,7 +438,7 @@
         </div>
     </div>
 
-    <script src="js/app.js?v=138"></script>
+    <script src="js/app.js?v=160"></script>
 </body>
 
 </html>

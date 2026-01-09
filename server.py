@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 
 # Configuración
-PORT = 8080
+PORT = 3000
 DATA_DIR = Path("data")
 CLIENTS_FILE = DATA_DIR / "clients.json"
 

@@ -119,8 +119,19 @@
             </tbody>
         </table>
 
-        <div class="total-row">
-            Subtotal: <span id="grandTotal" style="margin-left: 1rem;"></span> COP
+        <div class="total-row"
+            style="background: #f8fafc; padding: 1.5rem; border-radius: 0 0 12px 12px; border-top: 1px solid #e2e8f0; display: grid; grid-template-columns: 1fr auto; gap: 0.5rem; align-items: center;">
+            <div style="text-align: right; color: #64748b; font-size: 1rem;">SUBTOTAL:</div>
+            <div style="text-align: right; color: #64748b; font-size: 1rem; font-weight: 600;" id="subtotalVal"></div>
+
+            <div style="text-align: right; color: #64748b; font-size: 1rem;">IVA (19%):</div>
+            <div style="text-align: right; color: #64748b; font-size: 1rem; font-weight: 600;" id="ivaVal"></div>
+
+            <div
+                style="text-align: right; color: var(--accent); font-size: 1.5rem; font-weight: 800; padding-top: 0.5rem; border-top: 1px solid #e2e8f0;">
+                TOTAL A PAGAR:</div>
+            <div style="text-align: right; color: var(--accent); font-size: 1.5rem; font-weight: 800; padding-top: 0.5rem; border-top: 1px solid #e2e8f0;"
+                id="grandTotal"></div>
         </div>
         <!-- Payment Breakdown Container -->
         <div id="paymentBreakdown" style="border-bottom: 2px solid #e2e8f0; padding-bottom: 1rem;"></div>
@@ -128,7 +139,7 @@
         <div
             style="margin-top: 2rem; border-top: 1px solid #e2e8f0; padding-top: 1.5rem; color: #64748b; font-size: 0.85rem;">
             <p style="color:var(--accent); font-weight:700;">* IMPORTANTE: Los valores expresados son una SIMULACIÓN
-                aproximada y pueden variar tras la rectificación de medidas y especificaciones finales en obra.</p>
+                aproximada y llevan incluido el IVA del 19% vigente en Colombia.</p>
             <p>* La vigencia de esta simulación de precios es de 15 días calendario.</p>
         </div>
 
@@ -216,7 +227,7 @@
         </div>
     </div>
 
-    <script src="js/app.js?v=120"></script>
+    <script src="js/app.js?v=160"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             // Wait for DB to be initialized from app.js
@@ -236,7 +247,14 @@
             }
 
             // Populate Document
-            document.getElementById('quoteId').textContent = (data.id || Date.now()).toString().slice(-4);
+            // Fetch and format Sequential Serial Number
+            if (!data.serial) {
+                const nextSerial = await db.getNextSerial();
+                data.serial = nextSerial;
+                sessionStorage.setItem('currentQuotation', JSON.stringify(data));
+            }
+            const paddedSerial = String(data.serial).padStart(7, '0');
+            document.getElementById('quoteId').textContent = `COT - ${paddedSerial}`;
             document.getElementById('quoteDate').textContent = data.date || new Date().toLocaleDateString('es-CO');
             document.getElementById('clientName').textContent = data.fullName;
             document.getElementById('clientContact').textContent = 'Cel: ' + data.cellphone + (data.landline ? ' | Tel: ' + data.landline : '');
@@ -260,7 +278,9 @@
                 });
             }
 
-            document.getElementById('grandTotal').textContent = '$' + (data.grandTotal || 0).toLocaleString();
+            document.getElementById('subtotalVal').textContent = '$' + (data.subtotal || (data.grandTotal / 1.19) || 0).toLocaleString() + ' COP';
+            document.getElementById('ivaVal').textContent = '$' + (data.iva || (data.grandTotal - (data.grandTotal / 1.19)) || 0).toLocaleString() + ' COP';
+            document.getElementById('grandTotal').textContent = '$' + (data.grandTotal || 0).toLocaleString() + ' COP';
 
             // Payment Breakdown Logic
             const total = data.grandTotal || 0;

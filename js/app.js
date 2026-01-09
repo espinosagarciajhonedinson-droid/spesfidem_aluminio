@@ -97,6 +97,12 @@ class ClientDB {
             (c.cellphone && String(c.cellphone).includes(query))
         ).length;
     }
+    async getNextSerial() {
+        const clients = await this.getAll();
+        if (clients.length === 0) return 1;
+        const serials = clients.map(c => c.serial || 0);
+        return Math.max(...serials) + 1;
+    }
 }
 
 const db = new ClientDB();
@@ -373,6 +379,10 @@ function collectFormData(isSimulation = false) {
         return null;
     }
 
+    const subtotal = items.reduce((acc, item) => acc + item.total, 0);
+    const iva = Math.round(subtotal * 0.19);
+    const grandTotal = subtotal + iva;
+
     return {
         id: Date.now(),
         date: new Date().toLocaleDateString('es-CO'),
@@ -382,7 +392,9 @@ function collectFormData(isSimulation = false) {
         quantity: items[0].quantity,
         items: items,
         paymentPlan: paymentPlan,
-        grandTotal: items.reduce((acc, item) => acc + item.total, 0)
+        subtotal: subtotal,
+        iva: iva,
+        grandTotal: grandTotal
     };
 }
 
@@ -477,7 +489,7 @@ async function loadAdminData() {
 
         tableBody.innerHTML = '';
         if (items.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="10" style="text-align:center; padding:2rem;">No se encontraron resultados.</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="17" style="text-align:center; padding:2rem;">No se encontraron resultados.</td></tr>';
             return;
         }
 
@@ -493,6 +505,7 @@ async function loadAdminData() {
                         style="cursor:pointer; width: 16px; height: 16px;">
                 </td>
                 <td>${client.date}</td>
+                <td style="font-weight:bold; color:var(--accent);">COT-${String(client.serial || 0).padStart(7, '0')}</td>
                 <td style="font-weight:bold;">${client.fullName}</td>
                 <td style="color:#64748b; font-family:monospace;">${client.idCard || 'N/A'}</td>
                 <td>
@@ -503,14 +516,15 @@ async function loadAdminData() {
                 <td><div style="font-weight:600; color:var(--accent); font-size:0.85rem;">${getProductString(client)}</div></td>
                 <td>${client.email}</td>
                 <td style="max-width:200px;">${client.address}</td>
+                <td><div style="color:#64748b; font-size:0.9rem;">$${(client.subtotal || 0).toLocaleString()}</div></td>
+                <td><div style="color:#64748b; font-size:0.9rem;">$${(client.iva || 0).toLocaleString()}</div></td>
                 <td>
                     <div style="font-weight:700; color:#059669; font-size:1rem;">$${(client.grandTotal || 0).toLocaleString()}</div>
                     ${client.paymentPlan === '75-25' ?
-                    `<div style="font-size:0.75rem; color:#64748b; margin-top:2px;">
-                            75%: $${Math.round((client.grandTotal || 0) * 0.75).toLocaleString()}<br>
-                            25%: $${Math.round((client.grandTotal || 0) * 0.25).toLocaleString()}
+                    `<div style="font-size:0.7rem; color:#3b82f6; margin-top:2px;">
+                            75%: $${Math.round((client.grandTotal || 0) * 0.75).toLocaleString()}
                          </div>`
-                    : '<div style="font-size:0.75rem; color:#16a34a; font-weight:600;">Pago 100%</div>'}
+                    : ''}
                 </td>
                 <td>
                     ${client.paymentPlan === '100' ?
@@ -846,7 +860,10 @@ async function saveEditClient(e) {
         client.product = items[0].product;
         client.quantity = items[0].quantity;
         client.items = items;
-        client.grandTotal = items.reduce((acc, it) => acc + it.total, 0);
+        const subtotal = items.reduce((acc, it) => acc + it.total, 0);
+        client.subtotal = subtotal;
+        client.iva = Math.round(subtotal * 0.19);
+        client.grandTotal = subtotal + client.iva;
     }
 
     await db.save(client);
@@ -860,7 +877,7 @@ const galleries = {
     'ventana_corrediza': 20, 'ventana_proyectante': 20, 'ventana_casement': 20,
     'ventana_batiente': 20, 'ventana_fija': 20, 'ventana_basculante': 20,
     'puerta_principal': 20, 'puerta_patio': 20, 'puerta_plegable': 20,
-    'puerta_bano': 20, 'division_bano': 20, 'espejos': 20
+    'puerta_bano': 20, 'division_bano': 0, 'espejos': 20
 };
 
 function initGalleryPage() {
@@ -874,21 +891,32 @@ function initGalleryPage() {
     grid.innerHTML = '';
 
     const count = galleries[cat] || 0;
+    const version = Date.now(); // Cache buster
+
     for (let i = 1; i <= count; i++) {
         const item = document.createElement('div');
         item.className = 'gallery-item';
-        const src = `./images/gallery/${cat}/${i}.jpg`;
 
         const img = new Image();
-        img.src = src;
         img.className = 'gallery-img';
         img.alt = `${cat} Model ${i}`;
-        img.onclick = () => window.open(src, '_blank');
 
-        // Only append if image loads or just allow browser to handle 404
-        img.onerror = () => {
-            item.style.display = 'none'; // Hide if missing
-        };
+        // Optimized for Bathroom Divisions (which we know are PNG)
+        if (cat === 'division_bano') {
+            img.src = `./images/gallery/${cat}/${i}.png?v=${version}`;
+        } else {
+            // Fallback logic for others
+            const tryPng = () => {
+                img.src = `./images/gallery/${cat}/${i}.png?v=${version}`;
+                img.onerror = () => {
+                    item.style.display = 'none';
+                };
+            };
+            img.onerror = tryPng;
+            img.src = `./images/gallery/${cat}/${i}.jpg?v=${version}`;
+        }
+
+        img.onclick = () => window.open(img.src, '_blank');
 
         item.appendChild(img);
         const caption = document.createElement('div');
@@ -1029,12 +1057,13 @@ async function downloadCSV() {
         }
 
         // Header
-        let csv = "Fecha,Nombre,Documento,Celular,Fijo,Ciudad,Direccion,Email,Productos,Valor Total,Estado de Entrega,Estado de Pago\n";
+        let csv = "Fecha,Cotizacion,Nombre,Documento,Celular,Fijo,Ciudad,Direccion,Email,Productos,Subtotal,IVA (19%),Total,Plan Pago,Estado de Entrega,Estado de Pago\n";
 
         // Rows
         clientsToExport.forEach(c => {
             const prods = getProductString(c).replace(/,/g, " |");
-            csv += `"${c.date || ''}","${c.fullName || ''}","${c.idCard || 'N/A'}","${c.cellphone || ''}","${c.landline || ''}","${c.city || ''}","${c.address || ''}","${c.email || ''}","${prods}","$${(c.grandTotal || 0).toLocaleString()}","${c.deliveryStatus || 'Pendiente'}","${c.paymentStatus || 'Cancelado'}"\n`;
+            const cot = `COT-${String(c.serial || 0).padStart(7, '0')}`;
+            csv += `"${c.date || ''}","${cot}","${c.fullName || ''}","${c.idCard || 'N/A'}","${c.cellphone || ''}","${c.landline || ''}","${c.city || ''}","${c.address || ''}","${c.email || ''}","${prods}","$${(c.subtotal || 0).toLocaleString()}","$${(c.iva || 0).toLocaleString()}","$${(c.grandTotal || 0).toLocaleString()}","${c.paymentPlan || '75-25'}","${c.deliveryStatus || 'Pendiente'}","${c.paymentStatus || 'Cancelado'}"\n`;
         });
 
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -1053,6 +1082,8 @@ async function downloadCSV() {
 
 function printClients() {
     const table = document.querySelector('table');
+    const printDate = document.getElementById('printDate');
+    if (printDate) printDate.textContent = new Date().toLocaleDateString('es-CO') + ' ' + new Date().toLocaleTimeString('es-CO');
     if (!table) return;
 
     const selectionActive = selectedClientIds.size > 0;
