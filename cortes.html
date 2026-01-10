@@ -69,6 +69,34 @@
             flex: 1;
             position: relative;
         }
+
+        /* Suppress formula error dialog if CSS possible */
+        .luckysheet-modal-dialog-mask {
+            /* We can't fully hide it or it breaks modal interactions, but we can try to minimize intrusion if needed */
+        }
+
+        /* PRINT STYLES */
+        @media print {
+
+            .top-bar,
+            #back-btn,
+            .luckysheet-grid-window-scrollbar-x,
+            .luckysheet-grid-window-scrollbar-y {
+                display: none !important;
+            }
+
+            #luckysheet {
+                position: absolute !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
+            }
+
+            body {
+                background: white;
+            }
+        }
     </style>
 </head>
 
@@ -78,9 +106,15 @@
         <div class="bar-title">
             <span style="color:#22c55e;">DATA</span> Spesfidem Calc
         </div>
-        <a href="admin.html" class="btn-back">
-            &larr; Volver al Admin
-        </a>
+        <div style="display:flex; gap:10px;">
+            <button onclick="window.print()" class="btn-back"
+                style="background:#3b82f6; border-color:#2563eb; cursor:pointer;">
+                <i class="fas fa-print"></i> Imprimir
+            </button>
+            <a href="admin.html" class="btn-back">
+                &larr; Volver al Admin
+            </a>
+        </div>
     </div>
 
     <div id="luckysheet"></div>
