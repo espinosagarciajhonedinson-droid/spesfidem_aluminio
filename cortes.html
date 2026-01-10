@@ -615,14 +615,62 @@
 
         function evalExcelFormula(formula, state) {
             try {
+                if (!formula) return 0;
                 let clean = formula.startsWith('=') ? formula.substring(1) : formula;
-                let mathStr = clean.replace(/\$?[A-Z]+\$?[0-9]+/g, (match) => {
-                    const addr = match.replace(/\$/g, "");
-                    return (state[addr] ? "(" + state[addr].val + ")" : "0");
+
+                // 1. Replace Cell References (e.g. A1, $A$1) with values
+                // Sorting keys by length desc to avoid replacing A10 as A1 + 0
+                const addrs = Object.keys(state).sort((a, b) => b.length - a.length);
+
+                // Using a regex to match word boundaries for cell addresses
+                // We create a map for replacements to be safer
+                let mathStr = clean;
+
+                // Replace common Excel Functions
+                const mapFuncs = {
+                    "ROUND": "Math.round",
+                    "ROUNDUP": "Math.ceil",
+                    "ROUNDDOWN": "Math.floor",
+                    "INT": "Math.floor",
+                    "ABS": "Math.abs",
+                    "SQRT": "Math.sqrt",
+                    "POWER": "Math.pow",
+                    "PI": "Math.PI",
+                    "MAX": "Math.max",
+                    "MIN": "Math.min",
+                    "SUM": "sumHelper",
+                    "IF": "ifHelper"
+                };
+
+                Object.keys(mapFuncs).forEach(k => {
+                    const reg = new RegExp("\\b" + k + "\\b", "gi");
+                    mathStr = mathStr.replace(reg, mapFuncs[k]);
                 });
+
+                // Replace %
                 mathStr = mathStr.replace(/([0-9.]+)%/g, "($1/100)");
-                return Function('"use strict"; return (' + mathStr + ')')();
+
+                // Helper for SUM (basic implementation for comma separated args)
+                const sumHelper = (...args) => args.reduce((a, b) => a + b, 0);
+                // Helper for IF (basic ternary wrapper)
+                const ifHelper = (c, t, f) => (c ? t : f);
+
+                // Regex Replacer for Cell Addrs
+                mathStr = mathStr.replace(/\$?[A-Z]+\$?[0-9]+/g, (match) => {
+                    const addr = match.replace(/\$/g, "");
+                    const cell = state[addr];
+                    if (cell) {
+                        const v = parseFloat(cell.val);
+                        return isNaN(v) ? 0 : v;
+                    }
+                    return 0;
+                });
+
+                // Safe Evaluate
+                const func = new Function("Math", "sumHelper", "ifHelper", `"use strict"; return (${mathStr});`);
+                return func(Math, sumHelper, ifHelper);
             } catch (e) {
+                // console.warn("Formula Error", formula, e);
                 return 0;
             }
         }
