@@ -146,5 +146,46 @@
         "grandTotal": 1071000,
         "serial": 2,
         "idCard": "1105474045"
+    },
+    {
+        "id": 1768001984185,
+        "date": "9/1/2026",
+        "fullName": "diana milena varon",
+        "cellphone": "3052092140",
+        "landline": "",
+        "city": "ibague",
+        "address": "carrera 28 a # 11-10 barrio la castilla",
+        "email": "diani.666@gmail.com",
+        "status": "Pendiente",
+        "product": "Ventana Proyectante",
+        "quantity": 2,
+        "items": [
+            {
+                "product": "Ventana Proyectante",
+                "quantity": 2,
+                "color": "Negro",
+                "size": "120m x 200m",
+                "glass": "",
+                "unitPrice": 500000,
+                "total": 1000000
+            },
+            {
+                "product": "División de Baño (Vidrio Templado)",
+                "quantity": 1,
+                "color": "Natural",
+                "size": "300m x 300m",
+                "glass": "Templado 8mm Incoloro",
+                "unitPrice": 900000,
+                "total": 900000
+            }
+        ],
+        "paymentPlan": "100",
+        "subtotal": 1900000,
+        "iva": 361000,
+        "grandTotal": 2261000,
+        "serial": 3,
+        "idCard": "28538310",
+        "deliveryStatus": "Entregado",
+        "paymentStatus": "Pagado"
     }
 ]
