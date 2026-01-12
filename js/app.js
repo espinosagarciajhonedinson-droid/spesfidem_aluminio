@@ -876,8 +876,9 @@ async function saveEditClient(e) {
 const galleries = {
     'ventana_corrediza': 20, 'ventana_proyectante': 20, 'ventana_casement': 20,
     'ventana_batiente': 20, 'ventana_fija': 20, 'ventana_basculante': 20,
-    'puerta_principal': 20, 'puerta_patio': 20, 'puerta_plegable': 20,
-    'puerta_bano': 20, 'division_bano': 0, 'espejos': 20
+    'puerta_principal': 230, 'puerta_patio': 20, 'puerta_plegable': 20,
+    'puerta_bano': 20, 'division_bano': 59, 'espejos': 20,
+    'espejos_decorativos': 100, 'division_acrilico': 16, 'ventana_batiente': 41
 };
 
 function initGalleryPage() {
@@ -901,22 +902,27 @@ function initGalleryPage() {
         img.className = 'gallery-img';
         img.alt = `${cat} Model ${i}`;
 
-        // Optimized for Bathroom Divisions (which we know are PNG)
-        if (cat === 'division_bano') {
+        // Category-specific format handling
+        if (cat === 'division_bano' || cat === 'espejos_decorativos' || cat === 'puerta_principal' || cat === 'division_acrilico') {
             img.src = `./images/gallery/${cat}/${i}.png?v=${version}`;
+            img.onerror = () => {
+                item.style.display = 'none';
+            };
         } else {
-            // Fallback logic for others
-            const tryPng = () => {
+            // Fallback for others: try .jpg then .png
+            const tryPngFallback = () => {
                 img.src = `./images/gallery/${cat}/${i}.png?v=${version}`;
                 img.onerror = () => {
                     item.style.display = 'none';
                 };
             };
-            img.onerror = tryPng;
+            img.onerror = tryPngFallback;
             img.src = `./images/gallery/${cat}/${i}.jpg?v=${version}`;
         }
 
-        img.onclick = () => window.open(img.src, '_blank');
+        img.onclick = () => {
+            window.location.href = `view_photo.html?src=${encodeURIComponent(img.src)}&cat=${encodeURIComponent(cat)}`;
+        };
 
         item.appendChild(img);
         const caption = document.createElement('div');
