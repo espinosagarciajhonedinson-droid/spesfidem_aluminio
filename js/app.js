@@ -874,11 +874,12 @@ async function saveEditClient(e) {
 
 // --- Gallery Logic (for gallery.html) ---
 const galleries = {
-    'ventana_corrediza': 20, 'ventana_proyectante': 20, 'ventana_casement': 20,
-    'ventana_batiente': 20, 'ventana_fija': 20, 'ventana_basculante': 20,
-    'puerta_principal': 230, 'puerta_patio': 20, 'puerta_plegable': 20,
-    'puerta_bano': 20, 'division_bano': 59, 'espejos': 20,
-    'espejos_decorativos': 100, 'division_acrilico': 16, 'ventana_batiente': 41
+    'ventana_corrediza': 5, 'ventana_proyectante': 103, 'ventana_casement': 20,
+    'ventana_batiente': 41, 'ventana_fija': 100, 'ventana_basculante': 100,
+    'puerta_principal': 232, 'puerta_patio': 100, 'puerta_plegable': 100,
+    'puerta_bano': 100, 'division_bano': 59, 'espejos': 0,
+    'espejos_decorativos': 50, 'division_acrilico': 0, 'ventana_abatible': 105,
+    'vidrio_templado': 103
 };
 
 function initGalleryPage() {
@@ -897,34 +898,50 @@ function initGalleryPage() {
     for (let i = 1; i <= count; i++) {
         const item = document.createElement('div');
         item.className = 'gallery-item';
+        // Relative container to position button absolute
+        item.style.position = 'relative';
 
         const img = new Image();
         img.className = 'gallery-img';
         img.alt = `${cat} Model ${i}`;
 
-        // Category-specific format handling
-        if (cat === 'division_bano' || cat === 'espejos_decorativos' || cat === 'puerta_principal' || cat === 'division_acrilico') {
+        // Add to DOM first so we can append button
+        item.appendChild(img);
+
+        // Add Cart Button
+        const btn = document.createElement('button');
+        btn.className = 'btn-add-cart';
+        btn.innerHTML = '<i class="fas fa-plus"></i>';
+        btn.title = "Agregar a Cotización";
+
+        // We need the final src for the cart, which resolves after error handling.
+        // Simplified approach: Pass the base JPG path, if it fails, the user wouldn't see/click it anyway (hidden).
+        // Actually, if it fails to PNG, the cart might register JPG. 
+        // For now, let's just pass a generic reference.
+        btn.onclick = (e) => {
+            e.stopPropagation(); // Prevent gallery viewer open
+            addToCartFromGallery(cat, img.src);
+        };
+
+        item.appendChild(btn);
+
+        // SMART FORMAT HANDLING: Try .jpg first (usually real photos), then .png (placeholders or logo-style)
+        const tryPngFallback = () => {
             img.src = `./images/gallery/${cat}/${i}.png?v=${version}`;
             img.onerror = () => {
-                item.style.display = 'none';
+                item.style.display = 'none'; // Only hide if BOTH fail
             };
-        } else {
-            // Fallback for others: try .jpg then .png
-            const tryPngFallback = () => {
-                img.src = `./images/gallery/${cat}/${i}.png?v=${version}`;
-                img.onerror = () => {
-                    item.style.display = 'none';
-                };
-            };
-            img.onerror = tryPngFallback;
-            img.src = `./images/gallery/${cat}/${i}.jpg?v=${version}`;
-        }
+        };
+
+        img.onerror = tryPngFallback;
+        img.src = `./images/gallery/${cat}/${i}.jpg?v=${version}`;
 
         img.onclick = () => {
             window.location.href = `view_photo.html?src=${encodeURIComponent(img.src)}&cat=${encodeURIComponent(cat)}`;
         };
 
-        item.appendChild(img);
+
+
         const caption = document.createElement('div');
         caption.className = 'gallery-caption';
         caption.textContent = `Modelo Premium #${i}`;

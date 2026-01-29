@@ -277,7 +277,7 @@
                     <h3>2. Seleccionar Producto</h3>
                     <select id="categorySelect"
                         style="width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 0.5rem; margin-bottom: 1rem;">
-                        <option value="ventanas">Ventanas</option>
+                        <option value="ventanas">Ventanería</option>
                         <option value="puertas">Puertas</option>
                         <option value="banos">Divisiones de Baño</option>
                         <option value="espejos">Espejos</option>
@@ -291,12 +291,35 @@
                 <!-- Step 3: Adjust -->
                 <div class="control-group">
                     <h3>3. Ajuste Inteligente</h3>
+
                     <label style="font-size: 0.8rem; color: #94a3b8;">Tamaño del Producto</label>
-                    <input type="range" class="slider-control" id="scaleControl" min="10" max="200" value="50">
+                    <input type="range" class="slider-control" id="scaleControl" min="10" max="1000" value="100">
+
+                    <label style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.8rem; display: block;">Girar
+                        (Rotación)</label>
+                    <input type="range" class="slider-control" id="rotationControl" min="0" max="360" value="0">
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.8rem;">
+                        <div>
+                            <label style="font-size: 0.7rem; color: #94a3b8; display: block;">Ancho Corte</label>
+                            <input type="range" class="slider-control" id="cropWidthControl" min="10" max="100"
+                                value="100">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.7rem; color: #94a3b8; display: block;">Alto Corte</label>
+                            <input type="range" class="slider-control" id="cropHeightControl" min="10" max="100"
+                                value="100">
+                        </div>
+                    </div>
 
                     <label style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.8rem; display: block;">Transparencia
-                        (Simular Vidrio)</label>
+                        (Vidrio)</label>
                     <input type="range" class="slider-control" id="opacityControl" min="30" max="100" value="95">
+
+                    <button id="deleteSelectedBtn"
+                        style="width: 100%; margin-top: 1rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; padding: 0.5rem; border-radius: 0.5rem; cursor: pointer; font-size: 0.8rem; display: none;">
+                        <i class="fas fa-times-circle"></i> Quitar Seleccionado
+                    </button>
                 </div>
 
                 <button id="downloadBtn" class="btn-primary"
@@ -351,22 +374,26 @@
         // Constants - In a real app these would come from the database/filesystem
         const PRODUCTS = {
             ventanas: [
-                'images/products/ventana_corrediza.jpg',
-                'images/products/ventana_proyectante.jpg',
-                'images/products/ventana_abatible.jpg',
-                'images/products/ventana_batiente.jpg'
+                'images/gallery/simulador_diseno/Imagen soltada.png',
+                'images/gallery/simulador_diseno/Imagen soltada (2).png',
+                'images/gallery/simulador_diseno/Imagen soltada (3).png',
+                'images/gallery/simulador_diseno/Imagen soltada (4).png',
+                'images/gallery/simulador_diseno/Imagen soltada (5).png',
+                'images/gallery/simulador_diseno/Imagen soltada (6).png',
+                'images/gallery/simulador_diseno/Imagen soltada (7).png',
+                'images/gallery/simulador_diseno/Imagen soltada (8).png',
+                'images/gallery/simulador_diseno/Imagen soltada (9).png',
+                'images/gallery/simulador_diseno/Imagen soltada (10).png',
+                'images/gallery/simulador_diseno/Imagen soltada (11).png',
+                'images/gallery/simulador_diseno/Imagen soltada (12).png',
+                'images/gallery/simulador_diseno/Imagen soltada (13).png',
+                'images/gallery/simulador_diseno/Imagen soltada (14).png',
+                'images/gallery/simulador_diseno/Imagen soltada (15).png',
+                'images/gallery/simulador_diseno/Imagen soltada (16).png'
             ],
-            puertas: [
-                'images/products/puerta_principal.jpg'
-            ],
-            banos: [
-                'images/products/division_bano.jpg',
-                'images/products/vidrio_templado.jpg'
-            ],
-            espejos: [
-                'images/products/vidrio_templado.jpg', // Placeholder
-                'images/products/division_bano.jpg'    // Placeholder
-            ]
+            puertas: [],
+            banos: [],
+            espejos: []
         };
 
         // DOM Elements
@@ -391,13 +418,11 @@
 
         // State
         let bgImage = null;
-        let productImg = null;
-        let productScale = 0.5;
-        let productOpacity = 0.95;
-        let useSmartBlend = false;
-        let productX = 0;
-        let productY = 0;
+        let layers = []; // Array of { img, x, y, scale, opacity, rotation, cropW, cropH, id }
+        let selectedLayerIndex = -1;
         let isDragging = false;
+        let isResizing = false;
+        let resizeHandle = null; // 'tl', 'tr', 'bl', 'br', 'ml', 'mr', 'mt', 'mb'
         let startX, startY;
         let stream = null;
 
@@ -443,8 +468,51 @@
             draw();
         });
 
-        scaleControl.addEventListener('input', (e) => { productScale = e.target.value / 100; draw(); });
-        opacityControl.addEventListener('input', (e) => { productOpacity = e.target.value / 100; draw(); });
+        scaleControl.addEventListener('input', (e) => {
+            if (selectedLayerIndex !== -1) {
+                const val = e.target.value / 100;
+                layers[selectedLayerIndex].scaleX = val;
+                layers[selectedLayerIndex].scaleY = val;
+                draw();
+            }
+        });
+
+        opacityControl.addEventListener('input', (e) => {
+            if (selectedLayerIndex !== -1) {
+                layers[selectedLayerIndex].opacity = e.target.value / 100;
+                draw();
+            }
+        });
+
+        document.getElementById('rotationControl').addEventListener('input', (e) => {
+            if (selectedLayerIndex !== -1) {
+                layers[selectedLayerIndex].rotation = parseInt(e.target.value);
+                draw();
+            }
+        });
+
+        document.getElementById('cropWidthControl').addEventListener('input', (e) => {
+            if (selectedLayerIndex !== -1) {
+                layers[selectedLayerIndex].cropW = e.target.value / 100;
+                draw();
+            }
+        });
+
+        document.getElementById('cropHeightControl').addEventListener('input', (e) => {
+            if (selectedLayerIndex !== -1) {
+                layers[selectedLayerIndex].cropH = e.target.value / 100;
+                draw();
+            }
+        });
+
+        document.getElementById('deleteSelectedBtn').addEventListener('click', () => {
+            if (selectedLayerIndex !== -1) {
+                layers.splice(selectedLayerIndex, 1);
+                selectedLayerIndex = -1;
+                updateControlsVisibility();
+                draw();
+            }
+        });
 
         if (blendToggle) {
             blendToggle.addEventListener('change', (e) => {
@@ -494,11 +562,38 @@
 
             const img = new Image();
             img.onload = () => {
-                productImg = img;
-                centerProduct();
+                const newLayer = {
+                    img: img,
+                    x: canvas.width / 2,
+                    y: canvas.height / 2,
+                    scaleX: 0.5,
+                    scaleY: 0.5,
+                    opacity: 0.95,
+                    rotation: 0,
+                    cropW: 1.0,
+                    cropH: 1.0,
+                    id: Date.now()
+                };
+                layers.push(newLayer);
+                selectedLayerIndex = layers.length - 1;
+                updateControlsFromLayer(newLayer);
+                updateControlsVisibility();
                 draw();
             };
             img.src = src;
+        }
+
+        function updateControlsFromLayer(layer) {
+            scaleControl.value = ((layer.scaleX + layer.scaleY) / 2) * 100;
+            opacityControl.value = layer.opacity * 100;
+            document.getElementById('rotationControl').value = layer.rotation;
+            document.getElementById('cropWidthControl').value = layer.cropW * 100;
+            document.getElementById('cropHeightControl').value = layer.cropH * 100;
+        }
+
+        function updateControlsVisibility() {
+            const btn = document.getElementById('deleteSelectedBtn');
+            btn.style.display = selectedLayerIndex !== -1 ? 'block' : 'none';
         }
 
         function resizeCanvas() {
@@ -518,61 +613,185 @@
         }
 
         function centerProduct() {
-            if (!productImg) return;
-            productX = (canvas.width / 2);
-            productY = (canvas.height / 2);
+            // Deprecated for multi-layer
         }
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.globalCompositeOperation = 'source-over'; // Reset
 
             if (bgImage) {
                 ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
             }
 
-            if (productImg && bgImage) {
-                const w = productImg.width * productScale * (canvas.width / 1000);
-                const h = productImg.height * productScale * (canvas.width / 1000);
+            layers.forEach((layer, index) => {
+                const img = layer.img;
+                const ratio = (canvas.width / 1000);
+                const w = img.width * layer.scaleX * ratio;
+                const h = img.height * layer.scaleY * ratio;
+
+                // Crop dimensions
+                const sw = img.width * layer.cropW;
+                const sh = img.height * layer.cropH;
+                const dw = w * layer.cropW;
+                const dh = h * layer.cropH;
 
                 ctx.save();
-                ctx.globalAlpha = productOpacity;
 
-                if (useSmartBlend) {
-                    ctx.globalCompositeOperation = 'multiply'; // "AI" Blend
-                    // Adjust contrast slightly for better multiply effect?
-                    // ctx.filter = 'contrast(1.1)'; 
+                // Position and Rotation
+                ctx.translate(layer.x, layer.y);
+                ctx.rotate(layer.rotation * Math.PI / 180);
+
+                ctx.globalAlpha = layer.opacity;
+
+                if (index === selectedLayerIndex) {
+                    ctx.shadowColor = "var(--accent)";
+                    ctx.shadowBlur = 20;
+                    ctx.strokeStyle = "var(--accent)";
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(-dw / 2, -dh / 2, dw, dh);
+
+                    // Draw Handles
+                    ctx.fillStyle = "white";
+                    const hs = 10; // Handle size
+                    // Corners
+                    ctx.fillRect(-dw / 2 - hs / 2, -dh / 2 - hs / 2, hs, hs); // tl
+                    ctx.fillRect(dw / 2 - hs / 2, -dh / 2 - hs / 2, hs, hs);  // tr
+                    ctx.fillRect(-dw / 2 - hs / 2, dh / 2 - hs / 2, hs, hs);  // bl
+                    ctx.fillRect(dw / 2 - hs / 2, dh / 2 - hs / 2, hs, hs);   // br
+                    // Middles
+                    ctx.fillRect(-dw / 2 - hs / 2, -hs / 2, hs, hs);        // ml
+                    ctx.fillRect(dw / 2 - hs / 2, -hs / 2, hs, hs);         // mr
+                    ctx.fillRect(-hs / 2, -dh / 2 - hs / 2, hs, hs);        // mt
+                    ctx.fillRect(-hs / 2, dh / 2 - hs / 2, hs, hs);         // mb
                 } else {
                     ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
                     ctx.shadowBlur = 15;
                 }
 
-                ctx.drawImage(productImg, productX - w / 2, productY - h / 2, w, h);
+                // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+                ctx.drawImage(
+                    img,
+                    (img.width - sw) / 2, (img.height - sh) / 2, sw, sh, // Source
+                    -dw / 2, -dh / 2, dw, dh                             // Destination
+                );
+
                 ctx.restore();
-            }
+            });
         }
 
         function startDrag(e) {
-            isDragging = true;
             const pos = getPos(e);
-            startX = pos.x;
-            startY = pos.y;
+
+            // 1. Check if clicking handles of the selected layer
+            if (selectedLayerIndex !== -1) {
+                const layer = layers[selectedLayerIndex];
+                const ratio = (canvas.width / 1000);
+                const dw = layer.img.width * layer.scaleX * ratio * layer.cropW;
+                const dh = layer.img.height * layer.scaleY * ratio * layer.cropH;
+                const hs = 25; // Hit area for handles (slightly larger for touch)
+
+                // Project pos to local space of the layer (ignoring rotation for hit area simplicity for now)
+                const lx = pos.x - layer.x;
+                const ly = pos.y - layer.y;
+
+                let handle = null;
+                if (Math.abs(lx + dw / 2) < hs && Math.abs(ly + dh / 2) < hs) handle = 'tl';
+                else if (Math.abs(lx - dw / 2) < hs && Math.abs(ly + dh / 2) < hs) handle = 'tr';
+                else if (Math.abs(lx + dw / 2) < hs && Math.abs(ly - dh / 2) < hs) handle = 'bl';
+                else if (Math.abs(lx - dw / 2) < hs && Math.abs(ly - dh / 2) < hs) handle = 'br';
+                else if (Math.abs(lx + dw / 2) < hs && Math.abs(ly) < hs) handle = 'ml';
+                else if (Math.abs(lx - dw / 2) < hs && Math.abs(ly) < hs) handle = 'mr';
+                else if (Math.abs(lx) < hs && Math.abs(ly + dh / 2) < hs) handle = 'mt';
+                else if (Math.abs(lx) < hs && Math.abs(ly - dh / 2) < hs) handle = 'mb';
+
+                if (handle) {
+                    isResizing = true;
+                    resizeHandle = handle;
+                    startX = pos.x;
+                    startY = pos.y;
+                    return;
+                }
+            }
+
+            // 2. Selection logic: check from top layer to bottom
+            let found = false;
+            for (let i = layers.length - 1; i >= 0; i--) {
+                const layer = layers[i];
+                const ratio = (canvas.width / 1000);
+                const dw = layer.img.width * layer.scaleX * ratio * layer.cropW;
+                const dh = layer.img.height * layer.scaleY * ratio * layer.cropH;
+
+                // Simple box hit test (not accounting for rotation for now, keep it simple)
+                if (pos.x >= layer.x - dw / 2 && pos.x <= layer.x + dw / 2 &&
+                    pos.y >= layer.y - dh / 2 && pos.y <= layer.y + dh / 2) {
+                    selectedLayerIndex = i;
+                    updateControlsFromLayer(layer);
+                    updateControlsVisibility();
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                // Clicking empty space deselects
+                selectedLayerIndex = -1;
+                updateControlsVisibility();
+            }
+
+            if (selectedLayerIndex !== -1) {
+                isDragging = true;
+                startX = pos.x;
+                startY = pos.y;
+            }
+
+            draw();
         }
 
         function drag(e) {
-            if (!isDragging || !productImg) return;
+            if ((!isDragging && !isResizing) || selectedLayerIndex === -1) return;
             e.preventDefault();
             const pos = getPos(e);
             const dx = pos.x - startX;
             const dy = pos.y - startY;
-            productX += dx;
-            productY += dy;
+            const layer = layers[selectedLayerIndex];
+
+            if (isResizing) {
+                const ratio = (canvas.width / 1000);
+                const baseW = layer.img.width * ratio;
+                const baseH = layer.img.height * ratio;
+
+                if (resizeHandle === 'br' || resizeHandle === 'tl' || resizeHandle === 'tr' || resizeHandle === 'bl') {
+                    // Uniform scaling
+                    const side = (resizeHandle === 'br' || resizeHandle === 'tr') ? 1 : -1;
+                    const change = (dx * side / 500);
+                    layer.scaleX = Math.max(0.1, Math.min(10, layer.scaleX + change));
+                    layer.scaleY = Math.max(0.1, Math.min(10, layer.scaleY + change));
+                } else if (resizeHandle === 'mr' || resizeHandle === 'ml') {
+                    // Width adjustment (stretchX)
+                    const side = resizeHandle === 'mr' ? 1 : -1;
+                    layer.scaleX = Math.max(0.1, Math.min(10, layer.scaleX + (dx * side / 500)));
+                } else if (resizeHandle === 'mb' || resizeHandle === 'mt') {
+                    // Height adjustment (stretchY)
+                    const side = resizeHandle === 'mb' ? 1 : -1;
+                    layer.scaleY = Math.max(0.1, Math.min(10, layer.scaleY + (dy * side / 500)));
+                }
+
+                updateControlsFromLayer(layer);
+            } else if (isDragging) {
+                layer.x += dx;
+                layer.y += dy;
+            }
+
             startX = pos.x;
             startY = pos.y;
             draw();
         }
 
-        function endDrag() { isDragging = false; }
+        function endDrag() {
+            isDragging = false;
+            isResizing = false;
+            resizeHandle = null;
+        }
 
         function getPos(e) {
             const rect = canvas.getBoundingClientRect();

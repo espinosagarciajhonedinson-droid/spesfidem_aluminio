@@ -277,7 +277,7 @@
         <h3 class="category-title-metallic">
             Sistemas de Ventanería</h3>
         <div class="catalog-grid" style="margin-bottom:6rem;">
-            <a href="gallery.html?category=ventana_corrediza" class="product-card" data-aos="fade-up">
+            <a href="gallery.html?v=nav_final&category=ventana_corrediza" class="product-card" data-aos="fade-up">
                 <div class="product-img"><img src="images/products/ventanas_hq.png" alt="Ventanas Corredizas"
                         onerror="this.src='images/products/ventana_corrediza.jpg'"></div>
                 <div class="product-info">
@@ -285,7 +285,7 @@
                     <p>Eficiencia y estilo moderno.</p>
                 </div>
             </a>
-            <a href="gallery.html?category=ventana_batiente" class="product-card" data-aos="fade-up"
+            <a href="gallery.html?v=nav_final&category=ventana_batiente" class="product-card" data-aos="fade-up"
                 data-aos-delay="200">
                 <div class="product-img"><img src="images/products/ventana_batiente.jpg" alt="Ventana Batiente"
                         onerror="this.style.display='none'"></div>
@@ -300,7 +300,7 @@
         <h3 class="category-title-metallic">
             Sistemas de Puertas</h3>
         <div class="catalog-grid" style="margin-bottom:6rem;">
-            <a href="gallery.html?category=puerta_principal" class="product-card" data-aos="fade-up"
+            <a href="gallery.html?v=nav_final&category=puerta_principal" class="product-card" data-aos="fade-up"
                 data-aos-delay="100">
                 <div class="product-img"><img src="images/products/puerta_principal_hq.png" alt="Puertas Principales"
                         onerror="this.src='images/gallery/puerta_principal/1.png'"></div>
@@ -314,7 +314,8 @@
         <h3 class="category-title-metallic">
             Divisiones de Baño</h3>
         <div class="catalog-grid" style="margin-bottom:6rem;">
-            <a href="gallery.html?category=division_bano" class="product-card" data-aos="fade-up" data-aos-delay="100">
+            <a href="gallery.html?v=nav_final&category=division_bano" class="product-card" data-aos="fade-up"
+                data-aos-delay="100">
                 <div class="product-img"><img src="images/products/division_bano_hq.png" alt="Divisiones de Baño"
                         onerror="this.src='images/products/division_bano.jpg'"></div>
                 <div class="product-info">
@@ -322,7 +323,7 @@
                     <p>Espacios modernos y limpios.</p>
                 </div>
             </a>
-            <a href="gallery.html?category=division_acrilico" class="product-card" data-aos="fade-up"
+            <a href="gallery.html?v=nav_final&category=division_acrilico" class="product-card" data-aos="fade-up"
                 data-aos-delay="200">
                 <div class="product-img"><img src="images/gallery/division_acrilico/1.png" alt="Divisiones Acrílico"
                         onerror="this.src='images/products/vidrio_templado.jpg'"></div>
@@ -337,7 +338,7 @@
         <h3 class="category-title-metallic">
             Espejos Modernos</h3>
         <div class="catalog-grid" style="margin-bottom:6rem;">
-            <a href="gallery.html?category=espejos_decorativos" class="product-card" data-aos="fade-up">
+            <a href="gallery.html?v=nav_final&category=espejos_decorativos" class="product-card" data-aos="fade-up">
                 <div class="product-img"><img src="images/products/espejos_hq.png" alt="Espejos Decorativos"
                         onerror="this.src='images/gallery/espejos_decorativos/1.png'"></div>
                 <div class="product-info">
@@ -351,7 +352,7 @@
         <h3 class="category-title-metallic">
             Persianas y Aluminio</h3>
         <div class="catalog-grid" style="margin-bottom:6rem;">
-            <a href="gallery.html?category=persianas" class="product-card" data-aos="fade-up">
+            <a href="gallery.html?v=nav_final&category=persianas" class="product-card" data-aos="fade-up">
                 <div class="product-img"><img src="images/products/persianas.jpg" alt="Persianas Modernas"
                         onerror="this.style.display='none'"></div>
                 <div class="product-info">
@@ -692,7 +693,8 @@
             Login</a>
     </footer>
 
-    <script src="js/app.js?v=161"></script>
+    <script src="js/cart.js?v=final"></script>
+    <script src="js/app.js?v=20260129_04"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({
@@ -700,6 +702,43 @@
             once: true,
             offset: 100
         });
+
+        // AGGRESSIVE SCROLL FIX SYSTEM
+        // 1. Disable browser's native scroll restoration to preventing fighting
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+
+        // SUPER AGGRESSIVE SCROLL - Query Param Strategy
+        window.addEventListener('input', () => { }); // No-op to keep listeners active?
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('section') === 'productos') {
+
+                // 1. Immediate try
+                const target = document.querySelector('#productos');
+                if (target) target.scrollIntoView();
+
+                // 2. Persistent Retry (every 200ms for 2 seconds)
+                let attempts = 0;
+                const interval = setInterval(() => {
+                    const t = document.querySelector('#productos');
+                    if (t) {
+                        const top = t.getBoundingClientRect().top + window.pageYOffset - 100;
+                        window.scrollTo({ Top: top, behavior: 'instant' }); // Force jump
+                        window.scrollTo(0, top); // Legacy
+                    }
+                    attempts++;
+                    if (attempts > 10) clearInterval(interval);
+                }, 200);
+
+                // 3. Clean URL
+                window.history.replaceState({}, document.title, "index.html");
+            }
+        });
+
+
     </script>
 </body>
 
