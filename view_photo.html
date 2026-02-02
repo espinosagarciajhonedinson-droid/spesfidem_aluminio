@@ -152,6 +152,53 @@
                 transform: rotate(360deg);
             }
         }
+
+        /* Navigation Arrows */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(15, 23, 42, 0.4);
+            border: none;
+            color: white;
+            padding: 2.5rem 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 101;
+            transition: 0.3s;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-arrow:hover {
+            background: rgba(38, 189, 248, 0.3);
+            color: var(--accent);
+            padding: 2.5rem 1.5rem;
+        }
+
+        .nav-arrow.prev {
+            left: 20px;
+        }
+
+        .nav-arrow.next {
+            right: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-arrow {
+                padding: 1.5rem 0.8rem;
+                font-size: 1.5rem;
+            }
+
+            .nav-arrow.prev {
+                left: 10px;
+            }
+
+            .nav-arrow.next {
+                right: 10px;
+            }
+        }
     </style>
 </head>
 
@@ -168,26 +215,37 @@
     </header>
 
     <main class="viewer-main" id="viewerMain">
-        <div id="loader" class="loading-ring"></div>
         <div class="zoom-label" id="zoomLabel">ZOOM: 100%</div>
+
+        <!-- Navigation Buttons -->
+        <button id="prevBtn" class="nav-arrow prev" onclick="navigate(-1)" title="Anterior">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button id="nextBtn" class="nav-arrow next" onclick="navigate(1)" title="Siguiente">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
         <img id="viewport-img" src="" alt="Cargando producto...">
 
         <div class="viewer-controls">
+            <button class="control-btn" title="Anterior (Atajo: A)" onclick="navigate(-1)"><i
+                    class="fas fa-angle-left"></i></button>
             <button class="control-btn" title="Alejar" onclick="adjustZoom(-0.25)"><i
                     class="fas fa-search-minus"></i></button>
+            <button class="control-btn" title="Reiniciar" onclick="resetView()"><i class="fas fa-sync-alt"></i></button>
             <button class="control-btn" title="Acercar" onclick="adjustZoom(0.25)"><i
                     class="fas fa-search-plus"></i></button>
-            <button class="control-btn" title="Reiniciar" onclick="resetView()"><i class="fas fa-sync-alt"></i></button>
+            <button class="control-btn" title="Siguiente (Atajo: D)" onclick="navigate(1)"><i
+                    class="fas fa-angle-right"></i></button>
         </div>
     </main>
 
     <script>
         const params = new URLSearchParams(window.location.search);
-        const src = params.get('src');
+        let currentSrc = params.get('src');
         const cat = params.get('cat');
         const backBtn = document.getElementById('backBtn');
         const img = document.getElementById('viewport-img');
-        const loader = document.getElementById('loader');
         const viewerMain = document.getElementById('viewerMain');
         const zoomLabel = document.getElementById('zoomLabel');
 
@@ -198,13 +256,74 @@
         let isDragging = false;
         let startX, startY;
 
-        // Init
-        if (src) {
-            img.onload = () => {
-                loader.style.display = 'none';
-                resetView();
+        const galleries = {
+            'ventana_corrediza': 5, 'ventana_proyectante': 103, 'ventana_casement': 20,
+            'ventana_batiente': 14, 'ventana_fija': 100, 'ventana_basculante': 100,
+            'puerta_principal': 232, 'puerta_patio': 100, 'puerta_plegable': 100,
+            'puerta_bano': 100, 'division_bano': 59, 'espejos': 0,
+            'espejos_decorativos': 50, 'division_acrilico': 0, 'ventana_abatible': 105,
+            'vidrio_templado': 103
+        };
+
+        let currentIdx = 1;
+        if (currentSrc) {
+            // Extract index from src path (e.g., ./images/gallery/category/15.jpg)
+            const match = currentSrc.match(/\/(\d+)\.(jpg|png)/);
+            if (match) currentIdx = parseInt(match[1]);
+        }
+
+        // Logic
+        function loadCurrentImage() {
+            if (!cat) return;
+            // Update UI
+            img.style.opacity = '0.3';
+
+            const newSrc = `./images/gallery/${cat}/${currentIdx}.jpg`;
+            const fallbackSrc = `./images/gallery/${cat}/${currentIdx}.png`;
+
+            const tempImg = new Image();
+            tempImg.src = newSrc;
+            tempImg.onload = () => { currentSrc = newSrc; img.src = newSrc; img.style.opacity = '1'; resetView(); };
+            tempImg.onerror = () => {
+                const tempPng = new Image();
+                tempPng.src = fallbackSrc;
+                tempPng.onload = () => { currentSrc = fallbackSrc; img.src = fallbackSrc; img.style.opacity = '1'; resetView(); };
+                tempPng.onerror = () => {
+                    // If neither exist, maybe loop or skip
+                    console.error("Image not found:", currentIdx);
+                };
             };
-            img.src = src;
+
+            // Update Page Title
+            const titleEl = document.getElementById('pageTitle');
+            if (titleEl) titleEl.textContent = `${cat.replace(/_/g, ' ').toUpperCase()} #${currentIdx}`;
+        }
+
+        function navigate(direction) {
+            const count = galleries[cat] || 0;
+            if (count === 0) return;
+
+            currentIdx += direction;
+
+            // Loop logic
+            if (currentIdx > count) currentIdx = 1;
+            if (currentIdx < 1) currentIdx = count;
+
+            loadCurrentImage();
+        }
+
+        // Keyboard Shortcuts
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') navigate(-1);
+            if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd') navigate(1);
+            if (e.key === 'Escape') backBtn.click();
+        });
+
+        // Init
+        if (currentSrc) {
+            img.src = currentSrc;
+            const titleEl = document.getElementById('pageTitle');
+            if (titleEl) titleEl.textContent = `${cat ? cat.replace(/_/g, ' ').toUpperCase() : 'VISUALIZADOR'} #${currentIdx}`;
         }
 
         if (cat) {

@@ -18,17 +18,21 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://spesfidem.com">
 
-    <link rel="stylesheet" href="css/style.css?v=V3_CYAN">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@300;600;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;600&family=Orbitron:wght@400;700;900&display=swap"
         rel="stylesheet">
-    <!-- Font Awesome for Icons -->
+
+    <!-- Dependencies -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Main Style -->
+    <link rel="stylesheet" href="css/style.css?v=2.0">
+    <!-- Teen Exclusive Theme (Overwrites Main) -->
+    <link rel="stylesheet" href="css/teens.css?v=2.0">
 </head>
 
 <body>
@@ -38,24 +42,13 @@
         <div class="nav-container">
             <a href="index.html" class="logo-premium-final">
                 <svg class="logo-icon-premium" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Aluminum Window Profile Icon -->
-                    <!-- Outer Frame -->
                     <rect x="10" y="15" width="80" height="70" rx="4" stroke="url(#metallic-grad)" stroke-width="4"
                         fill="url(#metallic-fill)" />
-                    <!-- Inner Frame -->
                     <rect x="20" y="25" width="60" height="50" rx="3" stroke="url(#metallic-grad)" stroke-width="3"
                         fill="rgba(15, 23, 42, 0.3)" />
-                    <!-- Vertical Divider (Window Profile) -->
                     <line x1="50" y1="25" x2="50" y2="75" stroke="url(#metallic-grad)" stroke-width="3.5" />
-                    <!-- Horizontal Divider -->
                     <line x1="20" y1="50" x2="80" y2="50" stroke="url(#metallic-grad)" stroke-width="3.5" />
-                    <!-- Corner Details (Aluminum joints) -->
-                    <circle cx="20" cy="25" r="3" fill="url(#metallic-grad)" />
-                    <circle cx="80" cy="25" r="3" fill="url(#metallic-grad)" />
-                    <circle cx="20" cy="75" r="3" fill="url(#metallic-grad)" />
-                    <circle cx="80" cy="75" r="3" fill="url(#metallic-grad)" />
                     <defs>
-                        <!-- Metallic Aluminum Gradient -->
                         <linearGradient id="metallic-grad" x1="0" y1="0" x2="100" y2="100"
                             gradientUnits="userSpaceOnUse">
                             <stop offset="0%" stop-color="#f8fafc" />
@@ -64,7 +57,6 @@
                             <stop offset="75%" stop-color="#cbd5e1" />
                             <stop offset="100%" stop-color="#e2e8f0" />
                         </linearGradient>
-                        <!-- Metallic Fill -->
                         <linearGradient id="metallic-fill" x1="0" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
                             <stop offset="0%" stop-color="rgba(203, 213, 225, 0.15)" />
                             <stop offset="50%" stop-color="rgba(148, 163, 184, 0.1)" />
@@ -74,241 +66,217 @@
                 </svg>
                 <div class="logo-text-premium">
                     <span class="logo-brand-premium">SPESFIDEM</span>
-                    <span class="logo-subtitle-premium">ALUMINIO</span>
+                    <span class="logo-subtitle-premium" style="letter-spacing: 4px; color: #a855f7;">NEXTGEN</span>
                 </div>
             </a>
             <nav class="big-menu">
-                <a href="#hero">Inicio</a>
-                <a href="#productos">Catálogo</a>
-                <a href="#beneficios" style="font-weight: 700;">Promesa</a>
-                <a href="#metodo">Método</a>
-                <a href="#perfil">Nosotros</a>
-                <a href="#contacto">Contacto</a>
-                <a href="teens.html" style="color: var(--accent); font-weight: bold;"><i class="fas fa-rocket"></i> Next
-                    Gen Niños</a>
-                <a href="admin.html" style="color:rgba(255,255,255,0.3); margin-left:10px;"
-                    title="Acceso Administrativo">
-                    <i class="fas fa-lock"></i>
-                </a>
+                <a href="index.html">Volver al Inicio</a>
+                <a href="#aprende">Aprende</a>
+                <a href="#crea">Crea tu Espacio</a>
+                <a href="#futuro">Futuro</a>
             </nav>
-            <!-- Mobile Menu Toggler -->
             <div id="mobile-menu-btn" class="mobile-menu-btn"><i class="fas fa-bars"></i></div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="hero" class="hero">
-        <div class="hero-overlay"></div>
+    <!-- Hero Section (Teen Style) -->
+    <section id="hero" class="hero" style="background: radial-gradient(circle at center, #2e1065 0%, #020617 100%);">
         <div class="hero-content" data-aos="fade-up">
-            <div class="quality-seal-royal" data-aos="zoom-in">
-                <div class="seal-ring"></div>
-                <div class="seal-glare"></div>
-                <div class="seal-content">
-                    <div class="seal-main-text">
-                        <span class="seal-percent">100%</span>
-                        <span class="seal-word">CALIDAD</span>
-                    </div>
-                    <div class="seal-divider"></div>
-                    <span class="seal-tagline">Certificación Spesfidem Elite</span>
-                </div>
-            </div>
-            <h1>Arquitectura <br>Invisible</h1>
-            <h2
-                style="color: var(--text-main); font-size: 2.2rem; margin-bottom: 2rem; font-weight: 600; text-shadow: 0 1px 3px rgba(0,0,0,0.3);">
-                El Arte de Desvanecer
-                Fronteras Proyectando Lujo y Confort</h2>
-            <p
-                style="color: var(--text-main); text-shadow: 0 1px 3px rgba(0,0,0,0.2); font-size: 2.2rem; max-width: 1000px; margin: 0 auto 2.5rem; line-height: 1.2; font-weight: 800;">
-                Transformamos espacios comunes en experiencias extraordinarias con sistemas de aluminio de alta
-                ingeniería y vidrio de alto desempeño.
-                Excelencia técnica garantizada por <strong class="name-highlight">Jhon Edinson Espinosa García</strong>.
+            <h1
+                style="font-size: 4rem; background: linear-gradient(to right, #c084fc, #6366f1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                Diseña Tu Mundo</h1>
+            <h2 style="color: #e2e8f0; font-size: 1.8rem; margin-bottom: 2rem;">
+                La arquitectura del futuro comienza con tu imaginación.
+            </h2>
+            <p style="color: #cbd5e1; max-width: 800px; margin: 0 auto 3rem; font-size: 1.2rem;">
+                Descubre cómo el aluminio y el vidrio transforman simples habitaciones en espacios épicos.
+                Aprende, inspírate y crea sin límites.
             </p>
+            <a href="#crea" class="btn-primary"
+                style="background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%); border-color: #a855f7;">
+                <i class="fas fa-gamepad"></i> Iniciar Experiencia
+            </a>
+        </div>
+    </section>
 
+    <!-- Game Section: Skyline Builder (Arcade) -->
+    <section id="crea"
+        style="padding: var(--section-pad); background: rgba(9, 9, 11, 0.95); position: relative; overflow: hidden;">
+        <!-- Animated Background Mesh for context -->
+        <div
+            style="position: absolute; inset: 0; background-image: radial-gradient(#1e1b4b 1px, transparent 1px); background-size: 30px 30px; opacity: 0.3; z-index: 0;">
+        </div>
 
-            <div class="hero-stats">
-                <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
-                    <h4>+5</h4>
-                    <p>Trayectoria</p>
+        <div style="position: relative; z-index: 2; text-align: center;">
+            <h2 class="section-title-elite"
+                style="text-align:center; margin-bottom: 1rem; color: #fff; text-shadow: 0 0 20px var(--cyber-primary);">
+                SKYLINE BUILDER</h2>
+            <p style="text-align: center; color: var(--cyber-accent); margin-bottom: 2rem;">Construye el rascacielos de
+                vidrio más alto. Presición = Estabilidad. <span style="font-family:monospace; color:#64748b;">[v1.0
+                    Arcade]</span></p>
+
+            <!-- Game Container -->
+            <div class="glass-panel"
+                style="max-width: 600px; margin: 0 auto; padding: 20px; border: 2px solid var(--cyber-primary); box-shadow: 0 0 50px rgba(124, 58, 237, 0.2);">
+
+                <!-- HUD -->
+                <div
+                    style="display: flex; justify-content: space-between; margin-bottom: 1rem; font-family: 'Orbitron', monospace;">
+                    <span style="color: #94a3b8;">SISTEMA: <span style="color: #fff;">VIDRIO TEMPLADO</span></span>
+                    <span style="color: #94a3b8;">PUNTUACIÓN: <span id="gameValues"
+                            style="color: var(--cyber-accent);">000 EXP</span></span>
                 </div>
-                <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
-                    <h4>100%</h4>
-                    <p>Precisión</p>
+
+                <!-- Canvas -->
+                <div
+                    style="background: #000; border: 1px solid #333; position: relative; aspect-ratio: 4/3; width: 100%;">
+                    <canvas id="gameCanvas" style="width: 100%; height: 100%; display: block;"></canvas>
                 </div>
-                <div class="stat-item" data-aos="fade-up" data-aos-delay="400">
-                    <h4>500+</h4>
-                    <p>Obras Élite</p>
+
+                <!-- Controls Hint & Buttons -->
+                <div class="game-controls-panel"
+                    style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <button onclick="window.game.start()" class="btn-game-control start">
+                        <i class="fas fa-play"></i> INICIAR
+                    </button>
+                    <button onclick="window.game.pause()" class="btn-game-control pause">
+                        <i class="fas fa-pause"></i> PAUSAR
+                    </button>
+                    <button onclick="window.game.reset()" class="btn-game-control reset">
+                        <i class="fas fa-redo"></i> REINICIAR
+                    </button>
+                </div>
+
+                <div
+                    style="margin-top: 1rem; color: #64748b; font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.5rem;">
+                    ESTADO: <span id="gameState">LISTO PARA OBRA</span>
+                </div>
+            </div>
+
+            <!-- Leaderboard / Motivation -->
+            <div
+                style="margin-top: 3rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; max-width: 800px; margin-left: auto; margin-right: auto; text-align: center;">
+                <div>
+                    <i class="fas fa-helmet-safety fa-2x" style="color: #facc15; margin-bottom: 0.5rem;"></i>
+                    <h4 style="color: white;">Seguridad</h4>
+                    <p style="color: #64748b; font-size: 0.8rem;">Cero accidentes</p>
+                </div>
+                <div>
+                    <i class="fas fa-ruler-combined fa-2x" style="color: #ef4444; margin-bottom: 0.5rem;"></i>
+                    <h4 style="color: white;">Calidad</h4>
+                    <p style="color: #64748b; font-size: 0.8rem;">Materiales Premium</p>
+                </div>
+                <div>
+                    <i class="fas fa-city fa-2x" style="color: #38bdf8; margin-bottom: 0.5rem;"></i>
+                    <h4 style="color: white;">Impacto</h4>
+                    <p style="color: #64748b; font-size: 0.8rem;">Skyline Definido</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Marketing Benefits Section -->
-    <section id="beneficios"
-        style="padding: var(--section-pad); background: linear-gradient(rgba(2, 6, 23, 0.4), rgba(2, 6, 23, 0.6)), url('images/promise_installation_bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat; position: relative; overflow: hidden;">
-        <div class="nav-container">
-            <div style="text-align: center; margin-bottom: 3rem;" data-aos="fade-up">
-                <h2 class="section-title-elite" style="margin-bottom: 2rem;">La Promesa Spesfidem</h2>
-                <p
-                    style="color: #ffffff; font-size: 1.4rem; max-width: 800px; margin: 0 auto; line-height: 1.5; font-weight: 500; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
-                    Invertir en Spesfidem es
-                    asegurar el valor, la eficiencia y la belleza eterna de su propiedad.</p>
-            </div>
+    <!-- Educational Section -->
+    <section id="aprende" style="padding: var(--section-pad);">
+        <h2 class="section-title-elite">CIENCIA Y ARTE</h2>
+        <p
+            style="text-align: center; color: #cbd5e1; margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+            ¿Sabías que el vidrio es en realidad un "líquido sólido"? ¿Y que el aluminio es el elemento metálico más
+            abundante de la Tierra?
+        </p>
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
-                <!-- Benefit 1 -->
-                <div class="glass-panel"
-                    style="padding: 3rem; text-align: center; border-bottom: 4px solid var(--accent);"
-                    data-aos="flip-left">
-                    <i class="fas fa-microchip fa-3x" style="color: var(--accent); margin-bottom: 2rem;"></i>
-                    <h3 style="color: var(--text-main); font-size: 1.5rem; margin-bottom: 1rem;">Ingeniería de Precisión
-                    </h3>
-                    <p style="color: #94a3b8; line-height: 1.6;">Cierres herméticos y deslizamientos ultra suaves
-                        gracias a mecanizados milimétricos en cada perfil.</p>
-                </div>
-                <!-- Benefit 2 -->
-                <div class="glass-panel" style="padding: 3rem; text-align: center; border-bottom: 4px solid #10b981;"
-                    data-aos="flip-left" data-aos-delay="100">
-                    <i class="fas fa-leaf fa-3x" style="color: #10b981; margin-bottom: 2rem;"></i>
-                    <h3 style="color: var(--text-main); font-size: 1.5rem; margin-bottom: 1rem;">Eficiencia Térmica</h3>
-                    <p style="color: #94a3b8; line-height: 1.6;">Ahorro energético real mediante el uso de vidrios con
-                        control térmico y perfiles de alto desempeño.</p>
-                </div>
-                <!-- Benefit 3 -->
-                <div class="glass-panel" style="padding: 3rem; text-align: center; border-bottom: 4px solid #f59e0b;"
-                    data-aos="flip-left" data-aos-delay="200">
-                    <i class="fas fa-lock fa-3x" style="color: #f59e0b; margin-bottom: 2rem;"></i>
-                    <h3 style="color: var(--text-main); font-size: 1.5rem; margin-bottom: 1rem;">Seguridad Blindada</h3>
-                    <p style="color: #94a3b8; line-height: 1.6;">Herrajes de seguridad y vidrio templado de alta
-                        resistencia contra impactos y vandalismo.</p>
-                </div>
-                <!-- Benefit 4 -->
-                <div class="glass-panel" style="padding: 3rem; text-align: center; border-bottom: 4px solid #8b5cf6;"
-                    data-aos="flip-left" data-aos-delay="300">
-                    <i class="fas fa-gem fa-3x" style="color: #8b5cf6; margin-bottom: 2rem;"></i>
-                    <h3 style="color: var(--text-main); font-size: 1.5rem; margin-bottom: 1rem;">Estética Atemporal</h3>
-                    <p style="color: #94a3b8; line-height: 1.6;">Acabados que no se degradan con el tiempo, manteniendo
-                        el brillo y la elegancia del primer día.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Methodology Section -->
-    <section id="metodo" class="method-section">
-        <div class="nav-container">
-
-
-            <div style="display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center;">
-                <div class="method-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="step-number">1</div>
-                    <h3>Consultoría Técnica</h3>
-                    <p>Analizamos su espacio y necesidades para proponer la mejor solución estructural y estética.</p>
-                </div>
-
-                <div class="method-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="step-number">2</div>
-                    <h3>Diseño & Simulación</h3>
-                    <p>Visualizamos el proyecto final mediante nuestro simulador para precisar medidas y costos.</p>
-                </div>
-
-                <div class="method-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="step-number">3</div>
-                    <h3>Instalación Maestra</h3>
-                    <p>Ejecución impecable por expertos certificados, garantizando acabados de lujo y durabilidad.</p>
+            <!-- Card 1: Physics -->
+            <div class="glass-panel" data-aos="fade-right">
+                <i class="fas fa-shield-alt fa-3x" style="color: #38bdf8; margin-bottom: 1rem;"></i>
+                <h3 style="color:white; margin-bottom: 1rem;">Física del Vidrio Templado</h3>
+                <p style="color: #94a3b8; margin-bottom: 1rem;">El vidrio se calienta a <strong>600°C</strong> y se
+                    enfría rápidamente. Esto crea una "tensión interna" (como un resorte apretado) que lo hace <strong>5
+                        veces más fuerte</strong>.</p>
+                <div
+                    style="background: rgba(56, 189, 248, 0.1); padding: 10px; border-radius: 8px; border: 1px dashed #38bdf8;">
+                    <strong style="color: #38bdf8;">Dato Curioso:</strong> Si logras romperlo, explota en miles de
+                    "diamantes" inofensivos llamados cullet.
                 </div>
             </div>
 
+            <!-- Card 2: Materials -->
+            <div class="glass-panel" data-aos="fade-up">
+                <i class="fas fa-cube fa-3x" style="color: #a855f7; margin-bottom: 1rem;"></i>
+                <h3 style="color:white; margin-bottom: 1rem;">Aluminio: El Metal Espacial</h3>
+                <p style="color: #94a3b8; margin-bottom: 1rem;">Ligero, fuerte y 100% reciclable. Es el mismo material
+                    que se usa en aviones y naves espaciales. ¡Tu ventana podría ser parte de un cohete algún día!</p>
+                <div
+                    style="background: rgba(168, 85, 247, 0.1); padding: 10px; border-radius: 8px; border: 1px dashed #a855f7;">
+                    <strong style="color: #a855f7;">Reciclaje:</strong> Reciclar aluminio ahorra el <strong>95%</strong>
+                    de la energía necesaria para crearlo desde cero.
+                </div>
+            </div>
+
+            <!-- Card 3: Acoustics -->
+            <div class="glass-panel" data-aos="fade-left">
+                <i class="fas fa-volume-mute fa-3x" style="color: #f472b6; margin-bottom: 1rem;"></i>
+                <h3 style="color:white; margin-bottom: 1rem;">Ondas de Sonido</h3>
+                <p style="color: #94a3b8; margin-bottom: 1rem;">El sonido viaja por el aire. Nuestras ventanas usan
+                    cámaras de aire y sellos herméticos para "cortar" el puente por donde viaja el ruido.</p>
+                <ul style="color: #cbd5e1; text-align: left; margin-left: 1rem; font-size: 0.9rem;">
+                    <li>Vidrio grueso = Rebota ondas graves</li>
+                    <li>Cámara de aire = Atrapa ondas agudas</li>
+                </ul>
+            </div>
+
+            <!-- Card 4: History (New) -->
+            <div class="glass-panel" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-landmark fa-3x" style="color: #fbbf24; margin-bottom: 1rem;"></i>
+                <h3 style="color:white; margin-bottom: 1rem;">Historia Antigua</h3>
+                <p style="color: #94a3b8;">Los romanos fueron los primeros en usar vidrio para ventanas, ¡pero era
+                    turbio! El vidrio transparente que usamos hoy es un invento moderno de ingeniería química.</p>
+            </div>
 
         </div>
     </section>
 
-    <!-- Owner Profile (About) -->
-    <section id="perfil" style="padding: var(--section-pad); position: relative;">
-        <div class="nav-container" style="display:flex; align-items:center; gap:5rem; flex-wrap:wrap;">
-            <div style="flex:1; min-width:300px;" data-aos="fade-right">
-                <h2 class="vision-title"
-                    style="font-family: 'Outfit', sans-serif; font-size:3.5rem; font-weight:800; margin-bottom:2rem; line-height:1;">
-                    Vanguardia <br><span style="color:var(--accent);">Arquitectónica</span></h2>
-                <p class="vision-text" style="margin-bottom:2.5rem;">
-                    Nuestra filosofía trasciende lo convencional; fusionamos la <strong>maestría técnica</strong> con la
-                    <strong>estética pura</strong> para crear espacios que respiran. Contamos con los <strong>mejores
-                        técnicos en carpintería de aluminio, egresados con la mejor calificación del SENA</strong>,
-                    garantizando que cada proyecto
-                    sea una obra de ingeniería diseñada para redefinir los límites, maximizando la entrada de luz
-                    natural y garantizando un aislamiento térmico y acústico de nivel superior.
-                </p>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:2rem;">
-                    <div class="glass-panel" data-aos="fade-up" style="padding: 2.5rem;">
-                        <i class="fas fa-microchip fa-3x" style="color: var(--accent); margin-bottom: 2rem;"></i>
-                        <h3 style="margin-bottom: 1.5rem; font-size: 1.4rem;">Ingeniería de Precisión</h3>
-                        <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6;">Utilizamos perfiles de alta
-                            resistencia
-                            con tecnología de <strong>sellado termodinámico</strong> y cortes milimétricos, asegurando
-                            una
-                            estanqueidad total contra agua y viento.</p>
-                    </div>
-                    <div class="glass-panel" data-aos="fade-up" data-aos-delay="100"
-                        style="padding: 2.5rem; border: 1px solid var(--accent-glow);">
-                        <i class="fas fa-leaf" style="color:var(--accent); font-size: 2.5rem; margin-bottom:2rem;"></i>
-                        <h3 style="margin-bottom:1.5rem; font-size: 1.4rem;">Eco-Eficiencia</h3>
-                        <p style="font-size:0.95rem; color:#cbd5e1; line-height: 1.6;">Compromiso con la
-                            <strong>Sostenibilidad Especializada</strong>:
-                            Aluminio 100% circular de baja huella hídrica y vidrios de baja emisividad que optimizan el
-                            uso
-                            de energía climática.
-                        </p>
-                    </div>
+
+
+    <!-- Deep Dive: Professional Knowledge -->
+    <section id="futuro" style="padding: var(--section-pad);">
+        <h2 class="section-title-elite" style="text-align:center; margin-bottom:3rem;">ACADEMIA ARQUITECTÓNICA</h2>
+
+        <div style="max-width:1000px; margin:0 auto; display:grid; gap:2rem;">
+
+            <!-- Structural Integrity -->
+            <div class="glass-panel" data-aos="fade-up"
+                style="display:flex; gap:2rem; padding:2rem; align-items:center;">
+                <div style="flex:1;">
+                    <h3 style="color:white; margin-bottom:1rem; font-size:1.5rem;">Integridad Estructural</h3>
+                    <p style="color:#94a3b8; line-height:1.6;">
+                        ¿Por qué los rascacielos no se caen con el viento? La respuesta es el <strong>Momento de
+                            Inercia</strong>.
+                        En nuestras ventanas de aluminio, calculamos la geometría exacta del perfil para resistir cargas
+                        de viento de hasta <strong>100 km/h</strong> sin doblarse.
+                    </p>
+                </div>
+                <div style="width:100px; text-align:center;">
+                    <i class="fas fa-building fa-4x" style="color:var(--cyber-primary);"></i>
                 </div>
             </div>
-            <div style="flex:1; min-width:300px;" data-aos="zoom-in">
-                <style>
-                    /* Vanguardia Carousel Styles */
-                    .vanguardia-carousel {
-                        position: relative;
-                        width: 100%;
-                        height: 500px;
-                        border-radius: 2rem;
-                        overflow: hidden;
-                    }
 
-                    .vanguardia-carousel img {
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
-                        opacity: 0;
-                        transition: opacity 1.5s ease-in-out;
-                    }
-
-                    .vanguardia-carousel img.active {
-                        opacity: 1;
-                    }
-                </style>
-                <div class="glass-panel" style="padding: 1rem; border-radius: 3rem; overflow:hidden;">
-                    <div id="vanguardiaCarousel" class="vanguardia-carousel">
-                        <img src="images/gallery/ventana_corrediza/5.jpg" alt="Vanguardia Elite 1" class="active">
-                        <img src="images/gallery/vidrio_templado/8.jpg" alt="Vanguardia Elite 2">
-                        <img src="images/gallery/ventana_corrediza/1.jpg" alt="Vanguardia Elite 4">
-                        <img src="images/gallery/ventana_proyectante/8.jpg" alt="Vanguardia Elite 5">
-                        <img src="images/gallery/vidrio_templado/2.jpg" alt="Vanguardia Elite 6">
-                        <img src="images/gallery/puerta_principal/3.jpg" alt="Vanguardia Elite 7"
-                            onerror="this.src='images/gallery/ventana_corrediza/2.jpg'">
-                    </div>
+            <!-- Thermal Physics -->
+            <div class="glass-panel" data-aos="fade-up"
+                style="display:flex; gap:2rem; padding:2rem; align-items:center;">
+                <div style="width:100px; text-align:center;">
+                    <i class="fas fa-thermometer-half fa-4x" style="color:var(--cyber-accent);"></i>
                 </div>
-                <script>
-                    document.addEventListener('DOMContentLoaded', () => {
-                        const images = document.querySelectorAll('#vanguardiaCarousel img');
-                        let current = 0;
-                        setInterval(() => {
-                            images[current].classList.remove('active');
-                            current = (current + 1) % images.length;
-                            images[current].classList.add('active');
-                        }, 5000);
-                    });
-                </script>
+                <div style="flex:1;">
+                    <h3 style="color:white; margin-bottom:1rem; font-size:1.5rem;">Termodinámica Aplicada</h3>
+                    <p style="color:#94a3b8; line-height:1.6;">
+                        El calor siempre viaja de caliente a frío. Usamos <strong>rotura de puente térmico</strong> (una
+                        barrera de poliamida dentro del metal) para detener este flujo.
+                        Es como ponerle un abrigo a la ventana para que tu habitación no pierda energía.
+                    </p>
+                </div>
             </div>
+
         </div>
     </section>
 
@@ -371,7 +339,8 @@
             </a>
             <a href="gallery.html?v=nav_final&category=division_acrilico" class="product-card" data-aos="fade-up"
                 data-aos-delay="200">
-                <div class="product-img"><img src="images/gallery/division_bano/1.jpg" alt="Divisiones Acrílico"
+                <div class="product-img"><img src="images/gallery/division_acrilico/1.jpg"
+                        onerror="this.src='images/gallery/ventana_corrediza/1.jpg'" alt="Divisiones Acrílico"
                         onerror="this.src='images/products/vidrio_templado.jpg'"></div>
                 <div class="product-info">
                     <h3>Acrílico & Aluminio</h3>
@@ -453,8 +422,7 @@
                         <strong>spesfidemaluminio@gmail.com</strong>
                     </p>
                     <p style="margin-bottom: 1.5rem;" class="high-contrast-text">
-                        <i class="fas fa-user" style="color:var(--accent); margin-right:1rem;"></i> <strong
-                            class="name-highlight">Jhon Edinson
+                        <i class="fas fa-user" style="color:var(--accent); margin-right:1rem;"></i> <strong>Jhon Edinson
                             Espinosa García</strong>
                     </p>
                     <p class="high-contrast-text">
@@ -733,7 +701,7 @@
                 </div>
             </a>
         </div>
-        <p style="color: #64748b; margin-bottom: 1rem;">&copy; 2025 Spesfidem Aluminio. Todos los derechos
+        <p style="color: #64748b; margin-bottom: 1rem;">&copy; 2026 Spesfidem Aluminio. Todos los derechos
             reservados.
         </p>
         <!-- Accessibility Tools (Embedded for Robustness) -->
@@ -786,12 +754,14 @@
     </footer>
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="js/cart.js?v=V3_CYAN"></script>
-    <script src="js/app.js?v=V3_CYAN"></script>
+    <script src="js/cart.js?v=2.0"></script>
+    <script src="js/app.js?v=2.0"></script>
+    <script src="js/game.js?v=city_builder_1"></script>
     <script>
         AOS.init({
-            duration: 800,
-            once: true
+            duration: 1000,
+            once: true,
+            offset: 100
         });
 
         // AGGRESSIVE SCROLL FIX SYSTEM

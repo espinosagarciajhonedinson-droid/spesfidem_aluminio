@@ -67,24 +67,31 @@ class ClientDB {
         return clients.find(c => String(c.idCard).trim() === String(idCard).trim()) || null;
     }
 
-    async getPaged(page, pageSize, searchQuery = '') {
-        const clients = await this.getAll();
+    async getPaged(page, pageSize, searchQuery = '', showTrash = false) {
+        let clients = await this.getAll();
         // Sort Newest First (descending ID/Timestamp)
         clients.sort((a, b) => b.id - a.id);
 
         const query = searchQuery.toLowerCase();
-        const filtered = clients.filter(c =>
-            !query ||
-            (c.fullName && c.fullName.toLowerCase().includes(query)) ||
-            (c.cellphone && String(c.cellphone).includes(query)) ||
-            (c.idCard && String(c.idCard).includes(query)) ||
-            (c.city && c.city.toLowerCase().includes(query))
-        );
+
+        // Filter: Search Query AND Delete Status
+        const filtered = clients.filter(c => {
+            const matchesQuery = !query ||
+                (c.fullName && c.fullName.toLowerCase().includes(query)) ||
+                (c.cellphone && String(c.cellphone).includes(query)) ||
+                (c.idCard && String(c.idCard).includes(query)) ||
+                (c.city && c.city.toLowerCase().includes(query));
+
+            const isDeleted = !!c.deleted;
+            const matchesStatus = showTrash ? isDeleted : !isDeleted;
+
+            return matchesQuery && matchesStatus;
+        });
 
         const start = (page - 1) * pageSize;
         const pageItems = filtered.slice(start, start + pageSize);
 
-        return { items: pageItems };
+        return { items: pageItems, total: filtered.length };
     }
 
     async count(searchQuery = '') {
@@ -100,6 +107,7 @@ class ClientDB {
     async getNextSerial() {
         const clients = await this.getAll();
         if (clients.length === 0) return 1;
+        // Ignore deleted status for serial continuity
         const serials = clients.map(c => c.serial || 0);
         return Math.max(...serials) + 1;
     }
@@ -107,12 +115,189 @@ class ClientDB {
 
 const db = new ClientDB();
 
-// --- Initialization ---
+// --- Accessibility (Visual Modes: Standard, Light, Dark, High Contrast) ---
+// Accessibility init consolidated at bottom
+
+
+// Consolidated below
+
+
+function showToast(message, type = "info") {
+    let container = document.getElementById('spesfidem-toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'spesfidem-toast-container';
+        container.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        `;
+        document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+        background: #0f172a;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 50px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        font-weight: 600;
+        font-size: 0.9rem;
+        border: 1px solid rgba(255,255,255,0.1);
+        animation: toastFadeIn 0.3s ease-out;
+        pointer-events: auto;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    `;
+
+    const icon = type === "success" ? "fa-check-circle" : "fa-info-circle";
+    const color = type === "success" ? "#10b981" : "#3b82f6";
+
+    toast.innerHTML = `<i class="fas ${icon}" style="color: ${color}"></i> <span>${message}</span>`;
+
+    if (!document.getElementById('toast-animation-style')) {
+        const style = document.createElement('style');
+        style.id = 'toast-animation-style';
+        style.textContent = `
+            @keyframes toastFadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+            @keyframes toastFadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-20px); } }
+        `;
+        document.head.appendChild(style);
+    }
+
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.style.animation = 'toastFadeOut 0.3s ease-in forwards';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+window.showToast = showToast;
+
+function getModeName(mode) {
+    const names = { 'standard': 'Estándar', 'hc': 'Alto Contraste', 'light': 'Claro', 'dark-pure': 'Oscuro' };
+    return names[mode] || mode;
+}
+
+function setFontZoom(level, notify = true) {
+    const zoom = Math.min(Math.max(level, 0.8), 1.5); // Limit between 0.8x and 1.5x
+    document.documentElement.style.setProperty('--font-zoom', zoom);
+    localStorage.setItem('fontZoom', zoom);
+    if (notify && window.showToast) {
+        window.showToast(`Tamaño de letra: ${Math.round(zoom * 100)}%`, "success");
+    }
+}
+
+function adjustFontSize(delta) {
+    const current = parseFloat(localStorage.getItem('fontZoom') || '1');
+    setFontZoom(current + delta);
+}
+
+// Global scope exposure
+// --- Visual Modes & Accessibility ---
+
+function setVisualMode(mode, notify = true) {
+    // Clean all potential theme classes
+    document.body.classList.remove('theme-light', 'theme-dark-pure', 'high-contrast');
+
+    // Map 'hc' mode to the specific class expected by CSS (.high-contrast)
+    if (mode === 'hc') {
+        document.body.classList.add('high-contrast');
+    } else if (mode === 'standard') {
+        // Standard is default (no class), do nothing but save
+    } else {
+        // light -> theme-light, dark-pure -> theme-dark-pure
+        document.body.classList.add(`theme-${mode}`);
+    }
+
+    localStorage.setItem('visualMode', mode);
+
+    if (notify && window.showToast) {
+        window.showToast(`Modo Visual: ${getModeName(mode)}`, "info");
+    }
+}
+
+function cycleVisualMode() {
+    const modes = ['standard', 'hc', 'light', 'dark-pure'];
+    const current = localStorage.getItem('visualMode') || 'standard';
+    const nextIndex = (modes.indexOf(current) + 1) % modes.length;
+    setVisualMode(modes[nextIndex]);
+}
+
+function toggleHighContrast() {
+    const current = localStorage.getItem('visualMode');
+    if (current === 'hc') {
+        setVisualMode('standard');
+    } else {
+        setVisualMode('hc');
+    }
+}
+
+// --- Mobile Menu Logic ---
+function toggleMobileMenu() {
+    const menu = document.querySelector('.big-menu');
+    if (menu) {
+        menu.classList.toggle('active');
+    }
+}
+
+// Event Listener for Mobile Menu
+document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('mobile-menu-btn');
+    if (btn) {
+        btn.onclick = toggleMobileMenu;
+    }
+
+    // Restore Saved Mode
+    const savedMode = localStorage.getItem('visualMode');
+    if (savedMode) setVisualMode(savedMode, false);
+
+    // Restore Saved Zoom
+    const savedZoom = localStorage.getItem('fontZoom');
+    if (savedZoom) setFontZoom(parseFloat(savedZoom), false);
+});
+
+// Global scope exposure
+window.setVisualMode = setVisualMode;
+window.cycleVisualMode = cycleVisualMode;
+window.setFontZoom = setFontZoom;
+window.adjustFontSize = adjustFontSize;
+window.getModeName = getModeName;
+window.toggleHighContrast = toggleHighContrast;
+window.toggleMobileMenu = toggleMobileMenu;
+
+// Legacy toggle support to avoid breaking existing HTML onclicks immediately
+// Legacy toggle consolidated
+
+
 async function migrateData() {
-    // Disabled for Server Mode
+    try {
+        const legacyData = localStorage.getItem(DB_KEY);
+        if (legacyData) {
+            const clients = JSON.parse(legacyData);
+            if (Array.isArray(clients) && clients.length > 0) {
+                console.log(`Migrating ${clients.length} clients to server...`);
+                for (const client of clients) {
+                    await db.save(client);
+                }
+                localStorage.removeItem(DB_KEY);
+                console.log("Migration complete.");
+            }
+        }
+    } catch (e) {
+        console.error("Migration failed:", e);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // initAccessibility(); // Handled by initApp()
     // 1. DB Init
     try {
         await db.init();
@@ -472,8 +657,8 @@ function getGlassMarkup(glassSpec) {
 let currentPage = 1;
 const pageSize = 50;
 let lastDeletedClient = null;
-let deleteTimeout = null;
 let selectedClientIds = new Set();
+let isTrashMode = false;
 
 async function loadAdminData() {
     const tableBody = document.getElementById('clientTableBody');
@@ -481,10 +666,19 @@ async function loadAdminData() {
 
     try {
         const query = document.getElementById('adminSearch')?.value || '';
-        const { items } = await db.getPaged(currentPage, pageSize, query);
-        const total = await db.count(query);
 
-        document.getElementById('clientCountHeader').textContent = total;
+        // Update Title based on mode
+        const titleSpan = document.getElementById('tableTitleStatus');
+        if (titleSpan) {
+            titleSpan.textContent = isTrashMode ? " (Papelera)" : "";
+            titleSpan.style.color = isTrashMode ? "#ef4444" : "inherit";
+        }
+
+        const { items, total } = await db.getPaged(currentPage, pageSize, query, isTrashMode);
+
+        const countHeader = document.getElementById('clientCountHeader');
+        if (countHeader) countHeader.textContent = total;
+
         updatePaginationUI(Math.ceil(total / pageSize));
 
         tableBody.innerHTML = '';
@@ -497,6 +691,25 @@ async function loadAdminData() {
             const isChecked = selectedClientIds.has(client.id);
             const row = document.createElement('tr');
             if (isChecked) row.classList.add('is-selected');
+            if (client.deleted) row.style.background = '#fff1f2'; // Light red bg for deleted
+
+            // Action Buttons Logic
+            let actionBtns = '';
+            if (isTrashMode) {
+                // Restore Button only
+                actionBtns = `
+                    <button onclick="restoreClient('${client.id}')" class="btn-restore" style="background:#10b981; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;" title="Restaurar Cliente">
+                        <i class="fas fa-trash-restore"></i> Restaurar
+                    </button>
+                `;
+            } else {
+                // Edit / Delete
+                actionBtns = `
+                    <button onclick="openEditModal('${client.id}')" class="btn-edit" style="background:#f59e0b; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; margin-right:5px;"><i class="fas fa-edit"></i></button>
+                    <button onclick="deleteClient('${client.id}')" class="btn-delete" style="background:#ef4444; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;"><i class="fas fa-trash-alt"></i></button>
+                `;
+            }
+
             row.innerHTML = `
                 <td style="text-align:center;">
                     <input type="checkbox" class="client-checkbox" value="${client.id}" 
@@ -533,9 +746,8 @@ async function loadAdminData() {
                 </td>
                 <td><span class="status-badge status-${(client.deliveryStatus || 'Pendiente').toLowerCase()}">${client.deliveryStatus || 'Pendiente'}</span></td>
                 <td><span class="status-badge status-${(client.paymentStatus || 'Cancelado').toLowerCase()}">${client.paymentStatus || 'Cancelado'}</span></td>
-                <td style="display:flex; gap:0.5rem;">
-                    <button onclick="openEditModal(${client.id})" class="btn-edit" style="background:#f59e0b; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;"><i class="fas fa-edit"></i></button>
-                    <button onclick="deleteClient(${client.id})" class="btn-delete" style="background:#ef4444; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;"><i class="fas fa-trash-alt"></i></button>
+                <td style="display:flex; gap:0.5rem; justify-content: flex-end;">
+                    ${actionBtns}
                 </td>
             `;
             tableBody.appendChild(row);
@@ -634,27 +846,55 @@ function updateHeaderCheckbox() {
 }
 
 // --- Admin Actions ---
-async function deleteClient(id) {
-    if (!confirm("¿Eliminar este cliente?")) return;
+
+function toggleTrashMode() {
+    isTrashMode = !isTrashMode;
+    // Update button visual (assuming button exists in DOM)
+    const btn = document.getElementById('btnTrashToggle');
+    if (btn) {
+        if (isTrashMode) {
+            btn.style.background = '#ef4444';
+            btn.innerHTML = '<i class="fas fa-arrow-left"></i> Volver a Clientes';
+        } else {
+            btn.style.background = '#64748b';
+            btn.innerHTML = '<i class="fas fa-trash"></i> Ver Papelera';
+        }
+    }
+    currentPage = 1;
+    loadAdminData();
+}
+
+async function restoreClient(id) {
+    if (!confirm("¿Restaurar este cliente a la lista activa?")) return;
     try {
         const client = await db.getById(id);
         if (client) {
-            lastDeletedClient = client;
-            await db.delete(id);
+            client.deleted = false;
+            await db.save(client);
             loadAdminData();
-            showUndoToast("Registro eliminado.");
+            showToast("Cliente restaurado exitosamente.", "success");
         }
+    } catch (e) {
+        console.error("Restore failed:", e);
+        showToast("Error al restaurar.", "error");
+    }
+}
+
+async function deleteClient(id) {
+    if (!confirm("¿Mover este cliente a la papelera?")) return;
+    try {
+        // Backend now handles adding deleted=true via DELETE endpoint logic or we can explicitly save it.
+        // Current server implementation of do_DELETE sets deleted=True.
+        await db.delete(id);
+        loadAdminData();
+        showToast("Cliente movido a la papelera.", "info");
     } catch (e) { console.error(e); }
 }
 
 async function undoLastDelete() {
+    // Deprecated in favor of Trash Mode but keeping for compatibility if invoked
     if (!lastDeletedClient) return;
-    try {
-        await db.save(lastDeletedClient);
-        lastDeletedClient = null;
-        loadAdminData();
-        showToast("Restaurado correctamente.");
-    } catch (e) { console.error(e); }
+    restoreClient(lastDeletedClient.id);
 }
 
 function showUndoToast(msg) {
@@ -875,7 +1115,7 @@ async function saveEditClient(e) {
 // --- Gallery Logic (for gallery.html) ---
 const galleries = {
     'ventana_corrediza': 5, 'ventana_proyectante': 103, 'ventana_casement': 20,
-    'ventana_batiente': 41, 'ventana_fija': 100, 'ventana_basculante': 100,
+    'ventana_batiente': 14, 'ventana_fija': 100, 'ventana_basculante': 100,
     'puerta_principal': 232, 'puerta_patio': 100, 'puerta_plegable': 100,
     'puerta_bano': 100, 'division_bano': 59, 'espejos': 0,
     'espejos_decorativos': 50, 'division_acrilico': 0, 'ventana_abatible': 105,
@@ -1123,4 +1363,49 @@ function printClients() {
 
 function toggleFAQ(el) {
     el.parentElement.classList.toggle('active');
+}
+
+// --- Initialization ---
+function initAccessibility() {
+    const launcher = document.getElementById('themeLauncher');
+    const panel = document.getElementById('accessibilityPanel');
+
+    if (!launcher || !panel) return;
+
+    // Toggle Logic
+    launcher.onclick = (e) => {
+        e.stopPropagation();
+        const isOpen = panel.style.display === 'flex';
+        panel.style.display = isOpen ? 'none' : 'flex';
+        launcher.setAttribute('aria-expanded', !isOpen);
+    };
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+        if (!panel.contains(e.target) && !launcher.contains(e.target)) {
+            panel.style.display = 'none';
+            launcher.setAttribute('aria-expanded', 'false');
+        }
+    });
+}
+
+function initApp() {
+    // Initialize Accessibility Events
+    initAccessibility();
+
+    // Check for Admin Page specifics
+    if (window.location.pathname.includes('admin.html')) {
+        loadAdminData();
+    }
+
+    // Check for Gallery Page specifics
+    if (window.location.pathname.includes('gallery.html')) {
+        initGalleryPage();
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
 }

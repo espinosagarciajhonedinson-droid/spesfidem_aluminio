@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Outfit:wght@800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css?v=OVERHAUL_V2">
     <style>
         :root {
             --bg: #f8fafc;
@@ -112,15 +113,21 @@
             <!-- Content injected by JS -->
         </div>
 
-        <button class="btn-pay" id="mainRedirectBtn">Continuar al Pago Seguro</button>
+        <button class="btn-pay" id="mainRedirectBtn" style="margin-bottom: 1.5rem;">Continuar al Pago Seguro</button>
+
+        <div style="border-top: 1px solid #e2e8f0; padding-top: 2rem;">
+            <a href="index.html" class="btn-primary"
+                style="display:inline-flex; text-decoration:none; padding:1rem 2rem; justify-content:center; width:100%;">
+                <i class="fas fa-home" style="margin-right:8px;"></i> VOLVER AL INICIO
+            </a>
+        </div>
 
         <p style="margin-top: 1.5rem; font-size: 0.8rem; color: #64748b;">
             <i class="fas fa-shield-alt"></i> Sus datos financieros están protegidos por encriptación avanzada de
             Spesfidem Aluminio.
         </p>
-
-        <a href="index.html" class="back">← Cancelar y volver al sitio</a>
     </div>
+    <script src="js/app.js?v=OVERHAUL_V2"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {

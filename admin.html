@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard | Spesfidem</title>
-    <link rel="stylesheet" href="css/style.css?v=1400">
+    <link rel="stylesheet" href="css/style.css?v=V2_NAV">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Admin-specific styles */
@@ -143,6 +143,9 @@
             <li style="margin-bottom: 1rem;"><a href="cortes.html"
                     style="color:var(--accent); text-decoration:none; font-size: 0.9rem; font-weight: bold;"><i
                         class="fas fa-table" style="margin-right:0.5rem;"></i> TABLA</a></li>
+            <li style="margin-bottom: 1rem;"><a href="touch_mirror_calc.html"
+                    style="color:var(--accent); text-decoration:none; font-size: 0.9rem; font-weight: bold;"><i
+                        class="fas fa-magic" style="margin-right:0.5rem;"></i> ESPEJO TOUCH</a></li>
             <li style="margin-bottom: 1rem;"><a href="index.html"
                     style="color:white; text-decoration:none; font-size: 0.9rem;"><i class="fas fa-home"
                         style="margin-right:0.5rem;"></i> Volver al Sitio</a></li>
@@ -223,6 +226,10 @@
 
                 <!-- Action Buttons Group -->
                 <div style="display: flex; gap: 1rem; align-items:center;">
+                    <button id="btnTrashToggle" onclick="toggleTrashMode()" class="btn-primary"
+                        style="background: #64748b; border:none; border-radius: 6px; cursor: pointer; display:flex; gap:0.5rem; align-items:center; color:white; padding: 0.6rem 1.2rem; font-weight: 600; transition: background 0.2s;">
+                        <i class="fas fa-trash"></i> Ver Papelera
+                    </button>
                     <button onclick="downloadCSV()" class="btn-primary"
                         style="background: #059669; border:none; border-radius: 6px; cursor: pointer; display:flex; gap:0.5rem; align-items:center; color:white; padding: 0.6rem 1.2rem; font-weight: 600; transition: background 0.2s;">
                         <i class="fas fa-file-csv"></i> <span id="csvBtnText">Exportar Todos (CSV)</span>
@@ -242,9 +249,9 @@
         </header>
 
         <!-- Full Width Table Container -->
-        <div
+        <div class="admin-table-container"
             style="background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); overflow-x: auto; width: 100%; margin-top: 2rem;">
-            <table style="width: 100%; border-collapse: collapse; min-width: 900px;">
+            <table style="width: 100%; border-collapse: collapse; min-width: 1200px;">
                 <thead style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
                     <tr class="table-header-row">
                         <th style="padding: 1rem; width: 40px; text-align: center;">
@@ -339,6 +346,12 @@
             </form>
             <p id="loginError" style="color:#ef4444; margin-top:1rem; display:none; font-weight:bold;"><i
                     class="fas fa-exclamation-circle"></i> Credenciales incorrectas.</p>
+            <div style="margin-top: 1.5rem;">
+                <a href="index.html"
+                    style="color:#64748b; text-decoration:none; font-size:0.9rem; font-weight:600; border-bottom:1px dashed #cbd5e1;">
+                    <i class="fas fa-arrow-left"></i> Volver al Sitio Principal
+                </a>
+            </div>
         </div>
     </div>
 
@@ -439,7 +452,7 @@
         </div>
     </div>
 
-    <script src="js/app.js?v=160"></script>
+    <script src="js/app.js?v=V2_NAV"></script>
 </body>
 
 </html>

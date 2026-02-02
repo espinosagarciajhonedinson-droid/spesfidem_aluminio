@@ -116,7 +116,7 @@
         "landline": "",
         "city": "TOLIMA",
         "address": ", -.SA-3241",
-        "email": "FUCAGDAK.M.,MACÑOERS",
+        "email": "fucad4316@hotmail.com",
         "status": "Pendiente",
         "product": "Ventana Fija",
         "quantity": 1,
@@ -145,7 +145,9 @@
         "iva": 171000,
         "grandTotal": 1071000,
         "serial": 2,
-        "idCard": "1105474045"
+        "idCard": "1105474045",
+        "deliveryStatus": "Entregado",
+        "paymentStatus": "Pago"
     },
     {
         "id": 1768001984185,
@@ -186,6 +188,97 @@
         "serial": 3,
         "idCard": "28538310",
         "deliveryStatus": "Entregado",
-        "paymentStatus": "Pagado"
+        "paymentStatus": "Pagado",
+        "deleted": false
+    },
+    {
+        "id": 1768333356596,
+        "date": "13/1/2026",
+        "fullName": "jhon espinosa",
+        "cellphone": "3232045129",
+        "landline": "",
+        "city": "ibague",
+        "address": "11-00",
+        "email": "fucad4316@hotmail.com",
+        "status": "Pendiente",
+        "product": "Ventana Proyectante",
+        "quantity": 4,
+        "items": [
+            {
+                "product": "Ventana Proyectante",
+                "quantity": 4,
+                "color": "Negro",
+                "size": "124m x 152m",
+                "glass": "Verde",
+                "unitPrice": 515000,
+                "total": 2060000
+            }
+        ],
+        "paymentPlan": "75-25",
+        "subtotal": 2060000,
+        "iva": 391400,
+        "grandTotal": 2451400,
+        "serial": 4,
+        "idCard": "14298116"
+    },
+    {
+        "id": 1769734071342,
+        "date": "29/1/2026",
+        "fullName": "jhon espinosa",
+        "cellphone": "3232045129",
+        "landline": "",
+        "city": "ibague",
+        "address": "11-00",
+        "email": "fucad4316@hotmail.com",
+        "status": "Pendiente",
+        "product": "Ventana Corrediza",
+        "quantity": 3,
+        "items": [
+            {
+                "product": "Ventana Corrediza",
+                "quantity": 3,
+                "color": "Negro",
+                "size": "150m x 200m",
+                "glass": "Bronce",
+                "unitPrice": 445000,
+                "total": 1335000
+            }
+        ],
+        "paymentPlan": "75-25",
+        "subtotal": 1335000,
+        "iva": 253650,
+        "grandTotal": 1588650,
+        "serial": 5,
+        "idCard": "14298116"
+    },
+    {
+        "id": 1769952764791,
+        "date": "1/2/2026",
+        "fullName": "diana milena varon",
+        "cellphone": "3052092140",
+        "landline": "",
+        "city": "ibague",
+        "address": "carrera 28 a # 11-10 barrio la castilla",
+        "email": "diani.666@gmail.com",
+        "status": "Pendiente",
+        "product": "Ventana Corrediza",
+        "quantity": 1,
+        "items": [
+            {
+                "product": "Ventana Corrediza",
+                "quantity": 1,
+                "color": "Natural",
+                "size": "500m x 300m",
+                "glass": "Claro (5mm)",
+                "unitPrice": 465000,
+                "total": 465000
+            }
+        ],
+        "paymentPlan": "75-25",
+        "subtotal": 465000,
+        "iva": 88350,
+        "grandTotal": 553350,
+        "serial": 6,
+        "idCard": "28538310"
     }
 ]

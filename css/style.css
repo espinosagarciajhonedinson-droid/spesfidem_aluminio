@@ -1,5 +1,7 @@
 html {
     scroll-behavior: smooth;
+    /* Force base font size to scale with the variable */
+    font-size: calc(16px * var(--font-zoom, 1)) !important;
 }
 
 :root {
@@ -20,6 +22,458 @@ html {
 
     /* Spacing */
     --section-pad: 10rem 2rem;
+
+    /* Accessibility */
+    --font-zoom: 1;
+}
+
+/* --- COMPREHENSIVE THEME SYSTEM --- */
+
+/* HIGH CONTRAST MODE (Professional Clean: B&W + Cyan Guide) */
+body.high-contrast {
+    /* Pure Black & White - The most accessible standard */
+    --bg-deep: #000000 !important;
+    --primary: #000000 !important;
+    --bg-dark: #000000 !important;
+
+    /* Cyan for indicators (High visibility against black) */
+    --accent: #00FFFF !important;
+    --accent-glow: rgba(0, 255, 255, 0.3) !important;
+
+    --text-main: #FFFFFF !important;
+    --text-light: #FFFFFF !important;
+    --text-muted: #DDDDDD !important;
+
+    --glass-white: #000000 !important;
+    --glass-border: 2px solid #FFFFFF !important;
+}
+
+body.high-contrast * {
+    text-shadow: none !important;
+    /* maximum readability */
+    box-shadow: none !important;
+    background-image: none !important;
+    /* Remove noise */
+}
+
+body.high-contrast .btn-primary {
+    background: #000000 !important;
+    border: 2px solid #00FFFF !important;
+    color: #00FFFF !important;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+body.high-contrast .logo-brand-premium {
+    -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* Accessibility Button Styles */
+/* Accessibility Button Styles - Premium Redesign */
+#themeLauncher {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    /* Moved to LEFT to avoid Cart overlap */
+    right: auto;
+    /* Reset right */
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    color: var(--accent);
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 10000;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#themeLauncher:hover {
+    transform: scale(1.1) rotate(10deg);
+    background: var(--accent);
+    color: var(--bg-deep);
+    box-shadow: 0 0 25px var(--accent-glow);
+    border-color: transparent;
+}
+
+#themeLauncher::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    z-index: -1;
+    animation: spinSlow 4s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+#themeLauncher:hover::after {
+    opacity: 1;
+}
+
+@keyframes spinSlow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Premium Panel */
+#accessibilityPanel {
+    position: fixed;
+    bottom: 100px;
+    left: 30px;
+    /* Aligned with Launcher */
+    right: auto;
+    width: 320px;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    display: none;
+    flex-direction: column;
+    gap: 1.2rem;
+    z-index: 10000;
+    animation: panelPop 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transform-origin: bottom left;
+    /* Origin matches position */
+}
+
+@keyframes panelPop {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.acc-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-main);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+}
+
+.acc-control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.acc-control-group label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+/* Font Size Buttons */
+.acc-btn-group {
+    display: flex;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.acc-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.acc-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.acc-btn:active {
+    transform: scale(0.95);
+}
+
+/* Grid for Visual Modes */
+.acc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.acc-option-btn {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.acc-option-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.acc-option-btn span {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.acc-preview {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.acc-preview.std {
+    background: #0f172a;
+    border-color: #38bdf8;
+}
+
+.acc-preview.hc {
+    background: #000000;
+    border-color: #ffd700;
+}
+
+.acc-preview.light {
+    background: #ffffff;
+    border-color: #cbd5e1;
+}
+
+/* LIGHT MODE FIXES (Claro - Fondo Blanco, Texto Oscuro) */
+body.theme-light {
+    --bg-deep: #ffffff !important;
+    --primary: #ffffff !important;
+    --bg-dark: #f1f5f9 !important;
+    /* Slate 100 */
+    --accent: #0284c7 !important;
+    /* Sky 600 - darker for contrast on white */
+    --accent-glow: rgba(2, 132, 199, 0.2) !important;
+
+    /* Crucial: Force Dark Text */
+    --text-main: #0f172a !important;
+    /* Slate 900 */
+    --text-light: #1e293b !important;
+    /* Slate 800 */
+    --text-muted: #475569 !important;
+    /* Slate 600 */
+
+    --glass-white: rgba(255, 255, 255, 0.9) !important;
+    --glass-border: rgba(0, 0, 0, 0.1) !important;
+    --grad-metallic: linear-gradient(135deg, #475569 0%, #94a3b8 50%, #475569 100%) !important;
+    color: #0f172a !important;
+    /* Fallback global color */
+}
+
+/* DARK PURE MODE (Oscuro - Noche) */
+body.theme-dark-pure {
+    --bg-deep: #000000 !important;
+    --primary: #000000 !important;
+    --bg-dark: #000000 !important;
+    --accent: #38bdf8 !important;
+    --accent-glow: rgba(56, 189, 248, 0.3) !important;
+    --text-main: #ffffff !important;
+    --text-light: #e2e8f0 !important;
+    --text-muted: #94a3b8 !important;
+    --glass-white: rgba(255, 255, 255, 0.02) !important;
+    --glass-border: rgba(255, 255, 255, 0.1) !important;
+    --grad-metallic: linear-gradient(135deg, #1e293b 0%, #475569 50%, #1e293b 100%) !important;
+}
+
+/* Theme Global Overrides */
+body.high-contrast *,
+body.theme-light *,
+body.theme-dark-pure * {
+    transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease !important;
+}
+
+body.high-contrast header,
+body.theme-light header {
+    background: var(--primary) !important;
+    border-bottom: 2px solid var(--accent) !important;
+}
+
+body.theme-light section,
+body.theme-light footer {
+    background-color: var(--bg-deep) !important;
+    /* We don't use 'background' here so we don't clear the background-image */
+}
+
+body.theme-dark-pure section,
+body.theme-dark-pure footer {
+    background: var(--bg-deep) !important;
+}
+
+body.high-contrast section,
+body.high-contrast footer {
+    background: #000000 !important;
+}
+
+/* Enforcing Variable usage on specific troublesome elements */
+body.theme-light .glass-panel,
+body.theme-light .simulator-card,
+body.theme-light .admin-card {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    color: #000000 !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+body.theme-light .hero {
+    background-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+body.theme-dark-pure .glass-panel,
+body.theme-dark-pure .hero,
+body.theme-dark-pure .simulator-card {
+    background: #000000 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body.high-contrast *,
+body.theme-light *,
+body.theme-dark-pure * {
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
+}
+
+body.high-contrast * {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+}
+
+body.high-contrast .btn-primary {
+    background: #ffff00 !important;
+    color: #000000 !important;
+    border: 3px solid #000000 !important;
+}
+
+body.high-contrast header,
+body.theme-light header {
+    background: var(--primary) !important;
+    border-bottom: 2px solid var(--accent) !important;
+}
+
+body.high-contrast .logo-brand-premium,
+body.high-contrast .logo-main,
+body.high-contrast .logo-subtitle-premium {
+    -webkit-text-fill-color: #ffff00 !important;
+    background: none !important;
+}
+
+/* Force specific elements to respect light mode text */
+body.theme-light h1,
+body.theme-light h2,
+body.theme-light h3,
+body.theme-light h4,
+body.theme-light h5,
+body.theme-light h6,
+body.theme-light p,
+body.theme-light span,
+body.theme-light strong,
+body.theme-light li,
+body.theme-light i:not(.fas):not(.fab) {
+    color: var(--text-main) !important;
+    text-shadow: none !important;
+}
+
+/* Fix Hero Text specifically to ensure it's readable on light background */
+body.theme-light .hero h1,
+body.theme-light .hero h2 {
+    color: #020617 !important;
+    text-shadow: none !important;
+}
+
+body.theme-light .hero p {
+    color: #334155 !important;
+    font-weight: 600 !important;
+    /* Beef up weight for readability */
+}
+
+/* Fix Cards in Light Mode */
+body.theme-light .glass-panel,
+body.theme-light .method-card,
+body.theme-light .testimonial-card-premium,
+body.theme-light .product-card,
+body.theme-light .faq-card-elite {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #0f172a !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+body.theme-light .glass-panel p,
+body.theme-light .method-card p,
+body.theme-light .testimonial-text-premium {
+    color: #475569 !important;
+}
+
+body.theme-light .logo-brand-premium {
+    background: linear-gradient(135deg, #0f172a 0%, #475569 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    color: #0f172a !important;
+}
+
+body.theme-light .logo-subtitle-premium {
+    color: #334155 !important;
+    /* Slightly distinct but dark */
+}
+
+body.theme-light .logo-icon-svg {
+    filter: brightness(0) saturate(100%) !important;
+}
+
+body.theme-light .hero h1,
+body.theme-light .hero h2,
+body.theme-light .hero p,
+body.theme-light .vision-text,
+body.theme-light .mission-text {
+    color: #000000 !important;
+    text-shadow: none !important;
+}
+
+body.theme-light .hero-stats .stat-item h4 {
+    color: #1d4ed8 !important;
 }
 
 [data-aos] {
@@ -42,7 +496,7 @@ body {
     color: var(--text-light);
     overflow-x: hidden;
     padding-top: 80px;
-    /* Space for the fixed header */
+    /* font-size removed from here, moved to html */
 }
 
 /* Animations */
@@ -117,21 +571,21 @@ body {
 
 /* Enhanced Visibility for Key Sections */
 .vision-text {
-    color: #ffffff !important;
-    text-shadow: 0 2px 10px rgba(56, 189, 248, 0.3);
+    color: var(--text-main) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     font-size: 1.4rem !important;
     font-weight: 600 !important;
     line-height: 1.6;
 }
 
 .vision-title {
-    color: #ffffff !important;
-    text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+    color: var(--text-main) !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .high-contrast-text {
-    color: #ffffff !important;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    color: var(--text-main) !important;
+    text-shadow: none !important;
     font-weight: 500;
 }
 
@@ -141,6 +595,26 @@ body {
     text-transform: uppercase;
     letter-spacing: 1.5px;
     font-size: 0.85rem !important;
+}
+
+.name-highlight {
+    background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 50%, #0284c7 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+    text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+    letter-spacing: 0.5px;
+    display: inline-block;
+}
+
+/* Light mode override for name highlight */
+body.theme-light .name-highlight {
+    background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 50%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
 }
 
 .desktop-only {
@@ -1598,4 +2072,28 @@ header {
         margin-top: 3rem;
         /* Added spacing as requested */
     }
+}
+
+/* --- METALLIC BUTTONS (POLISHED ALUMINUM) --- */
+.btn-add-cart {
+    background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 25%, #94a3b8 50%, #cbd5e1 75%, #f8fafc 100%) !important;
+    color: #0f172a !important;
+    border: 1px solid #94a3b8 !important;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 800 !important;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.btn-add-cart:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(148, 163, 184, 0.4), inset 0 1px 2px rgba(255, 255, 255, 1);
+    background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 50%, #ffffff 100%) !important;
 }
