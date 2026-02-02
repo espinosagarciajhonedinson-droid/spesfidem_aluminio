@@ -72,7 +72,6 @@
             <nav class="big-menu">
                 <a href="index.html">Volver al Inicio</a>
                 <a href="#aprende">Aprende</a>
-                <a href="#crea">Crea tu Espacio</a>
                 <a href="#futuro">Futuro</a>
             </nav>
             <div id="mobile-menu-btn" class="mobile-menu-btn"><i class="fas fa-bars"></i></div>
@@ -83,7 +82,7 @@
     <section id="hero" class="hero" style="background: radial-gradient(circle at center, #2e1065 0%, #020617 100%);">
         <div class="hero-content" data-aos="fade-up">
             <h1
-                style="font-size: 4rem; background: linear-gradient(to right, #c084fc, #6366f1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                style="font-size: 4rem; background: linear-gradient(to right, #c084fc, #6366f1); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
                 Diseña Tu Mundo</h1>
             <h2 style="color: #e2e8f0; font-size: 1.8rem; margin-bottom: 2rem;">
                 La arquitectura del futuro comienza con tu imaginación.
@@ -92,88 +91,13 @@
                 Descubre cómo el aluminio y el vidrio transforman simples habitaciones en espacios épicos.
                 Aprende, inspírate y crea sin límites.
             </p>
-            <a href="#crea" class="btn-primary"
+            <a href="#aprende" class="btn-primary"
                 style="background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%); border-color: #a855f7;">
-                <i class="fas fa-gamepad"></i> Iniciar Experiencia
+                <i class="fas fa-rocket"></i> Explorar Ciencia
             </a>
         </div>
     </section>
 
-    <!-- Game Section: Skyline Builder (Arcade) -->
-    <section id="crea"
-        style="padding: var(--section-pad); background: rgba(9, 9, 11, 0.95); position: relative; overflow: hidden;">
-        <!-- Animated Background Mesh for context -->
-        <div
-            style="position: absolute; inset: 0; background-image: radial-gradient(#1e1b4b 1px, transparent 1px); background-size: 30px 30px; opacity: 0.3; z-index: 0;">
-        </div>
-
-        <div style="position: relative; z-index: 2; text-align: center;">
-            <h2 class="section-title-elite"
-                style="text-align:center; margin-bottom: 1rem; color: #fff; text-shadow: 0 0 20px var(--cyber-primary);">
-                SKYLINE BUILDER</h2>
-            <p style="text-align: center; color: var(--cyber-accent); margin-bottom: 2rem;">Construye el rascacielos de
-                vidrio más alto. Presición = Estabilidad. <span style="font-family:monospace; color:#64748b;">[v1.0
-                    Arcade]</span></p>
-
-            <!-- Game Container -->
-            <div class="glass-panel"
-                style="max-width: 600px; margin: 0 auto; padding: 20px; border: 2px solid var(--cyber-primary); box-shadow: 0 0 50px rgba(124, 58, 237, 0.2);">
-
-                <!-- HUD -->
-                <div
-                    style="display: flex; justify-content: space-between; margin-bottom: 1rem; font-family: 'Orbitron', monospace;">
-                    <span style="color: #94a3b8;">SISTEMA: <span style="color: #fff;">VIDRIO TEMPLADO</span></span>
-                    <span style="color: #94a3b8;">PUNTUACIÓN: <span id="gameValues"
-                            style="color: var(--cyber-accent);">000 EXP</span></span>
-                </div>
-
-                <!-- Canvas -->
-                <div
-                    style="background: #000; border: 1px solid #333; position: relative; aspect-ratio: 4/3; width: 100%;">
-                    <canvas id="gameCanvas" style="width: 100%; height: 100%; display: block;"></canvas>
-                </div>
-
-                <!-- Controls Hint & Buttons -->
-                <div class="game-controls-panel"
-                    style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                    <button onclick="window.game.start()" class="btn-game-control start">
-                        <i class="fas fa-play"></i> INICIAR
-                    </button>
-                    <button onclick="window.game.pause()" class="btn-game-control pause">
-                        <i class="fas fa-pause"></i> PAUSAR
-                    </button>
-                    <button onclick="window.game.reset()" class="btn-game-control reset">
-                        <i class="fas fa-redo"></i> REINICIAR
-                    </button>
-                </div>
-
-                <div
-                    style="margin-top: 1rem; color: #64748b; font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.5rem;">
-                    ESTADO: <span id="gameState">LISTO PARA OBRA</span>
-                </div>
-            </div>
-
-            <!-- Leaderboard / Motivation -->
-            <div
-                style="margin-top: 3rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; max-width: 800px; margin-left: auto; margin-right: auto; text-align: center;">
-                <div>
-                    <i class="fas fa-helmet-safety fa-2x" style="color: #facc15; margin-bottom: 0.5rem;"></i>
-                    <h4 style="color: white;">Seguridad</h4>
-                    <p style="color: #64748b; font-size: 0.8rem;">Cero accidentes</p>
-                </div>
-                <div>
-                    <i class="fas fa-ruler-combined fa-2x" style="color: #ef4444; margin-bottom: 0.5rem;"></i>
-                    <h4 style="color: white;">Calidad</h4>
-                    <p style="color: #64748b; font-size: 0.8rem;">Materiales Premium</p>
-                </div>
-                <div>
-                    <i class="fas fa-city fa-2x" style="color: #38bdf8; margin-bottom: 0.5rem;"></i>
-                    <h4 style="color: white;">Impacto</h4>
-                    <p style="color: #64748b; font-size: 0.8rem;">Skyline Definido</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Educational Section -->
     <section id="aprende" style="padding: var(--section-pad);">
@@ -422,7 +346,8 @@
                         <strong>spesfidemaluminio@gmail.com</strong>
                     </p>
                     <p style="margin-bottom: 1.5rem;" class="high-contrast-text">
-                        <i class="fas fa-user" style="color:var(--accent); margin-right:1rem;"></i> <strong>Jhon Edinson
+                        <i class="fas fa-user" style="color:var(--accent); margin-right:1rem;"></i> <strong
+                            class="name-highlight">Jhon Edinson
                             Espinosa García</strong>
                     </p>
                     <p class="high-contrast-text">
@@ -542,11 +467,33 @@
             style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; height: 60%; background: radial-gradient(circle, rgba(234, 179, 8, 0.05) 0%, transparent 70%); pointer-events: none;">
         </div>
 
-        <div class="nav-container" style="position: relative; z-index: 2;">
-            <h2 class="section-title-elite" data-aos="fade-up">DUDAS COMUNES</h2>
-            <div class="faq-grid-elite">
+        <div class="nav-container"
+            style="position: relative; z-index: 2; display: flex; gap: 4rem; align-items: flex-start; flex-wrap: wrap; justify-content: center;">
+
+            <!-- Visual Side -->
+            <div style="flex: 1; min-width: 320px;" data-aos="fade-right">
+                <h2 class="section-title-elite" style="text-align: left; margin-bottom: 2.5rem; display: inline-block;">
+                    DUDAS COMUNES</h2>
+                <div class="faq-visual-professional"
+                    style="position: relative; border-radius: 2rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 30px 60px rgba(0,0,0,0.6);">
+                    <img src="images/faq_workshop.png" alt="Taller Spesfidem"
+                        style="width: 100%; height: auto; display: block; border-radius: 2rem;">
+                    <div class="faq-overlay-professional"
+                        style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 2rem; background: linear-gradient(transparent, rgba(15, 23, 42, 0.95)); backdrop-filter: blur(4px);">
+                        <p class="faq-label-professional"
+                            style="color: var(--accent); font-weight: 800; font-size: 1.1rem; margin-bottom: 0.5rem; letter-spacing: 2px;">
+                            PRESENCIA TÉCNICA</p>
+                        <p class="faq-text-professional" style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.6;">
+                            Cada componente y sistema es
+                            verificado personalmente para cumplir con los estándares Élite de Spesfidem.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Grid Side -->
+            <div class="faq-grid-elite" style="flex: 1.3; min-width: 320px; margin: 0; align-content: start;">
                 <!-- FAQ 1 -->
-                <div class="faq-card-elite" data-aos="fade-up">
+                <div class="faq-card-elite" data-aos="fade-up" style="width: 100%; margin-bottom: 1.5rem;">
                     <div class="faq-question-elite" onclick="toggleFAQ(this)">
                         <span>¿Qué garantía ofrecen en sus productos?</span>
                         <i class="fas fa-chevron-down faq-icon-elite"></i>
@@ -558,7 +505,8 @@
                     </div>
                 </div>
                 <!-- FAQ 2 -->
-                <div class="faq-card-elite" data-aos="fade-up" data-aos-delay="100">
+                <div class="faq-card-elite" data-aos="fade-up" data-aos-delay="100"
+                    style="width: 100%; margin-bottom: 1.5rem;">
                     <div class="faq-question-elite" onclick="toggleFAQ(this)">
                         <span>¿Realizan visitas técnicas sin compromiso?</span>
                         <i class="fas fa-chevron-down faq-icon-elite"></i>
@@ -570,7 +518,8 @@
                     </div>
                 </div>
                 <!-- FAQ 3 -->
-                <div class="faq-card-elite" data-aos="fade-up" data-aos-delay="200">
+                <div class="faq-card-elite" data-aos="fade-up" data-aos-delay="200"
+                    style="width: 100%; margin-bottom: 1.5rem;">
                     <div class="faq-question-elite" onclick="toggleFAQ(this)">
                         <span>¿Cuánto tiempo tarda la instalación?</span>
                         <i class="fas fa-chevron-down faq-icon-elite"></i>
@@ -582,7 +531,7 @@
                     </div>
                 </div>
                 <!-- FAQ 4 (Mantenimiento) -->
-                <div class="faq-card-elite" data-aos="fade-up" data-aos-delay="300">
+                <div class="faq-card-elite" data-aos="fade-up" data-aos-delay="300" style="width: 100%;">
                     <div class="faq-question-elite" onclick="toggleFAQ(this)">
                         <span>¿Hacen mantenimiento a estructuras antiguas?</span>
                         <i class="fas fa-chevron-down faq-icon-elite"></i>
@@ -756,7 +705,6 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="js/cart.js?v=2.0"></script>
     <script src="js/app.js?v=2.0"></script>
-    <script src="js/game.js?v=city_builder_1"></script>
     <script>
         AOS.init({
             duration: 1000,

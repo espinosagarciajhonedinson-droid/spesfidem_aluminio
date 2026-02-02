@@ -10,12 +10,12 @@ const CART_STYLES = `
         right: 30px;
         width: 60px;
         height: 60px;
-        background: var(--accent, #ca8a04);
+        background: var(--accent, #ca8a04) !important;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
+        color: white !important;
         font-size: 24px;
         box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         cursor: pointer;
@@ -29,8 +29,8 @@ const CART_STYLES = `
         position: absolute;
         top: -5px;
         right: -5px;
-        background: #ef4444;
-        color: white;
+        background: #ef4444 !important;
+        color: white !important;
         font-size: 12px;
         font-weight: bold;
         width: 24px;
@@ -47,7 +47,7 @@ const CART_STYLES = `
         right: -400px;
         width: 350px;
         height: 100vh;
-        background: #0f172a; /* Dark theme match */
+        background: #0f172a !important; /* Dark theme match */
         border-left: 1px solid rgba(255,255,255,0.1);
         z-index: 10000;
         transition: right 0.4s ease;
@@ -65,15 +65,15 @@ const CART_STYLES = `
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: rgba(0,0,0,0.2);
+        background: rgba(0,0,0,0.2) !important;
     }
-    .cart-header h3 {
-        color: white;
+    #cart-header-title {
+        color: white !important;
         margin: 0;
         font-size: 1.2rem;
     }
     .close-cart {
-        color: #94a3b8;
+        color: #94a3b8 !important;
         cursor: pointer;
         font-size: 1.5rem;
     }
@@ -85,7 +85,7 @@ const CART_STYLES = `
     .cart-item {
         display: flex;
         gap: 15px;
-        background: rgba(255,255,255,0.05);
+        background: rgba(255,255,255,0.05) !important;
         padding: 10px;
         border-radius: 8px;
         margin-bottom: 15px;
@@ -101,17 +101,17 @@ const CART_STYLES = `
         flex: 1;
     }
     .cart-item-title {
-        color: white;
+        color: white !important;
         font-size: 0.9rem;
         margin-bottom: 5px;
         font-weight: 600;
     }
     .cart-item-meta {
-        color: #94a3b8;
+        color: #94a3b8 !important;
         font-size: 0.8rem;
     }
     .cart-remove {
-        color: #ef4444;
+        color: #ef4444 !important;
         cursor: pointer;
         font-size: 0.9rem;
         margin-top: 5px;
@@ -120,14 +120,14 @@ const CART_STYLES = `
     .cart-footer {
         padding: 20px;
         border-top: 1px solid rgba(255,255,255,0.1);
-        background: rgba(0,0,0,0.4);
+        background: rgba(0,0,0,0.4) !important;
     }
     .checkout-btn {
         width: 100%;
         padding: 15px;
-        background: linear-gradient(135deg, #ca8a04 0%, #eab308 100%);
+        background: linear-gradient(135deg, #ca8a04 0%, #eab308 100%) !important;
         border: none;
-        color: black;
+        color: black !important;
         font-weight: 800;
         border-radius: 8px;
         cursor: pointer;
@@ -166,6 +166,30 @@ const CART_STYLES = `
         opacity: 1;
         transform: translateY(0);
     }
+
+    /* --- NUCLEAR VISIBILITY FIX V2 (SUPER SPECIFICITY) --- */
+    html body #spesfidem-cart-sidebar,
+    html body #spesfidem-cart-sidebar * {
+        color: white !important;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.8) !important; /* Fail-safe visibility */
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    /* EXCEPTIONS (Must come after) */
+    html body #spesfidem-cart-sidebar .checkout-btn {
+        color: black !important;
+        text-shadow: none !important;
+    }
+
+    html body #spesfidem-cart-sidebar .cart-remove {
+        color: #ef4444 !important;
+        text-shadow: none !important;
+    }
+    
+    html body #spesfidem-cart-sidebar .cart-item-meta {
+        color: #cbd5e1 !important; /* Lighter gray for better contrast on dark */
+    }
 `;
 
 class SpesfidemCart {
@@ -200,8 +224,8 @@ class SpesfidemCart {
         sidebar.id = 'spesfidem-cart-sidebar';
         sidebar.innerHTML = `
             <div class="cart-header">
-                <h3>Mi Cotización</h3>
-                <span class="close-cart" onclick="cart.toggleUI()">&times;</span>
+                <h3 id="cart-header-title" style="color: white !important; text-shadow: 0 1px 2px black !important;">Mi Cotización</h3>
+                <span class="close-cart" onclick="cart.toggleUI()" style="color: white !important;">&times;</span>
             </div>
             <div class="cart-items" id="cart-items-container">
                 <!-- Items go here -->
