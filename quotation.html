@@ -227,7 +227,7 @@
         </div>
     </div>
 
-    <script src="js/app.js?v=160"></script>
+    <script src="js/app.js?v=RESTORED_V3"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             // Wait for DB to be initialized from app.js
@@ -376,26 +376,46 @@
             data.city = regCity;
             data.address = regAddress;
 
-            try {
-                if (typeof db !== 'undefined') {
-                    // No longer blocking unique registrations, instead we just reuse/update
-                    // but we alert the user that the order will be logged.
-                    const existingClient = await db.getByIdCard(regDoc);
-                    if (existingClient) {
-                        console.log("Existing client found, updating record with new order.");
-                    }
+            // Assign a fresh ID if missing, or regenerate to ensure uniqueness upon registration if needed (though keeping linkage is better)
+            // We use the timestamp ID as the primary key.
+            if (!data.id) data.id = Date.now();
+            // Ensure status is finalized
+            data.status = 'Confirmado';
 
+            try {
+                // 1. Try Standard DB Save
+                if (typeof db !== 'undefined') {
+                    console.log("Saving via DB Class...", data);
                     await db.save(data);
-                    alert('¡Registro exitoso! Sus datos han sido guardados en el sistema administrativo. Ahora puede proceder al pago.');
-                    sessionStorage.removeItem('currentQuotation');
-                    window.location.href = 'checkout.html';
                 } else {
-                    throw new Error("Base de datos no disponible");
+                    console.warn("DB Class missing! Attempting Manual LocalStorage Save...");
+                    throw new Error("DB Object unavailable");
                 }
             } catch (e) {
-                console.error(e);
-                alert('Error al registrar el pedido: ' + e.message);
+                console.error("Primary Save Failed:", e);
+                // 2. Emergency Manual Save (Direct to LocalStorage)
+                try {
+                    const DB_KEY = 'spesfidem_clients';
+                    const stored = localStorage.getItem(DB_KEY);
+                    const clients = stored ? JSON.parse(stored) : [];
+
+                    // Upsert
+                    const idx = clients.findIndex(c => String(c.id) === String(data.id));
+                    if (idx >= 0) clients[idx] = data;
+                    else clients.push(data);
+
+                    localStorage.setItem(DB_KEY, JSON.stringify(clients));
+                    console.log("Manual Save to LocalStorage SUCCESS.");
+                } catch (localErr) {
+                    console.error("CRITICAL: Manual Save Failed!", localErr);
+                    alert("Error crítico: No se pudieron guardar los datos. Tome una captura de pantalla.");
+                    return; // Stop redirection
+                }
             }
+
+            alert('¡Registro exitoso! Datos guardados correctamente.');
+            sessionStorage.removeItem('currentQuotation');
+            window.location.href = 'checkout.html';
         }
     </script>
 </body>

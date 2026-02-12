@@ -54,21 +54,109 @@ class PersistentStorageHandler(http.server.SimpleHTTPRequestHandler):
                     self.send_error(400, "JSON inválido")
             return
 
-        super().do_POST()
+        # API: Login Administrativo
+        if path_only == '/api/login':
+            content_length = int(self.headers.get('Content-Length', 0))
+            post_data = self.rfile.read(content_length)
+            try:
+                credentials = json.loads(post_data.decode('utf-8'))
+                user = credentials.get('username')
+                password = credentials.get('password')
+
+                print(f"INFO: Login attempt - User: '{user}', Pass Length: {len(password) if password else 0}")
+
+                # Credenciales proporcionadas por el usuario (4 Administradores)
+                valid_users = {
+                    '14298116': '14298116Je*',
+                    '1106227253': '7253pipe',
+                    '1005703432': '3432sergio',
+                    '1104942399': '2399caleb'
+                }
+
+                if user in valid_users:
+                    expected_password = valid_users[user]
+                    is_valid = (expected_password == password)
+                    print(f"DEBUG: User '{user}' found. Password match: {is_valid}")
+                    
+                    if is_valid:
+                        print(f"SUCCESS: User {user} logged in.")
+                        self.send_json({"success": True, "token": "BASIC_AUTH_SUCCESS"})
+                    else:
+                        print(f"WARN: Password mismatch for user {user}. Expected '{expected_password}', received '{password}'")
+                        self.send_response(401)
+                        self.send_cors_headers()
+                        self.end_headers()
+                        self.wfile.write(json.dumps({
+                            "success": False, 
+                            "message": "Contraseña incorrecta"
+                        }).encode('utf-8'))
+                else:
+                    print(f"WARN: User '{user}' not found in valid_users: {list(valid_users.keys())}")
+                    self.send_response(401)
+                    self.send_cors_headers()
+                    self.end_headers()
+                    self.wfile.write(json.dumps({
+                        "success": False, 
+                        "message": "ID de usuario no reconocido"
+                    }).encode('utf-8'))
+            except Exception as e:
+                print(f"ERROR: Login Exception: {e}")
+                self.send_error(400, "Solicitud de login inválida")
+            return
+        
+        # Si no es un endpoint de la API, podemos ignorarlo o retornar error
+        # Pero SimpleHTTPRequestHandler no maneja POST por defecto, así que no hay super a quien llamar.
+        self.send_error(405, "Método POST no permitido para este recurso")
 
     def do_DELETE(self):
-        # API: Eliminar Cliente por ID
-        # Ejemplo: /api/clients/1709428358231
+        # API: Permanently Empty Trash
+        if self.path.split('?')[0].rstrip('/') == '/api/clients/trash':
+            try:
+                self.empty_trash()
+                self.send_json({"success": True, "message": "Papelera vaciada permanentemente."})
+            except Exception as e:
+                self.send_error(500, str(e))
+            return
+
+        # API: Soft or Hard Delete Cliente por ID
         if self.path.startswith('/api/clients/'):
             try:
-                client_id = self.path.split('/')[-1]
-                self.delete_client(client_id)
-                self.send_json({"success": True, "message": "Cliente eliminado."})
+                # Extract ID and check for permanent flag
+                parts = self.path.split('?')
+                client_id = parts[0].split('/')[-1]
+                is_permanent = len(parts) > 1 and "permanent=true" in parts[1]
+
+                if is_permanent:
+                    self.hard_delete_client(client_id)
+                    self.send_json({"success": True, "message": "Cliente eliminado permanentemente."})
+                else:
+                    self.delete_client(client_id)
+                    self.send_json({"success": True, "message": "Cliente movido a la papelera."})
             except Exception as e:
+                print(f"Error in DELETE /api/clients: {e}")
                 self.send_error(500, str(e))
             return
             
         self.send_error(404, "Endpoint no encontrado")
+
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_cors_headers()
+        self.end_headers()
+
+    def send_cors_headers(self):
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+
+    def send_json(self, data):
+        self.send_response(200)
+        self.send_cors_headers()
+        self.send_header("Content-type", "application/json")
+        # Headers para evitar caché en API
+        self.send_header('Cache-Control', 'no-store, no-cache, must-revalidate')
+        self.end_headers()
+        self.wfile.write(json.dumps(data, ensure_ascii=False).encode('utf-8'))
 
     # --- Métodos Auxiliares de Base de Datos ---
 
@@ -108,20 +196,41 @@ class PersistentStorageHandler(http.server.SimpleHTTPRequestHandler):
     def delete_client(self, client_id):
         clients = self.load_clients()
         # Soft Delete: Find and mark as deleted
+        found = False
         for client in clients:
             if str(client.get('id')) == str(client_id):
                 client['deleted'] = True
+                found = True
                 break
-        self.save_clients_to_disk(clients)
-        # Note: To restore, simply update with deleted=False or handled via upsert
+        
+        if found:
+            self.save_clients_to_disk(clients)
+        else:
+            print(f"WARN: Delete failed. Client ID {client_id} not found.")
 
-    def send_json(self, data):
-        self.send_response(200)
-        self.send_header('Content-type', 'application/json')
-        # Headers para evitar caché en API
-        self.send_header('Cache-Control', 'no-store, no-cache, must-revalidate')
-        self.end_headers()
-        self.wfile.write(json.dumps(data, ensure_ascii=False).encode('utf-8'))
+    def empty_trash(self):
+        clients = self.load_clients()
+        original_count = len(clients)
+        # Keep only clients that are NOT deleted
+        clients = [c for c in clients if not c.get('deleted')]
+        new_count = len(clients)
+        print(f"Trash Emptied: {original_count - new_count} records removed permanently.")
+        self.save_clients_to_disk(clients)
+
+    def hard_delete_client(self, client_id):
+        clients = self.load_clients()
+        original_count = len(clients)
+        # Remove the client with the matching ID
+        clients = [c for c in clients if str(c.get('id')) != str(client_id)]
+        new_count = len(clients)
+        if original_count != new_count:
+            print(f"Hard Deleted: Client {client_id} removed permanently.")
+            self.save_clients_to_disk(clients)
+        else:
+            print(f"WARN: Hard Delete failed. Client ID {client_id} not found.")
+
+class ThreadedTCPServer(socketserver.TCPServer):
+    allow_reuse_address = True
 
 print(f"--- SERVIDOR DE PERSISTENCIA SPESFIDEM ---")
 print(f"Estado: ACTIVO")
@@ -129,10 +238,7 @@ print(f"Puerto: {PORT}")
 print(f"Almacenamiento: {CLIENTS_FILE.absolute()}")
 print(f"------------------------------------------")
 
-# Reutilizar dirección (allow_reuse_address) para evitar errores de puerto ocupado al reiniciar rápido
-socketserver.TCPServer.allow_reuse_address = True
-
-with socketserver.TCPServer(("", PORT), PersistentStorageHandler) as httpd:
+with ThreadedTCPServer(("", PORT), PersistentStorageHandler) as httpd:
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

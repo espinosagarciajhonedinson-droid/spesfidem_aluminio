@@ -1,8 +1,4 @@
-/**
- * Spesfidem Aluminio - App Logic
- * Handles Client Database (IndexedDB), 3-Slot Form, and Admin Dashboard
- */
-
+console.log("Spesfidem App v5 Loading...");
 const DB_KEY = 'spesfidem_clients';
 const DB_NAME = 'SpesfidemDB';
 const DB_VERSION = 1;
@@ -11,45 +7,260 @@ const STORE_NAME = 'clients';
 // --- Database Layer (Python Server API) ---
 class ClientDB {
     constructor() {
-        this.apiUrl = '/api/clients';
+        // Hybrid Logic: Determine the correct API base URL
+        // If we are on file:// or a local dev server (e.g., Live Server on port 5500),
+        // we must point to the Python backend on http://localhost:3000.
+        // If we are served FROM the Python server (port 3000), we use relative paths.
+
+        const hostname = window.location.hostname;
+        const port = window.location.port;
+        const protocol = window.location.protocol;
+
+        const isLocalEnvironment =
+            protocol === 'file:' ||
+            hostname === 'localhost' ||
+            hostname === '127.0.0.1' ||
+            hostname.startsWith('192.168.');
+
+        // If local but NOT on port 3000, assume backend is separate at localhost:3000
+        // (This covers file://, Live Server 5500, etc.)
+        const useExternalBackend = isLocalEnvironment && port !== '3000';
+
+        const base = useExternalBackend ? 'http://localhost:3000' : '';
+
+        console.log(`ClientDB Init: Env=${isLocalEnvironment}, Port=${port}, Base=${base}`);
+
+        this.apiUrl = `${base}/api/clients`;
+        this.loginUrl = `${base}/api/login`;
     }
 
     // Initialization is simple health check or no-op
     async init() {
-        console.log("Connected to Spesfidem Persistent Server");
+        console.log("Connected to Spesfidem Persistent Server (Hybrid Mode)");
     }
 
     async save(client) {
+        let savedToServer = false;
         try {
             const response = await fetch(this.apiUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(client)
             });
-            if (!response.ok) throw new Error('Error saving to server');
+            if (response.ok) {
+                savedToServer = true;
+                console.log("Saver: Saved to Server Successfully.");
+            } else {
+                throw new Error('Server returned ' + response.status);
+            }
         } catch (e) {
-            console.error(e);
-            throw e;
+            console.warn("Saver: Server failed, saving to LocalStorage...", e);
         }
+
+        // ALWAYS save to local as backup/hybrid cache
+        this.saveToLocal(client);
+        console.log("Saver: Saved to LocalStorage (Hybrid Sync).");
     }
 
     async delete(id) {
+        // ALWAYS update local first for immediate UI responsiveness (Optimistic)
+        this.deleteFromLocal(id);
+
         try {
             const response = await fetch(`${this.apiUrl}/${id}`, { method: 'DELETE' });
-            if (!response.ok) throw new Error('Error deleting from server');
+            if (response.ok) {
+                console.log("Deleter: Server confirmed deletion.");
+            } else {
+                throw new Error('Server returned ' + response.status);
+            }
         } catch (e) {
-            console.error(e);
+            console.warn("Deleter: Server unreachable, kept in LocalStorage as deleted:", e);
+        }
+    }
+
+    async adminLogin(username, password) {
+        try {
+            const response = await fetch(this.loginUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return { success: true, token: data.token };
+            } else {
+                return { success: false, message: "Acceso denegado" };
+            }
+        } catch (e) {
+            console.error("Login attempt failed:", e);
+            return { success: false, message: "Error de conexión con el servidor" };
+        }
+    }
+
+    async emptyTrash() {
+        try {
+            const response = await fetch(`${this.apiUrl}/trash`, { method: 'DELETE' });
+            if (response.ok) {
+                console.log("Empty Trash: Server confirmed permanent deletion.");
+                // Wipe ALL potential local cache keys of deleted items
+                const keysToClear = [DB_KEY, 'clients', 'spesfidem_clients', 'registros', 'db_spesfidem', 'spesfidem_db'];
+                keysToClear.forEach(key => {
+                    try {
+                        let data = localStorage.getItem(key);
+                        if (data) {
+                            let clients = JSON.parse(data);
+                            if (Array.isArray(clients)) {
+                                let filtered = clients.filter(c => !c.deleted);
+                                localStorage.setItem(key, JSON.stringify(filtered));
+                            }
+                        }
+                    } catch (err) { }
+                });
+                return true;
+            } else {
+                throw new Error('Server returned ' + response.status);
+            }
+        } catch (e) {
+            console.error("Empty Trash failed:", e);
+            return false;
+        }
+    }
+
+    async hardDelete(id) {
+        try {
+            const response = await fetch(`${this.apiUrl}/${id}?permanent=true`, { method: 'DELETE' });
+            if (response.ok) {
+                console.log(`Hard Delete: Server confirmed permanent deletion of ${id}.`);
+                // Wipe from ALL potential local cache keys
+                const keysToClear = [DB_KEY, 'clients', 'spesfidem_clients', 'registros', 'db_spesfidem', 'spesfidem_db'];
+                keysToClear.forEach(key => {
+                    try {
+                        let data = localStorage.getItem(key);
+                        if (data) {
+                            let clients = JSON.parse(data);
+                            if (Array.isArray(clients)) {
+                                let filtered = clients.filter(c => String(c.id) !== String(id));
+                                localStorage.setItem(key, JSON.stringify(filtered));
+                            }
+                        }
+                    } catch (err) { }
+                });
+                return true;
+            } else {
+                throw new Error('Server returned ' + response.status);
+            }
+        } catch (e) {
+            console.error("Hard Delete failed:", e);
+            return false;
         }
     }
 
     async getAll() {
+        let serverData = [];
+        let localData = [];
+
+        // 1. Try Server
         try {
-            // Anti-caching timestamp
-            const response = await fetch(`${this.apiUrl}?t=${Date.now()}`);
-            if (!response.ok) return [];
-            return await response.json();
+            console.log("Fetcher: Attempting Server Connection...");
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 1500); // 1.5s timeout
+            const response = await fetch(`${this.apiUrl}?t=${Date.now()}`, { signal: controller.signal });
+            clearTimeout(timeoutId);
+            if (response.ok) {
+                serverData = await response.json();
+                console.log(`Fetcher: Server returned ${serverData.length} records.`);
+            } else {
+                console.warn(`Fetcher: Server Error ${response.status}`);
+            }
         } catch (e) {
-            console.error("Fetch error:", e);
+            console.warn("Fetcher: Server unreachable (Offline/Timeout). Using Local.", e);
+        }
+
+        // 2. Get Local
+        try {
+            localData = this.getFromLocal();
+            console.log(`Fetcher: LocalStorage returned ${localData.length} records.`);
+        } catch (e) {
+            console.error("Fetcher: LocalStorage Error", e);
+            localData = [];
+        }
+
+        // 3. MERGE & DEDUPLICATE
+        try {
+            const clientMap = new Map();
+
+            // Load Local first
+            if (Array.isArray(localData)) {
+                localData.forEach(c => {
+                    if (c && c.id) clientMap.set(String(c.id), c);
+                });
+            }
+
+            // Overlay Server
+            if (Array.isArray(serverData)) {
+                serverData.forEach(c => {
+                    if (c && c.id) clientMap.set(String(c.id), c);
+                });
+            }
+
+            const result = Array.from(clientMap.values());
+            console.log(`Fetcher: Merge Complete. Total Unique Records: ${result.length}`);
+            return result;
+        } catch (e) {
+            console.error("Fetcher: Merge Logic Failed!", e);
+            // Emergency fallback: return whatever we have
+            return [...serverData, ...localData];
+        }
+    }
+
+    // --- LocalStorage Fallback Methods ---
+    saveToLocal(client) {
+        const clients = this.getFromLocal();
+        const index = clients.findIndex(c => String(c.id) === String(client.id));
+        if (index >= 0) {
+            clients[index] = { ...clients[index], ...client };
+        } else {
+            clients.push(client);
+        }
+        localStorage.setItem(DB_KEY, JSON.stringify(clients));
+    }
+
+    deleteFromLocal(id) {
+        const clients = this.getFromLocal();
+        const index = clients.findIndex(c => String(c.id) === String(id));
+        if (index >= 0) {
+            clients[index].deleted = true;
+            localStorage.setItem(DB_KEY, JSON.stringify(clients));
+        }
+    }
+
+    getFromLocal() {
+        try {
+            // 1. Primary Key
+            let data = localStorage.getItem(DB_KEY);
+            if (data) return JSON.parse(data);
+
+            // 2. RECOVERY: Search for any other likely keys if primary is empty
+            const legacyKeys = ['clients', 'spesfidem_clients', 'registros', 'db_spesfidem', 'spesfidem_db'];
+            for (const key of legacyKeys) {
+                const oldData = localStorage.getItem(key);
+                if (oldData) {
+                    try {
+                        const parsed = JSON.parse(oldData);
+                        if (Array.isArray(parsed) && parsed.length > 0) {
+                            console.log(`RECOVERY: Found ${parsed.length} records in legacy key '${key}'`);
+                            // Migrar a la llave principal para el futuro
+                            localStorage.setItem(DB_KEY, oldData);
+                            return parsed;
+                        }
+                    } catch (e) { }
+                }
+            }
+
+            return [];
+        } catch (e) {
+            console.error("getFromLocal failed:", e);
             return [];
         }
     }
@@ -69,23 +280,34 @@ class ClientDB {
 
     async getPaged(page, pageSize, searchQuery = '', showTrash = false) {
         let clients = await this.getAll();
-        // Sort Newest First (descending ID/Timestamp)
-        clients.sort((a, b) => b.id - a.id);
+
+        // Ensure we are working with an array
+        if (!Array.isArray(clients)) clients = [];
+
+        // Sort Newest First
+        clients.sort((a, b) => (b.id || 0) - (a.id || 0));
 
         const query = searchQuery.toLowerCase();
 
-        // Filter: Search Query AND Delete Status
+        // Safe Filter: Prevent crash on null/undefined fields
         const filtered = clients.filter(c => {
-            const matchesQuery = !query ||
-                (c.fullName && c.fullName.toLowerCase().includes(query)) ||
-                (c.cellphone && String(c.cellphone).includes(query)) ||
-                (c.idCard && String(c.idCard).includes(query)) ||
-                (c.city && c.city.toLowerCase().includes(query));
+            try {
+                if (!c) return false;
 
-            const isDeleted = !!c.deleted;
-            const matchesStatus = showTrash ? isDeleted : !isDeleted;
+                const matchesQuery = !query ||
+                    (c.fullName && String(c.fullName).toLowerCase().includes(query)) ||
+                    (c.cellphone && String(c.cellphone).includes(query)) ||
+                    (c.idCard && String(c.idCard).includes(query)) ||
+                    (c.city && String(c.city).toLowerCase().includes(query));
 
-            return matchesQuery && matchesStatus;
+                const isDeleted = !!c.deleted || (c.status && c.status.toLowerCase() === 'papelera');
+                const matchesStatus = showTrash ? isDeleted : !isDeleted;
+
+                return matchesQuery && matchesStatus;
+            } catch (err) {
+                console.warn("Filter skip on item:", c, err);
+                return false;
+            }
         });
 
         const start = (page - 1) * pageSize;
@@ -104,6 +326,7 @@ class ClientDB {
             (c.cellphone && String(c.cellphone).includes(query))
         ).length;
     }
+
     async getNextSerial() {
         const clients = await this.getAll();
         if (clients.length === 0) return 1;
@@ -283,16 +506,29 @@ async function migrateData() {
         if (legacyData) {
             const clients = JSON.parse(legacyData);
             if (Array.isArray(clients) && clients.length > 0) {
-                console.log(`Migrating ${clients.length} clients to server...`);
+                console.log(`Syncing ${clients.length} local records with server...`);
+                let successCount = 0;
                 for (const client of clients) {
-                    await db.save(client);
+                    try {
+                        // Check server for this specific client first to avoid redundant POSTs if desired
+                        // or just rely on the server's upsert logic.
+                        const response = await fetch(db.apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(client)
+                        });
+                        if (response.ok) successCount++;
+                    } catch (err) {
+                        console.warn(`Sync failed for client ${client.id}:`, err);
+                    }
                 }
-                localStorage.removeItem(DB_KEY);
-                console.log("Migration complete.");
+                console.log(`Sync complete. ${successCount}/${clients.length} records successfully sent to server.`);
+                // We DON'T removeItem(DB_KEY) here anymore to preserve the Hybrid Cache/Backup
+                // This prevents data loss if the server is unreachable.
             }
         }
     } catch (e) {
-        console.error("Migration failed:", e);
+        console.error("Sync failed:", e);
     }
 }
 
@@ -420,8 +656,8 @@ function initSimulatorSlots(container) {
         </optgroup>
     `;
 
-    // Add 9 more slots (1st is static in HTML, or cleared here)
-    for (let i = 2; i <= 10; i++) {
+    // Add 2 more slots (1st is static in HTML, or cleared here)
+    for (let i = 2; i <= 3; i++) {
         const div = document.createElement('div');
         div.className = 'product-slot-card';
         div.style.background = 'rgba(255,255,255,0.03)';
@@ -498,6 +734,11 @@ function prepareQuotation(event) {
     // Simulation only requires products, no form validation
     const clientData = collectFormData(true); // Simulation mode
     if (!clientData) return;
+
+    // AUTO-SAVE as "Lead/Simulation" before moving to register
+    // This addresses the user's request for data to be saved upon "Agregar"
+    clientData.status = 'Pendiente (Simulación)';
+    db.save(clientData).catch(err => console.error("Auto-save simulation failed:", err));
 
     // Store in sessionStorage for the quotation page
     sessionStorage.setItem('currentQuotation', JSON.stringify(clientData));
@@ -662,7 +903,15 @@ let isTrashMode = false;
 
 async function loadAdminData() {
     const tableBody = document.getElementById('clientTableBody');
-    if (!tableBody) return;
+    if (!tableBody) {
+        console.error("Loader: Table Body not found!");
+        return;
+    }
+
+    console.log("Loader: Starting loadAdminData...");
+
+    // Show Loading
+    tableBody.innerHTML = '<tr><td colspan="17" style="text-align:center; padding:2rem; color:#64748b;"><i class="fas fa-spinner fa-spin"></i> Cargando datos...</td></tr>';
 
     try {
         const query = document.getElementById('adminSearch')?.value || '';
@@ -676,14 +925,18 @@ async function loadAdminData() {
 
         const { items, total } = await db.getPaged(currentPage, pageSize, query, isTrashMode);
 
+        // Debug/Feedback
+        showToast(`Datos cargados: ${total} registros`, "info");
+
         const countHeader = document.getElementById('clientCountHeader');
         if (countHeader) countHeader.textContent = total;
 
+        updateTrashCounter();
         updatePaginationUI(Math.ceil(total / pageSize));
 
         tableBody.innerHTML = '';
         if (items.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="17" style="text-align:center; padding:2rem;">No se encontraron resultados.</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="17" style="text-align:center; padding:2rem;">No se encontraron resultados en la base de datos (Local/Server).</td></tr>';
             return;
         }
 
@@ -696,17 +949,24 @@ async function loadAdminData() {
             // Action Buttons Logic
             let actionBtns = '';
             if (isTrashMode) {
-                // Restore Button only
+                // Restore Button and Permanent Delete
                 actionBtns = `
-                    <button onclick="restoreClient('${client.id}')" class="btn-restore" style="background:#10b981; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;" title="Restaurar Cliente">
-                        <i class="fas fa-trash-restore"></i> Restaurar
+                    <button onclick="console.log('Restore clicked'); window.restoreClient('${client.id}')" class="btn-restore" style="background:#10b981; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600; display:flex; align-items:center; gap:4px;" title="Restaurar Cliente">
+                        <i class="fas fa-trash-restore"></i> <span>Restaurar</span>
+                    </button>
+                    <button onclick="console.log('Delete permanent clicked'); window.hardDeleteClient('${client.id}')" class="btn-delete" style="background:#64748b; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600; display:flex; align-items:center; gap:4px;" title="Eliminar Permanentemente">
+                        <i class="fas fa-trash-slash"></i> <span>Eliminar</span>
                     </button>
                 `;
             } else {
                 // Edit / Delete
                 actionBtns = `
-                    <button onclick="openEditModal('${client.id}')" class="btn-edit" style="background:#f59e0b; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; margin-right:5px;"><i class="fas fa-edit"></i></button>
-                    <button onclick="deleteClient('${client.id}')" class="btn-delete" style="background:#ef4444; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;"><i class="fas fa-trash-alt"></i></button>
+                    <button onclick="openEditModal('${client.id}')" class="btn-edit" style="background:#f59e0b; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; margin-right:5px; font-weight:600; display:flex; align-items:center; gap:4px;" title="Editar">
+                        <i class="fas fa-edit"></i> <span>Editar</span>
+                    </button>
+                    <button onclick="deleteClient('${client.id}')" class="btn-delete" style="background:#ef4444; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600; display:flex; align-items:center; gap:4px;" title="Borrar">
+                        <i class="fas fa-trash-alt"></i> <span>Borrar</span>
+                    </button>
                 `;
             }
 
@@ -746,10 +1006,15 @@ async function loadAdminData() {
                 </td>
                 <td><span class="status-badge status-${(client.deliveryStatus || 'Pendiente').toLowerCase()}">${client.deliveryStatus || 'Pendiente'}</span></td>
                 <td><span class="status-badge status-${(client.paymentStatus || 'Cancelado').toLowerCase()}">${client.paymentStatus || 'Cancelado'}</span></td>
-                <td style="display:flex; gap:0.5rem; justify-content: flex-end;">
+                <td style="display:flex; gap:0.5rem; justify-content: center; align-items: center; background: white; position: sticky; right: 0; z-index: 5; box-shadow: -2px 0 5px rgba(0,0,0,0.05); min-width: 200px; padding: 10px;">
                     ${actionBtns}
                 </td>
             `;
+
+            // Adjust background for highlighted rows
+            if (client.deleted) {
+                row.querySelector('td:last-child').style.background = '#fff1f2';
+            }
             tableBody.appendChild(row);
         });
 
@@ -847,24 +1112,62 @@ function updateHeaderCheckbox() {
 
 // --- Admin Actions ---
 
+async function updateTrashCounter() {
+    try {
+        const { total } = await db.getPaged(1, 1000, '', true);
+        const counter = document.getElementById('trashCountBadge');
+        if (counter) {
+            counter.textContent = total;
+            counter.style.display = total > 0 ? 'inline-block' : 'none';
+        }
+    } catch (e) {
+        console.warn("Trash counter update failed:", e);
+    }
+}
+
 function toggleTrashMode() {
     isTrashMode = !isTrashMode;
-    // Update button visual (assuming button exists in DOM)
     const btn = document.getElementById('btnTrashToggle');
+    const badge = document.getElementById('trashCountBadge');
+    const btnEmpty = document.getElementById('btnEmptyTrash');
+
     if (btn) {
         if (isTrashMode) {
             btn.style.background = '#ef4444';
-            btn.innerHTML = '<i class="fas fa-arrow-left"></i> Volver a Clientes';
+            btn.innerHTML = `<i class="fas fa-arrow-left"></i> Volver a Clientes`;
+            if (btnEmpty) btnEmpty.style.display = 'flex';
         } else {
             btn.style.background = '#64748b';
-            btn.innerHTML = '<i class="fas fa-trash"></i> Ver Papelera';
+            btn.innerHTML = `<i class="fas fa-trash"></i> Ver Papelera <span id="trashCountBadge" style="background:#ef4444; color:white; padding: 0.1rem 0.5rem; border-radius: 10px; font-size: 0.75rem; font-weight: bold; margin-left: 5px; display: none;">0</span>`;
+            if (btnEmpty) btnEmpty.style.display = 'none';
+            // Trigger refresh to update the new badge
+            updateTrashCounter();
         }
     }
     currentPage = 1;
     loadAdminData();
 }
 
-async function restoreClient(id) {
+window.emptyTrash = async function () {
+    console.log("Action: emptyTrash initiated");
+    if (!confirm("¿ESTÁ SEGURO? Esta acción ELIMINARÁ PERMANENTEMENTE todos los registros de la papelera y no se puede deshacer.")) return;
+
+    try {
+        const success = await db.emptyTrash();
+        if (success) {
+            showToast("Papelera vaciada permanentemente.", "success");
+            loadAdminData();
+        } else {
+            showToast("Error al vaciar la papelera.", "error");
+        }
+    } catch (e) {
+        console.error("emptyTrash Error:", e);
+        showToast("Error de conexión.", "error");
+    }
+};
+
+window.restoreClient = async function (id) {
+    console.log(`Action: restoreClient(${id})`);
     if (!confirm("¿Restaurar este cliente a la lista activa?")) return;
     try {
         const client = await db.getById(id);
@@ -878,18 +1181,34 @@ async function restoreClient(id) {
         console.error("Restore failed:", e);
         showToast("Error al restaurar.", "error");
     }
-}
+};
 
-async function deleteClient(id) {
+window.hardDeleteClient = async function (id) {
+    console.log(`Action: hardDeleteClient(${id})`);
+    if (!confirm("¿ELIMINAR PERMANENTEMENTE? Esta acción no se puede deshacer.")) return;
+    try {
+        const success = await db.hardDelete(id);
+        if (success) {
+            showToast("Cliente eliminado para siempre.", "success");
+            loadAdminData();
+        } else {
+            showToast("Error al eliminar permanentemente.", "error");
+        }
+    } catch (e) {
+        console.error("Hard delete failed:", e);
+        showToast("Error de conexión.", "error");
+    }
+};
+
+window.deleteClient = async function (id) {
+    console.log(`Action: deleteClient(${id})`);
     if (!confirm("¿Mover este cliente a la papelera?")) return;
     try {
-        // Backend now handles adding deleted=true via DELETE endpoint logic or we can explicitly save it.
-        // Current server implementation of do_DELETE sets deleted=True.
         await db.delete(id);
         loadAdminData();
         showToast("Cliente movido a la papelera.", "info");
-    } catch (e) { console.error(e); }
-}
+    } catch (e) { console.error("deleteClient Error:", e); }
+};
 
 async function undoLastDelete() {
     // Deprecated in favor of Trash Mode but keeping for compatibility if invoked
@@ -980,7 +1299,8 @@ async function openEditModal(id) {
 
         const items = client.items || [{ product: client.product, quantity: client.quantity }];
 
-        for (let i = 0; i < 10; i++) {
+        // LIMIT: 3 Slots (Matching Simulator)
+        for (let i = 0; i < 3; i++) {
             const item = items[i] || { product: '', quantity: 1, color: 'Natural', size: '', glass: 'Monolítico' };
             const div = document.createElement('div');
             div.style.padding = '10px';
@@ -1286,19 +1606,44 @@ ${message}
 function closePQRModal() {
     window.location.href = 'index.html';
 }
-function adminLogin(e) {
+async function adminLogin(e) {
     e.preventDefault();
-    const user = document.getElementById('adminUser').value;
-    const pass = document.getElementById('adminPass').value;
+    const user = document.getElementById('adminUser').value.trim();
+    const pass = document.getElementById('adminPass').value.trim();
     const errorMsg = document.getElementById('loginError');
+    const loginBtn = e.target.querySelector('button[type="submit"]');
 
-    // Admin Credentials as specified previously
-    if (user === '14298116' && pass === '14298116Je*') {
-        sessionStorage.setItem('isAdmin', 'true');
-        document.getElementById('loginOverlay').style.display = 'none';
-        loadAdminData();
-    } else {
-        if (errorMsg) errorMsg.style.display = 'block';
+    if (loginBtn) {
+        loginBtn.disabled = true;
+        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando...';
+    }
+
+    try {
+        // SECURE: Now checking credentials on the backend
+        const result = await db.adminLogin(user, pass);
+
+        if (result.success) {
+            sessionStorage.setItem('isAdmin', 'true');
+            document.getElementById('loginOverlay').style.display = 'none';
+            loadAdminData();
+            showToast("Bienvenido al Panel Administrativo", "success");
+        } else {
+            if (errorMsg) {
+                errorMsg.textContent = result.message || "Credenciales incorrectas.";
+                errorMsg.style.display = 'block';
+            }
+        }
+    } catch (err) {
+        console.error("Login script error:", err);
+        if (errorMsg) {
+            errorMsg.textContent = "Error técnico al conectar con el servidor.";
+            errorMsg.style.display = 'block';
+        }
+    } finally {
+        if (loginBtn) {
+            loginBtn.disabled = false;
+            loginBtn.innerHTML = 'INGRESAR AL SISTEMA';
+        }
     }
 }
 
@@ -1403,6 +1748,14 @@ function initApp() {
         initGalleryPage();
     }
 }
+
+// Ensure trash functions are globally reachable for onclicks
+window.emptyTrash = emptyTrash;
+window.hardDeleteClient = hardDeleteClient;
+window.toggleTrashMode = toggleTrashMode;
+window.restoreClient = restoreClient;
+window.deleteClient = deleteClient;
+window.loadAdminData = loadAdminData;
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initApp);

@@ -5,14 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard | Spesfidem</title>
+    <!-- External Styles -->
     <link rel="stylesheet" href="css/style.css?v=V2_NAV">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Anti-Flicker Script: Immediate Auth Check -->
+    <script>
+        // Immediately check if user is admin to prevent login overlay flicker
+        try {
+            if (sessionStorage.getItem('isAdmin') === 'true') {
+                document.documentElement.classList.add('is-admin');
+            }
+        } catch (e) { }
+    </script>
     <style>
+        /* Immediately hide login overlay if is-admin class is present */
+        .is-admin #loginOverlay {
+            display: none !important;
+        }
+
         /* Admin-specific styles */
         body {
             background-color: #f1f5f9;
             color: #1e293b;
             display: flex;
+            /* Override global padding from style.css */
+            padding-top: 0 !important;
+            margin: 0;
+            min-height: 100vh;
         }
 
         .sidebar {
@@ -22,14 +42,19 @@
             color: white;
             padding: 1.5rem;
             position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 50;
+            /* Ensure sidebar stays on top */
+            overflow-y: auto;
         }
 
         .main-content {
             margin-left: 200px;
             padding: 1.5rem;
-            /* Reduced padding for more space */
             width: calc(100% - 200px);
-            /* Fix width calculation */
+            box-sizing: border-box;
+            /* Ensure padding doesn't break width */
         }
 
         .stat-card {
@@ -103,17 +128,14 @@
                 border: 1px solid #e2e8f0 !important;
             }
 
-            /* Selection Printing Logic */
             .print-selection-active tr:not(.is-selected):not(.table-header-row) {
                 display: none !important;
             }
 
-            /* Hide the first and last columns (checkbox and actions) */
             th:first-child,
             td:first-child,
             th:last-child,
             td:last-child,
-            /* Hide planning and city to save space on print */
             th:nth-child(6),
             td:nth-child(6),
             th:nth-child(8),
@@ -146,9 +168,7 @@
             <li style="margin-bottom: 1rem;"><a href="touch_mirror_calc.html"
                     style="color:var(--accent); text-decoration:none; font-size: 0.9rem; font-weight: bold;"><i
                         class="fas fa-magic" style="margin-right:0.5rem;"></i> ESPEJO TOUCH</a></li>
-            <li style="margin-bottom: 1rem;"><a href="#" onclick="toggleCalculator()"
-                    style="color:rgb(255, 255, 255); text-decoration:none; font-size: 0.9rem; font-weight: bold;"><i
-                        class="fas fa-calculator" style="margin-right:0.5rem;"></i> CALCULADORA</a></li>
+
             <li style="margin-bottom: 1rem;"><a href="index.html"
                     style="color:white; text-decoration:none; font-size: 0.9rem;"><i class="fas fa-home"
                         style="margin-right:0.5rem;"></i> Volver al Sitio</a></li>
@@ -176,11 +196,10 @@
         </div>
 
         <header
-            style="margin-bottom: 3rem; display: flex; flex-direction: column; gap: 0.8rem; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+            style="margin-bottom: 2rem; display: flex; flex-direction: column; gap: 0.8rem; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); position: relative !important;">
 
             <div
                 style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 1rem;">
-                <!-- Left Section: Title & Counter -->
                 <div style="display: flex; align-items: center; gap: 1rem; flex: 1; min-width: 200px;">
                     <div>
                         <h1 style="font-size: 1.2rem; color: #0f172a; margin: 0;">Panel de Control</h1>
@@ -193,7 +212,6 @@
                     </div>
                 </div>
 
-                <!-- Center Section: User Profile -->
                 <div
                     style="display: flex; align-items: center; gap: 0.8rem; flex: 1; justify-content: center; background: #f8fafc; padding: 0.5rem 1.5rem; border-radius: 50px; border: 1px solid #e2e8f0; min-width: 250px;">
                     <div
@@ -204,22 +222,12 @@
                             Edinson</strong></span>
                 </div>
 
-                <!-- Right Section: Logout -->
-                <div style="display: flex; align-items: center; justify-content: flex-end; flex: 1; min-width: 150px;">
-                    <button onclick="logout()"
-                        style="background: #ef4444; color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 6px; cursor: pointer; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; transition: background 0.3s; box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);"
-                        onmouseover="this.style.background='#dc2626'" onmouseout="this.style.background='#ef4444'"
-                        title="Cerrar Sesión">
-                        <i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN
-                    </button>
-                </div>
+                <div style="flex: 1; min-width: 150px;"></div>
             </div>
 
-            <!-- Balanced Action Toolbar -->
             <div class="header-toolbar"
                 style="display: flex; gap: 1.5rem; border-top: 1px solid #e2e8f0; padding-top: 1rem; width: 100%; align-items: center; justify-content: center; flex-wrap: wrap;">
 
-                <!-- Search Bar (Now centered in the group or taking priority) -->
                 <div style="position:relative; flex: 1; min-width: 300px; max-width: 500px;">
                     <i class="fas fa-search"
                         style="position:absolute; left:15px; top:50%; transform:translateY(-50%); color:#94a3b8; font-size:0.9rem;"></i>
@@ -228,11 +236,16 @@
                         style="width:100%; padding:0.6rem 0.6rem 0.6rem 2.8rem; border:1px solid #cbd5e1; border-radius:8px; font-size:0.9rem; box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);">
                 </div>
 
-                <!-- Action Buttons Group -->
                 <div style="display: flex; gap: 1rem; align-items:center;">
-                    <button id="btnTrashToggle" onclick="toggleTrashMode()" class="btn-primary"
+                    <button id="btnTrashToggle" onclick="window.toggleTrashMode()" class="btn-primary"
                         style="background: #64748b; border:none; border-radius: 6px; cursor: pointer; display:flex; gap:0.5rem; align-items:center; color:white; padding: 0.6rem 1.2rem; font-weight: 600; transition: background 0.2s;">
                         <i class="fas fa-trash"></i> Ver Papelera
+                        <span id="trashCountBadge"
+                            style="background:#ef4444; color:white; padding: 0.1rem 0.5rem; border-radius: 10px; font-size: 0.75rem; font-weight: bold; margin-left: 5px; display: none;">0</span>
+                    </button>
+                    <button id="btnEmptyTrash" onclick="window.emptyTrash()" class="btn-primary"
+                        style="background: #ef4444; border:none; border-radius: 6px; cursor: pointer; display:none; gap:0.5rem; align-items:center; color:white; padding: 0.6rem 1.2rem; font-weight: 600; transition: background 0.2s;">
+                        <i class="fas fa-trash-slash"></i> Vaciar Papelera
                     </button>
                     <button onclick="downloadCSV()" class="btn-primary"
                         style="background: #059669; border:none; border-radius: 6px; cursor: pointer; display:flex; gap:0.5rem; align-items:center; color:white; padding: 0.6rem 1.2rem; font-weight: 600; transition: background 0.2s;">
@@ -245,17 +258,14 @@
                 </div>
             </div>
 
-            <!-- Pagination Toolbar -->
             <div id="paginationControls"
                 style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 0.5rem; font-size: 0.8rem;">
-                <!-- Injected via JS -->
             </div>
         </header>
 
-        <!-- Full Width Table Container -->
         <div class="admin-table-container"
             style="background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); overflow-x: auto; width: 100%; margin-top: 2rem;">
-            <table style="width: 100%; border-collapse: collapse; min-width: 1200px;">
+            <table style="width: 100%; border-collapse: collapse; min-width: 1600px;">
                 <thead style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
                     <tr class="table-header-row">
                         <th style="padding: 1rem; width: 40px; text-align: center;">
@@ -308,17 +318,16 @@
                             style="padding: 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">
                             Estado de Pago</th>
                         <th
-                            style="padding: 1rem; text-align: left; color: #64748b; font-weight: 600; font-size: 0.85rem;">
+                            style="padding: 1rem; text-align: center; color: #0f172a; font-weight: 800; font-size: 0.9rem; background: #f1f5f9; position: sticky; right: 0; z-index: 10; box-shadow: -2px 0 5px rgba(0,0,0,0.05);">
                             Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="clientTableBody">
-                    <!-- Javascript will populate this -->
                 </tbody>
             </table>
         </div>
 
-    </div> <!-- End main-content -->
+    </div>
 
     <!-- Login Overlay -->
     <div id="loginOverlay"
@@ -373,19 +382,19 @@
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
                     <div>
                         <label style="font-weight:bold; font-size:0.9rem; color:#64748b;">Nombre Completo</label>
-                        <input type="text" id="editName" required
+                        <input type="text" id="editName"
                             style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px;">
                     </div>
                     <div>
                         <label style="font-weight:bold; font-size:0.9rem; color:#64748b;">Documento</label>
-                        <input type="text" id="editDoc" required
+                        <input type="text" id="editDoc"
                             style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px;">
                     </div>
                 </div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
                     <div>
                         <label style="font-weight:bold; font-size:0.9rem; color:#64748b;">Celular</label>
-                        <input type="text" id="editCel" required
+                        <input type="text" id="editCel"
                             style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px;">
                     </div>
                     <div>
@@ -396,17 +405,17 @@
                 </div>
                 <div>
                     <label style="font-weight:bold; font-size:0.9rem; color:#64748b;">Ciudad / Residencia</label>
-                    <input type="text" id="editCity" required
+                    <input type="text" id="editCity"
                         style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px;">
                 </div>
                 <div>
                     <label style="font-weight:bold; font-size:0.9rem; color:#64748b;">Dirección Exacta</label>
-                    <input type="text" id="editAddress" required
+                    <input type="text" id="editAddress"
                         style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px;">
                 </div>
                 <div>
                     <label style="font-weight:bold; font-size:0.9rem; color:#64748b;">Email</label>
-                    <input type="email" id="editEmail" required
+                    <input type="email" id="editEmail"
                         style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px;">
                 </div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
@@ -435,14 +444,12 @@
                         <option value="100">100% Pago Total</option>
                     </select>
                 </div>
-                <!-- Product Slots for Editing (Up to 10) -->
                 <div
                     style="max-height: 300px; overflow-y: auto; padding-right: 0.5rem; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.8rem; background: #f8fafc;">
                     <label
                         style="font-weight:bold; font-size:0.9rem; color:#64748b; display: block; margin-bottom: 0.5rem;">Productos
                         y Cantidades</label>
                     <div id="editProductSlots" style="display: flex; flex-direction: column; gap: 0.8rem;">
-                        <!-- Slots 1 to 10 will be dynamically populated/displayed by JS -->
                     </div>
                 </div>
                 <div style="display:flex; gap:1rem; margin-top:1rem;">
@@ -456,193 +463,7 @@
         </div>
     </div>
 
-    <!-- Calculator Overlay - Professional Wide Edition -->
-    <!-- Calculator Overlay - Professional High-Vis Edition -->
-    <div id="calculatorOverlay"
-        style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0, 0, 0, 0.9); backdrop-filter: blur(8px); z-index:9500; display:none; justify-content:center; align-items:center;">
-        <div
-            style="background:#0f172a; padding:0; border-radius:24px; box-shadow:0 0 50px rgba(56, 189, 248, 0.15); width:500px; max-width:90%; position:relative; overflow:hidden; border:2px solid #334155; display:flex; flex-direction:column;">
-
-            <!-- Header Bar -->
-            <div
-                style="background:#1e293b; padding:20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #334155;">
-                <h2
-                    style="color:#f8fafc; margin:0; font-size:1.4rem; display:flex; align-items:center; gap:12px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;">
-                    <i class="fas fa-calculator" style="color:#38bdf8;"></i> Calculadora Pro
-                </h2>
-                <button onclick="toggleCalculator()"
-                    style="border:none; background:none; font-size:2rem; cursor:pointer; color:#94a3b8; transition:color 0.2s; line-height: 1;">&times;</button>
-            </div>
-
-            <!-- Display Screen -->
-            <div
-                style="background: #000000; padding: 40px 30px; text-align: right; border-bottom:1px solid #334155; box-shadow: inset 0 0 30px rgba(56, 189, 248, 0.05);">
-                <div id="calcHistory"
-                    style="color: #94a3b8; font-size: 1.2rem; min-height: 1.5rem; margin-bottom: 10px; font-weight: 600; font-family: monospace;">
-                </div>
-                <input type="text" id="calcDisplay" readonly value="0"
-                    style="width: 100%; border: none; font-size: 5rem; text-align: right; outline: none; padding: 0; color: #ffffff; background: transparent; font-family: 'Outfit', sans-serif; font-weight: 800; text-shadow: 0 0 20px rgba(255,255,255,0.1); letter-spacing: -2px;">
-            </div>
-
-            <!-- Keypad -->
-            <div
-                style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: #334155; padding: 2px;">
-                <!-- Row 1 -->
-                <button onclick="calcInput('C')" class="calc-btn action">C</button>
-                <button onclick="calcInput('%')" class="calc-btn func">%</button>
-                <button onclick="calcInput('/')" class="calc-btn func">÷</button>
-                <button onclick="calcInput('*')" class="calc-btn func">×</button>
-
-                <!-- Row 2 -->
-                <button onclick="calcInput('7')" class="calc-btn digit">7</button>
-                <button onclick="calcInput('8')" class="calc-btn digit">8</button>
-                <button onclick="calcInput('9')" class="calc-btn digit">9</button>
-                <button onclick="calcInput('-')" class="calc-btn func">−</button>
-
-                <!-- Row 3 -->
-                <button onclick="calcInput('4')" class="calc-btn digit">4</button>
-                <button onclick="calcInput('5')" class="calc-btn digit">5</button>
-                <button onclick="calcInput('6')" class="calc-btn digit">6</button>
-                <button onclick="calcInput('+')" class="calc-btn func">+</button>
-
-                <!-- Row 4 -->
-                <button onclick="calcInput('1')" class="calc-btn digit">1</button>
-                <button onclick="calcInput('2')" class="calc-btn digit">2</button>
-                <button onclick="calcInput('3')" class="calc-btn digit">3</button>
-                <button onclick="calcResult()" class="calc-btn equals" style="grid-row: span 2;">=</button>
-
-                <!-- Row 5 -->
-                <button onclick="calcInput('0')" class="calc-btn digit wide" style="grid-column: span 2;">0</button>
-                <button onclick="calcInput('.')" class="calc-btn digit">.</button>
-            </div>
-
-            <style>
-                .calc-btn {
-                    padding: 30px 10px;
-                    font-size: 1.8rem;
-                    border: none;
-                    cursor: pointer;
-                    font-weight: 800;
-                    /* MAX VISIBILITY */
-                    font-family: 'Outfit', sans-serif;
-                    transition: all 0.15s;
-                }
-
-                /* Dark Blue/Grey Background for digits */
-                .calc-btn.digit {
-                    background: #1e293b;
-                    color: #ffffff;
-                }
-
-                .calc-btn.digit:hover {
-                    background: #334155;
-                    transform: scale(0.98);
-                }
-
-                .calc-btn.digit:active {
-                    background: #475569;
-                }
-
-                /* Darker for functions */
-                .calc-btn.func {
-                    background: #0f172a;
-                    color: #38bdf8;
-                    font-size: 2rem;
-                }
-
-                .calc-btn.func:hover {
-                    background: #1e293b;
-                }
-
-                /* Red for Clear */
-                .calc-btn.action {
-                    background: #450a0a;
-                    color: #fca5a5;
-                }
-
-                .calc-btn.action:hover {
-                    background: #7f1d1d;
-                }
-
-                /* Blue for Equals */
-                .calc-btn.equals {
-                    background: #0284c7;
-                    color: #ffffff;
-                    font-size: 2.5rem;
-                    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-                }
-
-                .calc-btn.equals:hover {
-                    background: #0ea5e9;
-                }
-            </style>
-
-            <script>
-                function toggleCalculator() {
-                    const el = document.getElementById('calculatorOverlay');
-                    el.style.display = (el.style.display === 'flex') ? 'none' : 'flex';
-                }
-
-                function calcInput(val) {
-                    const display = document.getElementById('calcDisplay');
-                    const history = document.getElementById('calcHistory');
-
-                    if (val === 'C') {
-                        display.value = '0';
-                        history.textContent = '';
-                    } else if (val === '%') {
-                        try {
-                            display.value = (eval(display.value) / 100).toString();
-                        } catch { }
-                    } else {
-                        if (display.value === '0' || display.value === 'Error') display.value = '';
-                        // Basic prevention of double operators
-                        const lastChar = display.value.slice(-1);
-                        if (['/', '*', '-', '+'].includes(val) && ['/', '*', '-', '+'].includes(lastChar)) {
-                            display.value = display.value.slice(0, -1) + val;
-                        } else {
-                            display.value += val;
-                        }
-                    }
-                }
-
-                function calcResult() {
-                    const display = document.getElementById('calcDisplay');
-                    const history = document.getElementById('calcHistory');
-                    try {
-                        history.textContent = display.value + ' =';
-                        // Evaluate safely-ish
-                        display.value = eval(display.value);
-                    } catch {
-                        display.value = 'Error';
-                    }
-                }
-
-                // Allow keyboard support
-                document.addEventListener('keydown', (e) => {
-                    const el = document.getElementById('calculatorOverlay');
-                    if (el.style.display === 'flex') {
-                        // Prevent default specific keys if needed, primarily enter
-                        if (e.key === 'Enter') e.preventDefault();
-
-                        if (e.key >= '0' && e.key <= '9' || ['.', '+', '-', '*', '/'].includes(e.key)) {
-                            calcInput(e.key);
-                        } else if (e.key === 'Enter') {
-                            calcResult();
-                        } else if (e.key === 'Escape') {
-                            display.value = '0';
-                        } else if (e.key === 'Backspace') {
-                            const display = document.getElementById('calcDisplay');
-                            display.value = display.value.slice(0, -1);
-                            if (display.value === '') display.value = '0';
-                        }
-                    }
-                });
-            </script>
-        </div>
-    </div>
-
-    <script src="js/app.js?v=FIX_FINAL_VISIBILITY"></script>
+    <script src="js/app.js?v=V5_FINAL_FIX"></script>
 </body>
 
 </html>
