@@ -33,6 +33,20 @@
     <link rel="stylesheet" href="css/style.css?v=20260205_v2">
     <!-- Teen Exclusive Theme (Overwrites Main) -->
     <link rel="stylesheet" href="css/teens.css?v=20260205_v2">
+
+    <!-- PWA Manifest & Service Worker -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="apple-touch-icon" href="images/logo.png">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker registered!', reg))
+                    .catch(err => console.log('Service Worker registration failed', err));
+            });
+        }
+    </script>
 </head>
 
 <body>
@@ -66,7 +80,7 @@
                 </svg>
                 <div class="logo-text-premium">
                     <span class="logo-brand-premium">SPESFIDEM</span>
-                    
+
 
                 </div>
             </a>
@@ -214,7 +228,8 @@
 
         <div class="catalog-grid" style="margin-bottom:6rem;">
             <div class="product-card" data-aos="fade-up">
-                <div class="product-img"><img src="images/architecture/skyscraper.png" alt="Rascacielos Futurista"></div>
+                <div class="product-img"><img src="images/architecture/skyscraper.png" alt="Rascacielos Futurista">
+                </div>
                 <div class="product-info">
                     <h3>Vanguardia Vertical</h3>
                     <p>Estructuras que desafían la gravedad con fachadas flotantes de última generación.</p>

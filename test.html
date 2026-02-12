@@ -1,1 +1,31 @@
-<h1>Test</h1>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Prueba | Spesfidem Aluminio</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- PWA Manifest & Service Worker -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="apple-touch-icon" href="images/logo.png">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker registered!', reg))
+                    .catch(err => console.log('Service Worker registration failed', err));
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Prueba de Accesibilidad PWA</h1>
+    <p>Esta página confirma que el sistema PWA está activo.</p>
+    <a href="index.html">Volver al Inicio</a>
+</body>
+
+</html>
