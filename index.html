@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spesfidem Aluminio | Ventanería de Alto Desempeño y Vidrio Templado</title>
+    <meta name="description"
+        content="Especialistas en ventanería de aluminio premium, sistemas de vidrio templado y fachadas flotantes. Diseño arquitectónico de alta gama por Jhon Edinson Espinosa Garcia.">
+    <meta name="keywords"
+        content="aluminio, ventanas, puertas, vidrio templado, divisiones de baño, arquitectura, Spesfidem, Ibagué, Tolima, construcción premium">
+    <meta name="author" content="Spesfidem Aluminio">
+
+    <!-- Open Graph for Social Media -->
+    <meta property="og:title" content="Spesfidem Aluminio | Sistemas Arquitectónicos Premium">
+    <meta property="og:description"
+        content="Transformamos la luz en arquitectura. Ventanas, puertas y sistemas de vidrio de alto desempeño.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://spesfidem.com">
+
+    <link rel="stylesheet" href="css/style.css?v=V3_CYAN">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@300;600;800&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Driver.js for Tour -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css" />
+
+    <!-- PWA Manifest & Service Worker -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="apple-touch-icon" href="images/logo.png">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker registered!', reg))
+                    .catch(err => console.log('Service Worker registration failed', err));
+            });
+        }
+    </script>
+</head>
+
+<body>
+
+    <!-- Header / Big Menu -->
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo-premium-final">
+                <svg class="logo-icon-premium" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Aluminum Window Profile Icon -->
+                    <!-- Outer Frame -->
+                    <rect x="10" y="15" width="80" height="70" rx="4" stroke="url(#metallic-grad)" stroke-width="4"
+                        fill="url(#metallic-fill)" />
+                    <!-- Inner Frame -->
+                    <rect x="20" y="25" width="60" height="50" rx="3" stroke="url(#metallic-grad)" stroke-width="3"
+                        fill="rgba(15, 23, 42, 0.3)" />
+                    <!-- Vertical Divider (Window Profile) -->
+                    <line x1="50" y1="25" x2="50" y2="75" stroke="url(#metallic-grad)" stroke-width="3.5" />
+                    <!-- Horizontal Divider -->
+                    <line x1="20" y1="50" x2="80" y2="50" stroke="url(#metallic-grad)" stroke-width="3.5" />
+                    <!-- Corner Details (Aluminum joints) -->
+                    <circle cx="20" cy="25" r="3" fill="url(#metallic-grad)" />
+                    <circle cx="80" cy="25" r="3" fill="url(#metallic-grad)" />
+                    <circle cx="20" cy="75" r="3" fill="url(#metallic-grad)" />
+                    <circle cx="80" cy="75" r="3" fill="url(#metallic-grad)" />
+                    <defs>
+                        <!-- Metallic Aluminum Gradient -->
+                        <linearGradient id="metallic-grad" x1="0" y1="0" x2="100" y2="100"
+                            gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#f8fafc" />
+                            <stop offset="25%" stop-color="#cbd5e1" />
+                            <stop offset="50%" stop-color="#94a3b8" />
+                            <stop offset="75%" stop-color="#cbd5e1" />
+                            <stop offset="100%" stop-color="#e2e8f0" />
+                        </linearGradient>
+                        <!-- Metallic Fill -->
+                        <linearGradient id="metallic-fill" x1="0" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="rgba(203, 213, 225, 0.15)" />
+                            <stop offset="50%" stop-color="rgba(148, 163, 184, 0.1)" />
+                            <stop offset="100%" stop-color="rgba(203, 213, 225, 0.15)" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="logo-text-premium">
+                    <span class="logo-brand-premium">SPESFIDEM</span>
+                    <span class="logo-subtitle-premium">ALUMINIO</span>
+                </div>
+            </a>
+            <nav class="big-menu">
+                <a href="#hero" data-i18n="nav.home">Inicio</a>
+                <a href="#productos" data-i18n="nav.catalog">Catálogo</a>
+                <a href="#beneficios" style="font-weight: 700;" data-i18n="nav.promise">Promesa</a>
+                <a href="#metodo" data-i18n="nav.method">Método</a>
+                <a href="#perfil" data-i18n="nav.about">Nosotros</a>
+                <a href="#contacto" data-i18n="nav.contact">Contacto</a>
+                <button onclick="startTutorial()" class="btn-tutorial" id="startTutorialBtn"
+                    style="background:none; border:none; color:inherit; font-family:inherit; font-weight:600; cursor:pointer;"
+                    title="Centro de Ayuda">
+                    <i class="fas fa-question-circle"></i> <span data-i18n="nav.tutorial">Ayuda</span>
+                </button>
+                <a href="admin.html" class="nav-lock-icon" title="Acceso Administrativo">
+                    <i class="fas fa-lock"></i>
+                </a>
+            </nav>
+
+            <!-- Language Selector - Global Edition -->
+            <div class="language-selector">
+                <button id="currentLang" class="lang-btn" onclick="toggleLanguageMenu()">
+                    <span class="lang-globe">🌐</span>
+                    <span class="lang-flag-current">🇪🇸</span>
+                    <span class="lang-name-current">Español</span>
+                    <i class="fas fa-chevron-down lang-arrow"></i>
+                </button>
+                <div id="langMenu" class="lang-menu">
+                    <span class="lang-name">English</span>
+                    </button>
+                    <button onclick="setLanguage('pt')" class="lang-option">
+                        <span class="lang-flag">🇧🇷</span>
+                        <span class="lang-name">Português</span>
+                    </button>
+                    <button onclick="setLanguage('fr')" class="lang-option">
+                        <span class="lang-flag">🇫🇷</span>
+                        <span class="lang-name">Français</span>
+                    </button>
+                    <button onclick="setLanguage('de')" class="lang-option">
+                        <span class="lang-flag">🇩🇪</span>
+                        <span class="lang-name">Deutsch</span>
+                    </button>
+                    <button onclick="setLanguage('it')" class="lang-option">
+                        <span class="lang-flag">🇮🇹</span>
+                        <span class="lang-name">Italiano</span>
+                    </button>
+                    <button onclick="setLanguage('zh')" class="lang-option">
+                        <span class="lang-flag">🇨🇳</span>
+                        <span class="lang-name">中文</span>
+                    </button>
+                    <button onclick="setLanguage('ja')" class="lang-option">
+                        <span class="lang-flag">🇯🇵</span>
+                        <span class="lang-name">日本語</span>
+                    </button>
+                    <button onclick="setLanguage('ru')" class="lang-option">
+                        <span class="lang-flag">🇷🇺</span>
+                        <span class="lang-name">Русский</span>
+                    </button>
+                    <button onclick="setLanguage('ar')" class="lang-option">
+                        <span class="lang-flag">🇸🇦</span>
+                        <span class="lang-name">العربية</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Toggler -->
+
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content" data-aos="fade-up">
+            <div class="quality-seal-royal" data-aos="zoom-in">
+                <div class="seal-ring"></div>
+                <div class="seal-glare"></div>
+                <div class="seal-content">
+                    <div class="seal-main-text">
+                        <span class="seal-percent">100%</span>
+                        <span class="seal-word">CALIDAD</span>
+                    </div>
+                    <div class="seal-divider"></div>
+                    <span class="seal-tagline">Certificación Spesfidem Elite</span>
+                </div>
+            </div>
+            <h1 data-i18n="hero.title">Arquitectura <br>Invisible</h1>
+            <h2 data-i18n="hero.subtitle"
+                style="color: var(--text-main); font-size: 2.2rem; margin-bottom: 2rem; font-weight: 600; text-shadow: 0 1px 3px rgba(0,0,0,0.3);">
+                Donde la Luz se Encuentra con el Diseño</h2>
+            <p data-i18n="hero.description"
+                style="color: var(--text-main); text-shadow: 0 1px 3px rgba(0,0,0,0.2); font-size: 2.2rem; max-width: 1000px; margin: 0 auto 2.5rem; line-height: 1.2; font-weight: 800;">
+                Transformamos espacios comunes en experiencias extraordinarias con sistemas de aluminio de alta
+                ingeniería y vidrio de alto desempeño.
+                Excelencia técnica garantizada por <strong class="name-highlight">Jhon Edinson Espinosa García</strong>.
+            </p>
+
+
+            <div class="hero-stats">
+                <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                    <h4>+5</h4>
+                    <p data-i18n="hero.stat1">Trayectoria</p>
+                </div>
+                <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+                    <h4>100%</h4>
+                    <p data-i18n="hero.stat2">Precisión</p>
+                </div>
+                <div class="stat-item" data-aos="fade-up" data-aos-delay="400">
+                    <h4>500+</h4>
+                    <p data-i18n="hero.stat3">Obras Élite</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marketing Benefits Section -->
+    <section id="beneficios"
+        style="padding: var(--section-pad); background: linear-gradient(rgba(2, 6, 23, 0.4), rgba(2, 6, 23, 0.6)), url('images/promise_installation_bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat; position: relative; overflow: hidden;">
+        <div class="nav-container">
+            <div style="text-align: center; margin-bottom: 3rem;" data-aos="fade-up">
+                <h2 class="section-title-elite" style="margin-bottom: 2rem;" data-i18n="promise.title">La Promesa
+                    Spesfidem</h2>
+                <p data-i18n="promise.subtitle"
+                    style="color: #ffffff; font-size: 1.4rem; max-width: 800px; margin: 0 auto; line-height: 1.5; font-weight: 500; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+                    Invertir en Spesfidem es
+                    asegurar el valor, la eficiencia y la belleza eterna de su propiedad.</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+                <!-- Benefit 1 -->
+                <div class="glass-panel"
+                    style="padding: 3rem; text-align: center; border-bottom: 4px solid var(--accent);"
+                    data-aos="flip-left">
+                    <i class="fas fa-microchip fa-3x" style="color: var(--accent); margin-bottom: 2rem;"></i>
+                    <h3 style="color: var(--text-main); font-size: 1.5rem; margin-bottom: 1rem;"
+                        data-i18n="benefit1.title">Ingeniería de Precisión
+                    </h3>
+                    <p style="color: #94a3b8; line-height: 1.6;" data-i18n="benefit1.desc">Cierres herméticos y
+                        deslizamientos ultra suaves
+                        gracias a mecanizados milimétricos en cada perfil.</p>
+                </div>
+                <!-- Benefit 2 -->
+                <div class="glass-panel" style="padding: 3rem; text-align: center; border-bottom: 4px solid #10b981;"
+                    data-aos="flip-left" data-aos-delay="100">
+                    <i class="fas fa-leaf fa-3x" style="color: #10b981; margin-bottom: 2rem;"></i>
+                    <h3 style="color: var(--text-main); font-size: 1.5rem; margin-bottom: 1rem;"
+                        data-i18n="benefit2.title">Eficiencia Térmica</h3>
+                    <p style="color: #94a3b8; line-height: 1.6;" data-i18n="benefit2.desc">Ahorro energético real
+                        mediante el uso de vidrios con
+                        control térmico y perfiles de alto desempeño.</p>
+                </div>
+                <!-- Benefit 3 -->
+                <div class="glass-panel" style="padding: 3rem; text-align: center; border-bottom: 4px solid #f59e0b;"
+                    data-aos="flip-left" data-aos-delay="200">
+                    <i class="fas fa-lock fa-3x" style="color: #f59e0b; margin-bottom: 2rem;"></i>
+                    <h3 style="color: var(--text-main); font-size: 1.5rem; margin-bottom: 1rem;"
+                        data-i18n="benefit3.title">Seguridad Blindada</h3>
+                    <p style="color: #94a3b8; line-height: 1.6;" data-i18n="benefit3.desc">Herrajes de seguridad y
+                        vidrio templado de alta
+                        resistencia contra impactos y vandalismo.</p>
+                </div>
+                <!-- Benefit 4 -->
+                <div class="glass-panel" style="padding: 3rem; text-align: center; border-bottom: 4px solid #8b5cf6;"
+                    data-aos="flip-left" data-aos-delay="300">
+                    <i class="fas fa-gem fa-3x" style="color: #8b5cf6; margin-bottom: 2rem;"></i>
+                    <h3 style="color: var(--text-main); font-size: 1.5rem; margin-bottom: 1rem;"
+                        data-i18n="benefit4.title">Estética Atemporal</h3>
+                    <p style="color: #94a3b8; line-height: 1.6;" data-i18n="benefit4.desc">Acabados que no se degradan
+                        con el tiempo, manteniendo
+                        el brillo y la elegancia del primer día.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Methodology Section -->
+    <section id="metodo" class="method-section">
+        <div class="nav-container">
+
+
+            <div style="display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center;">
+                <div class="method-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="step-number">1</div>
+                    <h3 data-i18n="method1.title">Consultoría Técnica</h3>
+                    <p data-i18n="method1.desc">Analizamos su espacio y necesidades para proponer la mejor solución
+                        estructural y estética.</p>
+                </div>
+
+                <div class="method-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="step-number">2</div>
+                    <h3 data-i18n="method2.title">Diseño & Simulación</h3>
+                    <p data-i18n="method2.desc">Visualizamos el proyecto final mediante nuestro simulador para precisar
+                        medidas y costos.</p>
+                </div>
+
+                <div class="method-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="step-number">3</div>
+                    <h3 data-i18n="method3.title">Instalación Maestra</h3>
+                    <p data-i18n="method3.desc">Ejecución impecable por expertos certificados, garantizando acabados de
+                        lujo y durabilidad.</p>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+    <!-- Owner Profile (About) -->
+    <section id="perfil" style="padding: var(--section-pad); position: relative;">
+        <div class="nav-container" style="display:flex; align-items:center; gap:5rem; flex-wrap:wrap;">
+            <div style="flex:1; min-width:300px;" data-aos="fade-right">
+                <h2 class="vision-title"
+                    style="font-family: 'Outfit', sans-serif; font-size:3.5rem; font-weight:800; margin-bottom:2rem; line-height:1;">
+                    <span data-i18n="profile.title">Vanguardia</span> <br><span style="color:var(--accent);"
+                        data-i18n="profile.subtitle">Arquitectónica</span>
+                </h2>
+                <p class="vision-text" style="margin-bottom:2.5rem;" data-i18n="profile.desc">
+                    Nuestra filosofía trasciende lo convencional; fusionamos la <strong>maestría técnica</strong> con la
+                    <strong>estética pura</strong> para crear espacios que respiran. Contamos con los <strong>mejores
+                        técnicos en carpintería de aluminio, egresados con la mejor calificación del SENA</strong>,
+                    garantizando que cada proyecto
+                    sea una obra de ingeniería diseñada para redefinir los límites, maximizando la entrada de luz
+                    natural y garantizando un aislamiento térmico y acústico de nivel superior.
+                </p>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:2rem;">
+                    <div class="glass-panel" data-aos="fade-up" style="padding: 2.5rem;">
+                        <i class="fas fa-microchip fa-3x" style="color: var(--accent); margin-bottom: 2rem;"></i>
+                        <h3 style="margin-bottom: 1.5rem; font-size: 1.4rem;" data-i18n="profile.feature1.title">
+                            Ingeniería de Precisión</h3>
+                        <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6;"
+                            data-i18n="profile.feature1.desc">Utilizamos perfiles de alta
+                            resistencia
+                            con tecnología de <strong>sellado termodinámico</strong> y cortes milimétricos, asegurando
+                            una
+                            estanqueidad total contra agua y viento.</p>
+                    </div>
+                    <div class="glass-panel" data-aos="fade-up" data-aos-delay="100"
+                        style="padding: 2.5rem; border: 1px solid var(--accent-glow);">
+                        <i class="fas fa-leaf" style="color:var(--accent); font-size: 2.5rem; margin-bottom:2rem;"></i>
+                        <h3 style="margin-bottom:1.5rem; font-size: 1.4rem;" data-i18n="profile.feature2.title">
+                            Eco-Eficiencia</h3>
+                        <p style="font-size:0.95rem; color:#cbd5e1; line-height: 1.6;"
+                            data-i18n="profile.feature2.desc">Compromiso con la
+                            <strong>Sostenibilidad Especializada</strong>:
+                            Aluminio 100% circular de baja huella hídrica y vidrios de baja emisividad que optimizan el
+                            uso
+                            de energía climática.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div style="flex:1; min-width:300px;" data-aos="zoom-in">
+                <style>
+                    /* Vanguardia Carousel Styles */
+                    .vanguardia-carousel {
+                        position: relative;
+                        width: 100%;
+                        height: 500px;
+                        border-radius: 2rem;
+                        overflow: hidden;
+                    }
+
+                    .vanguardia-carousel img {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        opacity: 0;
+                        transition: opacity 1.5s ease-in-out;
+                    }
+
+                    .vanguardia-carousel img.active {
+                        opacity: 1;
+                    }
+                </style>
+                <div class="glass-panel" style="padding: 1rem; border-radius: 3rem; overflow:hidden;">
+                    <div id="vanguardiaCarousel" class="vanguardia-carousel">
+                        <img src="images/gallery/ventana_corrediza/5.jpg" alt="Vanguardia Elite 1" class="active">
+                        <img src="images/gallery/vidrio_templado/8.jpg" alt="Vanguardia Elite 2">
+                        <img src="images/gallery/ventana_corrediza/1.jpg" alt="Vanguardia Elite 4">
+                        <img src="images/gallery/ventana_proyectante/8.jpg" alt="Vanguardia Elite 5">
+                        <img src="images/gallery/vidrio_templado/2.jpg" alt="Vanguardia Elite 6">
+                        <img src="images/gallery/puerta_principal/3.jpg" alt="Vanguardia Elite 7"
+                            onerror="this.src='images/gallery/ventana_corrediza/2.jpg'">
+                    </div>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const images = document.querySelectorAll('#vanguardiaCarousel img');
+                        let current = 0;
+                        setInterval(() => {
+                            images[current].classList.remove('active');
+                            current = (current + 1) % images.length;
+                            images[current].classList.add('active');
+                        }, 5000);
+                    });
+                </script>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section (The "All Types" Catalog) -->
+    <section id="productos" style="padding: var(--section-pad);">
+        <h2 class="section-title-elite" data-i18n="products.title">CATÁLOGOS ÉLITE</h2>
+        <p style="text-align: center; color: var(--accent); margin-bottom: 5rem; font-weight: 800; letter-spacing: 8px; font-size: 1.2rem; text-transform: uppercase; text-shadow: 0 0 20px var(--accent-glow);"
+            data-i18n="products.subtitle">
+            RESPONSABILIDAD Y CUMPLIMIENTO</p>
+
+        <!-- Category: Windows -->
+        <h3 class="category-title-metallic" data-i18n="products.cat.windows">
+            Sistemas de Ventanería</h3>
+        <div class="catalog-grid" style="margin-bottom:6rem;">
+            <a href="gallery.html?v=nav_final&category=ventana_corrediza" class="product-card" data-aos="fade-up">
+                <div class="product-img"><img src="images/products/ventanas_hq.png" alt="Ventanas Corredizas"
+                        onerror="this.src='images/products/ventana_corrediza.jpg'"></div>
+                <div class="product-info">
+                    <h3 data-i18n="products.sliding.title">Ventanas Corredizas</h3>
+                    <p data-i18n="products.sliding.desc">Eficiencia y estilo moderno.</p>
+                </div>
+            </a>
+            <a href="gallery.html?v=nav_final&category=ventana_batiente" class="product-card" data-aos="fade-up"
+                data-aos-delay="200">
+                <div class="product-img"><img src="images/products/ventana_batiente.jpg" alt="Ventana Batiente"
+                        onerror="this.style.display='none'"></div>
+                <div class="product-info">
+                    <h3 data-i18n="products.casement.title">Ventanas Batientes y Proyectantes</h3>
+                    <p data-i18n="products.casement.desc">Sistemas de apertura versátil y hermética.</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Category: Doors & Interiors -->
+        <h3 class="category-title-metallic" data-i18n="products.cat.doors">
+            Sistemas de Puertas</h3>
+        <div class="catalog-grid" style="margin-bottom:6rem;">
+            <a href="gallery.html?v=nav_final&category=puerta_principal" class="product-card" data-aos="fade-up"
+                data-aos-delay="100">
+                <div class="product-img"><img src="images/products/puerta_principal_hq.png" alt="Puertas Principales"
+                        onerror="this.src='images/gallery/puerta_principal/1.png'"></div>
+                <div class="product-info">
+                    <h3 data-i18n="products.doors.title">Puertas Principales</h3>
+                    <p data-i18n="products.doors.desc">Seguridad y distinción.</p>
+                </div>
+            </a>
+        </div>
+
+        <h3 class="category-title-metallic" data-i18n="products.cat.bath">
+            Divisiones de Baño</h3>
+        <div class="catalog-grid" style="margin-bottom:6rem;">
+            <a href="gallery.html?v=nav_final&category=division_bano" class="product-card" data-aos="fade-up"
+                data-aos-delay="100">
+                <div class="product-img"><img src="images/products/division_bano_hq.png" alt="Divisiones de Baño"
+                        onerror="this.src='images/products/division_bano.jpg'"></div>
+                <div class="product-info">
+                    <h3 data-i18n="products.glass.title">Vidrio Templado</h3>
+                    <p data-i18n="products.glass.desc">Espacios modernos y limpios.</p>
+                </div>
+            </a>
+            <a href="gallery.html?v=nav_final&category=division_acrilico" class="product-card" data-aos="fade-up"
+                data-aos-delay="200">
+                <div class="product-img"><img src="images/gallery/division_bano/1.jpg" alt="Divisiones Acrílico"
+                        onerror="this.src='images/products/vidrio_templado.jpg'"></div>
+                <div class="product-info">
+                    <h3 data-i18n="products.acrylic.title">Acrílico & Aluminio</h3>
+                    <p data-i18n="products.acrylic.desc">Funcionalidad y economía.</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Category: Special -->
+        <h3 class="category-title-metallic" data-i18n="products.cat.mirrors">
+            Espejos Modernos</h3>
+        <div class="catalog-grid" style="margin-bottom:6rem;">
+            <a href="gallery.html?v=nav_final&category=espejos_decorativos" class="product-card" data-aos="fade-up">
+                <div class="product-img"><img src="images/products/espejos_hq.png" alt="Espejos Decorativos"
+                        onerror="this.src='images/gallery/espejos_decorativos/1.png'"></div>
+                <div class="product-info">
+                    <h3 data-i18n="products.mirrors.title">Espejos Decorativos</h3>
+                    <p data-i18n="products.mirrors.desc">Diseños flotantes y con iluminación.</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Category: Blinds -->
+        <h3 class="category-title-metallic" data-i18n="products.cat.blinds">
+            Persianas y Aluminio</h3>
+        <div class="catalog-grid" style="margin-bottom:6rem;">
+            <a href="gallery.html?v=nav_final&category=persianas" class="product-card" data-aos="fade-up">
+                <div class="product-img"><img src="images/products/persianas.jpg" alt="Persianas Modernas"
+                        onerror="this.style.display='none'"></div>
+                <div class="product-info">
+                    <h3 data-i18n="products.blinds.title">Persianas & Sheer</h3>
+                    <p data-i18n="products.blinds.desc">Control de luz y elegancia.</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Contact & Register Section -->
+    <section id="contacto" class="contact-section"
+        style="padding: var(--section-pad); background: linear-gradient(to top, rgba(15, 23, 42, 0.85), rgba(30, 41, 59, 0.85)), url('images/contact_bg.png'); background-size: cover; background-position: center;">
+        <div class="nav-container" style="display: flex; gap: 4rem; flex-wrap: wrap;">
+
+            <!-- Contact Info -->
+            <div style="flex: 1; min-width: 300px;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 2rem; color: var(--text-main);" data-i18n="contact.title">
+                    Contáctanos</h2>
+
+                <!-- Buttons Container (Moved Up) -->
+                <div class="contact-buttons-container">
+                    <a href="https://wa.me/573046291152" class="btn-primary btn-contact-action btn-whatsapp-action"
+                        style="background: linear-gradient(135deg, #064e3b 0%, #10b981 45%, #ecfdf5 50%, #10b981 55%, #064e3b 100%) !important; color: white !important; box-shadow: 0 0 25px rgba(16, 185, 129, 0.5); text-shadow: 0 1px 2px rgba(0,0,0,0.7); border: 1px solid #065f46 !important; font-weight: 800;">
+                        <i class="fab fa-whatsapp" style="margin-right: 8px;"></i> <span
+                            data-i18n="contact.btn.whatsapp">CONSULTA</span>
+                    </a>
+                    <a href="simulator.html" class="btn-primary btn-contact-action btn-simulator-action"
+                        style="background: linear-gradient(135deg, #0c4a6e 0%, #0ea5e9 45%, #e0f2fe 50%, #0ea5e9 55%, #0c4a6e 100%) !important; color: white !important; box-shadow: 0 0 25px rgba(14, 165, 233, 0.5); text-shadow: 0 1px 2px rgba(0,0,0,0.7); border: 1px solid #075985 !important; font-weight: 800;">
+                        <i class="fas fa-calculator" style="margin-right: 8px;"></i> <span
+                            data-i18n="contact.btn.simulator">SIMULADOR</span>
+                    </a>
+                    <a href="checkout.html" class="btn-primary btn-contact-action btn-payment-action"
+                        style="background: linear-gradient(135deg, #374151 0%, #9ca3af 45%, #f3f4f6 50%, #9ca3af 55%, #374151 100%) !important; color: #0f172a !important; font-weight: 800; border: 1px solid #cbd5e1 !important; box-shadow: 0 0 25px rgba(156, 163, 175, 0.4);">
+                        <i class="fas fa-lock" style="margin-right: 8px;"></i> <span
+                            data-i18n="contact.btn.payment">PAGOS</span>
+                    </a>
+                    <a href="pqr.html" class="btn-primary btn-contact-action btn-pqr-action"
+                        style="background: linear-gradient(135deg, #78350f 0%, #d97706 45%, #fef3c7 50%, #d97706 55%, #78350f 100%) !important; color: #fff !important; text-shadow: 0 1px 3px rgba(0,0,0,0.8); border: 1px solid #92400e !important; font-weight: 800; box-shadow: 0 0 25px rgba(217, 119, 6, 0.5);">
+                        <i class="fas fa-envelope-open-text" style="margin-right: 8px;"></i> <span
+                            data-i18n="contact.btn.pqr">PQR</span>
+                    </a>
+                    <a href="photo_design.html" class="btn-primary btn-contact-action btn-design-action"
+                        style="background: linear-gradient(135deg, #4c1d95 0%, #8b5cf6 45%, #f5f3ff 50%, #8b5cf6 55%, #4c1d95 100%) !important; color: #fff !important; text-shadow: 0 1px 2px rgba(0,0,0,0.6); border: 1px solid #5b21b6 !important; font-weight: 800; box-shadow: 0 0 25px rgba(139, 92, 246, 0.5);">
+                        <i class="fas fa-magic" style="margin-right: 8px;"></i> <span
+                            data-i18n="contact.btn.design">FOTO DISEÑO</span>
+                    </a>
+                </div>
+                <div style="font-size: 1.2rem; margin-bottom: 2rem;">
+                    <p style="margin-bottom: 1.5rem;" class="high-contrast-text">
+                        <i class="fas fa-phone-alt" style="color:var(--accent); margin-right:1rem;"></i>
+                        <span style="font-weight:800; color:var(--text-main); font-size: 1.4rem;">323 204 5129</span>
+                        <span style="margin: 0 0.5rem; color: var(--accent);">|</span>
+                        <span style="font-weight:800; color:var(--text-main); font-size: 1.4rem;">304 629 1152</span>
+                    </p>
+                    <p style="margin-bottom: 1.5rem;" class="high-contrast-text">
+                        <i class="fas fa-envelope" style="color:var(--accent); margin-right:1rem;"></i>
+                        <strong>spesfidemaluminio@gmail.com</strong>
+                    </p>
+                    <p style="margin-bottom: 1.5rem;" class="high-contrast-text">
+                        <i class="fas fa-user" style="color:var(--accent); margin-right:1rem;"></i> <strong
+                            class="name-highlight">Jhon Edinson
+                            Espinosa García</strong>
+                    </p>
+                    <p class="high-contrast-text">
+                        <i class="fas fa-map-marker-alt" style="color:var(--accent); margin-right:1rem;"></i>
+                        <strong data-i18n="location.city">Ibagué, Tolima</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonios" style="padding: var(--section-pad); background: rgba(2, 6, 23, 0.5);">
+        <div class="nav-container">
+            <!-- Título Voces Elite removido -->
+
+            <div class="testimonials-carousel">
+                <!-- Testimonio 1 -->
+                <div class="testimonial-card-premium" data-aos="fade-left">
+                    <i class="fas fa-quote-left quote-icon-premium"></i>
+                    <p class="testimonial-text-premium" data-i18n="testimonial.text1"
+                        style="color: #1e293b !important; opacity: 1 !important;">"La precisión en el montaje de las
+                        ventanas corredizas
+                        en mi oficina fue impecable. El aislamiento acústico es sorprendente. Muy recomendados."</p>
+                    <div class="testimonial-author-premium">
+                        <div class="author-avatar-premium">RJ</div>
+                        <div class="author-info-premium">
+                            <span class="author-name-premium" style="color: #0f172a !important;">Ricardo Jiménez</span>
+                            <span class="author-title-premium" data-i18n="testimonial.role1">Arquitecto
+                                Independiente</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonio 2 -->
+                <div class="testimonial-card-premium" data-aos="fade-left" data-aos-delay="100">
+                    <i class="fas fa-quote-left quote-icon-premium"></i>
+                    <p class="testimonial-text-premium" data-i18n="testimonial.text2"
+                        style="color: #1e293b !important; opacity: 1 !important;">"Las divisiones de baño en vidrio
+                        templado le dieron un toque ultra moderno a mi casa. El cumplimiento en el tiempo fue puntual y
+                        limpio."</p>
+                    <div class="testimonial-author-premium">
+                        <div class="author-avatar-premium">AM</div>
+                        <div class="author-info-premium">
+                            <span class="author-name-premium" style="color: #0f172a !important;">Andrea Morales</span>
+                            <span class="author-title-premium" data-i18n="testimonial.role2">Propietaria
+                                Residencial</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonio 3 -->
+                <div class="testimonial-card-premium" data-aos="fade-left" data-aos-delay="200">
+                    <i class="fas fa-quote-left quote-icon-premium"></i>
+                    <p class="testimonial-text-premium" data-i18n="testimonial.text3"
+                        style="color: #1e293b !important; opacity: 1 !important;">"Excelente servicio y asesoría
+                        técnica. Se nota el conocimiento profundo en el manejo del aluminio de alta gama y perfiles
+                        pesados."</p>
+                    <div class="testimonial-author-premium">
+                        <div class="author-avatar-premium">CP</div>
+                        <div class="author-info-premium">
+                            <span class="author-name-premium" style="color: #0f172a !important;">Carlos Perdomo</span>
+                            <span class="author-title-premium" data-i18n="testimonial.role3">Constructor</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonio 4 -->
+                <div class="testimonial-card-premium" data-aos="fade-left" data-aos-delay="300">
+                    <i class="fas fa-quote-left quote-icon-premium"></i>
+                    <p class="testimonial-text-premium" data-i18n="testimonial.text4">"Instalamos fachadas flotantes con
+                        Spesfidem y el resultado superó nuestras expectativas. Estética impecable y soporte técnico
+                        continuo."</p>
+                    <div class="testimonial-author-premium">
+                        <div class="author-avatar-premium">GS</div>
+                        <div class="author-info-premium">
+                            <span class="author-name-premium">Gabriel Salazar</span>
+                            <span class="author-title-premium" data-i18n="testimonial.role4">Director de
+                                Proyectos</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonio 5 -->
+                <div class="testimonial-card-premium" data-aos="fade-left" data-aos-delay="400">
+                    <i class="fas fa-quote-left quote-icon-premium"></i>
+                    <p class="testimonial-text-premium" data-i18n="testimonial.text5">"La durabilidad de sus acabados en
+                        pintura electrostática es fenomenal. Tres años después y las puertas lucen como nuevas."</p>
+                    <div class="testimonial-author-premium">
+                        <div class="author-avatar-premium">ML</div>
+                        <div class="author-info-premium">
+                            <span class="author-name-premium">Marta Lozano</span>
+                            <span class="author-title-premium" data-i18n="testimonial.role5">Administradora
+                                Comercial</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonio 6 -->
+                <div class="testimonial-card-premium" data-aos="fade-left" data-aos-delay="500">
+                    <i class="fas fa-quote-left quote-icon-premium"></i>
+                    <p class="testimonial-text-premium" data-i18n="testimonial.text6">"Confío todos mis proyectos de
+                        vidrio templado a Jhon. Su puntualidad y ojo para el detalle técnico son inigualables en
+                        Ibagué."</p>
+                    <div class="testimonial-author-premium">
+                        <div class="author-avatar-premium">HV</div>
+                        <div class="author-info-premium">
+                            <span class="author-name-premium">Hugo Valderrama</span>
+                            <span class="author-title-premium" data-i18n="testimonial.role6">Ingeniero Civil</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq-section-premium"
+        style="padding: var(--section-pad); background: radial-gradient(circle at center, #020617 0%, #000000 100%); position: relative;">
+        <!-- Gold Glow Background -->
+        <div
+            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; height: 60%; background: radial-gradient(circle, rgba(234, 179, 8, 0.05) 0%, transparent 70%); pointer-events: none;">
+        </div>
+
+        <div class="nav-container"
+            style="position: relative; z-index: 2; display: flex; gap: 4rem; align-items: flex-start; flex-wrap: wrap; justify-content: center;">
+
+            <!-- Visual Side -->
+            <div style="flex: 1; min-width: 320px;" data-aos="fade-right">
+                <h2 class="section-title-elite" style="text-align: left; margin-bottom: 2.5rem; display: inline-block;"
+                    data-i18n="faq.title">
+                    DUDAS COMUNES</h2>
+                <div class="faq-visual-professional"
+                    style="position: relative; border-radius: 2rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 30px 60px rgba(0,0,0,0.6);">
+                    <img src="images/faq_workshop.png" alt="Taller Spesfidem"
+                        style="width: 100%; height: auto; display: block; border-radius: 2rem;">
+                    <div class="faq-overlay-professional"
+                        style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 2rem; background: linear-gradient(transparent, rgba(15, 23, 42, 0.95)); backdrop-filter: blur(4px);">
+                        <p class="faq-label-professional"
+                            style="color: var(--accent); font-weight: 800; font-size: 1.1rem; margin-bottom: 0.5rem; letter-spacing: 2px;"
+                            data-i18n="faq.visual.label">
+                            PRESENCIA TÉCNICA</p>
+                        <p class="faq-text-professional" style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.6;"
+                            data-i18n="faq.visual.text">
+                            Cada componente y sistema es
+                            verificado personalmente para cumplir con los estándares Élite de Spesfidem.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Grid Side -->
+            <div class="faq-grid-elite" style="flex: 1.3; min-width: 320px; margin: 0; align-content: start;">
+                <!-- FAQ 1 -->
+                <div class="faq-card-elite" data-aos="fade-up" style="width: 100%; margin-bottom: 1.5rem;">
+                    <div class="faq-question-elite" onclick="toggleFAQ(this)">
+                        <span data-i18n="faq.q1">¿Qué garantía ofrecen en sus productos?</span>
+                        <i class="fas fa-chevron-down faq-icon-elite"></i>
+                    </div>
+                    <div class="faq-answer-elite">
+                        <p data-i18n="faq.a1">Ofrecemos una garantía de hasta 5 años en la estructura de aluminio y 1
+                            año en
+                            herrajes y
+                            sellado milimétrico. Calidad certificada.</p>
+                    </div>
+                </div>
+                <!-- FAQ 2 -->
+                <div class="faq-card-elite" data-aos="fade-up" data-aos-delay="100"
+                    style="width: 100%; margin-bottom: 1.5rem;">
+                    <div class="faq-question-elite" onclick="toggleFAQ(this)">
+                        <span data-i18n="faq.q2">¿Realizan visitas técnicas sin compromiso?</span>
+                        <i class="fas fa-chevron-down faq-icon-elite"></i>
+                    </div>
+                    <div class="faq-answer-elite">
+                        <p data-i18n="faq.a2">Sí, realizamos visitas técnicas en Ibagué y alrededores para toma de
+                            medidas y
+                            asesoría
+                            especializada sin costo adicional.</p>
+                    </div>
+                </div>
+                <!-- FAQ 3 -->
+                <div class="faq-card-elite" data-aos="fade-up" data-aos-delay="200"
+                    style="width: 100%; margin-bottom: 1.5rem;">
+                    <div class="faq-question-elite" onclick="toggleFAQ(this)">
+                        <span data-i18n="faq.q3">¿Cuánto tiempo tarda la instalación?</span>
+                        <i class="fas fa-chevron-down faq-icon-elite"></i>
+                    </div>
+                    <div class="faq-answer-elite">
+                        <p data-i18n="faq.a3">Dependiendo de la magnitud del proyecto, una instalación estándar puede
+                            tardar entre
+                            5 a 10
+                            días hábiles tras la fabricación final.</p>
+                    </div>
+                </div>
+                <!-- FAQ 4 (Mantenimiento) -->
+                <div class="faq-card-elite" data-aos="fade-up" data-aos-delay="300" style="width: 100%;">
+                    <div class="faq-question-elite" onclick="toggleFAQ(this)">
+                        <span data-i18n="faq.q4">¿Hacen mantenimiento a estructuras antiguas?</span>
+                        <i class="fas fa-chevron-down faq-icon-elite"></i>
+                    </div>
+                    <div class="faq-answer-elite">
+                        <p data-i18n="faq.a4">Sí, ofrecemos servicios de mantenimiento preventivo y correctivo para
+                            renovar la vida
+                            útil de
+                            sus ventanas y puertas existentes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Map Section -->
+    <section id="ubicacion"
+        style="padding: var(--section-pad); background: linear-gradient(rgba(2, 6, 23, 0.4), rgba(2, 6, 23, 0.5)), url('images/hero_glass_mansion.png'); background-size: cover; background-position: center; min-height: 500px; display: flex; align-items: center;">
+        <div class="nav-container" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <h2 class="section-title" style="margin-bottom: 3rem; text-shadow: 0 4px 8px rgba(0,0,0,0.8);"
+                data-i18n="location.title">
+                NUESTRA
+                UBICACIÓN</h2>
+
+            <div class="location-card"
+                style="background:rgba(2, 6, 23, 0.6); padding:3rem; border-radius:2rem; text-align:center; backdrop-filter:blur(5px); border:1px solid rgba(255, 255, 255, 0.1); max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                <i class="fas fa-map-marker-alt fa-3x"
+                    style="color:var(--accent); margin-bottom:1.5rem; filter: drop-shadow(0 0 10px var(--accent));"></i>
+                <h4 style="font-size:1.8rem; margin-bottom:1rem; color: var(--text-main);" data-i18n="location.address">
+                    Urbanización La Castilla</h4>
+                <p style="color:#cbd5e1; font-size: 1.1rem; margin-bottom: 2rem;" data-i18n="location.city">Atención
+                    personalizada en
+                    Ibagué</p>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=Urbanizacion+La+Castilla+Ibagu%C3%A9+Spesfidem+Aluminio"
+                    target="_blank" class="btn-primary"
+                    style="padding:0.8rem 2rem; font-size:1rem; background: linear-gradient(135deg, #0c4a6e 0%, #0ea5e9 45%, #e0f2fe 50%, #0ea5e9 55%, #0c4a6e 100%) !important; box-shadow: 0 0 25px rgba(14, 165, 233, 0.5); border: 1px solid #075985 !important; font-weight: 800; color: white !important;">
+                    <i class="fas fa-location-arrow" style="margin-right: 8px;"></i> <span data-i18n="location.cta">Cómo
+                        Llegar</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="crystal-section" id="redes" data-aos="fade-up">
+        <h2 class="section-title" style="margin-bottom: 2rem;" data-i18n="social.title">CONÉCTATE CON NOSOTROS</h2>
+        <p style="text-align: center; color: var(--accent); margin-bottom: 4rem; font-weight: 700; letter-spacing: 3px;"
+            data-i18n="social.subtitle">
+            DISEÑO QUE TRASCIENDE</p>
+        <div class="crystal-grid">
+            <!-- Facebook -->
+            <a href="https://www.facebook.com/search/top?q=spesfidem%20garcia" target="_blank" class="crystal-card"
+                style="--brand-color: #1877F2; --glow-color: #1877F2;">
+                <div class="crystal-icon-wrap">
+                    <i class="fab fa-facebook"></i>
+                </div>
+                <div class="crystal-info">
+                    <small>Facebook</small>
+                    <span>spesfidem garcia</span>
+                </div>
+            </a>
+
+            <!-- TikTok -->
+            <a href="https://www.tiktok.com/@espinosa4316" target="_blank" class="crystal-card"
+                style="--brand-color: #00f2ea; --glow-color: #ff0050;">
+                <div class="crystal-icon-wrap">
+                    <i class="fab fa-tiktok"></i>
+                </div>
+                <div class="crystal-info">
+                    <small>TikTok</small>
+                    <span>@espinosa4316</span>
+                </div>
+            </a>
+
+            <!-- Kwai -->
+            <a href="https://www.kwai.com/@spesfidemaluminio" target="_blank" class="crystal-card"
+                style="--brand-color: #ff5000; --glow-color: #ff8c00;">
+                <div class="crystal-icon-wrap">
+                    <i class="fas fa-play-circle"></i>
+                </div>
+                <div class="crystal-info">
+                    <small>Kwai</small>
+                    <span style="text-transform: lowercase;">spesfidem aluminio</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <footer
+        style="text-align: center; padding: 4rem 2rem; border-top: 1px solid rgba(255,255,255,0.05); background: #020617;">
+        <div style="margin-bottom: 2rem; display: flex; justify-content: center;">
+            <a href="index.html" class="logo-premium-final" style="transform: scale(0.6); margin-top: -1rem;">
+                <svg class="logo-icon-premium" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10" y="15" width="80" height="70" rx="4" stroke="url(#metallic-grad-footer)"
+                        stroke-width="4" fill="url(#metallic-fill-footer)" />
+                    <rect x="20" y="25" width="60" height="50" rx="3" stroke="url(#metallic-grad-footer)"
+                        stroke-width="3" fill="rgba(15, 23, 42, 0.3)" />
+                    <line x1="50" y1="25" x2="50" y2="75" stroke="url(#metallic-grad-footer)" stroke-width="3.5" />
+                    <line x1="20" y1="50" x2="80" y2="50" stroke="url(#metallic-grad-footer)" stroke-width="3.5" />
+                    <defs>
+                        <linearGradient id="metallic-grad-footer" x1="0" y1="0" x2="100" y2="100"
+                            gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#f8fafc" />
+                            <stop offset="25%" stop-color="#cbd5e1" />
+                            <stop offset="50%" stop-color="#94a3b8" />
+                            <stop offset="75%" stop-color="#cbd5e1" />
+                            <stop offset="100%" stop-color="#e2e8f0" />
+                        </linearGradient>
+                        <linearGradient id="metallic-fill-footer" x1="0" y1="0" x2="0" y2="100"
+                            gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="rgba(203, 213, 225, 0.15)" />
+                            <stop offset="50%" stop-color="rgba(148, 163, 184, 0.1)" />
+                            <stop offset="100%" stop-color="rgba(203, 213, 225, 0.15)" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="logo-text-premium" style="text-align: left;">
+                    <span class="logo-brand-premium" style="font-size: 2.2rem; letter-spacing: 2px;">SPESFIDEM</span>
+                    <span class="logo-subtitle-premium" style="font-size: 1rem; letter-spacing: 8px;">ALUMINIO</span>
+                </div>
+            </a>
+        </div>
+        <p style="color: #64748b; margin-bottom: 1rem;" data-i18n="footer.copyright">&copy; 2025 Spesfidem Aluminio.
+            Todos los derechos
+            reservados.
+        </p>
+        <!-- Accessibility Tools (Embedded for Robustness) -->
+        <!-- Accessibility Tools (Redesigned) -->
+        <button id="themeLauncher" aria-label="Abrir menú de accesibilidad">
+            <i class="fas fa-universal-access"></i>
+        </button>
+        <div id="accessibilityPanel">
+            <div class="acc-header">
+                <i class="fas fa-eye" style="color:var(--accent);"></i>
+                <span>Visualización</span>
+            </div>
+
+            <!-- Font Size -->
+            <div class="acc-control-group">
+                <label>Tamaño de Fuente</label>
+                <div class="acc-btn-group">
+                    <button class="acc-btn" onclick="adjustFontSize(-0.1)" aria-label="Reducir texto">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button class="acc-btn" onclick="setFontZoom(1)" aria-label="Restablecer tamaño">
+                        <i class="fas fa-font"></i>
+                    </button>
+                    <button class="acc-btn" onclick="adjustFontSize(0.1)" aria-label="Aumentar texto">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Visual Mode -->
+            <div class="acc-control-group">
+                <label>Contraste y Tema</label>
+                <div class="acc-grid">
+                    <button class="acc-option-btn" onclick="setVisualMode('standard')" title="Original">
+                        <div class="acc-preview std"></div>
+                        <span>Original</span>
+                    </button>
+                    <button class="acc-option-btn" onclick="setVisualMode('hc')" title="Alto Contraste">
+                        <div class="acc-preview hc"></div>
+                        <span>Contraste</span>
+                    </button>
+                    <button class="acc-option-btn" onclick="setVisualMode('light')" title="Modo Claro">
+                        <div class="acc-preview light"></div>
+                        <span>Claro</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/cart.js?v=FIX_FINAL_VISIBILITY"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/app.js?v=FIX_FINAL_VISIBILITY"></script>
+    <script>
+        // Language Menu Toggle
+        function toggleLanguageMenu() {
+            const menu = document.getElementById('langMenu');
+            menu.classList.toggle('active');
+        }
+
+        // Close language menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const selector = document.querySelector('.language-selector');
+            if (selector && !selector.contains(e.target)) {
+                document.getElementById('langMenu')?.classList.remove('active');
+            }
+        });
+    </script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+
+        // AGGRESSIVE SCROLL FIX SYSTEM
+        // 1. Disable browser's native scroll restoration to preventing fighting
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+
+        // SUPER AGGRESSIVE SCROLL - Query Param Strategy
+        window.addEventListener('input', () => { }); // No-op to keep listeners active?
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('section') === 'productos') {
+
+                // 1. Immediate try
+                const target = document.querySelector('#productos');
+                if (target) target.scrollIntoView();
+
+                // 2. Persistent Retry (every 200ms for 2 seconds)
+                let attempts = 0;
+                const interval = setInterval(() => {
+                    const t = document.querySelector('#productos');
+                    if (t) {
+                        const top = t.getBoundingClientRect().top + window.pageYOffset - 100;
+                        window.scrollTo({ Top: top, behavior: 'instant' }); // Force jump
+                        window.scrollTo(0, top); // Legacy
+                    }
+                    attempts++;
+                    if (attempts > 10) clearInterval(interval);
+                }, 200);
+
+                // 3. Clean URL
+                window.history.replaceState({}, document.title, "index.html");
+            }
+        });
+
+
+    </script>
+    <!-- Driver.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
+    <script src="js/app.js?v=V3_CYAN"></script>
+    <script src="js/tutorial.js?v=1.0"></script>
+</body>
+
+</html>

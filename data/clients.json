@@ -1,0 +1,284 @@
+[
+    {
+        "id": 1767635838453,
+        "date": "5/1/2026",
+        "fullName": "jhon espinosa",
+        "cellphone": "3232045129",
+        "landline": "",
+        "city": "ibague",
+        "address": "11-00",
+        "email": "fucad4316@hotmail.com",
+        "status": "Pendiente",
+        "product": "Ventana Proyectante",
+        "quantity": 1,
+        "items": [
+            {
+                "product": "Ventana Proyectante",
+                "quantity": 1,
+                "color": "Natural",
+                "size": "N/A",
+                "glass": "",
+                "unitPrice": 450000,
+                "total": 450000
+            }
+        ],
+        "grandTotal": 450000,
+        "idCard": "14298116"
+    },
+    {
+        "id": 1767637664101,
+        "date": "5/1/2026",
+        "fullName": "jhon espinosa",
+        "cellphone": "3232045129",
+        "landline": "",
+        "city": "ibague",
+        "address": "11-00",
+        "email": "fucad4316@hotmail.com",
+        "status": "Pendiente",
+        "product": "Puerta de Patio",
+        "quantity": 2,
+        "items": [
+            {
+                "product": "Puerta de Patio",
+                "quantity": 2,
+                "color": "Madera",
+                "size": "N/A",
+                "glass": "",
+                "unitPrice": 1140000,
+                "total": 2280000
+            }
+        ],
+        "grandTotal": 2280000,
+        "idCard": "14298116"
+    },
+    {
+        "id": 1767715298095,
+        "date": "6/1/2026",
+        "fullName": "jhon espinosa",
+        "cellphone": "3232045129",
+        "landline": "",
+        "city": "ibague",
+        "address": "11-00",
+        "email": "fucad4316@hotmail.com",
+        "status": "Pendiente",
+        "product": "Ventana Proyectante",
+        "quantity": 1,
+        "items": [
+            {
+                "product": "Ventana Proyectante",
+                "quantity": 1,
+                "color": "Natural",
+                "size": "N/A",
+                "glass": "",
+                "unitPrice": 450000,
+                "total": 450000
+            }
+        ],
+        "paymentPlan": "75-25",
+        "grandTotal": 450000,
+        "idCard": "14298116"
+    },
+    {
+        "id": 1767920456588,
+        "date": "8/1/2026",
+        "fullName": "jhon espinosa",
+        "cellphone": "3232045129",
+        "landline": "",
+        "city": "ibague",
+        "address": "11-00",
+        "email": "fucad4316@hotmail.com",
+        "status": "Pendiente",
+        "product": "Ventana Fija",
+        "quantity": 1,
+        "items": [
+            {
+                "product": "Ventana Fija",
+                "quantity": 1,
+                "color": "Natural",
+                "size": "N/A",
+                "glass": "",
+                "unitPrice": 320000,
+                "total": 320000
+            }
+        ],
+        "paymentPlan": "75-25",
+        "subtotal": 320000,
+        "iva": 60800,
+        "grandTotal": 380800,
+        "serial": 1,
+        "idCard": "14298116"
+    },
+    {
+        "id": 1767920555610,
+        "date": "8/1/2026",
+        "fullName": "DILANN ESPINOSA",
+        "cellphone": "3232501444",
+        "landline": "",
+        "city": "TOLIMA",
+        "address": ", -.SA-3241",
+        "email": "fucad4316@hotmail.com",
+        "status": "Pendiente",
+        "product": "Ventana Fija",
+        "quantity": 1,
+        "items": [
+            {
+                "product": "Ventana Fija",
+                "quantity": 1,
+                "color": "Natural",
+                "size": "N/A",
+                "glass": "",
+                "unitPrice": 320000,
+                "total": 320000
+            },
+            {
+                "product": "División de Baño (Acrílico)",
+                "quantity": 1,
+                "color": "Natural",
+                "size": "N/A",
+                "glass": "",
+                "unitPrice": 580000,
+                "total": 580000
+            }
+        ],
+        "paymentPlan": "75-25",
+        "subtotal": 900000,
+        "iva": 171000,
+        "grandTotal": 1071000,
+        "serial": 2,
+        "idCard": "1105474045",
+        "deliveryStatus": "Entregado",
+        "paymentStatus": "Pago"
+    },
+    {
+        "id": 1768001984185,
+        "date": "9/1/2026",
+        "fullName": "diana milena varon",
+        "cellphone": "3052092140",
+        "landline": "",
+        "city": "ibague",
+        "address": "carrera 28 a # 11-10 barrio la castilla",
+        "email": "diani.666@gmail.com",
+        "status": "Pendiente",
+        "product": "Ventana Proyectante",
+        "quantity": 2,
+        "items": [
+            {
+                "product": "Ventana Proyectante",
+                "quantity": 2,
+                "color": "Negro",
+                "size": "120m x 200m",
+                "glass": "",
+                "unitPrice": 500000,
+                "total": 1000000
+            },
+            {
+                "product": "División de Baño (Vidrio Templado)",
+                "quantity": 1,
+                "color": "Natural",
+                "size": "300m x 300m",
+                "glass": "Templado 8mm Incoloro",
+                "unitPrice": 900000,
+                "total": 900000
+            }
+        ],
+        "paymentPlan": "100",
+        "subtotal": 1900000,
+        "iva": 361000,
+        "grandTotal": 2261000,
+        "serial": 3,
+        "idCard": "28538310",
+        "deliveryStatus": "Entregado",
+        "paymentStatus": "Pagado",
+        "deleted": false
+    },
+    {
+        "id": 1768333356596,
+        "date": "13/1/2026",
+        "fullName": "jhon espinosa",
+        "cellphone": "3232045129",
+        "landline": "",
+        "city": "ibague",
+        "address": "11-00",
+        "email": "fucad4316@hotmail.com",
+        "status": "Pendiente",
+        "product": "Ventana Proyectante",
+        "quantity": 4,
+        "items": [
+            {
+                "product": "Ventana Proyectante",
+                "quantity": 4,
+                "color": "Negro",
+                "size": "124m x 152m",
+                "glass": "Verde",
+                "unitPrice": 515000,
+                "total": 2060000
+            }
+        ],
+        "paymentPlan": "75-25",
+        "subtotal": 2060000,
+        "iva": 391400,
+        "grandTotal": 2451400,
+        "serial": 4,
+        "idCard": "14298116"
+    },
+    {
+        "id": 1769734071342,
+        "date": "29/1/2026",
+        "fullName": "jhon espinosa",
+        "cellphone": "3232045129",
+        "landline": "",
+        "city": "ibague",
+        "address": "11-00",
+        "email": "fucad4316@hotmail.com",
+        "status": "Pendiente",
+        "product": "Ventana Corrediza",
+        "quantity": 3,
+        "items": [
+            {
+                "product": "Ventana Corrediza",
+                "quantity": 3,
+                "color": "Negro",
+                "size": "150m x 200m",
+                "glass": "Bronce",
+                "unitPrice": 445000,
+                "total": 1335000
+            }
+        ],
+        "paymentPlan": "75-25",
+        "subtotal": 1335000,
+        "iva": 253650,
+        "grandTotal": 1588650,
+        "serial": 5,
+        "idCard": "14298116"
+    },
+    {
+        "id": 1769952764791,
+        "date": "1/2/2026",
+        "fullName": "diana milena varon",
+        "cellphone": "3052092140",
+        "landline": "",
+        "city": "ibague",
+        "address": "carrera 28 a # 11-10 barrio la castilla",
+        "email": "diani.666@gmail.com",
+        "status": "Pendiente",
+        "product": "Ventana Corrediza",
+        "quantity": 1,
+        "items": [
+            {
+                "product": "Ventana Corrediza",
+                "quantity": 1,
+                "color": "Natural",
+                "size": "500m x 300m",
+                "glass": "Claro (5mm)",
+                "unitPrice": 465000,
+                "total": 465000
+            }
+        ],
+        "paymentPlan": "75-25",
+        "subtotal": 465000,
+        "iva": 88350,
+        "grandTotal": 553350,
+        "serial": 6,
+        "idCard": "28538310"
+    }
+]

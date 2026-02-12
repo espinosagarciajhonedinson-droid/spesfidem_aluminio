@@ -1,0 +1,749 @@
+Total Sheets: 44
+
+--- SHEET: 5020 -2 HOJAS (Path: xl/worksheets/sheet1.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2:  VENTANERIA 5020  DOS HOJAS |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             100 |     CENTIMETROS |                 |                 |                
+Row 4:           ANCHO |                 |                 |             150 |     CENTIMETROS |                 |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:   REF. ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 8:     DESCRIPCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |    CORTE GRADOS
+Row 9:                 |                 |                 |                 |                 |                 |                 |                
+Row 10:           MARCO |         CABEZAL |        ALNA-144 |             150 |                 |                 |               1 |              90
+Row 11:                 |          SILLAR |        ALNA-194 |             150 |                 |                 |               1 |              90
+Row 12:                 |           JAMBA |        ALNB-193 |            98.5 |                 |                 |               2 |              90
+Row 13:           HOJAS |        ENGANCHE |        ALNB-147 |              97 |                 |                 |               2 |              90
+Row 14:                 |        TRASLAPE |        ALNA-192 |              97 |                 |                 |               2 |              90
+Row 15:                 |     HORIZONTAL  |        ALNA-349 | 73.599999999999994 |                 |                 |               4 |              90
+
+--- SHEET: 5020 - 3 HOJAS (Path: xl/worksheets/sheet2.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2:  VENTANERIA 5020 TRES HOJAS |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             150 |     CENTIMETROS |                 |                 |                
+Row 4:           ANCHO |                 |                 |             300 |     CENTIMETROS |                 |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:   REF. ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 8:     DESCRICCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |    CORTE GRADOS
+Row 9:                 |                 |                 |                 |                 |                 |                 |                
+Row 10:           MARCO |         CABEZAL |        ALNA-144 |             300 |                 |                 |               1 |              90
+Row 11:                 |          SILLAR |        ALNA-194 |             300 |                 |                 |               1 |              90
+Row 12:                 |           JAMBA |        ALNB-193 |           148.5 |                 |                 |               2 |              90
+Row 13:           HOJAS |        ENGANCHE |        ALNB-147 |             147 |                 |                 |               4 |              90
+Row 14:                 |        TRASLAPE |        ALNA-192 |             147 |                 |                 |               2 |              90
+Row 15:                 |      HOR, CORR. |        ALNA-349 |           72.25 |                 |                 |               4 |              90
+
+--- SHEET: 5020 - 4 HOJAS (Path: xl/worksheets/sheet3.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2:  VENTANA 5020 CUATRO HOJAS |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             110 |     CENTIMETROS |                 |                 |                
+Row 4:           ANCHO |                 |                 |             238 |     CENTIMETROS |                 |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 8:     DESCRICCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |    CORTE GRADOS
+Row 9:           MARCO |         CABEZAL |        ALNA-144 |             238 |                 |                 |               1 |              90
+Row 10:                 |          SILLAR |        ALNA-194 |             238 |                 |                 |               1 |              90
+Row 11:                 |           JAMBA |         ANB-193 |           108.5 |                 |                 |               2 |              90
+Row 12:           HOJAS |        ENGANCHE |        ALNB-147 |             107 |                 |                 |               4 |              90
+Row 13:                 |        TRASLAPE |        ALNA-192 |             107 |                 |                 |               4 |              90
+Row 14:                 |     HORIZONTAL  |        ALNA-349 |           58.95 |                 |                 |               8 |              90
+Row 15:        VIDRIOS  |          4 m.m. |                 |          ALTURA |          ANCHO  |                 |                 |                
+
+--- SHEET: 744 - 2 HOJAS (Path: xl/worksheets/sheet4.xml) ---
+Row 1:             [ ] |                 |                 |                 |                 |                 |                 |                
+Row 2:             [ ] |  PUERTA 744 DE DOS HOJAS  |                 |                 |                 |                 |                 |                
+Row 3:             [ ] |          ALTURA |                 |                 |            85.2 |                 |     CENTIMETROS |                
+Row 4:             [ ] |           ANCHO |                 |                 |           100.7 |                 |     CENTIMETROS |                
+Row 5:             [ ] |        CANTIDAD |                 |                 |               1 |                 |                 |                
+Row 6:             [ ] |    REF.ALUMINIO |                 |                 |                 |                 |                 |                
+Row 7:             [ ] |     REF. VIDRIO |                 |                 |                 |                 |                 |                
+Row 8:             [ ] |     DESCRICCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND.
+Row 9:             [ ] |           MARCO |         CABEZAL |         ALN-392 |           100.7 |                 |                 |               1
+Row 10:             [ ] |                 |          SILLAR |         ALN-387 |           100.7 |                 |                 |               1
+Row 11:             [ ] |                 |           JAMBA |         ALN-393 | 84.100000000000009 |                 |                 |               2
+Row 12:             [ ] |          HOJAS  |    ENGANCHE 744 |         ALN-391 |            82.7 |                 |                 |               2
+Row 13:             [ ] |                 |    TRASLAPE 744 |         ALN-388 |            82.7 |                 |                 |               2
+Row 14:             [ ] |                 | HORIZONTAL SUP. |         ALN-389 | 50.050000000000004 |                 |                 |               2
+Row 15:             [ ] |                 | HORIZONTAL INF. |        ALNA-390 | 50.050000000000004 |                 |                 |               2
+
+--- SHEET: 744 3 HOJAS 1 DE PARCHE (Path: xl/worksheets/sheet5.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2:  PUERTA CORREDISA 744 DE 3 HOJAS 1 DE PARCHE |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             160 |     CENTIMETROS |                 |                 |                
+Row 4:           ANCHO |                 |                 |             240 |     CENTIMETROS |                 |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 8:     DESCRICCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |   ANGULO GRADOS
+Row 9:           MARCO |         CABEZAL |         ALN-392 |             240 |                 |                 |               1 |              90
+Row 10:                 |          SILLAR |         ALN-387 |             240 |                 |                 |               1 |              90
+Row 11:                 |           JAMBA |         ALN-393 |           158.9 |                 |                 |               2 |              90
+Row 12:       HOJA FIJA |    ENGANCHE 744 |         ALN-391 | 159.69999999999999 |                 |                 |               1 |              90
+Row 13:                 |    TRASLAPE 744 |         ALN-388 | 159.69999999999999 |                 |                 |               1 |              90
+Row 14:                 | HORIZONTAL SUP. |         ALN-389 |              81 |                 |                 |               1 |              90
+Row 15:                 | HORIZONTAL INF. |        ALNA-390 |              81 |                 |                 |               1 |              90
+
+--- SHEET:  744 3 HOJAS  (diseño cliente) (Path: xl/worksheets/sheet6.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2:  PUERTA CORREDISA 744 DE 3 HOJAS (diseño cliente) |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |           202.5 |     CENTIMETROS |                 |                 |                
+Row 4:           ANCHO |                 |                 |             150 |     CENTIMETROS |                 |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 8:     DESCRICCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |   ANGULO GRADOS
+Row 9:           MARCO |         CABEZAL |         ALN-392 |             150 |                 |                 |               1 |              90
+Row 10:                 |          SILLAR |         ALN-387 |             150 |                 |                 |               1 |              90
+Row 11:                 |           JAMBA |         ALN-393 |           201.4 |                 |                 |               2 |              90
+Row 12: HOJA FIJA (enganche - traslape) |    ENGANCHE 744 |         ALN-391 |             200 |                 |                 |               1 |              90
+Row 13:                 |    TRASLAPE 744 |         ALN-388 |             200 |                 |                 |               1 |              90
+Row 14:                 | HORIZONTAL SUP. |         ALN-389 |              50 |                 |                 |               1 |              90
+Row 15:                 | HORIZONTAL INF. |        ALNA-390 |              50 |                 |                 |               1 |              90
+
+--- SHEET: 744 3 HOJAS xOx ( x25%, O50%, x (Path: xl/worksheets/sheet7.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2:  PUERTA CORREDISA 744 DE 3 HOJAS  (corredera 25%, fijo 50%, y corredera 25%) |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             130 |     CENTIMETROS |                 |                 |                
+Row 4:           ANCHO |                 |                 |             384 |     CENTIMETROS |                 |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 8:     DESCRICCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |   ANGULO GRADOS
+Row 9:           MARCO |         CABEZAL |         ALN-392 |             384 |                 |                 |               1 |              90
+Row 10:                 |          SILLAR |         ALN-387 |             384 |                 |                 |               1 |              90
+Row 11:                 |           JAMBA |         ALN-393 |           128.5 |                 |                 |               2 |              90
+Row 12:       HOJA FIJA |    ENGANCHE 744 |         ALN-391 |           127.5 |                 |                 |               2 |              90
+Row 13:                 |                 |                 |                 |                 |                 |                 |                
+Row 14:                 | HORIZONTAL SUP. |         ALN-389 |             196 |                 |                 |               1 |              90
+Row 15:                 | HORIZONTAL INF. |        ALNA-390 |             196 |                 |                 |               1 |              90
+
+--- SHEET: 744 - 4 HOJAS (Path: xl/worksheets/sheet8.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2: PUERTA CORREDISA 744 DE CUATRO HOJAS  |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |           235.8 |    CENTIMETROS  |                 |                 |                
+Row 4:           ANCHO |                 |                 |           313.2 |    CENTIMETROS  |                 |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 8:     DESCRICCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |            CANT |    ANGULO CORTE
+Row 9:           MARCO |         CABEZAL |         ALN-392 |           313.2 |                 |                 |               1 |              90
+Row 10:                 |          SILLAR |         ALN-387 |           313.2 |                 |                 |               1 |              90
+Row 11:                 |           JAMBA |         ALN-393 | 234.70000000000002 |                 |                 |               2 |              90
+Row 12:           HOJAS |    ENGANCHE 744 |         ALN-391 |           233.3 |                 |                 |               4 |              90
+Row 13:                 |    TRASLAPE 744 |         ALN-388 |           233.3 |                 |                 |               4 |              90
+Row 14:                 |    ADCTADOR 744 |         ALN-403 |           233.3 |                 |                 |               1 |              90
+Row 15:                 | HORIZONTAL SUP. |         ALN-389 |           78.55 |                 |                 |               4 |              90
+
+--- SHEET: 8025 de  2 hojas (Path: xl/worksheets/sheet9.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2:  PUERTA CORREDERA 8025 DE DOS HOJAS  |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             200 |                 |     CENTIMETROS |                 |                
+Row 4:           ANCHO |                 |                 |             200 |                 |     CENTIMETROS |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 8:     DESCRICCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |    ANGULO CORTE
+Row 9:           MARCO |         CABEZAL |         ALN-392 |             200 |                 |                 |               1 |              90
+Row 10:                 |          SILLAR |         ALN-387 |             200 |                 |                 |               1 |              90
+Row 11:                 |           JAMBA |         ALN-393 |             199 |                 |                 |               2 |              90
+Row 12:          HOJAS  |   ENGANCHE 8025 |         ALN-391 |           197.7 |                 |                 |               2 |              90
+Row 13:                 |   TRASLAPE 8025 |         ALN-388 |           197.7 |                 |                 |               2 |              90
+Row 14:                 | HORIZONTAL SUP. |         ALN-389 |           99.75 |                 |                 |               2 |              90
+Row 15:                 | HORIZONTAL INF. |        ALNA-390 |           99.75 |                 |                 |               2 |              90
+
+--- SHEET: 8025 de 3 hojas OXO (Path: xl/worksheets/sheet10.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2:  PUERTA CORREDERA 8025 DE TRES HOJAS OXO |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             300 |     CENTIMETROS |                 |                 |                
+Row 4:           ANCHO |                 |                 | 291.39999999999998 |     CENTIMETROS |                 |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 8:     DESCRICCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |   ANGULO GRADOS
+Row 9:           MARCO |         CABEZAL |         ALN-392 | 291.39999999999998 |                 |                 |               1 |              90
+Row 10:                 |          SILLAR |         ALN-387 | 291.39999999999998 |                 |                 |               1 |              90
+Row 11:                 |           JAMBA |         ALN-393 |           298.8 |                 |                 |               2 |              90
+Row 12:       HOJA FIJA |   ENGANCHE 8025 |         ALN-391 |           297.3 |                 |                 |               1 |              90
+Row 13:                 |   TRASLAPE 8025 |         ALN-388 |           297.3 |                 |                 |               1 |              90
+Row 14:                 | HORIZONTAL SUP. |         ALN-389 | 97.899999999999991 |                 |                 |               1 |              90
+Row 15:                 | HORIZONTAL INF. |        ALNA-390 | 97.899999999999991 |                 |                 |               1 |              90
+
+--- SHEET:  8025  3 hojas oXo (Path: xl/worksheets/sheet11.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2: 8025 DE TRES HOJAS oXo |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             200 |     CENTIMETROS |                 |                 |                
+Row 4:           ANCHO |                 |                 |             200 |     CENTIMETROS |                 |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 8:     DESCRICCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |   ANGULO GRADOS
+Row 9:           MARCO |         CABEZAL |         ALN-392 |             200 |                 |                 |               1 |              90
+Row 10:                 |          SILLAR |         ALN-387 |             200 |                 |                 |               1 |              90
+Row 11:                 |           JAMBA |         ALN-393 |           198.8 |                 |                 |               2 |              90
+Row 12:       HOJA FIJA |   ENGANCHE 8025 |         ALN-391 |           197.3 |                 |                 |               1 |              90
+Row 13:                 |   TRASLAPE 8025 |         ALN-388 |           197.3 |                 |                 |               1 |              90
+Row 14:                 | HORIZONTAL SUP. |         ALN-389 |             100 |                 |                 |               1 |              90
+Row 15:                 | HORIZONTAL INF. |        ALNA-390 |             100 |                 |                 |               1 |              90
+
+--- SHEET: 8025 4 hojas (Path: xl/worksheets/sheet12.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2: PUERTA CORREDERA 8025 DE CUATRO HOJAS  |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             200 |    CENTIMETROS  |                 |                 |                
+Row 4:           ANCHO |                 |                 |           313.2 |    CENTIMETROS  |                 |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 8:     DESCRICCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |            CANT |    ANGULO CORTE
+Row 9:           MARCO |         CABEZAL |         ALN-392 |           313.2 |                 |                 |               1 |              90
+Row 10:                 |          SILLAR |         ALN-387 |           313.2 |                 |                 |               1 |              90
+Row 11:                 |           JAMBA |         ALN-393 |             199 |                 |                 |               2 |              90
+Row 12:           HOJAS |   ENGANCHE 8025 |         ALN-391 |             198 |                 |                 |               4 |              90
+Row 13:                 |   TRASLAPE 8025 |         ALN-388 |             198 |                 |                 |               4 |              90
+Row 14:                 |   ADCTADOR 8025 |         ALN-403 |             198 |                 |                 |               1 |              90
+Row 15:                 | HORIZONTAL SUP. |         ALN-389 |          78.625 |                 |                 |               4 |              90
+
+--- SHEET:  8025 3 hojas diseño cliente OX (Path: xl/worksheets/sheet13.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2:  CORREDERA 8025 3 HOJAS (diseño cliente) |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             200 |    CENTIMETROS  |                 |                 |                
+Row 4:           ANCHO |                 |                 |             300 |    CENTIMETROS  |                 |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 8:     DESCRICCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |            CANT |    ANGULO CORTE
+Row 9:           MARCO |         CABEZAL |         ALN-392 |             300 |                 |                 |               1 |              90
+Row 10:                 |          SILLAR |         ALN-387 |             300 |                 |                 |               1 |              90
+Row 11:                 |           JAMBA |         ALN-393 |             199 |                 |                 |               2 |              90
+Row 12:      CORREDERAS |   ENGANCHE 8025 |         ALN-391 |             198 |                 |                 |               2 |              90
+Row 13:                 |   TRASLAPE 8025 |         ALN-388 |             198 |                 |                 |               2 |              90
+Row 14:                 |   ADCTADOR 8025 |         ALN-403 |             198 |                 |                 |               1 |              90
+Row 15:                 | HORIZONTAL SUP. |         ALN-389 |            99.4 |                 |                 |               2 |              90
+
+--- SHEET: 8025 de 3 hojas  (triple carril (Path: xl/worksheets/sheet14.xml) ---
+Row 1:  PUERTA CORREDERA 8025 DE TRES HOJAS (TRIPLE CARRIL) |                 |                 |                 |                 |                 |                 |                
+Row 2:          ALTURA |                 |                 |           239.3 |     CENTIMETROS |                 |                 |                
+Row 3:           ANCHO |                 |                 |           406.4 |     CENTIMETROS |                 |                 |                
+Row 4:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 5:    REF.ALUMINIO |                 |         ALN8025 |                 |                 |                 |                 |                
+Row 6:     REF. VIDRIO |                 |             5MM |                 |                 |                 |                 |                
+Row 7:     DESCRICCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |   ANGULO GRADOS
+Row 8:           MARCO | CABEZAL3 RIELES |                 |           406.4 |                 |                 |               1 |              90
+Row 9:                 | SILLAR 3 RIELES |                 |           406.4 |                 |                 |               1 |              90
+Row 10:                 |  JAMBA 3 RIELES |                 | 238.10000000000002 |                 |                 |               2 |              90
+Row 11:       HOJA FIJA |   ENGANCHE 8025 |         ALN-391 | 236.60000000000002 |                 |                 |               1 |              90
+Row 12:                 |   TRASLAPE 8025 |         ALN-388 | 236.60000000000002 |                 |                 |               1 |              90
+Row 13:                 | HORIZONTAL SUP. |         ALN-389 | 136.86666666666667 |                 |                 |               1 |              90
+Row 14:                 | HORIZONTAL INF. |        ALNA-390 | 136.86666666666667 |                 |                 |               1 |              90
+Row 15: HOJAS CORREDERAS |   ENGANCHE 8025 |         ALN-391 | 236.60000000000002 |                 |                 |               3 |              90
+
+--- SHEET: P.B. TUBLAR DE 1X1.2 -PISA (Path: xl/worksheets/sheet15.xml) ---
+Row 1:                                          VITTEMP |                 |                 |                 |                 |                 |                 |                
+Row 2:  PUERTA BATIENTE 1 1/2 X 1 1/2 |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |             150 |     CENTIMETROS |                 |                 |                 |                
+Row 4:           ANCHO |                 |              90 |     CENTIMETROS |                 |                 |                 |                
+Row 5:        CANTIDAD |                 |               1 |                 |                 |                 |                 |                
+Row 6:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |             [ ]
+Row 7:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |             [ ]
+Row 8:     DESCRIPCION |                 |            REF. | MEDIDA  CENTIMETROS |                 |       CANT UND. |    CORTE GRADOS |                
+Row 9:                 |                 |                 |                 |                 |                 |                 |                
+Row 10:           MARCO | U 2X1 SUPER CORRIDA |          PU-057 |             150 |                 |               2 |              90 |                
+Row 11:                 |                 |                 |              85 |                 |               1 |                 |                
+Row 12:       HOJA FIJA | TUBO  1 1/2 X 1 1/2 CON ADAPTADOR |        ALN-1101 |             146 |                 |               2 |                 |                
+Row 13:                 |                 |                 |              76 |                 |               1 |                 |                
+Row 14:                 |                 |                 |              76 |                 |               1 |                 |                
+Row 15:                 |       ADAPTADOR |        ALN-1175 |              76 |                 |               1 |                 |                
+
+--- SHEET: P.B DE 2 HOJAS DE 1X1.2 PISA (Path: xl/worksheets/sheet16.xml) ---
+Row 1:                                           VITTEMP |                 |                 |                 |                 |                 |                 |                
+Row 2:  PUERTA BATIENTE 1 1/2 X 1 1/2 |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |             200 |     CENTIMETROS |                 |                 |                 |                
+Row 4:           ANCHO |                 |             200 |     CENTIMETROS |                 |                 |                 |                
+Row 5:        CANTIDAD |                 |               1 |                 |                 |                 |                 |                
+Row 6:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |             [ ]
+Row 7:   REF. ACRILICO |                 |                 |                 |                 |                 |                 |                
+Row 8:     DESCRIPCION |                 |            REF. | MEDIDA  CENTIMETROS |                 |       CANT UND. |    CORTE GRADOS |                
+Row 9:                 |                 |                 |                 |                 |                 |                 |                
+Row 10:           MARCO | U 2X1 SUPERCORRIDA |                 |             200 |                 |               2 |              90 |                
+Row 11:                 |                 |                 |             195 |                 |               1 |                 |                
+Row 12:       HOJA FIJA | TUBO  1 1/2 X 1 1/2 CON ADAPTADOR |        ALN-1101 |             196 |                 |               4 |                 |                
+Row 13:                 |                 |                 |           96.75 |                 |               2 |                 |                
+Row 14:                 |                 |                 |           96.75 |                 |               2 |                 |                
+Row 15:                 |       ADAPTADOR |        ALN-1175 |           96.75 |                 |               2 |                 |                
+
+--- SHEET: P.B TUBULAR 3X1-1.2 PISA (Path: xl/worksheets/sheet17.xml) ---
+Row 1:                                          VITTEMP |                 |                 |                 |                 |                 |                 |             [ ]
+Row 2:  PUERTA BATIENTE 3x1 1/2 PROYECTANTE |                 |                 |                 |                 |                 |                 |             [ ]
+Row 3:          ALTURA |                 |             200 |     CENTIMETROS |                 |                 |                 |                
+Row 4:           ANCHO |        SUPERIOR |              90 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 5:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |             [ ]
+Row 6:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |             [ ]
+Row 7:     DESCRIPCION |                 |            REF. | MEDIDA  CENTIMETROS |                 |       CANT UND. |    CORTE GRADOS |             [ ]
+Row 8:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 9:           MARCO | U 2X1 SUPERCORRIDA |                 |             200 |                 |               2 |              90 |             [ ]
+Row 10:                 |                 |                 |              85 |                 |               1 |                 |             [ ]
+Row 11:       HOJA NAVE | 3X 1/2 CON ADAP |        ALN-1102 |           195.9 |                 |               2 |                 |             [ ]
+Row 12:                 | 3X 1/2 CON ADAP |        ALN-1102 |            66.2 |                 |               3 |                 |             [ ]
+Row 13:                 |      ADAPATADOR |        ALN-1175 |            66.2 |                 |               1 |                 |             [ ]
+Row 14:                 | ANGULO CHAPETA 1x1¨ |                 |             3.4 |                 |               4 |              90 |             [ ]
+Row 15:                 |                 |                 |             2.8 |                 |               4 |                 |             [ ]
+
+--- SHEET: P.B TUBULAR 3X1-1.2 2 HOJAS (Path: xl/worksheets/sheet18.xml) ---
+Row 1:                                          VITTEMP |                 |                 |                 |                 |                 |                 |             [ ]
+Row 2:  PUERTA BATIENTE 3x1 1/2 PROYECTANTE |                 |                 |                 |                 |                 |                 |             [ ]
+Row 3:          ALTURA |                 |           232.3 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 4:           ANCHO |                 |           188.5 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 5:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |             [ ]
+Row 6:   REF. ACRILICO |                 |                 |                 |                 |                 |                 |             [ ]
+Row 7:     DESCRIPCION |                 |            REF. | MEDIDA  CENTIMETROS |                 |       CANT UND. |    CORTE GRADOS |             [ ]
+Row 8:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 9:           MARCO | U 2X1 SUPERCORRIDA |                 |           232.3 |                 |               2 |              90 |             [ ]
+Row 10:                 |                 |                 |           183.5 |                 |               1 |                 |             [ ]
+Row 11:       HOJA FIJA | 3X 1/2 CON ADAP |        ALN-1102 | 228.20000000000002 |                 |               4 |                 |             [ ]
+Row 12:                 | 3X 1/2 CON ADAP |        ALN-1102 |           72.95 |                 |               6 |                 |             [ ]
+Row 13:                 |      ADAPATADOR |        ALN-1175 |           72.95 |                 |               2 |                 |             [ ]
+Row 14:                 | ANGULO CHAPETA 1x1¨ |                 |             3.4 |                 |               4 |              90 |             [ ]
+Row 15:                 |                 |                 |             2.8 |                 |               4 |                 |             [ ]
+
+--- SHEET: FIJO PRO-3831 (Path: xl/worksheets/sheet19.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 2:  VENTANAL FIJO  PROYECTANTE |                 |                 |                 |                 |                 |                 |             [ ]
+Row 3:          ALTURA |             100 |                 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 4:           ANCHO |             100 |                 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 5:    REF.ALUMINIO |                 |            3831 |                 |                 |                 |                 |             [ ]
+Row 6:     REF. VIDRIO |                 |        4,5,6 MM |                 |                 |                 |                 |             [ ]
+Row 7:     DESCRIPCION |                 |            REF. |         MEDIDAS |                 |       CANT UND. |    ANGULO CORTE |             [ ]
+Row 8:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 9:           MARCO |  CABEZAL SILLAR |        ALNA-173 |             100 |                 |               2 |              90 |             [ ]
+Row 10:                 |           JAMBA |         ALN-174 |            97.4 |                 |               2 |              90 |             [ ]
+Row 11:                 |     PISA VIDRIO |   ALN-635 CURVO | 96.800000000000011 |                 |               2 |              45 |             [ ]
+Row 12:                 |                 |                 |            96.8 |                 |               2 |              90 |             [ ]
+Row 13:          VIDRIO |                 |                 |          ALTURA |           ANCHO |                 |                 |             [ ]
+Row 14:                 |                 |                 |            95.8 |            95.8 |               2 |                 |             [ ]
+Row 15:         EMPAQUE |        ESTRELLA |                 |                 |                 |           766.4 |              ML |             [ ]
+
+--- SHEET: FIJO PRO 3831  1 BASCULANTE (Path: xl/worksheets/sheet20.xml) ---
+Row 1:                                          VITTEMP |                 |                 |                 |                 |                 |                 |             [ ]
+Row 2: FIJO PROYECTANTE CON BASCULANTE 3831 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 3:          ALTURA |                 |             100 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 4:           ANCHO |                 |             100 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 5: BANO DE BASCULANTE |                 |              40 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 6:    REF.ALUMINIO |                 |            3831 |                 |                 |                 |                 |             [ ]
+Row 7:     REF. VIDRIO |                 |        4,5,6 MM |                 |                 |                 |                 |             [ ]
+Row 8:     DESCRIPCION |                 |            REF. |  M. CENTIMETROS |                 |       CANT UND. |    CORTE GRADOS |             [ ]
+Row 9:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 10:           MARCO |         CABEZAL |         ALN-173 |             100 |                 |               1 |              90 |             [ ]
+Row 11:                 |          SILLAR |         ALN-173 |             100 |                 |               1 |                 |             [ ]
+Row 12:                 |           JAMBA |         ALN-174 |            97.4 |                 |               2 |                 |             [ ]
+Row 13:                 |         DIVISOR |         ALN-292 |            97.4 |                 |               1 |                 |             [ ]
+Row 14:            HOJA | ANGULO CHAPETA 1x1¨ |             A15 |             3.4 |                 |               8 |              90 |             [ ]
+Row 15:                 | Z DE HOJA  PARAL |         ALN-176 |              98 |                 |               2 |              45 |             [ ]
+
+--- SHEET: FIJO PRO 3831 2 BASCULANTES (Path: xl/worksheets/sheet21.xml) ---
+Row 1:                                          VITTEMP |                 |                 |                 |                 |                 |                 |             [ ]
+Row 2: FIJO PROYECTANTE CON 2 BASCULANTE 3831 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 3:          ALTURA |                 |             100 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 4:           ANCHO |                 |             100 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 5: ANCHO BANO BASCULANTE |                 |              40 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 6:        CANTIDAD |                 |               1 |                 |                 |                 |                 |             [ ]
+Row 7:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |             [ ]
+Row 8:   REF. ACRILICO |                 |                 |                 |                 |                 |                 |             [ ]
+Row 9:     DESCRIPCION |                 |            REF. | MEDIDA  CENTIMETROS |                 |       CANT UND. |    CORTE GRADOS |             [ ]
+Row 10:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 11:           MARCO |         CABEZAL |         ALN-173 |             100 |                 |               1 |              90 |             [ ]
+Row 12:                 |          SILLAR |         ALN-173 |             100 |                 |               1 |                 |             [ ]
+Row 13:                 |           JAMBA |         ALN-174 |            97.4 |                 |               2 |                 |             [ ]
+Row 14:                 |         DIVISOR |         ALN-292 |            97.4 |                 |               2 |                 |             [ ]
+Row 15:            HOJA | ANGULO CHAPETA 1x1¨ |                 |             3.4 |                 |               8 |              90 |             [ ]
+
+--- SHEET: 7038  DE 2 HOJAS (Path: xl/worksheets/sheet22.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2:  PUERTA 7038 DE 2 HOJAS |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             230 |                 |     CENTIMETROS |                 |                
+Row 4:           ANCHO |                 |                 |             210 |                 |     CENTIMETROS |                 |                
+Row 5:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 6:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     DESCRICCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |    ANGULO CORTE
+Row 8:           MARCO |         CABEZAL |         ALN-700 |             210 |                 |                 |               1 |              90
+Row 9:                 |          SILLAR |         ALN-775 |             210 |                 |                 |               1 |              90
+Row 10:                 |           JAMBA |         ALN-702 |           228.5 |                 |                 |               2 |              90
+Row 11:          HOJAS  |   ENGANCHE 7038 |         ALN-705 |           226.5 |                 |                 |               2 |              90
+Row 12:                 |   TRASLAPE 7038 |         ALN-704 |           226.5 |                 |                 |               2 |              90
+Row 13:                 | HORISONTAL SUP. |         ALN-703 |          105.35 |                 |                 |               4 |              90
+Row 14:         VIDRIOS |            6 MM |                 |          ALTURA |          ANCHO  |                 |                 |                
+Row 15:                 |                 |                 |                 |                 |                 |                 |                
+
+--- SHEET: 7038 DE 3 HOJAS (Path: xl/worksheets/sheet23.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2:  PUERTA CORREDISA 7038 DE 3 HOJAS 1 DE PARCHE |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             230 |     CENTIMETROS |                 |                 |                
+Row 4:           ANCHO |                 |                 |             360 |     CENTIMETROS |                 |                 |                
+Row 5:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 6:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     DESCRICCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |   ANGULO GRADOS
+Row 8:           MARCO |         CABEZAL |         ALN-700 |             360 |                 |                 |               1 |              90
+Row 9:                 |          SILLAR |         ALN-775 |             360 |                 |                 |               1 |              90
+Row 10:                 |           JAMBA |         ALN-702 |           228.5 |                 |                 |               2 |              90
+Row 11:       HOJA FIJA |   ENGANCHE 7038 |         ALN-705 |           229.6 |                 |                 |               1 |              90
+Row 12:                 |   TRASLAPE 7038 |         ALN-704 |           229.6 |                 |                 |               1 |              90
+Row 13:                 | HORIZONTAL SUP. |         ALN-703 | 122.39999999999999 |                 |                 |               1 |              90
+Row 14:                 | HORIZONTAL INF. |         ALN-703 | 122.39999999999999 |                 |                 |               1 |              90
+Row 15: HOJAS CORREDERAS |   ENGANCHE 7038 |         ALN-705 |           226.5 |                 |                 |               3 |              90
+
+--- SHEET: 7038-4 HOJAS (Path: xl/worksheets/sheet24.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2: PUERTA CORREDERA 7038  DE CUATRO HOJAS  |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 | 280.60000000000002 |    CENTIMETROS  |                 |                 |                
+Row 4:           ANCHO |                 |                 |             400 |    CENTIMETROS  |                 |                 |                
+Row 5:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 6:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     DESCRICCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |            CANT |    ANGULO CORTE
+Row 8:           MARCO |         CABEZAL |         ALN-700 |             400 |                 |                 |               1 |              90
+Row 9:                 |          SILLAR |         ALN-775 |             400 |                 |                 |               1 |              90
+Row 10:                 |           JAMBA |         ALN-702 | 279.40000000000003 |                 |                 |               2 |              90
+Row 11:           HOJAS |   ENGANCHE 7038 |         ALN-705 | 277.10000000000002 |                 |                 |               4 |              90
+Row 12:                 |   TRASLAPE 7038 |         ALN-704 | 277.10000000000002 |                 |                 |               4 |              90
+Row 13:                 |     HORIZONTAL  |         ALN-703 |         101.575 |                 |                 |               8 |              90
+Row 14:                 |       ADAPTADOR |         HSP-019 | 277.10000000000002 |                 |                 |               1 |              90
+Row 15:         VIDRIOS |            6 mm |                 |          ALTURA |          ANCHO  |                 |                 |                
+
+--- SHEET: 7038 EMPOTRAR DE 2 HOJAS (Path: xl/worksheets/sheet25.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2:  PUERTA 7038 (EMPOTRAR) DE 2 HOJAS |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             230 |                 |     CENTIMETROS |                 |                
+Row 4:           ANCHO |                 |                 |             210 |                 |     CENTIMETROS |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 8:     DESCRICCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |    ANGULO CORTE
+Row 9:           MARCO |         CABEZAL |         ALN-700 |             210 |                 |                 |               1 |              90
+Row 10:                 |          SILLAR |         ALN-701 |             210 |                 |                 |               1 |              90
+Row 11:                 |           JAMBA |         ALN-702 |           227.5 |                 |                 |               2 |              90
+Row 12:          HOJAS  |  ENGANCHE  FIJO |         ALN-705 |           227.5 |                 |                 |               1 |              90
+Row 13:                 |  TRASLAPE  FIJO |         ALN-704 |           227.5 |                 |                 |               1 |              90
+Row 14:                 |   ENGANCHE NAVE |         ALN-705 |           226.5 |                 |                 |               1 |                
+Row 15:                 |   TRASLAPE NAVE |         ALN-704 |           226.5 |                 |                 |               1 |                
+
+--- SHEET: 7038 DE EMPOTRAR 3 HOJAS 1 PARC (Path: xl/worksheets/sheet26.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2: 7038 DE INCRUSTAR PUERTA CORREDISA  DE 3 HOJAS 1 DE PARCHE |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             230 |     CENTIMETROS |                 |                 |                
+Row 4:           ANCHO |                 |                 |             360 |     CENTIMETROS |                 |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 8:     DESCRICCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |   ANGULO GRADOS
+Row 9:           MARCO |         CABEZAL |         ALN-700 |             360 |                 |                 |               1 |              90
+Row 10:                 |          SILLAR |         ALN-701 |             360 |                 |                 |               1 |              90
+Row 11:                 |           JAMBA |         ALN-702 |           227.5 |                 |                 |               2 |              90
+Row 12:       HOJA FIJA |   ENGANCHE 7038 |         ALN-705 |           229.6 |                 |                 |               1 |              90
+Row 13:                 |   TRASLAPE 7038 |         ALN-704 |           229.6 |                 |                 |               1 |              90
+Row 14:                 | HORIZONTAL SUP. |         ALN-703 | 122.39999999999999 |                 |                 |               1 |              90
+Row 15:                 | HORIZONTAL INF. |         ALN-703 | 122.39999999999999 |                 |                 |               1 |              90
+
+--- SHEET:  7038 EMPOTRAR -4 HOJAS (Path: xl/worksheets/sheet27.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2: 7038 DE EMPOTRAR CUATRO HOJAS  |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 | 280.60000000000002 |    CENTIMETROS  |                 |                 |                
+Row 4:           ANCHO |                 |                 |             400 |    CENTIMETROS  |                 |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 8:     DESCRICCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |            CANT |    ANGULO CORTE
+Row 9:           MARCO |         CABEZAL |         ALN-700 |             400 |                 |                 |               1 |              90
+Row 10:                 |          SILLAR |         ALN-701 |             400 |                 |                 |               1 |              90
+Row 11:                 |           JAMBA |         ALN-702 | 278.10000000000002 |                 |                 |               2 |              90
+Row 12:           HOJAS |   ENGANCHE FIJO |         ALN-705 | 278.10000000000002 |                 |                 |               2 |              90
+Row 13:                 |   TRASLAPE FIJO |         ALN-704 | 278.10000000000002 |                 |                 |               2 |              90
+Row 14:                 |   ENGANCHE NAVE |         ALN-705 | 277.10000000000002 |                 |                 |               2 |              90
+Row 15:                 |   TRASLAPE NAVE |         ALN-704 | 277.10000000000002 |                 |                 |               2 |              90
+
+--- SHEET: DIVICION ACRILICO BAÑO (Path: xl/worksheets/sheet28.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 2:  DIVIBAÑO EN ACRILICO |                 |                 |                 |                 |                 |                 |             [ ]
+Row 3:          ALTURA |             180 |     CENTIMETROS |                 |                 |                 |                 |             [ ]
+Row 4:           ANCHO |             114 |     CENTIMETROS |                 |                 |                 |                 |             [ ]
+Row 5:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |             [ ]
+Row 6:   REF. ACRILICO |                 |                 |                 |                 |                 |                 |             [ ]
+Row 7:     DESCRIPCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |       CANT UND. |    CORTE GRADOS |             [ ]
+Row 8:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 9:           MARCO |         CABEZAL |        ALNA-346 |             114 |                 |               1 |              90 |             [ ]
+Row 10:                 |          SILLAR |           S-597 |             113 |                 |               1 |                 |             [ ]
+Row 11:                 |           JAMBA |         ALN-343 |             177 |                 |               2 |                 |             [ ]
+Row 12:     HOJAS CORR. |    U LIVIANA PA |           S-596 |             175 |                 |               2 |              45 |             [ ]
+Row 13:       HOJA FIJA |    U LIVIANA PA |                 |           175.5 |                 |               2 |                 |             [ ]
+Row 14:                 |    U LIVIANA H. |                 |           57.75 |                 |               4 |                 |             [ ]
+Row 15:        TOALLERO |        BARRA T. |         ALN-234 |           49.75 |                 |               2 |              90 |             [ ]
+
+--- SHEET: PUERTA B. BOTAGUA Y 744 (Path: xl/worksheets/sheet29.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 2:  PUERTA VATIENTE U. LIVIANA |                 |                 |                 |                 |                 |                 |             [ ]
+Row 3:          ALTURA |             180 |     CENTIMETROS |                 |                 |                 |                 |             [ ]
+Row 4:           ANCHO |              70 |     CENTIMETROS |                 |                 |                 |                 |             [ ]
+Row 5:    REF.ALUMINIO |                 |                 |                 |                 |                 |                 |             [ ]
+Row 6:   REF. ACRILICO |                 |                 |                 |                 |                 |                 |             [ ]
+Row 7:     DESCRIPCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |       CANT UND. |    CORTE GRADOS |             [ ]
+Row 8:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 9:           MARCO | BOTAGUA CORRIENTE |           S.268 |             180 |                 |               2 |              90 |             [ ]
+Row 10:                 |                 |                 |            67.2 |                 |               2 |              90 |             [ ]
+Row 11:       HOJA FIJA | TRASLAPE DE 744 |         ALN-388 |           177.1 |                 |               2 |              45 |             [ ]
+Row 12:                 | TRASLAPE DE 744 |                 | 66.400000000000006 |                 |               2 |              45 |             [ ]
+Row 13:        ACRILICO |  ENCHAPE BLANCO |                 |          ALTURA |           ANCHO |                 |                 |             [ ]
+Row 14:                 |                 |                 |             170 | 59.300000000000004 |               1 |              90 |             [ ]
+Row 15:         EMPAQUE |            5020 |                 |                 |                 |           458.6 |              ML |             [ ]
+
+--- SHEET: ALACENA  (Path: xl/worksheets/sheet30.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2: ALACENA EN U. DE DOS HOJAS CORREDERAS |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |              80 |     CENTIMETROS |                 |                 |                
+Row 4:           ANCHO |                 |                 |              80 |     CENTIMETROS |                 |                 |                
+Row 5:   REF. ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 6:  REF. ACRILICOS |                 |                 |                 |                 |                 |                 |                
+Row 7:     DESCRICCION |                 |            REF. | MEDIDAS EN MILIMETROS |                 |                 |       CANT UND. |    ANGULO CORTE
+Row 8:           MARCO | SILLAR DIV DE BAÑO |           S-597 |              80 |                 |                 |               1 |              45
+Row 9:                 | CABEZAL DIV DE BAÑO |                 |              80 |                 |                 |               1 |              45
+Row 10:                 |       JAMBAS U. |         ALN-343 |              80 |                 |                 |               2 |              45
+Row 11:           HOJAS | U LIVIANA PARAL |           S-596 |            77.5 |                 |                 |               4 |              45
+Row 12:                 | U LIVIANA H SUP |                 | 40.450000000000003 |                 |                 |               4 |              45
+Row 13:                 |   CHAPETAS 1X1¨ |           A-011 | 1.1000000000000001 |                 |                 |               8 |              90
+Row 14:        ACRILICO |       ACRILICOS |                 |          ALTURA |          ANCHO  |                 |                 |                
+Row 15:                 |                 |                 |            73.5 | 36.450000000000003 |                 |               2 |                
+
+--- SHEET: COLOSAL 2.6 2 HOJAS (Path: xl/worksheets/sheet31.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2:  VENTANERIA COLOSAL 2.6  2 HOJAS |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             100 |     CENTIMETROS |                 |                 |                
+Row 4:           ANCHO |                 |                 |             100 |     CENTIMETROS |                 |                 |                
+Row 5:        CANTIDAD |                 |                 |               3 |                 |                 |                 |                
+Row 6:   REF. ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 8:     DESCRIPCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |    CORTE GRADOS
+Row 9:                 |                 |                 |                 |                 |                 |                 |                
+Row 10:           MARCO |         CABEZAL |            3207 |             100 |                 |                 |               3 |              90
+Row 11:                 |          SILLAR |            3208 |             100 |                 |                 |               3 |              90
+Row 12:                 |           JAMBA |            3211 |            98.9 |                 |                 |               6 |              90
+Row 13:           HOJAS |   ENGANCHE FIJO |            3216 |            97.6 |                 |                 |               3 |              90
+Row 14:                 |   ENGANCHE NAVE |            3216 |            96.7 |                 |                 |               3 |              90
+Row 15:                 |   TRASLAPE FIJO |            3215 |            97.6 |                 |                 |               3 |              90
+
+--- SHEET:  COLOSAL 2.6 3 HOJAS IGUALES (Path: xl/worksheets/sheet32.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2:  VENTANERIA COLOSAL 2.6  3 HOJAS IGUALES  XOX |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             220 |     CENTIMETROS |                 |                 |                
+Row 4:           ANCHO |                 |                 |             200 |     CENTIMETROS |                 |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:   REF. ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 8:     DESCRIPCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |    CORTE GRADOS
+Row 9:                 |                 |                 |                 |                 |                 |                 |                
+Row 10:           MARCO |         CABEZAL |            3207 |             200 |                 |                 |               1 |              90
+Row 11:                 |          SILLAR |            3208 |             200 |                 |                 |               1 |              90
+Row 12:                 |           JAMBA |            3211 |           218.9 |                 |                 |               2 |              90
+Row 13:           HOJAS |   ENGANCHE FIJO |            3216 |           217.6 |                 |                 |               2 |              90
+Row 14:                 |   ENGANCHE NAVE |            3216 |           216.7 |                 |                 |               2 |              90
+Row 15:                 |   TRASLAPE FIJO |            3215 |             N/A |                 |                 |               0 |              90
+
+--- SHEET: COLOSAL 2.6 4 HOJAS  (Path: xl/worksheets/sheet33.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2:  VENTANERIA COLOSAL 2.6  4 HOJAS OXXO |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             220 |     CENTIMETROS |                 |                 |                
+Row 4:           ANCHO |                 |                 |             200 |     CENTIMETROS |                 |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:   REF. ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 8:     DESCRIPCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |    CORTE GRADOS
+Row 9:                 |                 |                 |                 |                 |                 |                 |                
+Row 10:           MARCO |         CABEZAL |            3207 |             200 |                 |                 |               1 |              90
+Row 11:                 |          SILLAR |            3208 |             200 |                 |                 |               1 |              90
+Row 12:                 |           JAMBA |            3211 |           218.9 |                 |                 |               2 |              90
+Row 13:           HOJAS |   ENGANCHE FIJO |            3216 |           217.6 |                 |                 |               2 |              90
+Row 14:                 |   ENGANCHE NAVE |            3216 |           216.7 |                 |                 |               2 |              90
+Row 15:                 |   TRASLAPE FIJO |            3215 |           217.6 |                 |                 |               2 |              90
+
+--- SHEET:  COLOSAL 3.45 2 HOJAS (Path: xl/worksheets/sheet34.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2:  VENTANERIA COLOSAL 3.45 XO y XX |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             220 |     CENTIMETROS |                 |                 |                
+Row 4:           ANCHO |                 |                 |             200 |     CENTIMETROS |                 |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:   REF. ALUMINIO |                 |    COLOSAL 3.45 |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 |             6MM |                 |                 |                 |                 |                
+Row 8:     DESCRIPCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |    CORTE GRADOS
+Row 9:                 |                 |                 |                 |                 |                 |                 |                
+Row 10:           MARCO | MARCO SUP E INF |            3418 |             200 |                 |                 |               2 |              45
+Row 11:                 |                 |                 |                 |                 |                 |                 |                
+Row 12:                 |     MARCO JAMBA |            3418 |             220 |                 |                 |               2 |              45
+Row 13:           HOJAS |    ENTRECIERRE  |            3421 |           215.8 |                 |                 |               1 |              90
+Row 14:                 |                 |                 |                 |                 |                 |                 |                
+Row 15:                 |                 |                 |                 |                 |                 |                 |                
+
+--- SHEET: ASTRAL 1.7 DOS HOJAS (Path: xl/worksheets/sheet35.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2:  VENTANERIA ASTRAL 1.7 2 HOJAS |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             220 |     CENTIMETROS |                 |                 |                
+Row 4:           ANCHO |                 |                 |             200 |     CENTIMETROS |                 |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:   REF. ALUMINIO |                 |                 |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 |                 |                 |                 |                 |                 |                
+Row 8:     DESCRIPCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |    CORTE GRADOS
+Row 9:                 |                 |                 |                 |                 |                 |                 |                
+Row 10:           MARCO |         CABEZAL |            3199 |             200 |                 |                 |               1 |              90
+Row 11:                 |          SILLAR |            3200 |             200 |                 |                 |               1 |              90
+Row 12:                 |           JAMBA |            3191 |           219.2 |                 |                 |               2 |              90
+Row 13:           HOJAS |                 |                 |                 |                 |                 |                 |                
+Row 14:                 |       ENGANCHE  |            3380 |           216.6 |                 |                 |               2 |              90
+Row 15:                 |   TRASLAPE NAVE |            3380 |           216.6 |                 |                 |               2 |              90
+
+--- SHEET: ZINU DISEÑO X (Path: xl/worksheets/sheet36.xml) ---
+Row 1:                                  |                 |                 |                 |                 |                 |                 |             [ ]
+Row 2:  ZINU BASCULANTE  |                 |                 |                 |                 |                 |                 |             [ ]
+Row 3:          ALTURA |                 |             100 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 4:           ANCHO |                 |              50 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 5:        CANTIDAD |                 |               1 |                 |                 |                 |                 |             [ ]
+Row 6:    REF.ALUMINIO |                 |    EUROPEO ZINU |                 |                 |                 |                 |             [ ]
+Row 7:     REF. VIDRIO |                 | TERMOACUSTICO 22MM CON CAMARA |                 |                 |                 |                 |             [ ]
+Row 8:     DESCRIPCION |                 |            REF. |  M. CENTIMETROS |                 |       CANT UND. |    CORTE GRADOS |             [ ]
+Row 9:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 10:           MARCO | PERIETRAL MARCO HORIZONTAL |            3596 |              50 |                 |               2 |              45 |             [ ]
+Row 11:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 12:                 | PERIMETRAL MARCO VERTICAL |            3596 |             100 |                 |               2 |                 |             [ ]
+Row 13:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 14:            HOJA |                 |                 |                 |                 |                 |                 |             [ ]
+Row 15:                 | Z DE HOJA  VERTICAL |            3602 |            95.9 |                 |               2 |              45 |             [ ]
+
+--- SHEET: ZINU DISEÑO O (FIJO) (Path: xl/worksheets/sheet37.xml) ---
+Row 1:                                  |                 |                 |                 |                 |                 |                 |             [ ]
+Row 2:  ZINU CUERPO FIJO |                 |                 |                 |                 |                 |                 |             [ ]
+Row 3:          ALTURA |                 |             100 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 4:           ANCHO |                 |              50 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 5:        CANTIDAD |                 |               1 |                 |                 |                 |                 |             [ ]
+Row 6:    REF.ALUMINIO |                 |    EUROPEO ZINU |                 |                 |                 |                 |             [ ]
+Row 7:     REF. VIDRIO |                 | TERMOACUSTICO 22MM CON CAMARA |                 |                 |                 |                 |             [ ]
+Row 8:     DESCRIPCION |                 |            REF. |  M. CENTIMETROS |                 |       CANT UND. |    CORTE GRADOS |             [ ]
+Row 9:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 10:           MARCO | PERIETRAL MARCO HORIZONTAL |            3596 |              50 |                 |               2 |              45 |             [ ]
+Row 11:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 12:                 | PERIMETRAL MARCO VERTICAL |            3596 |             100 |                 |               2 |                 |             [ ]
+Row 13:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 14:            HOJA |                 |                 |                 |                 |                 |                 |             [ ]
+Row 15:                 | Z DE HOJA  VERTICAL |            3602 |             N/A |                 |               0 |              45 |             [ ]
+
+--- SHEET:  ZINU DISEÑO O-X (Path: xl/worksheets/sheet38.xml) ---
+Row 1:                                  |                 |                 |                 |                 |                 |                 |             [ ]
+Row 2:  VENTANA ZINU DISEÑO O-X |                 |                 |                 |                 |                 |                 |             [ ]
+Row 3: ALTURA TOTAL VENTANA |                 | 154.30000000000001 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 4: ANCHO TOTAL VENTANA |                 |             100 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 5: ANCHO BANO NAVE |                 |              40 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 6:        CANTIDAD |                 |               1 |                 |                 |                 |                 |             [ ]
+Row 7:    REF.ALUMINIO |                 |    EUROPEO ZINU |                 |                 |                 |                 |             [ ]
+Row 8:     REF. VIDRIO |                 | TERMOACUSTICO 22MM CON CAMARA |                 |                 |                 |                 |             [ ]
+Row 9:     DESCRIPCION |                 |            REF. |  M. CENTIMETROS |                 |       CANT UND. |    CORTE GRADOS |             [ ]
+Row 10:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 11:           MARCO | PERIETRAL MARCO HORIZONTAL |            3596 |             100 |                 |               2 |              45 |             [ ]
+Row 12:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 13:                 | PERIMETRAL MARCO VERTICAL |            3596 |             100 |                 |               2 |                 |             [ ]
+Row 14:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 15:                 | DIVISOR VERTICAL |            3604 |             149 |                 |               1 |                 |             [ ]
+
+--- SHEET: ZINU DISEÑO X-O-X (Path: xl/worksheets/sheet39.xml) ---
+Row 1:                                  |                 |                 |                 |                 |                 |                 |             [ ]
+Row 2:  VENTANA ZINU DISEÑO X-O-X |                 |                 |                 |                 |                 |                 |             [ ]
+Row 3: ALTURA TOTAL VENTANA |                 |             150 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 4: ANCHO TOTAL VENTANA |                 |             200 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 5: ANCHO BANO NAVE |                 |              40 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 6:        CANTIDAD |                 |               1 |                 |                 |                 |                 |             [ ]
+Row 7:    REF.ALUMINIO |                 |    EUROPEO ZINU |                 |                 |                 |                 |             [ ]
+Row 8:     REF. VIDRIO |                 | TERMOACUSTICO 22MM CON CAMARA |                 |                 |                 |                 |             [ ]
+Row 9:     DESCRIPCION |                 |            REF. |  M. CENTIMETROS |                 |       CANT UND. |    CORTE GRADOS |             [ ]
+Row 10:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 11:           MARCO | PERIETRAL MARCO HORIZONTAL |            3596 |             200 |                 |               2 |              45 |             [ ]
+Row 12:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 13:                 | PERIMETRAL MARCO VERTICAL |            3596 |             200 |                 |               2 |                 |             [ ]
+Row 14:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 15:                 | DIVISOR VERTICAL |            3604 | 144.69999999999999 |                 |               2 |              90 |             [ ]
+
+--- SHEET: PUERTA CORREDIZA KALIMA OX (Path: xl/worksheets/sheet40.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2: PUERTA CORREDIZA KALIMA 2 HOJAS |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             220 |     CENTIMETROS |                 |                 |                
+Row 4:           ANCHO |                 |                 |             200 |     CENTIMETROS |                 |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:   REF. ALUMINIO |                 |          KALIMA |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 | 6,8,10 ... 27 MM |                 |                 |                 |                 |                
+Row 8:     DESCRIPCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |    CORTE GRADOS
+Row 9:                 |                 |                 |                 |                 |                 |                 |                
+Row 10:           MARCO |     ANCHO MARCO |            3705 |             200 |                 |                 |               2 |              45
+Row 11:                 |    ALTURA MARCO |            3705 |             220 |                 |                 |               2 |              45
+Row 12:                 |                 |                 |                 |                 |                 |                 |                
+Row 13:           HOJAS |      ANCHO NAVE |            3707 |            99.3 |                 |                 |               4 |              45
+Row 14:                 | ALTURA NAVE CERRADURA |            3707 |           214.6 |                 |                 |               2 |              45
+Row 15:                 | ALTURA NAVE ENTRECIERRE |            3708 |           214.6 |                 |                 |               2 |              45
+
+--- SHEET: PUERTA CORREDIZA KIMBAYA OX (Path: xl/worksheets/sheet41.xml) ---
+Row 1:                 |                 |                 |                 |                 |                 |                 |                
+Row 2: PUERTA CORREDIZA KIMBAYA 2 HOJAS |                 |                 |                 |                 |                 |                 |                
+Row 3:          ALTURA |                 |                 |             220 |     CENTIMETROS |                 |                 |                
+Row 4:           ANCHO |                 |                 |             200 |     CENTIMETROS |                 |                 |                
+Row 5:        CANTIDAD |                 |                 |               1 |                 |                 |                 |                
+Row 6:   REF. ALUMINIO |                 |          KALIMA |                 |                 |                 |                 |                
+Row 7:     REF. VIDRIO |                 | 6,8,10 ... 27 MM |                 |                 |                 |                 |                
+Row 8:     DESCRIPCION |                 |            REF. | MEDIDAS EN CENTIMETROS |                 |                 |       CANT UND. |    CORTE GRADOS
+Row 9:                 |                 |                 |                 |                 |                 |                 |                
+Row 10:           MARCO |     ANCHO MARCO |            3705 |             200 |                 |                 |               2 |              45
+Row 11:                 |    ALTURA MARCO |            3705 |             220 |                 |                 |               2 |              45
+Row 12:                 |                 |                 |                 |                 |                 |                 |                
+Row 13:           HOJAS |      ANCHO NAVE |            3707 |            99.3 |                 |                 |               4 |              45
+Row 14:                 | ALTURA NAVE CERRADURA |            3707 |           214.6 |                 |                 |               2 |              45
+Row 15:                 | ALTURA NAVE ENTRECIERRE |            3708 |           214.6 |                 |                 |               2 |              45
+
+--- SHEET: PUERTA BATIENTE KONCEPT SERIE 4 (Path: xl/worksheets/sheet42.xml) ---
+Row 1:                                          VITTEMP |                 |                 |                 |                 |                 |                 |             [ ]
+Row 2:  PUERTA BATIENTE KONCEPT SERIE 40 DISEÑO X |                 |                 |                 |                 |                 |                 |             [ ]
+Row 3:          ALTURA |                 |             200 |     CENTIMETROS |                 |                 |                 |                
+Row 4:           ANCHO |                 |              90 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 5:        CANTIDAD |                 |               1 |        UNIDADES |                 |                 |                 |             [ ]
+Row 6:    REF.ALUMINIO |                 | KONCEPT SERIE 40 |                 |                 |                 |                 |             [ ]
+Row 7:     REF. VIDRIO |                 |            6 MM |                 |                 |                 |                 |             [ ]
+Row 8:     DESCRIPCION |                 |            REF. | MEDIDA  CENTIMETROS |                 |       CANT UND. |    CORTE GRADOS |             [ ]
+Row 9:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 10:           MARCO | MARCO HORIZONTAL |              58 |              90 |                 |               1 |              45 |             [ ]
+Row 11:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 12:                 |  MARCO VERTICAL |              58 |             200 |                 |               2 |                 |             [ ]
+Row 13:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 14:       HOJA NAVE | NAVE HORIZONTAL |            1867 |            82.4 |                 |               2 |                 |             [ ]
+Row 15:                 |   NAVE VERTICAL |            1867 |           195.8 |                 |               2 |                 |             [ ]
+
+--- SHEET:  PUERTA BATIENTE KONCEPT DISEÑO (Path: xl/worksheets/sheet43.xml) ---
+Row 1:                                          VITTEMP |                 |                 |                 |                 |                 |                 |             [ ]
+Row 2:  PUERTA BATIENTE KONCEPT SERIE 40 DISEÑO OX |                 |                 |                 |                 |                 |                 |             [ ]
+Row 3:          ALTURA |                 |             200 |     CENTIMETROS |                 |                 |                 |                
+Row 4:           ANCHO |                 |             100 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 5:                 |    (ancho nave) |              50 |     CENTIMETROS |                 |                 |                 |             [ ]
+Row 6:        CANTIDAD |                 |               1 |        UNIDADES |                 |                 |                 |             [ ]
+Row 7:    REF.ALUMINIO |                 | KONCEPT SERIE 40 |                 |                 |                 |                 |             [ ]
+Row 8:     REF. VIDRIO |                 |            6 MM |                 |                 |                 |                 |             [ ]
+Row 9:     DESCRIPCION |                 |            REF. | MEDIDA  CENTIMETROS |                 |       CANT UND. |    CORTE GRADOS |             [ ]
+Row 10:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 11:           MARCO | MARCO HORIZONTAL MOVIL |           OOO58 |            49.8 |                 |               1 |              45 |             [ ]
+Row 12:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 13:                 | MARCO VERTICAL MOVIL |           OOO58 |             200 |                 |               2 |                 |             [ ]
+Row 14:                 |                 |                 |                 |                 |                 |                 |             [ ]
+Row 15:       HOJA NAVE | NAVE HORIZONTAL |            1867 |            42.2 |                 |               2 |                 |             [ ]
+
+--- SHEET: REFERENCIAS DE PERFILES (Path: xl/worksheets/sheet44.xml) ---
+Row 1:   VENTANA  5020 |                 |                 |                 |                 | VENTANERIA 5020 CURVA |                 |                
+Row 2:             REF |    DESCRICCION  |   PRECIO METROS |    PRECIO TRAMO |             [ ] |             REF |     DESCRIPCION |       PRECIO MT
+Row 3:        ALNA.144 |         CABEZAL |            6320 |           31600 |             [ ] |                 |         CABEZAL |            6320
+Row 4:       ALNA. 194 |          SILLAR |            6860 |           34300 |             [ ] |                 |         SILLAR  |            6860
+Row 5:       ALNB. 193 |           JAMBA |            6260 |           31300 |             [ ] |                 |           JAMBA |            6960
+Row 6:       ALNB. 147 |        ENGANCHE |            5460 |           27300 |             [ ] |                 |        ENGANCHE |            6400
+Row 7:       ALNA. 192 |        TRASLAPE |            4060 |           20300 |             [ ] |                 |        TRASLAPE |            7700
+Row 8:       ALNA. 349 |      HORIZONTAL |            6360 |           31800 |             [ ] |                 |     HORIZONTAL  |            6360
+Row 9:        ALN. 581 |  SILLAR ALFAJIA |           10860 |           54300 |             [ ] |                 |       ADAPTADOR |            3380
+Row 10:                 |        RETICULA |                 |                 |             [ ] |             [ ] |             [ ] |             [ ]
+Row 11:  (Empty)
+Row 12:    VENTANAS 744 |                 |                 |                 |                 |                 | PRECIO VENTANERIA 5020 PLUS |                
+Row 13:            REF  |     DESCRICCION |    PRECIO METRO |    PRECIO TRAMO |             [ ] |                 |        CABEZAL  |                
+Row 14:       ALN - 392 |         CABEZAL |            6940 |           34700 |             [ ] |                 |          SILLAR |                
+Row 15:       ALN - 387 |          SILLAR |            8220 |           41100 |             [ ] |                 |           JAMBA |                

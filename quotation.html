@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotización | Spesfidem Aluminio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .quote-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+            color: #1e293b;
+        }
+
+        .quote-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .quote-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .quote-table th {
+            background: #f8fafc;
+            text-align: left;
+            padding: 1rem;
+            color: #64748b;
+            font-weight: 600;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .quote-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .total-row {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-align: right;
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-radius: 0 0 12px 12px;
+        }
+
+        @media print {
+            .no-print {
+                display: none;
+            }
+
+            .quote-container {
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body style="background: #f1f5f9; margin:0;">
+
+    <div class="quote-container">
+        <div class="quote-header">
+            <div>
+                <h1 style="color: var(--primary); margin: 0; font-size: 1.8rem;">SPESFIDEM <span
+                        style="color:var(--accent)">ALUMINIO</span></h1>
+                <p style="color: #64748b; margin: 0.2rem 0;">Simulador de Cotización - Estimados Aproximados</p>
+            </div>
+            <div style="text-align: right;">
+                <h2 style="margin:0; color:#64748b; font-size: 1rem;">N° COT-00<span id="quoteId"></span></h2>
+                <p id="quoteDate" style="margin:0;"></p>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 2rem; display:grid; grid-template-columns: 1fr 1fr; gap:2rem;">
+            <div>
+                <h3 style="color: var(--accent); margin-bottom: 0.5rem; font-size: 1rem; text-transform: uppercase;">
+                    Información del Cliente</h3>
+                <p style="margin: 0.2rem 0;"><strong id="clientName"></strong></p>
+                <p style="margin: 0.2rem 0;" id="clientContact"></p>
+                <p style="margin: 0.2rem 0;" id="clientEmail"></p>
+            </div>
+            <div style="text-align: right;">
+                <h3 style="color: var(--accent); margin-bottom: 0.5rem; font-size: 1rem; text-transform: uppercase;">
+                    Lugar de Obra</h3>
+                <p style="margin: 0.2rem 0;" id="clientCity"></p>
+                <p style="margin: 0.2rem 0;" id="clientAddress"></p>
+            </div>
+        </div>
+
+        <table class="quote-table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cant.</th>
+                    <th>Color</th>
+                    <th>Vidrio / Tamaño</th>
+                    <th style="text-align: right;">Valor Unit.</th>
+                    <th style="text-align: right;">Total</th>
+                </tr>
+            </thead>
+            <tbody id="quoteItems">
+                <!-- Items will be injected here -->
+            </tbody>
+        </table>
+
+        <div class="total-row"
+            style="background: #f8fafc; padding: 1.5rem; border-radius: 0 0 12px 12px; border-top: 1px solid #e2e8f0; display: grid; grid-template-columns: 1fr auto; gap: 0.5rem; align-items: center;">
+            <div style="text-align: right; color: #64748b; font-size: 1rem;">SUBTOTAL:</div>
+            <div style="text-align: right; color: #64748b; font-size: 1rem; font-weight: 600;" id="subtotalVal"></div>
+
+            <div style="text-align: right; color: #64748b; font-size: 1rem;">IVA (19%):</div>
+            <div style="text-align: right; color: #64748b; font-size: 1rem; font-weight: 600;" id="ivaVal"></div>
+
+            <div
+                style="text-align: right; color: var(--accent); font-size: 1.5rem; font-weight: 800; padding-top: 0.5rem; border-top: 1px solid #e2e8f0;">
+                TOTAL A PAGAR:</div>
+            <div style="text-align: right; color: var(--accent); font-size: 1.5rem; font-weight: 800; padding-top: 0.5rem; border-top: 1px solid #e2e8f0;"
+                id="grandTotal"></div>
+        </div>
+        <!-- Payment Breakdown Container -->
+        <div id="paymentBreakdown" style="border-bottom: 2px solid #e2e8f0; padding-bottom: 1rem;"></div>
+
+        <div
+            style="margin-top: 2rem; border-top: 1px solid #e2e8f0; padding-top: 1.5rem; color: #64748b; font-size: 0.85rem;">
+            <p style="color:var(--accent); font-weight:700;">* IMPORTANTE: Los valores expresados son una SIMULACIÓN
+                aproximada y llevan incluido el IVA del 19% vigente en Colombia.</p>
+            <p>* La vigencia de esta simulación de precios es de 15 días calendario.</p>
+        </div>
+
+        <div id="registrationForm"
+            style="margin-top: 3rem; background: #f8fafc; padding: 2.5rem; border-radius: 12px; border: 1px solid #e2e8f0;">
+            <h3
+                style="color: var(--primary); font-family: 'Outfit'; margin-top: 0; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem;">
+                <i class="fas fa-user-edit" style="color: var(--accent);"></i> Formulario de Registro
+            </h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div style="grid-column: span 1;">
+                    <label
+                        style="display: block; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; text-transform: uppercase;">Nombre
+                        Completo / Empresa</label>
+                    <input type="text" id="regFullName"
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;"
+                        placeholder="Ej: Jhon Doe">
+                </div>
+                <div style="grid-column: span 1;">
+                    <label
+                        style="display: block; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; text-transform: uppercase;">Documento
+                        de Identidad</label>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="text" id="regDoc"
+                            style="flex: 1; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;"
+                            placeholder="C.C. / NIT">
+                        <button type="button" onclick="searchExistingClient()"
+                            style="padding: 0.8rem 1.2rem; background: #e2e8f0; border: none; border-radius: 6px; color: #0f172a; cursor: pointer; font-weight: 700; transition: 0.3s;"
+                            onmouseover="this.style.background='#cbd5e1'" onmouseout="this.style.background='#e2e8f0'"
+                            title="¿Ya eres cliente? Carga tus datos automáticamente">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <small style="color: #64748b; font-size: 0.75rem; margin-top: 0.3rem; display: block;">¿Ya
+                        registrado? Ingresa tu documento y da clic en la lupa.</small>
+                </div>
+                <div>
+                    <label
+                        style="display: block; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; text-transform: uppercase;">Celular
+                        de Contacto</label>
+                    <input type="text" id="regCellphone"
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;"
+                        placeholder="323...">
+                </div>
+                <div>
+                    <label
+                        style="display: block; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; text-transform: uppercase;">Correo
+                        Electrónico</label>
+                    <input type="email" id="regEmail"
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;"
+                        placeholder="correo@ejemplo.com">
+                </div>
+                <div>
+                    <label
+                        style="display: block; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; text-transform: uppercase;">Ciudad
+                        / Municipio</label>
+                    <input type="text" id="regCity"
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;"
+                        placeholder="Ej: Ibagué">
+                </div>
+                <div>
+                    <label
+                        style="display: block; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; text-transform: uppercase;">Dirección
+                        de Obra / Entrega</label>
+                    <input type="text" id="regAddress"
+                        style="width: 100%; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;"
+                        placeholder="Carrera... #...">
+                </div>
+            </div>
+        </div>
+
+        <div class="no-print" style="margin-top: 3rem; display: flex; gap: 1rem; justify-content: center;">
+            <button onclick="window.print()" class="btn-primary"
+                style="background:#64748b; padding: 0.8rem 1.5rem; border-radius: 6px; border:none; color:white; font-weight:600; cursor:pointer;">
+                <i class="fas fa-print"></i> Imprimir Cotización
+            </button>
+            <button onclick="confirmOrder()" class="btn-primary"
+                style="background:#059669; padding: 1rem 2rem; border-radius: 6px; border:none; color:white; font-weight:700; cursor:pointer; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);">
+                <i class="fas fa-check-circle"></i> REGISTRARSE
+            </button>
+            <button onclick="window.location.href='simulator.html'"
+                style="background:transparent; border:1px solid #cbd5e1; padding: 0.8rem 1.5rem; border-radius: 6px; color:#64748b; font-weight:600; cursor:pointer;">
+                Modificar
+            </button>
+        </div>
+    </div>
+
+    <script src="js/app.js?v=160"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Wait for DB to be initialized from app.js
+            try {
+                if (typeof db !== 'undefined') {
+                    await db.init();
+                }
+            } catch (e) {
+                console.error("DB init failed in quotation:", e);
+            }
+
+            const data = JSON.parse(sessionStorage.getItem('currentQuotation'));
+            if (!data) {
+                alert("No hay datos de cotización activos. Por favor llene el formulario.");
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Populate Document
+            // Fetch and format Sequential Serial Number
+            if (!data.serial) {
+                const nextSerial = await db.getNextSerial();
+                data.serial = nextSerial;
+                sessionStorage.setItem('currentQuotation', JSON.stringify(data));
+            }
+            const paddedSerial = String(data.serial).padStart(7, '0');
+            document.getElementById('quoteId').textContent = `COT - ${paddedSerial}`;
+            document.getElementById('quoteDate').textContent = data.date || new Date().toLocaleDateString('es-CO');
+            document.getElementById('clientName').textContent = data.fullName;
+            document.getElementById('clientContact').textContent = 'Cel: ' + data.cellphone + (data.landline ? ' | Tel: ' + data.landline : '');
+            document.getElementById('clientEmail').textContent = data.email || 'N/A';
+            document.getElementById('clientCity').textContent = data.city;
+            document.getElementById('clientAddress').textContent = data.address || 'N/A';
+
+            const tbody = document.getElementById('quoteItems');
+            if (data.items && Array.isArray(data.items)) {
+                data.items.forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td style="font-weight:600;">${item.product}</td>
+                        <td>${item.quantity}</td>
+                        <td>${item.color || 'Natural'}</td>
+                        <td style="font-size:0.85rem;">${item.glass || 'Monolítico'}<br><span style="color:#94a3b8">${item.size || ''}</span></td>
+                        <td style="text-align: right;">$${(item.unitPrice || 0).toLocaleString()}</td>
+                        <td style="text-align: right; font-weight:600;">$${(item.total || 0).toLocaleString()}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            document.getElementById('subtotalVal').textContent = '$' + (data.subtotal || (data.grandTotal / 1.19) || 0).toLocaleString() + ' COP';
+            document.getElementById('ivaVal').textContent = '$' + (data.iva || (data.grandTotal - (data.grandTotal / 1.19)) || 0).toLocaleString() + ' COP';
+            document.getElementById('grandTotal').textContent = '$' + (data.grandTotal || 0).toLocaleString() + ' COP';
+
+            // Payment Breakdown Logic
+            const total = data.grandTotal || 0;
+            const breakdownContainer = document.getElementById('paymentBreakdown');
+            const plan = data.paymentPlan || '75-25';
+
+            if (breakdownContainer) {
+                if (plan === '75-25') {
+                    const advance = Math.round(total * 0.75);
+                    const balance = Math.round(total * 0.25);
+                    breakdownContainer.innerHTML = `
+                        <div style="display:flex; justify-content:flex-end; padding:0.5rem 1.5rem; color:#64748b;">
+                            <span style="margin-right:1rem;">Anticipo Sugerido (75%):</span>
+                            <span style="width:120px; text-align:right;">$${advance.toLocaleString()}</span>
+                        </div>
+                        <div style="display:flex; justify-content:flex-end; padding:0.5rem 1.5rem; font-weight:700; color:#0f172a;">
+                            <span style="margin-right:1rem;">Saldo Contra Entrega (25%):</span>
+                            <span style="width:120px; text-align:right;">$${balance.toLocaleString()}</span>
+                        </div>
+                    `;
+                } else if (plan === '100') {
+                    breakdownContainer.innerHTML = `
+                        <div style="display:flex; justify-content:flex-end; padding:0.5rem 1.5rem; color:#16a34a; font-weight:700;">
+                            <span style="margin-right:1rem;">PAGO TOTAL (100%):</span>
+                            <span style="width:120px; text-align:right;">$${total.toLocaleString()}</span>
+                        </div>
+                    `;
+                }
+            }
+        });
+
+        async function searchExistingClient() {
+            const doc = document.getElementById('regDoc').value.trim();
+            if (!doc) {
+                alert("Por favor ingrese su Documento o NIT para buscar.");
+                return;
+            }
+
+            try {
+                if (typeof db === 'undefined') {
+                    await db.init();
+                }
+                const client = await db.getByIdCard(doc);
+                if (client) {
+                    document.getElementById('regFullName').value = client.fullName || '';
+                    document.getElementById('regCellphone').value = client.cellphone || '';
+                    document.getElementById('regEmail').value = client.email || '';
+                    document.getElementById('regCity').value = client.city || '';
+                    document.getElementById('regAddress').value = client.address || '';
+
+                    // Visual feedback
+                    const fields = ['regFullName', 'regCellphone', 'regEmail', 'regCity', 'regAddress'];
+                    fields.forEach(f => {
+                        const el = document.getElementById(f);
+                        el.style.border = '2px solid #10b981';
+                        el.style.background = '#f0fdf4';
+                    });
+
+                    alert(`¡Hola ${client.fullName}! Hemos cargado tus datos registrados. Puedes modificarlos si es necesario.`);
+                } else {
+                    alert("No encontramos un registro previo con este documento. Por favor, completa tus datos para el primer registro.");
+                }
+            } catch (e) {
+                console.error("Search failed:", e);
+                alert("Error al buscar el cliente.");
+            }
+        }
+
+        async function confirmOrder() {
+            const data = JSON.parse(sessionStorage.getItem('currentQuotation'));
+            if (!data) return;
+
+            // Get Form Data
+            const regFullName = document.getElementById('regFullName').value.trim();
+            const regDoc = document.getElementById('regDoc').value.trim();
+            const regCellphone = document.getElementById('regCellphone').value.trim();
+            const regEmail = document.getElementById('regEmail').value.trim();
+            const regCity = document.getElementById('regCity').value.trim();
+            const regAddress = document.getElementById('regAddress').value.trim();
+
+            // Validate
+            if (!regFullName || !regDoc || !regCellphone || !regCity || !regAddress) {
+                alert('Por favor complete todos los campos obligatorios: Nombre, Documento, Celular, Ciudad y Dirección.');
+                document.getElementById('registrationForm').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+
+            // Update Quotation Data
+            data.fullName = regFullName;
+            data.idCard = regDoc;
+            data.cellphone = regCellphone;
+            data.email = regEmail;
+            data.city = regCity;
+            data.address = regAddress;
+
+            try {
+                if (typeof db !== 'undefined') {
+                    // No longer blocking unique registrations, instead we just reuse/update
+                    // but we alert the user that the order will be logged.
+                    const existingClient = await db.getByIdCard(regDoc);
+                    if (existingClient) {
+                        console.log("Existing client found, updating record with new order.");
+                    }
+
+                    await db.save(data);
+                    alert('¡Registro exitoso! Sus datos han sido guardados en el sistema administrativo. Ahora puede proceder al pago.');
+                    sessionStorage.removeItem('currentQuotation');
+                    window.location.href = 'checkout.html';
+                } else {
+                    throw new Error("Base de datos no disponible");
+                }
+            } catch (e) {
+                console.error(e);
+                alert('Error al registrar el pedido: ' + e.message);
+            }
+        }
+    </script>
+</body>
+
+</html>
