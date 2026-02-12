@@ -273,10 +273,6 @@ window.getModeName = getModeName;
 window.toggleHighContrast = toggleHighContrast;
 window.toggleMobileMenu = toggleMobileMenu;
 
-
-// Legacy tutorial functions removed in favor of driver.js tour
-
-
 // Legacy toggle support to avoid breaking existing HTML onclicks immediately
 // Legacy toggle consolidated
 
@@ -424,8 +420,8 @@ function initSimulatorSlots(container) {
         </optgroup>
     `;
 
-    // Add 2 more slots (1st is static in HTML, or cleared here) -> Total 3
-    for (let i = 2; i <= 3; i++) {
+    // Add 9 more slots (1st is static in HTML, or cleared here)
+    for (let i = 2; i <= 10; i++) {
         const div = document.createElement('div');
         div.className = 'product-slot-card';
         div.style.background = 'rgba(255,255,255,0.03)';
@@ -433,14 +429,14 @@ function initSimulatorSlots(container) {
         div.style.borderRadius = '1.2rem';
         div.style.border = '1px solid rgba(255,255,255,0.05)';
         div.innerHTML = `
-            <div class="slot-grid-top">
+            <div style="display:grid; grid-template-columns: 2fr 1fr; gap:1rem; margin-bottom: 0.8rem;">
                 <select class="form-control product-slot" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
                     <option value="">Añadir Producto ${i}...</option>
                     ${prodOptions}
                 </select>
                 <input type="number" class="form-control quantity-slot" min="1" value="1" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
             </div>
-            <div class="slot-grid-bottom">
+            <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.8rem;">
                 <select class="form-control color-slot" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
                     <option value="Natural">Natural</option>
                     <option value="Negro">Negro</option>
@@ -1296,34 +1292,11 @@ function adminLogin(e) {
     const pass = document.getElementById('adminPass').value;
     const errorMsg = document.getElementById('loginError');
 
-    // Valid Credentials List
-    const validUsers = [
-        { u: '14298116', p: '14298116Je*' },
-        { u: '1106227253', p: 'pipe7253' },
-        { u: '1005703432', p: '3432sergio' },
-        { u: '1104942399', p: '2399caleb' }
-    ];
-
-    // Check if credentials match any valid user
-    const isValid = validUsers.some(cred => cred.u === user && cred.p === pass);
-
-    if (isValid) {
+    // Admin Credentials as specified previously
+    if (user === '14298116' && pass === '14298116Je*') {
         sessionStorage.setItem('isAdmin', 'true');
-        sessionStorage.setItem('currentUser', user); // Optional logic to track who logged in
         document.getElementById('loginOverlay').style.display = 'none';
         loadAdminData();
-        // Update greeting if possible (optional enhancement)
-        const nameDisplay = document.querySelector('.name-highlight');
-        if (nameDisplay) {
-            // Simple mapping for display names just for polish
-            const names = {
-                '14298116': 'Jhon Edinson',
-                '1106227253': 'Pipe',
-                '1005703432': 'Sergio',
-                '1104942399': 'Caleb'
-            };
-            nameDisplay.textContent = names[user] || 'Administrador';
-        }
     } else {
         if (errorMsg) errorMsg.style.display = 'block';
     }

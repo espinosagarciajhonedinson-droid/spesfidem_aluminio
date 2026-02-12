@@ -19,20 +19,6 @@
     <meta property="og:url" content="https://spesfidem.com">
 
     <link rel="stylesheet" href="css/style.css?v=V3_CYAN">
-
-    <!-- PWA Manifest & Service Worker -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0f172a">
-    <link rel="apple-touch-icon" href="images/logo.png">
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(reg => console.log('Service Worker registered!', reg))
-                    .catch(err => console.log('Service Worker registration failed', err));
-            });
-        }
-    </script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,8 +29,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <!-- Driver.js for Tour -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css" />
 </head>
 
 <body>
@@ -100,11 +84,9 @@
                 <a href="#metodo" data-i18n="nav.method">Método</a>
                 <a href="#perfil" data-i18n="nav.about">Nosotros</a>
                 <a href="#contacto" data-i18n="nav.contact">Contacto</a>
-                <button onclick="startTutorial()" class="btn-tutorial" id="startTutorialBtn"
-                    style="background:none; border:none; color:inherit; font-family:inherit; font-weight:600; cursor:pointer;"
-                    title="Centro de Ayuda">
-                    <i class="fas fa-question-circle"></i> <span data-i18n="nav.tutorial">Ayuda</span>
-                </button>
+                <a href="teens.html?v=20260205_v2" class="btn-kids"><i class="fas fa-rocket"></i> <span
+                        data-i18n="nav.kids">Next Gen
+                        Niños</span></a>
                 <a href="admin.html" class="nav-lock-icon" title="Acceso Administrativo">
                     <i class="fas fa-lock"></i>
                 </a>
@@ -119,45 +101,56 @@
                     <i class="fas fa-chevron-down lang-arrow"></i>
                 </button>
                 <div id="langMenu" class="lang-menu">
-                    <span class="lang-name">English</span>
-                    </button>
-                    <button onclick="setLanguage('pt')" class="lang-option">
-                        <span class="lang-flag">🇧🇷</span>
-                        <span class="lang-name">Português</span>
-                    </button>
-                    <button onclick="setLanguage('fr')" class="lang-option">
-                        <span class="lang-flag">🇫🇷</span>
-                        <span class="lang-name">Français</span>
-                    </button>
-                    <button onclick="setLanguage('de')" class="lang-option">
-                        <span class="lang-flag">🇩🇪</span>
-                        <span class="lang-name">Deutsch</span>
-                    </button>
-                    <button onclick="setLanguage('it')" class="lang-option">
-                        <span class="lang-flag">🇮🇹</span>
-                        <span class="lang-name">Italiano</span>
-                    </button>
-                    <button onclick="setLanguage('zh')" class="lang-option">
-                        <span class="lang-flag">🇨🇳</span>
-                        <span class="lang-name">中文</span>
-                    </button>
-                    <button onclick="setLanguage('ja')" class="lang-option">
-                        <span class="lang-flag">🇯🇵</span>
-                        <span class="lang-name">日本語</span>
-                    </button>
-                    <button onclick="setLanguage('ru')" class="lang-option">
-                        <span class="lang-flag">🇷🇺</span>
-                        <span class="lang-name">Русский</span>
-                    </button>
-                    <button onclick="setLanguage('ar')" class="lang-option">
-                        <span class="lang-flag">🇸🇦</span>
-                        <span class="lang-name">العربية</span>
-                    </button>
+                    <div class="lang-menu-header">
+                        <i class="fas fa-globe-americas"></i>
+                        <span>Selecciona tu idioma</span>
+                    </div>
+                    <div class="lang-options-grid">
+                        <button onclick="setLanguage('es')" class="lang-option">
+                            <span class="lang-flag">🇪🇸</span>
+                            <span class="lang-name">Español</span>
+                        </button>
+                        <button onclick="setLanguage('en')" class="lang-option">
+                            <span class="lang-flag">🇺🇸</span>
+                            <span class="lang-name">English</span>
+                        </button>
+                        <button onclick="setLanguage('pt')" class="lang-option">
+                            <span class="lang-flag">🇧🇷</span>
+                            <span class="lang-name">Português</span>
+                        </button>
+                        <button onclick="setLanguage('fr')" class="lang-option">
+                            <span class="lang-flag">🇫🇷</span>
+                            <span class="lang-name">Français</span>
+                        </button>
+                        <button onclick="setLanguage('de')" class="lang-option">
+                            <span class="lang-flag">🇩🇪</span>
+                            <span class="lang-name">Deutsch</span>
+                        </button>
+                        <button onclick="setLanguage('it')" class="lang-option">
+                            <span class="lang-flag">🇮🇹</span>
+                            <span class="lang-name">Italiano</span>
+                        </button>
+                        <button onclick="setLanguage('zh')" class="lang-option">
+                            <span class="lang-flag">🇨🇳</span>
+                            <span class="lang-name">中文</span>
+                        </button>
+                        <button onclick="setLanguage('ja')" class="lang-option">
+                            <span class="lang-flag">🇯🇵</span>
+                            <span class="lang-name">日本語</span>
+                        </button>
+                        <button onclick="setLanguage('ru')" class="lang-option">
+                            <span class="lang-flag">🇷🇺</span>
+                            <span class="lang-name">Русский</span>
+                        </button>
+                        <button onclick="setLanguage('ar')" class="lang-option">
+                            <span class="lang-flag">🇸🇦</span>
+                            <span class="lang-name">العربية</span>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Mobile Menu Toggler -->
+            <!-- Mobile Menu Toggler -->
 
         </div>
     </header>
@@ -760,7 +753,7 @@
                 NUESTRA
                 UBICACIÓN</h2>
 
-            <div class="location-card"
+            <div
                 style="background:rgba(2, 6, 23, 0.6); padding:3rem; border-radius:2rem; text-align:center; backdrop-filter:blur(5px); border:1px solid rgba(255, 255, 255, 0.1); max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                 <i class="fas fa-map-marker-alt fa-3x"
                     style="color:var(--accent); margin-bottom:1.5rem; filter: drop-shadow(0 0 10px var(--accent));"></i>
@@ -972,10 +965,6 @@
 
 
     </script>
-    <!-- Driver.js Library -->
-    <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
-    <script src="js/app.js?v=V3_CYAN"></script>
-    <script src="js/tutorial.js?v=1.0"></script>
 </body>
 
 </html>

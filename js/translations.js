@@ -10,16 +10,7 @@ const translations = {
         'nav.method': 'Método',
         'nav.about': 'Nosotros',
         'nav.contact': 'Contacto',
-        // 'nav.kids': 'Niños', // Removed
-        'nav.tutorial': 'Tutorial',
-        'tutorial.title': 'Bienvenido a Spesfidem',
-        'tutorial.step1.title': 'Explora el Catálogo',
-        'tutorial.step1.desc': 'Descubre nuestra gama de ventanería premium y vidrio templado en la sección de Productos.',
-        'tutorial.step2.title': 'Usa el Simulador',
-        'tutorial.step2.desc': 'Configura hasta 3 productos personalizados con medidas exactas para obtener un estimado.',
-        'tutorial.step3.title': 'Contáctanos',
-        'tutorial.step3.desc': 'Finaliza tu cotización y nuestro equipo te contactará para hacer realidad tu proyecto.',
-        'tutorial.close': 'Entendido',
+        'nav.kids': 'Next Gen Niños',
 
         // Hero
         'hero.title': 'Arquitectura Invisible',
@@ -135,16 +126,7 @@ const translations = {
         'nav.method': 'Method',
         'nav.about': 'About Us',
         'nav.contact': 'Contact',
-        // 'nav.kids': 'Kids', // Removed
-        'nav.tutorial': 'Tutorial',
-        'tutorial.title': 'Welcome to Spesfidem',
-        'tutorial.step1.title': 'Explore Catalog',
-        'tutorial.step1.desc': 'Discover our range of premium window systems and tempered glass in the Products section.',
-        'tutorial.step2.title': 'Use Simulator',
-        'tutorial.step2.desc': 'Configure up to 3 custom products with exact measurements to get an estimate.',
-        'tutorial.step3.title': 'Contact Us',
-        'tutorial.step3.desc': 'Finalize your quote and our team will contact you to make your project a reality.',
-        'tutorial.close': 'Got it',
+        'nav.kids': 'Next Gen Kids',
 
         // Hero
         'hero.title': 'Invisible Architecture',
@@ -260,8 +242,7 @@ const translations = {
         'nav.method': 'Método',
         'nav.about': 'Nós',
         'nav.contact': 'Contato',
-        // 'nav.kids': 'Crianças', // Removed
-        'nav.tutorial': 'Tutorial',
+        'nav.kids': 'Next Gen Kids',
 
         // Hero
         'hero.title': 'Arquitetura Invisível',
@@ -377,8 +358,7 @@ const translations = {
         'nav.method': 'Méthode',
         'nav.about': 'À Propos',
         'nav.contact': 'Contact',
-        // 'nav.kids': 'Enfants', // Removed
-        'nav.tutorial': 'Tutoriel',
+        'nav.kids': 'Next Gen Kids',
 
         // Hero
         'hero.title': 'Architecture Invisible',
@@ -494,8 +474,7 @@ const translations = {
         'nav.method': '方法',
         'nav.about': '关于我们',
         'nav.contact': '联系方式',
-        // 'nav.kids': '下一代', // Removed
-        'nav.tutorial': '教程',
+        'nav.kids': '下一代儿童',
 
         // Hero
         'hero.title': '隐形建筑',
@@ -597,8 +576,7 @@ const translations = {
         'nav.method': 'Methode',
         'nav.about': 'Über uns',
         'nav.contact': 'Kontakt',
-        // 'nav.kids': 'Kinder', // Removed
-        'nav.tutorial': 'Lernprogramm',
+        'nav.kids': 'Next Gen Kids',
 
         // Hero
         'hero.title': 'Unsichtbare Architektur',
@@ -677,8 +655,7 @@ const translations = {
         'nav.method': 'Metodo',
         'nav.about': 'Noi',
         'nav.contact': 'Contatto',
-        // 'nav.kids': 'Bambini', // Removed
-        'nav.tutorial': 'Tutorial',
+        'nav.kids': 'Next Gen Kids',
 
         // Hero
         'hero.title': 'Architettura Invisibile',
@@ -750,8 +727,7 @@ const translations = {
         'nav.method': 'メソッド',
         'nav.about': '私たちについて',
         'nav.contact': 'お問い合わせ',
-        // 'nav.kids': 'キッズ', // Removed
-        'nav.tutorial': 'チュートリアル',
+        'nav.kids': '次世代キッズ',
 
         // Hero
         'hero.title': '見えない建築',
@@ -820,8 +796,7 @@ const translations = {
         'nav.method': 'Метод',
         'nav.about': 'О нас',
         'nav.contact': 'Контакты',
-        // 'nav.kids': 'Дети', // Removed
-        'nav.tutorial': 'Учебник',
+        'nav.kids': 'Дети Next Gen',
 
         // Hero
         'hero.title': 'Невидимая Архитектура',

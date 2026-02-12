@@ -440,17 +440,6 @@ body.theme-light .faq-card-elite {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
 }
 
-body.theme-light .location-card {
-    background: rgba(255, 255, 255, 0.95) !important;
-    border: 1px solid #e2e8f0 !important;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1) !important;
-}
-
-body.theme-light .location-card p {
-    color: #475569 !important;
-    /* Forces readable slate color over the inline light grey */
-}
-
 body.theme-light .glass-panel p,
 body.theme-light .method-card p,
 body.theme-light .testimonial-text-premium {
@@ -750,37 +739,7 @@ body.high-contrast .name-highlight {
     line-height: 1;
 }
 
-/* --- RESPONSIVENESS FOR SIMULATOR --- */
-.slot-grid-top {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 1.5rem;
-    margin-bottom: 1rem;
-}
-
-.slot-grid-bottom {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 1rem;
-}
-
-@media (max-width: 768px) {
-    .slot-grid-top {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-
-    .slot-grid-bottom {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-
-    .width-slot,
-    .height-slot {
-        width: 100% !important;
-    }
-}
-
+/* --- PREMIUM FINAL LOGO --- */
 .logo-premium-final {
     display: flex;
     align-items: center;

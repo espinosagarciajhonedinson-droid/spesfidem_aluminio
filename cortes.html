@@ -6,23 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calculadora Excel - Spesfidem</title>
 
-    <link rel="stylesheet" href="css/style.css?v=V2_NAV">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- PWA Manifest & Service Worker -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0f172a">
-    <link rel="apple-touch-icon" href="images/logo.png">
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(reg => console.log('Service Worker registered!', reg))
-                    .catch(err => console.log('Service Worker registration failed', err));
-            });
-        }
-    </script>
-
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/css/pluginsCss.css' />
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/plugins.css' />
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/css/luckysheet.css' />
@@ -89,7 +72,7 @@
 
         /* Suppress formula error dialog if CSS possible */
         .luckysheet-modal-dialog-mask {
-            display: none !important;
+            /* We can't fully hide it or it breaks modal interactions, but we can try to minimize intrusion if needed */
         }
 
         /* PRINT STYLES */

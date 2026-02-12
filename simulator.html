@@ -12,22 +12,6 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@300;600;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Driver.js for Tour -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css" />
-
-    <!-- PWA Manifest & Service Worker -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0f172a">
-    <link rel="apple-touch-icon" href="images/logo.png">
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(reg => console.log('Service Worker registered!', reg))
-                    .catch(err => console.log('Service Worker registration failed', err));
-            });
-        }
-    </script>
     <style>
         body {
             background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
@@ -94,11 +78,6 @@
             <a href="index.html" class="back-link">
                 <i class="fas fa-arrow-left"></i> VOLVER AL INICIO
             </a>
-            <button onclick="startTutorial()" class="btn-tutorial" id="startTutorialBtn"
-                style="background:none; border:none; color: #94a3b8; font-family:inherit; font-weight:600; cursor:pointer; transition: 0.3s;"
-                onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='#94a3b8'">
-                <i class="fas fa-question-circle"></i> Tutorial
-            </button>
         </div>
 
         <div class="simulator-card">
@@ -115,7 +94,7 @@
                     <!-- Slot 1 -->
                     <div class="product-slot-card"
                         style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1.5rem; border: 1px solid rgba(255,255,255,0.1);">
-                        <div class="slot-grid-top">
+                        <div style="display:grid; grid-template-columns: 2fr 1fr; gap:1.5rem; margin-bottom: 1rem;">
                             <select class="form-control product-slot"
                                 style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 1rem; border-radius: 10px;">
                                 <option value="" selected disabled>Seleccione Producto 1...</option>
@@ -140,7 +119,7 @@
                             <input type="number" class="form-control quantity-slot" min="1" value="1"
                                 style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 1rem; border-radius: 10px;">
                         </div>
-                        <div class="slot-grid-bottom">
+                        <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:1rem;">
                             <select class="form-control color-slot"
                                 style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 10px;">
                                 <option value="Natural">Natural</option>
@@ -222,9 +201,6 @@
     </div>
 
     <script src="js/app.js?v=OVERHAUL_V2"></script>
-    <!-- Driver.js Library -->
-    <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
-    <script src="js/tutorial.js?v=1.0"></script>
 </body>
 
 </html>

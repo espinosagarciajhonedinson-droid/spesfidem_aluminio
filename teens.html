@@ -33,20 +33,6 @@
     <link rel="stylesheet" href="css/style.css?v=20260205_v2">
     <!-- Teen Exclusive Theme (Overwrites Main) -->
     <link rel="stylesheet" href="css/teens.css?v=20260205_v2">
-
-    <!-- PWA Manifest & Service Worker -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0f172a">
-    <link rel="apple-touch-icon" href="images/logo.png">
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(reg => console.log('Service Worker registered!', reg))
-                    .catch(err => console.log('Service Worker registration failed', err));
-            });
-        }
-    </script>
 </head>
 
 <body>
@@ -80,8 +66,7 @@
                 </svg>
                 <div class="logo-text-premium">
                     <span class="logo-brand-premium">SPESFIDEM</span>
-
-
+                    <span class="logo-subtitle-premium" style="letter-spacing: 4px; color: #a855f7;">NEXTGEN</span>
                 </div>
             </a>
             <nav class="big-menu">
@@ -228,22 +213,21 @@
 
         <div class="catalog-grid" style="margin-bottom:6rem;">
             <div class="product-card" data-aos="fade-up">
-                <div class="product-img"><img src="images/architecture/skyscraper.png" alt="Rascacielos Futurista">
-                </div>
+                <div class="product-img"><img src="images/nextgen/skyscraper.png" alt="Rascacielos Futurista"></div>
                 <div class="product-info">
                     <h3>Vanguardia Vertical</h3>
                     <p>Estructuras que desafían la gravedad con fachadas flotantes de última generación.</p>
                 </div>
             </div>
             <div class="product-card" data-aos="fade-up" data-aos-delay="200">
-                <div class="product-img"><img src="images/architecture/atrium.png" alt="Atrio de Vidrio"></div>
+                <div class="product-img"><img src="images/nextgen/atrium.png" alt="Atrio de Vidrio"></div>
                 <div class="product-info">
                     <h3>Transparencia Estructural</h3>
                     <p>Domos y atrios que integran la luz natural como elemento constructivo.</p>
                 </div>
             </div>
             <div class="product-card" data-aos="fade-up" data-aos-delay="400">
-                <div class="product-img"><img src="images/architecture/residence.png" alt="Residencia de Lujo"></div>
+                <div class="product-img"><img src="images/nextgen/residence.png" alt="Residencia de Lujo"></div>
                 <div class="product-info">
                     <h3>Minimalismo Residencial</h3>
                     <p>La unión perfecta entre el entorno natural y la ingeniería del aluminio.</p>
