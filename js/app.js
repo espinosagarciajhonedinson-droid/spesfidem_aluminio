@@ -1553,7 +1553,7 @@ async function adminLogin(e) {
                 // Save the specific user name from server
                 sessionStorage.setItem('adminName', result.token === 'BASIC_AUTH_SUCCESS' && result.name ? result.name : 'Administrador');
 
-                document.getElementById('loginOverlay').style.display = 'none';
+                // CSS automatically hides overlay when is-admin class is added
                 loadAdminData();
                 showToast(`Bienvenido, ${result.name || 'Administrador'}`, "success");
             } else {
@@ -1741,14 +1741,10 @@ async function initApp() {
         // Only load data if already logged in
         if (sessionStorage.getItem('isAdmin') === 'true') {
             document.documentElement.classList.add('is-admin');
-            const overlay = document.getElementById('loginOverlay');
-            if (overlay) overlay.style.display = 'none';
             loadAdminData();
-        } else {
-            // Ensure overlay is visible if NOT logged in (safety)
-            const overlay = document.getElementById('loginOverlay');
-            if (overlay) overlay.style.display = 'flex';
         }
+        // Note: Overlay visibility is now handled purely by CSS based on is-admin class
+        // No need to manually manipulate overlay.style.display here
     }
 
     // Check for Gallery Page specifics
