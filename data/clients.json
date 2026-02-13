@@ -141,5 +141,44 @@
         "grandTotal": 327250,
         "serial": 2,
         "idCard": "14298116"
+    },
+    {
+        "id": 1770906181756,
+        "date": "12/2/2026",
+        "fullName": "jhon espinosa",
+        "cellphone": "3232045129",
+        "landline": "",
+        "city": "ibague",
+        "address": "mza 2 casa # 5 la castilla",
+        "email": "fucad4316@hotmail.com",
+        "status": "Confirmado",
+        "product": "Ventana Proyectante",
+        "quantity": 1,
+        "items": [
+            {
+                "product": "Ventana Proyectante",
+                "quantity": 1,
+                "color": "Natural",
+                "size": "300m x 400m",
+                "glass": "Bronce",
+                "unitPrice": 465000,
+                "total": 465000
+            },
+            {
+                "product": "Ventana Fija",
+                "quantity": 1,
+                "color": "Natural",
+                "size": "200m x 150m",
+                "glass": "Templado 8mm Incoloro",
+                "unitPrice": 570000,
+                "total": 570000
+            }
+        ],
+        "paymentPlan": "75-25",
+        "subtotal": 1035000,
+        "iva": 196650,
+        "grandTotal": 1231650,
+        "serial": 1,
+        "idCard": "14298116"
     }
 ]

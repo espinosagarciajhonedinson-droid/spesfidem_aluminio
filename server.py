@@ -23,11 +23,12 @@ class PersistentStorageHandler(http.server.SimpleHTTPRequestHandler):
     
     def send_cors_headers(self):
         self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With, Access-Control-Request-Private-Network")
+        self.send_header("Access-Control-Allow-Private-Network", "true")
 
     def do_OPTIONS(self):
-        print(f"Preflight request: {self.path}")
+        print(f"DEBUG: Handling OPTIONS preflight for {self.path}")
         self.send_response(200)
         self.send_cors_headers()
         self.end_headers()
@@ -167,17 +168,6 @@ class PersistentStorageHandler(http.server.SimpleHTTPRequestHandler):
             return
             
         self.send_error(404, "Endpoint no encontrado")
-
-    def do_OPTIONS(self):
-        self.send_response(200)
-        self.send_cors_headers()
-        self.end_headers()
-
-    def send_cors_headers(self):
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Private-Network")
-        self.send_header("Access-Control-Allow-Private-Network", "true")
 
     def send_json(self, data):
         self.send_response(200)
