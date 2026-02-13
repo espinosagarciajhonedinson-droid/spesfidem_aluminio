@@ -21,6 +21,24 @@ class PersistentStorageHandler(http.server.SimpleHTTPRequestHandler):
     para guardar datos en un archivo JSON local.
     """
     
+    def send_cors_headers(self):
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+
+    def do_OPTIONS(self):
+        print(f"Preflight request: {self.path}")
+        self.send_response(200)
+        self.send_cors_headers()
+        self.end_headers()
+
+    def end_headers(self):
+        if not hasattr(self, '_headers_sent_flag'):
+             # Ensure CORS headers are sent if not already (though usually sent manually)
+             # But here we are calling send_cors_headers manually in handlers.
+             pass
+        super().end_headers()
+
     def do_GET(self):
         # Normalizar path eliminando query params para el ruteo
         path_only = self.path.split('?')[0]
@@ -41,6 +59,8 @@ class PersistentStorageHandler(http.server.SimpleHTTPRequestHandler):
 
         # API: Guardar (Crear o Actualizar) Cliente
         if path_only == '/api/clients':
+            # Handle CORS preflight if needed (OPTIONS) handled separately
+            
             content_length = int(self.headers.get('Content-Length', 0))
             if content_length > 0:
                 post_data = self.rfile.read(content_length)
@@ -51,7 +71,11 @@ class PersistentStorageHandler(http.server.SimpleHTTPRequestHandler):
                     self.send_json({"success": True, "message": "Cliente guardado correctamente."})
                 except json.JSONDecodeError:
                     print("Error: Invalid JSON on POST /api/clients")
-                    self.send_error(400, "JSON inválido")
+                    # Send error with CORS
+                    self.send_response(400)
+                    self.send_cors_headers()
+                    self.end_headers()
+                    self.wfile.write(b"JSON invalido")
             return
 
         # API: Login Administrativo
@@ -65,24 +89,29 @@ class PersistentStorageHandler(http.server.SimpleHTTPRequestHandler):
 
                 print(f"INFO: Login attempt - User: '{user}', Pass Length: {len(password) if password else 0}")
 
-                # Credenciales proporcionadas por el usuario (4 Administradores)
-                valid_users = {
-                    '14298116': '14298116Je*',
-                    '1106227253': '7253pipe',
-                    '1005703432': '3432sergio',
-                    '1104942399': '2399caleb'
+                # Credenciales proporcionadas por el usuario (4 Administradores con Nombre)
+                users_db = {
+                    '14298116': {'pass': '14298116Je*', 'name': 'Jhon Espinosa'},
+                    '1106227253': {'pass': '7253pipe', 'name': 'Felipe Molina'},
+                    '1005703432': {'pass': '3432sergio', 'name': 'Sergio Suarez'},
+                    '1104942399': {'pass': '2399caleb', 'name': 'Caleb Perez'}
                 }
 
-                if user in valid_users:
-                    expected_password = valid_users[user]
+                if user in users_db:
+                    user_data = users_db[user]
+                    expected_password = user_data['pass']
                     is_valid = (expected_password == password)
                     print(f"DEBUG: User '{user}' found. Password match: {is_valid}")
                     
                     if is_valid:
-                        print(f"SUCCESS: User {user} logged in.")
-                        self.send_json({"success": True, "token": "BASIC_AUTH_SUCCESS"})
+                        print(f"SUCCESS: User {user} ({user_data['name']}) logged in.")
+                        self.send_json({
+                            "success": True, 
+                            "token": "BASIC_AUTH_SUCCESS",
+                            "name": user_data['name'] 
+                        })
                     else:
-                        print(f"WARN: Password mismatch for user {user}. Expected '{expected_password}', received '{password}'")
+                        print(f"WARN: Password mismatch for user {user}. Received '{password}'")
                         self.send_response(401)
                         self.send_cors_headers()
                         self.end_headers()
@@ -91,13 +120,13 @@ class PersistentStorageHandler(http.server.SimpleHTTPRequestHandler):
                             "message": "Contraseña incorrecta"
                         }).encode('utf-8'))
                 else:
-                    print(f"WARN: User '{user}' not found in valid_users: {list(valid_users.keys())}")
+                    print(f"WARN: User '{user}' not found.")
                     self.send_response(401)
                     self.send_cors_headers()
                     self.end_headers()
                     self.wfile.write(json.dumps({
                         "success": False, 
-                        "message": "ID de usuario no reconocido"
+                        "message": "Documento no registrado"
                     }).encode('utf-8'))
             except Exception as e:
                 print(f"ERROR: Login Exception: {e}")
@@ -147,7 +176,8 @@ class PersistentStorageHandler(http.server.SimpleHTTPRequestHandler):
     def send_cors_headers(self):
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Private-Network")
+        self.send_header("Access-Control-Allow-Private-Network", "true")
 
     def send_json(self, data):
         self.send_response(200)

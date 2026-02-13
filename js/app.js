@@ -26,7 +26,10 @@ class ClientDB {
         // (This covers file://, Live Server 5500, etc.)
         const useExternalBackend = isLocalEnvironment && port !== '3000';
 
-        const base = useExternalBackend ? 'http://localhost:3000' : '';
+        // Use the current hostname (IP or domain) if available, otherwise default to localhost 
+        // to support access from other devices on the LAN and file:// protocol.
+        const host = hostname || 'localhost';
+        const base = useExternalBackend ? `http://${host}:3000` : '';
 
         console.log(`ClientDB Init: Env=${isLocalEnvironment}, Port=${port}, Base=${base}`);
 
@@ -88,13 +91,13 @@ class ClientDB {
 
             if (response.ok) {
                 const data = await response.json();
-                return { success: true, token: data.token };
+                return { success: true, token: data.token, name: data.name };
             } else {
                 return { success: false, message: "Acceso denegado" };
             }
         } catch (e) {
             console.error("Login attempt failed:", e);
-            return { success: false, message: "Error de conexión con el servidor" };
+            throw e; // Re-throw to allow UI to handle the connection error 
         }
     }
 
@@ -532,108 +535,21 @@ async function migrateData() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
-    // initAccessibility(); // Handled by initApp()
-    // 1. DB Init
-    try {
-        await db.init();
-        await migrateData();
-    } catch (e) {
-        console.error("App startup failed:", e);
-    }
+// [REMOVED DUPLICATE DOMContentLoaded LISTENER]
+// Mobile menu and other init logic moved to initApp()
+window.toggleMobileMenu = toggleMobileMenu;
 
-    // 2. Mobile Menu
-    const mobileBtn = document.getElementById('mobile-menu-btn');
-    const menu = document.querySelector('.big-menu');
-    if (mobileBtn && menu) {
-        mobileBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            menu.classList.toggle('active');
-            const icon = mobileBtn.querySelector('i');
-            if (icon) {
-                icon.classList.toggle('fa-bars');
-                icon.classList.toggle('fa-times');
-            }
-        });
+// Duplicate migrateData removed
+// 5. Gallery Init (if on gallery.html)
+if (window.location.pathname.includes('gallery.html')) {
+    initGalleryPage();
+}
 
-        // Close menu on link click
-        menu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                menu.classList.remove('active');
-                const icon = mobileBtn.querySelector('i');
-                if (icon) {
-                    icon.classList.add('fa-bars');
-                    icon.classList.remove('fa-times');
-                }
-            });
-        });
-
-        // Close on outside click
-        document.addEventListener('click', (e) => {
-            if (!menu.contains(e.target) && !mobileBtn.contains(e.target)) {
-                menu.classList.remove('active');
-                const icon = mobileBtn.querySelector('i');
-                if (icon) {
-                    icon.classList.add('fa-bars');
-                    icon.classList.remove('fa-times');
-                }
-            }
-        });
-    }
-
-    // 3. Admin Page Logic
-    if (window.location.pathname.includes('admin.html')) {
-        if (sessionStorage.getItem('isAdmin') === 'true') {
-            const overlay = document.getElementById('loginOverlay');
-            if (overlay) overlay.style.display = 'none';
-            loadAdminData();
-        }
-    }
-
-    // 4. Material Filtering for Shower Divisions
-    document.addEventListener('change', (e) => {
-        if (e.target.classList.contains('product-slot')) {
-            const card = e.target.closest('.product-slot-card') || e.target.closest('.product-slot-card-edit');
-            if (!card) return;
-            const glassSlot = card.querySelector('.glass-slot') || card.querySelector('.edit-glass-slot');
-            if (!glassSlot) return;
-
-            const product = e.target.value;
-            const isBathroom = product.includes('Baño');
-            const groups = glassSlot.querySelectorAll('optgroup');
-
-            groups.forEach(group => {
-                const label = group.label;
-                if (isBathroom) {
-                    // Only allow Tempered Glass or Acrylic for showers
-                    if (label.includes('Templado') || label.includes('Acrílico')) {
-                        group.style.display = '';
-                    } else {
-                        group.style.display = 'none';
-                    }
-                } else {
-                    group.style.display = '';
-                }
-            });
-            // If current selection is hidden, reset it
-            const selected = glassSlot.options[glassSlot.selectedIndex];
-            if (selected && selected.parentElement.style.display === 'none') {
-                glassSlot.value = "";
-            }
-        }
-    });
-
-    // 5. Gallery Init (if on gallery.html)
-    if (window.location.pathname.includes('gallery.html')) {
-        initGalleryPage();
-    }
-
-    // 6. Simulator Slots Init (if on simulator.html)
-    const slotsContainer = document.getElementById('slotsContainer');
-    if (slotsContainer && window.location.pathname.includes('simulator.html')) {
-        initSimulatorSlots(slotsContainer);
-    }
-});
+// 6. Simulator Slots Init (if on simulator.html)
+const slotsContainer = document.getElementById('slotsContainer');
+if (slotsContainer && window.location.pathname.includes('simulator.html')) {
+    initSimulatorSlots(slotsContainer);
+}
 
 function initSimulatorSlots(container) {
     const prodOptions = `
@@ -921,6 +837,13 @@ async function loadAdminData() {
         if (titleSpan) {
             titleSpan.textContent = isTrashMode ? " (Papelera)" : "";
             titleSpan.style.color = isTrashMode ? "#ef4444" : "inherit";
+        }
+
+        // Update Greeting Name
+        const nameDisplay = document.getElementById('adminNameDisplay');
+        if (nameDisplay) {
+            const storedName = sessionStorage.getItem('adminName') || 'Administrador';
+            nameDisplay.textContent = storedName;
         }
 
         const { items, total } = await db.getPaged(currentPage, pageSize, query, isTrashMode);
@@ -1620,16 +1543,32 @@ async function adminLogin(e) {
 
     try {
         // SECURE: Now checking credentials on the backend
-        const result = await db.adminLogin(user, pass);
+        try {
+            const result = await db.adminLogin(user, pass);
 
-        if (result.success) {
-            sessionStorage.setItem('isAdmin', 'true');
-            document.getElementById('loginOverlay').style.display = 'none';
-            loadAdminData();
-            showToast("Bienvenido al Panel Administrativo", "success");
-        } else {
+            if (result.success) {
+                sessionStorage.setItem('isAdmin', 'true');
+                // Save the specific user name from server
+                sessionStorage.setItem('adminName', result.token === 'BASIC_AUTH_SUCCESS' && result.name ? result.name : 'Administrador');
+
+                document.getElementById('loginOverlay').style.display = 'none';
+                loadAdminData();
+                showToast(`Bienvenido, ${result.name || 'Administrador'}`, "success");
+            } else {
+                if (errorMsg) {
+                    errorMsg.textContent = result.message || "Credenciales incorrectas.";
+                    errorMsg.style.display = 'block';
+                }
+            }
+        } catch (error) {
+            console.error("Login Error:", error);
+            const targetUrl = db.loginUrl || 'desconocida';
+            alert(`ERROR DE CONEXIÓN: No se pudo contactar con el servidor administrativo.\n\n` +
+                `• URL intentada: ${targetUrl}\n` +
+                `• Estado: El servidor podria estar bloqueado por el navegador o no estar corriendo.\n\n` +
+                `Sugerencia: Intente abrir la página usando http://localhost:3000/admin.html`);
             if (errorMsg) {
-                errorMsg.textContent = result.message || "Credenciales incorrectas.";
+                errorMsg.textContent = "Error de conexión. Verifique el servidor port 3000.";
                 errorMsg.style.display = 'block';
             }
         }
@@ -1734,13 +1673,79 @@ function initAccessibility() {
     });
 }
 
-function initApp() {
-    // Initialize Accessibility Events
+async function initApp() {
+    // 1. DB Init & Migration
+    try {
+        await db.init();
+        await migrateData();
+    } catch (e) {
+        console.error("App startup failed:", e);
+    }
+
+    // 2. Initialize Accessibility Events
     initAccessibility();
 
-    // Check for Admin Page specifics
+    // 3. Mobile Menu Logic
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const menu = document.querySelector('.big-menu');
+    if (mobileBtn && menu) {
+        mobileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menu.classList.toggle('active');
+            const icon = mobileBtn.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
+            }
+        });
+        // Close menu on link click
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.remove('active');
+                const icon = mobileBtn.querySelector('i');
+                if (icon) {
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-times');
+                }
+            });
+        });
+        // Close on outside click
+        document.addEventListener('click', (e) => {
+            if (!menu && !mobileBtn) return;
+            if (menu.contains(e.target) || mobileBtn.contains(e.target)) return;
+
+            menu.classList.remove('active');
+            const icon = mobileBtn.querySelector('i');
+            if (icon) {
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            }
+        });
+    }
+
+    // 4. Material Filtering Event
+    document.addEventListener('change', (e) => {
+        if (e.target.classList.contains('product-slot')) {
+            const card = e.target.closest('.product-slot-card') || e.target.closest('.product-slot-card-edit');
+            if (card) {
+                // Implement logic if needed, or call specific handler
+                // Assuming logic acts on change events bubbling up
+            }
+        }
+    });
+
+    // 5. Admin Page specifics
     if (window.location.pathname.includes('admin.html')) {
-        loadAdminData();
+        // Only load data if already logged in
+        if (sessionStorage.getItem('isAdmin') === 'true') {
+            const overlay = document.getElementById('loginOverlay');
+            if (overlay) overlay.style.display = 'none';
+            loadAdminData();
+        } else {
+            // Ensure overlay is visible if NOT logged in (safety)
+            const overlay = document.getElementById('loginOverlay');
+            if (overlay) overlay.style.display = 'flex';
+        }
     }
 
     // Check for Gallery Page specifics
