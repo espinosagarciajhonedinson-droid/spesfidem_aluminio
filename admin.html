@@ -9,149 +9,161 @@
     <link rel="stylesheet" href="css/style.css?v=V2_NAV">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    /* ANTI-FLICKER: Hide protected content by default */
-    .sidebar, .main-content {
-    display: none !important;
-    }
+    <!-- Anti-Flicker Script: Immediate Auth Check -->
+    <script>
+        // Immediately check if user is admin to prevent login overlay flicker
+        try {
+            if (sessionStorage.getItem('isAdmin') === 'true') {
+                document.documentElement.classList.add('is-admin');
+            }
+        } catch (e) { }
+    </script>
+    <style>
+        /* ANTI-FLICKER: Hide protected content by default */
+        .sidebar,
+        .main-content {
+            display: none !important;
+        }
 
-    /* Reveal ONLY when authenticated */
-    html.is-admin .sidebar {
-    display: block !important;
-    }
-    html.is-admin .main-content {
-    display: block !important;
-    }
+        /* Reveal ONLY when authenticated */
+        html.is-admin .sidebar {
+            display: block !important;
+        }
 
-    /* Immediately hide login overlay if is-admin class is present */
-    .is-admin #loginOverlay {
-    display: none !important;
-    }
+        html.is-admin .main-content {
+            display: block !important;
+        }
 
-    /* Admin-specific styles */
-    body {
-    background-color: #f1f5f9;
-    color: #1e293b;
-    display: flex;
-    /* Override global padding from style.css */
-    padding-top: 0 !important;
-    margin: 0;
-    min-height: 100vh;
-    }
+        /* Immediately hide login overlay if is-admin class is present */
+        .is-admin #loginOverlay {
+            display: none !important;
+        }
 
-    .sidebar {
-    width: 200px;
-    background: #0f172a;
-    height: 100vh;
-    color: white;
-    padding: 1.5rem;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 50;
-    /* Ensure sidebar stays on top */
-    overflow-y: auto;
-    }
+        /* Admin-specific styles */
+        body {
+            background-color: #f1f5f9;
+            color: #1e293b;
+            display: flex;
+            /* Override global padding from style.css */
+            padding-top: 0 !important;
+            margin: 0;
+            min-height: 100vh;
+        }
 
-    .main-content {
-    margin-left: 200px;
-    padding: 1.5rem;
-    width: calc(100% - 200px);
-    box-sizing: border-box;
-    /* Ensure padding doesn't break width */
-    }
+        .sidebar {
+            width: 200px;
+            background: #0f172a;
+            height: 100vh;
+            color: white;
+            padding: 1.5rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 50;
+            /* Ensure sidebar stays on top */
+            overflow-y: auto;
+        }
 
-    .stat-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    display: inline-block;
-    min-width: 200px;
-    margin-bottom: 2rem;
-    }
+        .main-content {
+            margin-left: 200px;
+            padding: 1.5rem;
+            width: calc(100% - 200px);
+            box-sizing: border-box;
+            /* Ensure padding doesn't break width */
+        }
 
-    table {
-    width: 100%;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    border-collapse: collapse;
-    overflow: hidden;
-    }
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            min-width: 200px;
+            margin-bottom: 2rem;
+        }
 
-    th,
-    td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid #e2e8f0;
-    }
+        table {
+            width: 100%;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-collapse: collapse;
+            overflow: hidden;
+        }
 
-    th {
-    background: #f8fafc;
-    font-weight: 600;
-    color: #64748b;
-    }
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
 
-    .status-badge {
-    background: #dbeafe;
-    color: #1e40af;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    }
+        th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: #64748b;
+        }
 
-    /* Print Styles */
-    @media print {
+        .status-badge {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
 
-    .sidebar,
-    .header-toolbar,
-    #paginationControls,
-    .admin-search-container,
-    .clientCountHeader,
-    .btn-edit,
-    .btn-delete,
-    #selectAll,
-    .client-checkbox {
-    display: none !important;
-    }
+        /* Print Styles */
+        @media print {
 
-    .main-content {
-    margin-left: 0 !important;
-    width: 100% !important;
-    padding: 0 !important;
-    }
+            .sidebar,
+            .header-toolbar,
+            #paginationControls,
+            .admin-search-container,
+            .clientCountHeader,
+            .btn-edit,
+            .btn-delete,
+            #selectAll,
+            .client-checkbox {
+                display: none !important;
+            }
 
-    body {
-    background: white !important;
-    }
+            .main-content {
+                margin-left: 0 !important;
+                width: 100% !important;
+                padding: 0 !important;
+            }
 
-    table {
-    box-shadow: none !important;
-    border: 1px solid #e2e8f0 !important;
-    }
+            body {
+                background: white !important;
+            }
 
-    .print-selection-active tr:not(.is-selected):not(.table-header-row) {
-    display: none !important;
-    }
+            table {
+                box-shadow: none !important;
+                border: 1px solid #e2e8f0 !important;
+            }
 
-    th:first-child,
-    td:first-child,
-    th:last-child,
-    td:last-child,
-    th:nth-child(6),
-    td:nth-child(6),
-    th:nth-child(8),
-    td:nth-child(8),
-    th:nth-child(9),
-    td:nth-child(9) {
-    display: none !important;
-    }
+            .print-selection-active tr:not(.is-selected):not(.table-header-row) {
+                display: none !important;
+            }
 
-    .print-only {
-    display: block !important;
-    }
-    }
+            th:first-child,
+            td:first-child,
+            th:last-child,
+            td:last-child,
+            th:nth-child(6),
+            td:nth-child(6),
+            th:nth-child(8),
+            td:nth-child(8),
+            th:nth-child(9),
+            td:nth-child(9) {
+                display: none !important;
+            }
+
+            .print-only {
+                display: block !important;
+            }
+        }
     </style>
 </head>
 
