@@ -1443,6 +1443,7 @@ function openGallery(cat) {
 function logout() {
     if (confirm("¿Seguro que desea cerrar sesión?")) {
         sessionStorage.removeItem("isAdmin");
+        document.documentElement.classList.remove('is-admin');
         window.location.reload();
     }
 }
@@ -1548,6 +1549,7 @@ async function adminLogin(e) {
 
             if (result.success) {
                 sessionStorage.setItem('isAdmin', 'true');
+                document.documentElement.classList.add('is-admin');
                 // Save the specific user name from server
                 sessionStorage.setItem('adminName', result.token === 'BASIC_AUTH_SUCCESS' && result.name ? result.name : 'Administrador');
 
@@ -1738,6 +1740,7 @@ async function initApp() {
     if (window.location.pathname.includes('admin.html')) {
         // Only load data if already logged in
         if (sessionStorage.getItem('isAdmin') === 'true') {
+            document.documentElement.classList.add('is-admin');
             const overlay = document.getElementById('loginOverlay');
             if (overlay) overlay.style.display = 'none';
             loadAdminData();
