@@ -113,34 +113,33 @@
         "deleted": false
     },
     {
-        "id": 1770918989394,
+        "id": 1770906950133,
         "date": "12/2/2026",
         "fullName": "jhon espinosa",
         "cellphone": "3232045129",
         "landline": "",
         "city": "ibague",
-        "address": "11-00",
-        "email": "fucad4316@hotmail.com",
+        "address": "mza 2 casa #5",
+        "email": "fucad 4316@hotmail.com",
         "status": "Confirmado",
-        "product": "Ventana Fija",
+        "product": "Vidrio Templado",
         "quantity": 1,
         "items": [
             {
-                "product": "Ventana Fija",
+                "product": "Vidrio Templado",
                 "quantity": 1,
                 "color": "Natural",
-                "size": "200m x 300m",
-                "glass": "Bronce",
-                "unitPrice": 335000,
-                "total": 335000
+                "size": "500m x 500m",
+                "glass": "Acrílico Opalizado",
+                "unitPrice": 275000,
+                "total": 275000
             }
         ],
         "paymentPlan": "75-25",
-        "subtotal": 335000,
-        "iva": 63650,
-        "grandTotal": 398650,
-        "serial": 4,
-        "idCard": "14298116",
-        "deleted": true
+        "subtotal": 275000,
+        "iva": 52250,
+        "grandTotal": 327250,
+        "serial": 2,
+        "idCard": "14298116"
     }
 ]
