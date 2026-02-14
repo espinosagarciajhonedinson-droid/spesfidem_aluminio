@@ -1,3 +1,4 @@
+import socket
 import http.server
 import socketserver
 import json
@@ -11,6 +12,17 @@ CLIENTS_FILE = DATA_DIR / "clients.json"
 
 # Asegurar que el directorio y archivo de datos existen
 DATA_DIR.mkdir(exist_ok=True)
+
+def get_local_ip():
+    try:
+        # Create a dummy socket to connect to an external IP (doesn't actually connect)
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        local_ip = s.getsockname()[0]
+        s.close()
+        return local_ip
+    except Exception:
+        return "127.0.0.1"
 if not CLIENTS_FILE.exists():
     with open(CLIENTS_FILE, 'w', encoding='utf-8') as f:
         json.dump([], f)
@@ -256,6 +268,10 @@ print(f"--- SERVIDOR DE PERSISTENCIA SPESFIDEM ---")
 print(f"Estado: ACTIVO")
 print(f"Puerto: {PORT}")
 print(f"Almacenamiento: {CLIENTS_FILE.absolute()}")
+print(f"------------------------------------------")
+local_ip = get_local_ip()
+print(f" ACCESO LOCAL:   http://localhost:{PORT}")
+print(f" ACCESO RED:     http://{local_ip}:{PORT}  <-- Usa este en otros dispositivos")
 print(f"------------------------------------------")
 
 with ThreadedTCPServer(("", PORT), PersistentStorageHandler) as httpd:
