@@ -8,30 +8,37 @@ const STORE_NAME = 'clients';
 class ClientDB {
     constructor() {
         // Hybrid Logic: Determine the correct API base URL
-        // If we are on file:// or a local dev server (e.g., Live Server on port 5500),
-        // we must point to the Python backend on http://localhost:3000.
-        // If we are served FROM the Python server (port 3000), we use relative paths.
-
         const hostname = window.location.hostname;
         const port = window.location.port;
         const protocol = window.location.protocol;
 
-        const isLocalEnvironment =
-            protocol === 'file:' ||
-            hostname === 'localhost' ||
-            hostname === '127.0.0.1' ||
-            hostname.startsWith('192.168.');
+        // 1. If served from the Python server itself (port 3000), use relative paths.
+        // This works for localhost:3000, 10.x.x.x:3000, and public tunnels.
+        if (port === '3000') {
+            this.apiUrl = '/api/clients';
+            this.loginUrl = '/api/login';
+            console.log("ClientDB: direct-server mode");
+            return;
+        }
 
-        // If local but NOT on port 3000, assume backend is separate at localhost:3000
-        // (This covers file://, Live Server 5500, etc.)
-        const useExternalBackend = isLocalEnvironment && port !== '3000';
+        // 2. If served from Live Server (port 5500) or file://, we must start guessing.
+        // Prefer the actual machine IP if known, otherwise fallback to localhost.
+        // IMPORTANT: The user confirmed their IP is 10.6.87.224
+        const KNOWN_SERVER_IP = '10.6.87.224';
 
-        // Use the current hostname (IP or domain) if available, otherwise default to localhost 
-        // to support access from other devices on the LAN and file:// protocol.
-        const host = hostname || 'localhost';
-        const base = useExternalBackend ? `http://${host}:3000` : '';
+        let apiHost = 'localhost';
 
-        console.log(`ClientDB Init: Env=${isLocalEnvironment}, Port=${port}, Base=${base}`);
+        // If we are on the LAN (e.g. accessing via 10.6.87.224:5500), use that same IP for the API
+        if (hostname.startsWith('192.168.') || hostname.startsWith('10.')) {
+            apiHost = hostname;
+        } else if (protocol === 'file:') {
+            // If opening from file, try to use the known networked IP so phone/laptop works too
+            // providing the python server is reachable.
+            apiHost = KNOWN_SERVER_IP;
+        }
+
+        const base = `http://${apiHost}:3000`;
+        console.log(`ClientDB: External mode. Base=${base}`);
 
         this.apiUrl = `${base}/api/clients`;
         this.loginUrl = `${base}/api/login`;
