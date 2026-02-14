@@ -7,41 +7,42 @@ const STORE_NAME = 'clients';
 // --- Database Layer (Python Server API) ---
 class ClientDB {
     constructor() {
-        // Hybrid Logic: Determine the correct API base URL
+        // --- UNIVERSAL CONNECTION LOGIC ---
+        // This logic ensures the app can find the Python backend (port 3000)
+        // regardless of whether it's served via localhost, LAN IP, or a Public Tunnel.
+
         const hostname = window.location.hostname;
         const port = window.location.port;
         const protocol = window.location.protocol;
 
-        // 1. If served from the Python server itself (port 3000), use relative paths.
-        // This works for localhost:3000, 10.x.x.x:3000, and public tunnels.
-        if (port === '3000') {
-            this.apiUrl = '/api/clients';
-            this.loginUrl = '/api/login';
-            console.log("ClientDB: direct-server mode");
+        // 1. Check for manual override (for advanced troubleshooting)
+        const manualOverride = localStorage.getItem('spesfidem_api_base');
+        if (manualOverride) {
+            console.warn(`ClientDB: Using manual override: ${manualOverride}`);
+            this.apiUrl = `${manualOverride}/api/clients`;
+            this.loginUrl = `${manualOverride}/api/login`;
             return;
         }
 
-        // 2. If served from Live Server (port 5500) or file://, we must start guessing.
-        // Prefer the actual machine IP if known, otherwise fallback to localhost.
-        // IMPORTANT: The user confirmed their IP is 10.6.87.224
-        const KNOWN_SERVER_IP = '10.6.87.224';
+        // 2. Identify the base URL dynamically
+        let base = '';
 
-        let apiHost = 'localhost';
-
-        // If we are on the LAN (e.g. accessing via 10.6.87.224:5500), use that same IP for the API
-        if (hostname.startsWith('192.168.') || hostname.startsWith('10.')) {
-            apiHost = hostname;
-        } else if (protocol === 'file:') {
-            // If opening from file, try to use the known networked IP so phone/laptop works too
-            // providing the python server is reachable.
-            apiHost = KNOWN_SERVER_IP;
+        if (port === '3000') {
+            // Case A: App is served directly by the Python server.
+            // Use relative paths to ensure it works across all IPs/Tunnels.
+            base = '';
+            console.log("ClientDB: Direct-server mode (Relative Paths)");
+        } else {
+            // Case B: App is served by another server (e.g. Live Server on 5500)
+            // or opened as a local file.
+            // We assume the backend is on the SAME host but port 3000.
+            const apiHost = hostname || 'localhost';
+            base = `http://${apiHost}:3000`;
+            console.log(`ClientDB: External-server mode (Base: ${base})`);
         }
 
-        const base = `http://${apiHost}:3000`;
-        console.log(`ClientDB: External mode. Base=${base}`);
-
-        this.apiUrl = `${base}/api/clients`;
-        this.loginUrl = `${base}/api/login`;
+        this.apiUrl = base ? `${base}/api/clients` : '/api/clients';
+        this.loginUrl = base ? `${base}/api/login` : '/api/login';
     }
 
     // Initialization is simple health check or no-op
