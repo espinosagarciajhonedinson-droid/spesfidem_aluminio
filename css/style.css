@@ -2062,6 +2062,32 @@ header {
         box-shadow: 0 0 30px rgba(245, 158, 11, 0.6) !important;
     }
 
+    /* === OVERRIDE: Force yellow style on register button in contact block === */
+    .contact-buttons-container .btn-metallic-gold {
+        background: linear-gradient(135deg,
+                #b45309 0%,
+                #f59e0b 25%,
+                #fde68a 48%,
+                #ffffff 50%,
+                #fde68a 52%,
+                #f59e0b 75%,
+                #b45309 100%) !important;
+        color: #1c0700 !important;
+        border: 2px solid #f59e0b !important;
+        box-shadow: 0 0 20px rgba(245, 158, 11, 0.5), 0 8px 15px rgba(0, 0, 0, 0.3) !important;
+        border-radius: 50px !important;
+        font-weight: 900 !important;
+        text-shadow: none !important;
+        padding: 0.8rem 2rem !important;
+    }
+
+    .contact-buttons-container .btn-metallic-gold:hover {
+        transform: translateY(-3px) !important;
+        box-shadow: 0 0 35px rgba(245, 158, 11, 0.7), 0 15px 25px rgba(0, 0, 0, 0.4) !important;
+        filter: brightness(1.08) !important;
+        color: #1c0700 !important;
+    }
+
     /* Location Section */
     .location-section {
         padding: var(--section-pad);
@@ -2725,27 +2751,30 @@ body.high-contrast .lang-menu-header {
 
 .btn-metallic-gold {
     background: linear-gradient(135deg,
-            #78350f 0%,
-            #d97706 45%,
-            #fef3c7 50%,
-            #d97706 55%,
-            #78350f 100%) !important;
-    color: white !important;
-    font-weight: 800 !important;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    padding: 1.2rem 2.5rem !important;
-    border-radius: 12px !important;
-    border: 1px solid #92400e !important;
-    box-shadow: 0 0 25px rgba(217, 119, 6, 0.5), 0 10px 15px -3px rgba(0, 0, 0, 0.4) !important;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
-    position: relative;
-    overflow: hidden;
+            #b45309 0%,
+            #f59e0b 25%,
+            #fde68a 48%,
+            #ffffff 50%,
+            #fde68a 52%,
+            #f59e0b 75%,
+            #b45309 100%) !important;
+    color: #1c0700 !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    padding: 1rem 2.5rem !important;
+    border-radius: 50px !important;
+    border: 2px solid #f59e0b !important;
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.5), 0 8px 15px rgba(0, 0, 0, 0.3) !important;
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    text-shadow: none !important;
+    position: relative !important;
+    overflow: hidden !important;
+    text-decoration: none !important;
 }
 
 .btn-metallic-gold::after {
@@ -2767,14 +2796,24 @@ body.high-contrast .lang-menu-header {
 }
 
 .btn-metallic-gold:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 0 40px rgba(217, 119, 6, 0.7), 0 20px 25px -5px rgba(0, 0, 0, 0.5) !important;
-    filter: brightness(1.1);
+    transform: translateY(-4px) scale(1.02) !important;
+    box-shadow: 0 0 35px rgba(245, 158, 11, 0.7), 0 15px 25px rgba(0, 0, 0, 0.4) !important;
+    filter: brightness(1.08) !important;
+    color: #1c0700 !important;
+    background: linear-gradient(135deg,
+            #b45309 0%,
+            #f59e0b 25%,
+            #fde68a 48%,
+            #ffffff 50%,
+            #fde68a 52%,
+            #f59e0b 75%,
+            #b45309 100%) !important;
 }
 
 .btn-metallic-gold:active {
-    transform: translateY(0) scale(0.98);
+    transform: translateY(0) scale(0.98) !important;
 }
+
 
 /* --- ADMIN RESPONSIVENESS --- */
 @media (max-width: 1200px) {
