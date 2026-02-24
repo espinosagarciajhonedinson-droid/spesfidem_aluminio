@@ -180,5 +180,64 @@
         "grandTotal": 1231650,
         "serial": 1,
         "idCard": "14298116"
+    },
+    {
+        "id": 1771895399783,
+        "date": "23/2/2026",
+        "fullName": "Invitado",
+        "cellphone": "",
+        "landline": "",
+        "city": "",
+        "address": "",
+        "email": "",
+        "status": "Pendiente (Simulación)",
+        "product": "Ventana Corrediza",
+        "quantity": 1,
+        "items": [
+            {
+                "product": "Ventana Corrediza",
+                "quantity": 1,
+                "color": "Natural",
+                "size": "N/A",
+                "glass": "Claro (5mm)",
+                "unitPrice": 465000,
+                "total": 465000
+            }
+        ],
+        "paymentPlan": "75-25",
+        "subtotal": 465000,
+        "iva": 88350,
+        "grandTotal": 553350,
+        "deleted": false
+    },
+    {
+        "id": 1771896041988,
+        "date": "23/2/2026",
+        "fullName": "jhon",
+        "cellphone": "3232045129",
+        "landline": "",
+        "city": "ibague",
+        "address": "1020",
+        "email": "fucad4316 @hotmail.com",
+        "status": "Cotización Confirmada",
+        "product": "Ventana Proyectante",
+        "quantity": 1,
+        "items": [
+            {
+                "product": "Ventana Proyectante",
+                "quantity": 1,
+                "color": "Natural",
+                "size": "N/A",
+                "glass": "Gris (Humo)",
+                "unitPrice": 465000,
+                "total": 465000
+            }
+        ],
+        "paymentPlan": "75-25",
+        "subtotal": 465000,
+        "iva": 88350,
+        "grandTotal": 553350,
+        "serial": 4,
+        "idCard": "14298116"
     }
 ]

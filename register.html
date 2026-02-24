@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Élite | Spesfidem Aluminio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .register-container {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 2.5rem;
+            padding: 4rem;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .reg-brand {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .reg-brand h1 {
+            font-size: 3rem;
+            font-family: 'Outfit', sans-serif;
+            color: white;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+
+        .reg-brand span {
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #94a3b8;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-group input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.2rem;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .input-group input:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+            outline: none;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            color: #94a3b8;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        @media (max-width: 640px) {
+            .register-container {
+                padding: 2rem;
+            }
+
+            .reg-brand h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="index.html" class="back-link">
+        <i class="fas fa-arrow-left"></i> Volver al Inicio
+    </a>
+
+    <div class="register-container">
+        <div class="reg-brand">
+            <h1>Registro de <span
+                    style="display:block; letter-spacing:8px; font-size:1.2rem; margin-top:0.5rem;">Cliente Élite</span>
+            </h1>
+            <p style="color: #64748b; font-size: 1.1rem; margin-top: 1rem;">Acceda a servicios exclusivos y seguimiento
+                de obra.</p>
+        </div>
+
+        <div id="standaloneRegisterForm" class="form-grid">
+            <div class="input-group">
+                <label>Nombre Completo / Empresa</label>
+                <input type="text" id="regFull" placeholder="Ej: Jhon Edinson Espinosa">
+            </div>
+            <div class="input-group">
+                <label>Documento / NIT</label>
+                <div style="display: flex; gap: 0.8rem;">
+                    <input type="text" id="regId" placeholder="C.C. / NIT">
+                    <button type="button"
+                        onclick="window.searchExistingClient('regId', {fullName:'regFull', cellphone:'regCell', email:'regMail', city:'regCit', address:'regAddr'})"
+                        style="padding: 0 1.5rem; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--accent); color: var(--accent); border-radius: 12px; cursor: pointer; transition: 0.3s;"
+                        onmouseover="this.style.background='rgba(56, 189, 248, 0.2)'"
+                        onmouseout="this.style.background='rgba(56, 189, 248, 0.1)'">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Celular de Contacto</label>
+                <input type="text" id="regCell" placeholder="323...">
+            </div>
+            <div class="input-group">
+                <label>Correo Electrónico</label>
+                <input type="email" id="regMail" placeholder="correo@ejemplo.com">
+            </div>
+            <div class="input-group">
+                <label>Ciudad / Municipio</label>
+                <input type="text" id="regCit" placeholder="Ibagué">
+            </div>
+            <div class="input-group">
+                <label>Dirección de Obra</label>
+                <input type="text" id="regAddr" placeholder="Carrera... #...">
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 4rem;">
+            <button
+                onclick="window.confirmOrder({fullName:'regFull', doc:'regId', cellphone:'regCell', email:'regMail', city:'regCit', address:'regAddr', formContainerId:'standaloneRegisterForm'}, {shouldRedirect: false})"
+                class="btn-metallic-gold">
+                <i class="fas fa-crown"></i> FINALIZAR REGISTRO ÉLITE
+            </button>
+        </div>
+    </div>
+
+    <!-- Background Decoration -->
+    <div
+        style="position: fixed; top: -10%; right: -5%; width: 40%; height: 60%; background: radial-gradient(circle, rgba(56, 189, 248, 0.05) 0%, transparent 70%); z-index: -1;">
+    </div>
+    <div
+        style="position: fixed; bottom: -10%; left: -5%; width: 40%; height: 60%; background: radial-gradient(circle, rgba(14, 165, 233, 0.05) 0%, transparent 70%); z-index: -1;">
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        // Check for existing partial data
+        document.addEventListener('DOMContentLoaded', () => {
+            const data = JSON.parse(sessionStorage.getItem('currentQuotation'));
+            if (data) {
+                document.getElementById('regFull').value = data.fullName || '';
+                document.getElementById('regId').value = data.idCard || '';
+                document.getElementById('regCell').value = data.cellphone || '';
+                document.getElementById('regMail').value = data.email || '';
+                document.getElementById('regCit').value = data.city || '';
+                document.getElementById('regAddr').value = data.address || '';
+            }
+        });
+    </script>
+</body>
+
+</html>

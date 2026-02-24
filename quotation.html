@@ -143,82 +143,13 @@
             <p>* La vigencia de esta simulación de precios es de 15 días calendario.</p>
         </div>
 
-        <div id="registrationForm"
-            style="margin-top: 3rem; background: #f8fafc; padding: 2.5rem; border-radius: 12px; border: 1px solid #e2e8f0;">
-            <h3
-                style="color: var(--primary); font-family: 'Outfit'; margin-top: 0; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem;">
-                <i class="fas fa-user-edit" style="color: var(--accent);"></i> Formulario de Registro
-            </h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                <div style="grid-column: span 1;">
-                    <label
-                        style="display: block; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; text-transform: uppercase;">Nombre
-                        Completo / Empresa</label>
-                    <input type="text" id="regFullName"
-                        style="width: 100%; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;"
-                        placeholder="Ej: Jhon Doe">
-                </div>
-                <div style="grid-column: span 1;">
-                    <label
-                        style="display: block; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; text-transform: uppercase;">Documento
-                        de Identidad</label>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <input type="text" id="regDoc"
-                            style="flex: 1; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;"
-                            placeholder="C.C. / NIT">
-                        <button type="button" onclick="searchExistingClient()"
-                            style="padding: 0.8rem 1.2rem; background: #e2e8f0; border: none; border-radius: 6px; color: #0f172a; cursor: pointer; font-weight: 700; transition: 0.3s;"
-                            onmouseover="this.style.background='#cbd5e1'" onmouseout="this.style.background='#e2e8f0'"
-                            title="¿Ya eres cliente? Carga tus datos automáticamente">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                    <small style="color: #64748b; font-size: 0.75rem; margin-top: 0.3rem; display: block;">¿Ya
-                        registrado? Ingresa tu documento y da clic en la lupa.</small>
-                </div>
-                <div>
-                    <label
-                        style="display: block; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; text-transform: uppercase;">Celular
-                        de Contacto</label>
-                    <input type="text" id="regCellphone"
-                        style="width: 100%; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;"
-                        placeholder="323...">
-                </div>
-                <div>
-                    <label
-                        style="display: block; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; text-transform: uppercase;">Correo
-                        Electrónico</label>
-                    <input type="email" id="regEmail"
-                        style="width: 100%; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;"
-                        placeholder="correo@ejemplo.com">
-                </div>
-                <div>
-                    <label
-                        style="display: block; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; text-transform: uppercase;">Ciudad
-                        / Municipio</label>
-                    <input type="text" id="regCity"
-                        style="width: 100%; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;"
-                        placeholder="Ej: Ibagué">
-                </div>
-                <div>
-                    <label
-                        style="display: block; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; text-transform: uppercase;">Dirección
-                        de Obra / Entrega</label>
-                    <input type="text" id="regAddress"
-                        style="width: 100%; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;"
-                        placeholder="Carrera... #...">
-                </div>
-            </div>
-        </div>
-
         <div class="no-print" style="margin-top: 3rem; display: flex; gap: 1rem; justify-content: center;">
             <button onclick="window.print()" class="btn-primary"
                 style="background:#64748b; padding: 0.8rem 1.5rem; border-radius: 6px; border:none; color:white; font-weight:600; cursor:pointer;">
                 <i class="fas fa-print"></i> Imprimir Cotización
             </button>
-            <button onclick="confirmOrder()" class="btn-primary"
-                style="background:#059669; padding: 1rem 2rem; border-radius: 6px; border:none; color:white; font-weight:700; cursor:pointer; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);">
-                <i class="fas fa-check-circle"></i> REGISTRARSE
+            <button onclick="window.location.href='register.html'" class="btn-metallic-gold">
+                <i class="fas fa-user-plus"></i> REGISTRARSE
             </button>
             <button onclick="window.location.href='simulator.html'"
                 style="background:transparent; border:1px solid #cbd5e1; padding: 0.8rem 1.5rem; border-radius: 6px; color:#64748b; font-weight:600; cursor:pointer;">
@@ -311,112 +242,6 @@
                 }
             }
         });
-
-        async function searchExistingClient() {
-            const doc = document.getElementById('regDoc').value.trim();
-            if (!doc) {
-                alert("Por favor ingrese su Documento o NIT para buscar.");
-                return;
-            }
-
-            try {
-                if (typeof db === 'undefined') {
-                    await db.init();
-                }
-                const client = await db.getByIdCard(doc);
-                if (client) {
-                    document.getElementById('regFullName').value = client.fullName || '';
-                    document.getElementById('regCellphone').value = client.cellphone || '';
-                    document.getElementById('regEmail').value = client.email || '';
-                    document.getElementById('regCity').value = client.city || '';
-                    document.getElementById('regAddress').value = client.address || '';
-
-                    // Visual feedback
-                    const fields = ['regFullName', 'regCellphone', 'regEmail', 'regCity', 'regAddress'];
-                    fields.forEach(f => {
-                        const el = document.getElementById(f);
-                        el.style.border = '2px solid #10b981';
-                        el.style.background = '#f0fdf4';
-                    });
-
-                    alert(`¡Hola ${client.fullName}! Hemos cargado tus datos registrados. Puedes modificarlos si es necesario.`);
-                } else {
-                    alert("No encontramos un registro previo con este documento. Por favor, completa tus datos para el primer registro.");
-                }
-            } catch (e) {
-                console.error("Search failed:", e);
-                alert("Error al buscar el cliente.");
-            }
-        }
-
-        async function confirmOrder() {
-            const data = JSON.parse(sessionStorage.getItem('currentQuotation'));
-            if (!data) return;
-
-            // Get Form Data
-            const regFullName = document.getElementById('regFullName').value.trim();
-            const regDoc = document.getElementById('regDoc').value.trim();
-            const regCellphone = document.getElementById('regCellphone').value.trim();
-            const regEmail = document.getElementById('regEmail').value.trim();
-            const regCity = document.getElementById('regCity').value.trim();
-            const regAddress = document.getElementById('regAddress').value.trim();
-
-            // Validate
-            if (!regFullName || !regDoc || !regCellphone || !regCity || !regAddress) {
-                alert('Por favor complete todos los campos obligatorios: Nombre, Documento, Celular, Ciudad y Dirección.');
-                document.getElementById('registrationForm').scrollIntoView({ behavior: 'smooth' });
-                return;
-            }
-
-            // Update Quotation Data
-            data.fullName = regFullName;
-            data.idCard = regDoc;
-            data.cellphone = regCellphone;
-            data.email = regEmail;
-            data.city = regCity;
-            data.address = regAddress;
-
-            // Assign a fresh ID if missing, or regenerate to ensure uniqueness upon registration if needed (though keeping linkage is better)
-            // We use the timestamp ID as the primary key.
-            if (!data.id) data.id = Date.now();
-            // Ensure status is finalized
-            data.status = 'Confirmado';
-
-            try {
-                // 1. Try Standard DB Save
-                if (typeof db !== 'undefined') {
-                    console.log("Saving via DB Class...", data);
-                    await db.save(data);
-                } else {
-                    console.warn("DB Class missing! Attempting Manual LocalStorage Save...");
-                    throw new Error("DB Object unavailable");
-                }
-            } catch (e) {
-                console.error("Primary Save Failed:", e);
-                // 2. Emergency Manual Save (Direct to LocalStorage)
-                try {
-                    const DB_KEY = 'spesfidem_clients';
-                    const stored = localStorage.getItem(DB_KEY);
-                    const clients = stored ? JSON.parse(stored) : [];
-
-                    // Upsert
-                    const idx = clients.findIndex(c => String(c.id) === String(data.id));
-                    if (idx >= 0) clients[idx] = data;
-                    else clients.push(data);
-
-                    localStorage.setItem(DB_KEY, JSON.stringify(clients));
-                    console.log("Manual Save to LocalStorage SUCCESS.");
-                } catch (localErr) {
-                    console.error("CRITICAL: Manual Save Failed!", localErr);
-                    alert("Error crítico: No se pudieron guardar los datos. Tome una captura de pantalla.");
-                    return; // Stop redirection
-                }
-            }
-
-            alert('¡Registro exitoso! Datos guardados correctamente.');
-            sessionStorage.removeItem('currentQuotation');
-            window.location.href = 'checkout.html';
-        }
     </script>
 </body>
 

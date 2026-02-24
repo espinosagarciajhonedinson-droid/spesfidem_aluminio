@@ -15,34 +15,28 @@ class ClientDB {
         const port = window.location.port;
         const protocol = window.location.protocol;
 
-        // 1. Check for manual override (for advanced troubleshooting)
+        // 1. Check for manual override
         const manualOverride = localStorage.getItem('spesfidem_api_base');
         if (manualOverride) {
-            console.warn(`ClientDB: Using manual override: ${manualOverride}`);
             this.apiUrl = `${manualOverride}/api/clients`;
             this.loginUrl = `${manualOverride}/api/login`;
             return;
         }
 
         // 2. Identify the base URL dynamically
+        // We prefer relative paths if we are on the same origin or if the port matches 3000
         let base = '';
-
-        if (port === '3000') {
-            // Case A: App is served directly by the Python server.
-            // Use relative paths to ensure it works across all IPs/Tunnels.
-            base = '';
-            console.log("ClientDB: Direct-server mode (Relative Paths)");
+        if (port === '3000' || hostname === 'localhost' || hostname === '127.0.0.1') {
+            base = (port === '3000') ? '' : `http://${hostname || 'localhost'}:3000`;
         } else {
-            // Case B: App is served by another server (e.g. Live Server on 5500)
-            // or opened as a local file.
-            // We assume the backend is on the SAME host but port 3000.
-            const apiHost = hostname || 'localhost';
-            base = `http://${apiHost}:3000`;
-            console.log(`ClientDB: External-server mode (Base: ${base})`);
+            // Probably a tunnel (ngrok, cloudflare) OR served via a different proxy
+            // Use relative path by default as it's most robust for tunnels
+            base = '';
         }
 
         this.apiUrl = base ? `${base}/api/clients` : '/api/clients';
         this.loginUrl = base ? `${base}/api/login` : '/api/login';
+        console.log(`ClientDB: Base detected as ${base || 'RELATIVE'} (API: ${this.apiUrl})`);
     }
 
     // Initialization is simple health check or no-op
@@ -1441,7 +1435,137 @@ function initGalleryPage() {
     }
 }
 
-// --- Navigation ---
+// --- Admin Auth & Utilities ---
+window.toggleSidebar = function () {
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar) sidebar.classList.toggle('active');
+};
+
+// --- Global Registration & Quotation Logic ---
+
+/**
+ * Searches for an existing client by Document/ID Card.
+ * Used in registration forms across the site.
+ */
+window.searchExistingClient = async function (inputId, fieldsMap) {
+    const doc = document.getElementById(inputId)?.value.trim();
+    if (!doc) {
+        showToast("Por favor ingrese su Documento o NIT para buscar.", "error");
+        return;
+    }
+
+    try {
+        if (typeof db === 'undefined') {
+            await window.db.init();
+        }
+        const client = await window.db.getByIdCard(doc);
+        if (client) {
+            // Map return data to form fields
+            for (const [dataKey, fieldId] of Object.entries(fieldsMap)) {
+                const el = document.getElementById(fieldId);
+                if (el) {
+                    el.value = client[dataKey] || '';
+                    el.style.border = '2px solid #10b981';
+                    el.style.background = '#f0fdf4';
+                }
+            }
+            showToast(`¡Hola ${client.fullName}! Hemos cargado tus datos registrados.`, "success");
+        } else {
+            showToast("No encontramos un registro previo. Por favor, completa tus datos.", "info");
+        }
+    } catch (e) {
+        console.error("Search failed:", e);
+        showToast("Error al buscar el cliente.", "error");
+    }
+};
+
+/**
+ * Confirms an order or registration.
+ * Handles both standalone registration and quotation-linked registration.
+ */
+window.confirmOrder = async function (formIds, options = {}) {
+    const { fullName, doc, cellphone, email, city, address, formContainerId } = formIds;
+    const { shouldRedirect = true } = options;
+
+    const data = JSON.parse(sessionStorage.getItem('currentQuotation')) || {
+        id: Date.now(),
+        date: new Date().toLocaleDateString('es-CO'),
+        status: 'Nuevo Registro',
+        items: [],
+        grandTotal: 0
+    };
+
+    // Get Form Data
+    const valFullName = document.getElementById(fullName)?.value.trim();
+    const valDoc = document.getElementById(doc)?.value.trim();
+    const valCellphone = document.getElementById(cellphone)?.value.trim();
+    const valEmail = document.getElementById(email)?.value.trim();
+    const valCity = document.getElementById(city)?.value.trim();
+    const valAddress = document.getElementById(address)?.value.trim();
+
+    // Validate
+    if (!valFullName || !valDoc || !valCellphone || !valCity || !valAddress) {
+        showToast('Por favor complete todos los campos obligatorios.', 'error');
+        const container = document.getElementById(formContainerId);
+        if (container) container.scrollIntoView({ behavior: 'smooth' });
+        return;
+    }
+
+    // Update Data
+    data.fullName = valFullName;
+    data.idCard = valDoc;
+    data.cellphone = valCellphone;
+    data.email = valEmail;
+    data.city = valCity;
+    data.address = valAddress;
+    data.status = data.items.length > 0 ? 'Cotización Confirmada' : 'Cliente Registrado';
+
+    try {
+        if (typeof db !== 'undefined') {
+            await window.db.save(data);
+        } else {
+            throw new Error("DB Object unavailable");
+        }
+
+        showToast('¡Registro exitoso! Datos guardados correctamente.', 'success');
+        sessionStorage.removeItem('currentQuotation');
+
+        // Redirect to checkout or success page
+        setTimeout(() => {
+            if (shouldRedirect) {
+                window.location.href = 'checkout.html';
+            } else {
+                window.location.href = 'index.html';
+            }
+        }, 1500);
+
+    } catch (e) {
+        console.error("Save Failed:", e);
+        // Emergency Manual Save (Direct to LocalStorage)
+        try {
+            const DB_KEY = 'spesfidem_clients';
+            const stored = localStorage.getItem(DB_KEY);
+            const clients = stored ? JSON.parse(stored) : [];
+            const idx = clients.findIndex(c => String(c.id) === String(data.id));
+            if (idx >= 0) clients[idx] = data;
+            else clients.push(data);
+            localStorage.setItem(DB_KEY, JSON.stringify(clients));
+
+            showToast('¡Registro exitoso! (Guardado local)', 'success');
+            sessionStorage.removeItem('currentQuotation');
+            setTimeout(() => {
+                if (shouldRedirect) {
+                    window.location.href = 'checkout.html';
+                } else {
+                    window.location.href = 'index.html';
+                }
+            }, 1500);
+        } catch (localErr) {
+            showToast("Error crítico al guardar. Tome captura de pantalla.", "error");
+        }
+    }
+};
+
 function openGallery(cat) {
     window.location.href = `gallery.html?category=${cat}`;
 }
@@ -1557,13 +1681,20 @@ async function adminLogin(e) {
 
             if (result.success) {
                 sessionStorage.setItem('isAdmin', 'true');
-                document.documentElement.classList.add('is-admin');
-                // Save the specific user name from server
-                sessionStorage.setItem('adminName', result.token === 'BASIC_AUTH_SUCCESS' && result.name ? result.name : 'Administrador');
-
                 // CSS automatically hides overlay when is-admin class is added
                 loadAdminData();
                 showToast(`Bienvenido, ${result.name || 'Administrador'}`, "success");
+
+                // FORCE REFRESH UI: If CSS fails, we hide overlay manually
+                const overlay = document.getElementById('loginOverlay');
+                if (overlay) overlay.style.setProperty('display', 'none', 'important');
+
+                const sidebar = document.querySelector('.sidebar');
+                const main = document.querySelector('.main-content');
+                if (sidebar) sidebar.style.setProperty('display', 'block', 'important');
+                if (main) main.style.setProperty('display', 'block', 'important');
+
+                document.documentElement.classList.add('is-admin');
             } else {
                 if (errorMsg) {
                     errorMsg.textContent = result.message || "Credenciales incorrectas.";
