@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sugerencias y Reclamos | Spesfidem Aluminio</title>
+    <link rel="stylesheet" href="css/style.css?v=151">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@300;600;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            background: #0f172a;
+            /* Slate 900 */
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .quote-container {
+            width: 100%;
+            max-width: 1100px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quote-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Reusing PQR Elite Styles locally for specificity if needed, but style.css should cover it */
+        .section-title-pqr-dark {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #64748b;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #ca8a04;
+        }
+
+        /* Form Adaptations */
+        .glass-panel {
+            box-shadow: none !important;
+            border: none !important;
+            padding: 0 !important;
+            background: transparent !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="quote-container" data-aos="zoom-in">
+        <div class="quote-header">
+            <div>
+                <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Volver al Inicio</a>
+            </div>
+            <h1 class="section-title-pqr-dark">Sugerencias y Reclamos</h1>
+            <div style="width: 100px;">
+                <!-- Spacer for centering if needed, or logo -->
+                <i class="fas fa-comment-dots fa-3x" style="color: #cbd5e1;"></i>
+            </div>
+        </div>
+
+        <p
+            style="text-align: center; color: #64748b; margin-bottom: 3rem; font-size: 1.1rem; max-width: 800px; margin: 0 auto 4rem auto;">
+            Su opinión es vital para nuestra mejora continua. Utilice este canal para enviar felicitaciones, sugerencias
+            o reclamos directamente a nuestra gerencia.
+        </p>
+
+        <!-- PQR FORM (Recopied from previous step) -->
+        <div class="glass-panel">
+            <form id="pqrForm" onsubmit="handlePQRSubmit(event)">
+
+                <!-- Horizontal Grid Layout (Info Left, Message Right) -->
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 4rem; align-items: start;">
+
+                    <!-- LEFT COLUMN: Identification -->
+                    <div class="pqr-col-left">
+                        <h3
+                            style="color: #ca8a04; font-size: 1.2rem; margin-bottom: 2rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">
+                            1. Sus Datos</h3>
+
+                        <!-- User Type -->
+                        <div class="form-group" style="margin-bottom: 2rem;">
+                            <div style="display: flex; gap: 2rem;">
+                                <label class="radio-elite" style="color: #475569;">
+                                    <input type="radio" name="userType" value="Persona Natural" checked>
+                                    <span class="radio-mark"></span> Persona Natural
+                                </label>
+                                <label class="radio-elite" style="color: #475569;">
+                                    <input type="radio" name="userType" value="Empresa">
+                                    <span class="radio-mark"></span> Empresa
+                                </label>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; gap: 1.5rem;">
+                            <div class="form-group">
+                                <label
+                                    style="color: #475569; font-weight: 700; margin-bottom:0.5rem; display:block;">Nombre
+                                    Completo / Razón Social</label>
+                                <input type="text" class="form-control" name="pqrName" required
+                                    placeholder="Ej: Juan Pérez"
+                                    style="background: #f8fafc; color: #1e293b; border: 1px solid #e2e8f0;">
+                            </div>
+                            <div class="form-group">
+                                <label
+                                    style="color: #475569; font-weight: 700; margin-bottom:0.5rem; display:block;">Ciudad</label>
+                                <input type="text" class="form-control" name="pqrCity" required placeholder="Ej: Ibagué"
+                                    style="background: #f8fafc; color: #1e293b; border: 1px solid #e2e8f0;">
+                            </div>
+                            <div class="form-group">
+                                <label
+                                    style="color: #475569; font-weight: 700; margin-bottom:0.5rem; display:block;">Celular</label>
+                                <input type="tel" class="form-control" name="pqrPhone" required
+                                    placeholder="Ej: 300 123 4567"
+                                    style="background: #f8fafc; color: #1e293b; border: 1px solid #e2e8f0;">
+                            </div>
+                            <div class="form-group">
+                                <label
+                                    style="color: #475569; font-weight: 700; margin-bottom:0.5rem; display:block;">Correo
+                                    Electrónico</label>
+                                <input type="email" class="form-control" name="pqrEmail" required
+                                    placeholder="ejemplo@email.com"
+                                    style="background: #f8fafc; color: #1e293b; border: 1px solid #e2e8f0;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT COLUMN: Message & Evidence -->
+                    <div class="pqr-col-right">
+                        <h3
+                            style="color: #ca8a04; font-size: 1.2rem; margin-bottom: 2rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">
+                            2. Su Mensaje</h3>
+
+                        <!-- Message -->
+                        <div class="form-group">
+                            <label
+                                style="color: #475569; font-weight: 700; margin-bottom:0.5rem; display:block;">Detalle
+                                de su Solicitud</label>
+                            <textarea class="form-control" name="pqrMessage" rows="10" maxlength="500"
+                                oninput="updateCharCount(this)" required
+                                placeholder="Describa su sugerencia o reclamo claramente..."
+                                style="background: #f8fafc; color: #1e293b; border: 1px solid #e2e8f0;"></textarea>
+                            <div style="display: flex; justify-content: flex-end; margin-top: 0.5rem;">
+                                <span id="charCount" style="color: #64748b; font-size: 0.85rem; font-weight: 600;">0 /
+                                    500</span>
+                            </div>
+                        </div>
+
+                        <!-- File Upload -->
+                        <div class="form-group" style="margin-top: 1.5rem;">
+                            <label
+                                style="color: #475569; font-weight: 700; margin-bottom:0.5rem; display:block;">Adjuntar
+                                Evidencia (Opcional)</label>
+                            <div class="file-upload-wrapper">
+                                <input type="file" id="pqrFile" name="pqrFile" class="file-input-elite"
+                                    accept=".jpg,.jpeg,.png,.pdf,.doc,.docx" onchange="updateFileName(this)">
+                                <label for="pqrFile" class="file-label-elite"
+                                    style="background: #f8fafc; border-color: #cbd5e1; color: #64748b;">
+                                    <i class="fas fa-paperclip"></i> <span id="fileNameDisplay">Seleccionar Archivo
+                                        (Img, PDF)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-primary"
+                            style="width: 100%; justify-content: center; margin-top: 3rem; background: linear-gradient(135deg, #ca8a04 0%, #facc15 100%); border: none; font-size: 1.1rem; padding: 1.2rem; box-shadow: 0 10px 20px rgba(250, 204, 21, 0.3);">
+                            <i class="fas fa-paper-plane"></i> ENVIAR SOLICITUD
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Thank You Modal -->
+    <div id="pqrSuccessModal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 6, 23, 0.9); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(8px);">
+        <div class="glass-panel"
+            style="background: #ffffff; padding: 3rem; max-width: 500px; text-align: center; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(250, 204, 21, 0.25); border: 1px solid rgba(234, 179, 8, 0.3); animation: zoomIn 0.4s ease;">
+            <div
+                style="width: 80px; height: 80px; background: #f0fdf4; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto;">
+                <i class="fas fa-check" style="font-size: 2.5rem; color: #16a34a;"></i>
+            </div>
+            <h2 style="font-family: 'Outfit'; color: #1e293b; font-size: 2rem; margin-bottom: 1rem;">¡Solicitud
+                Recibida!</h2>
+            <p style="color: #64748b; font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem;">
+                Agradecemos su comunicación. Hemos generado el correo con su solicitud para ser enviada directamente a
+                nuestra gerencia.
+                <br><br>
+                <strong style="color: #ca8a04;">Por favor, confirme el envío en la ventana de su correo que se acaba de
+                    abrir.</strong>
+            </p>
+            <button onclick="closePQRModal()" class="btn-primary"
+                style="background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 50%, #94a3b8 100%); color: #0f172a; border: 1px solid #cbd5e1; padding: 1rem 2rem; width: 100%; font-size: 1.1rem; font-weight: 700; display: flex; justify-content: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                VOLVER AL INICIO
+            </button>
+        </div>
+    </div>
+
+    <!-- Script Logic (Reusing app.js functions) -->
+    <script src="js/app.js?v=151"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+
+</html>

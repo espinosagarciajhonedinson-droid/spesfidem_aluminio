@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foto Diseño Inteligente | Spesfidem Aluminio</title>
+    <link rel="stylesheet" href="css/style.css?v=162">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@300;600;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #020617;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        .design-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .design-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .design-header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .design-description {
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .design-header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Sidebar Controls */
+        .controls-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            height: fit-content;
+        }
+
+        .control-group h3 {
+            font-size: 1rem;
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .upload-box {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            padding: 2rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-box:hover {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .upload-box input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .product-thumb {
+            aspect-ratio: 1;
+            border-radius: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .product-thumb:hover,
+        .product-thumb.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .product-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slider-control {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        /* Canvas Area */
+        .canvas-area {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 500px;
+        }
+
+        #designCanvas {
+            max-width: 100%;
+            max-height: 80vh;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            cursor: move;
+        }
+
+        .ai-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .actions-bar {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(2, 6, 23, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+            display: none;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="design-container">
+        <!-- Back Button -->
+        <a href="index.html#contacto"
+            style="align-self: flex-start; margin-bottom: 1rem; color: #94a3b8; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; transition: color 0.3s;">
+            <i class="fas fa-arrow-left"></i> Volver a Contacto
+        </a>
+
+        <header class="design-header">
+            <h1>Foto Diseño <span
+                    style="text-transform: uppercase; font-size: 1rem; vertical-align: super; background: #22c55e; color: #000; padding: 2px 8px; border-radius: 4px; font-weight: bold;">BETA</span>
+            </h1>
+            <p class="design-description">Sube una foto de tu espacio y utiliza nuestra Inteligencia de Diseño para
+                visualizar cómo quedarían nuestros productos.</p>
+        </header>
+
+        <div class="workspace-grid">
+            <!-- Sidebar -->
+            <aside class="controls-panel">
+                <!-- Step 1: Upload -->
+                <div class="control-group">
+                    <h3>1. Cargar Espacio (Foto)</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                        <div class="upload-box" style="padding: 1.2rem 0.5rem;">
+                            <input type="file" id="imageInput" accept="image/*">
+                            <i class="fas fa-upload"
+                                style="font-size: 1.2rem; margin-bottom: 0.4rem; color: #cbd5e1;"></i>
+                            <p style="font-size: 0.75rem; color: #94a3b8;">Galería</p>
+                        </div>
+                        <div class="upload-box" id="cameraBtn"
+                            style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.2rem 0.5rem;">
+                            <i class="fas fa-camera"
+                                style="font-size: 1.2rem; margin-bottom: 0.4rem; color: #cbd5e1;"></i>
+                            <p style="font-size: 0.75rem; color: #94a3b8;">Cámara</p>
+                        </div>
+                    </div>
+                    <button id="deletePhotoBtn"
+                        style="width: 100%; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #ef4444; padding: 0.6rem; border-radius: 0.8rem; cursor: pointer; display: none; font-size: 0.9rem; font-weight: 600;">
+                        <i class="fas fa-trash"></i> Eliminar Foto
+                    </button>
+                </div>
+
+                <!-- Step 2: Select Product -->
+                <div class="control-group">
+                    <h3>2. Seleccionar Producto</h3>
+                    <select id="categorySelect"
+                        style="width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 0.5rem; margin-bottom: 1rem;">
+                        <option value="ventanas">Ventanería</option>
+                        <option value="puertas">Puertas</option>
+                        <option value="banos">Divisiones de Baño</option>
+                        <option value="espejos">Espejos</option>
+                    </select>
+
+                    <div class="product-list" id="galleryList">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+
+                <!-- Step 3: Adjust -->
+                <div class="control-group">
+                    <h3>3. Ajuste Inteligente</h3>
+
+                    <label style="font-size: 0.8rem; color: #94a3b8;">Tamaño del Producto</label>
+                    <input type="range" class="slider-control" id="scaleControl" min="10" max="1000" value="100">
+
+                    <label style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.8rem; display: block;">Girar
+                        (Rotación)</label>
+                    <input type="range" class="slider-control" id="rotationControl" min="0" max="360" value="0">
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.8rem;">
+                        <div>
+                            <label style="font-size: 0.7rem; color: #94a3b8; display: block;">Ancho Corte</label>
+                            <input type="range" class="slider-control" id="cropWidthControl" min="10" max="100"
+                                value="100">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.7rem; color: #94a3b8; display: block;">Alto Corte</label>
+                            <input type="range" class="slider-control" id="cropHeightControl" min="10" max="100"
+                                value="100">
+                        </div>
+                    </div>
+
+                    <label style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.8rem; display: block;">Transparencia
+                        (Vidrio)</label>
+                    <input type="range" class="slider-control" id="opacityControl" min="30" max="100" value="95">
+
+                    <button id="deleteSelectedBtn"
+                        style="width: 100%; margin-top: 1rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; padding: 0.5rem; border-radius: 0.5rem; cursor: pointer; font-size: 0.8rem; display: none;">
+                        <i class="fas fa-times-circle"></i> Quitar Seleccionado
+                    </button>
+                </div>
+
+                <button id="downloadBtn" class="btn-primary"
+                    style="width: 100%; text-align: center; justify-content: center; background: linear-gradient(135deg, #374151 0%, #9ca3af 45%, #f3f4f6 50%, #9ca3af 55%, #374151 100%) !important; color: #0f172a !important; font-weight: 800; border: 1px solid #cbd5e1 !important; box-shadow: 0 0 20px rgba(156, 163, 175, 0.3);">
+                    <i class="fas fa-download" style="margin-right: 8px;"></i> Guardar Diseño
+                </button>
+            </aside>
+
+            <!-- Canvas -->
+            <main class="canvas-area" id="canvasContainer">
+                <div class="ai-badge"><i class="fas fa-sparkles"></i> AI DESIGN</div>
+
+                <!-- Camera Overlay -->
+                <div id="cameraInterface"
+                    style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 20; background: #000; border-radius: 1.5rem; overflow: hidden;">
+                    <video id="cameraFeed" autoplay playsinline
+                        style="width: 100%; height: 100%; object-fit: cover;"></video>
+                    <div
+                        style="position: absolute; bottom: 30px; left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+                        <button id="captureBtn"
+                            style="width: 70px; height: 70px; border-radius: 50%; background: white; border: 5px solid rgba(255,255,255,0.3); cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(0,0,0,0.4);">
+                            <div style="width: 50px; height: 50px; border-radius: 50%; background: #ef4444;"></div>
+                        </button>
+                        <p style="color: white; font-size: 0.8rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">Capturar
+                            Foto</p>
+                    </div>
+                    <button id="closeCameraBtn"
+                        style="position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.5); color: white; border: none; font-size: 1.5rem; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div id="cameraStatus"
+                        style="position: absolute; top: 20px; left: 20px; color: white; background: rgba(0,0,0,0.5); padding: 5px 12px; border-radius: 20px; font-size: 0.7rem; backdrop-filter: blur(5px);">
+                        <i class="fas fa-circle"
+                            style="color: #ef4444; font-size: 0.5rem; vertical-align: middle; margin-right: 5px;"></i>
+                        EN VIVO
+                    </div>
+                </div>
+
+                <div class="loading-overlay" id="loading" style="border-radius: 1.5rem;">
+                    <div class="loading-spinner"></div>
+                    <p style="margin-top: 1rem; color: #cbd5e1;">Procesando imagen...</p>
+                </div>
+                <p id="placeholderText" style="color: #64748b; text-align: center;">La visualización aparecerá
+                    aquí<br>cuando subas una foto o uses la cámara.</p>
+                <canvas id="designCanvas"></canvas>
+            </main>
+        </div>
+    </div>
+
+    <!-- Logic -->
+    <script>
+        // Constants - In a real app these would come from the database/filesystem
+        const PRODUCTS = {
+            ventanas: [
+                'images/gallery/simulador_diseno/Imagen soltada.png',
+                'images/gallery/simulador_diseno/Imagen soltada (2).png',
+                'images/gallery/simulador_diseno/Imagen soltada (3).png',
+                'images/gallery/simulador_diseno/Imagen soltada (4).png',
+                'images/gallery/simulador_diseno/Imagen soltada (5).png',
+                'images/gallery/simulador_diseno/Imagen soltada (6).png',
+                'images/gallery/simulador_diseno/Imagen soltada (7).png',
+                'images/gallery/simulador_diseno/Imagen soltada (8).png',
+                'images/gallery/simulador_diseno/Imagen soltada (9).png',
+                'images/gallery/simulador_diseno/Imagen soltada (10).png',
+                'images/gallery/simulador_diseno/Imagen soltada (11).png',
+                'images/gallery/simulador_diseno/Imagen soltada (12).png',
+                'images/gallery/simulador_diseno/Imagen soltada (13).png',
+                'images/gallery/simulador_diseno/Imagen soltada (14).png',
+                'images/gallery/simulador_diseno/Imagen soltada (15).png',
+                'images/gallery/simulador_diseno/Imagen soltada (16).png'
+            ],
+            puertas: [],
+            banos: [],
+            espejos: []
+        };
+
+        // DOM Elements
+        const imageInput = document.getElementById('imageInput');
+        const categorySelect = document.getElementById('categorySelect');
+        const galleryList = document.getElementById('galleryList');
+        const canvas = document.getElementById('designCanvas');
+        const ctx = canvas.getContext('2d');
+        const canvasContainer = document.getElementById('canvasContainer');
+        const scaleControl = document.getElementById('scaleControl');
+        const opacityControl = document.getElementById('opacityControl');
+        const blendToggle = document.getElementById('blendToggle');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const loading = document.getElementById('loading');
+        const placeholderText = document.getElementById('placeholderText');
+        const deletePhotoBtn = document.getElementById('deletePhotoBtn');
+        const cameraBtn = document.getElementById('cameraBtn');
+        const cameraInterface = document.getElementById('cameraInterface');
+        const cameraFeed = document.getElementById('cameraFeed');
+        const captureBtn = document.getElementById('captureBtn');
+        const closeCameraBtn = document.getElementById('closeCameraBtn');
+
+        // State
+        let bgImage = null;
+        let layers = []; // Array of { img, x, y, scale, opacity, rotation, cropW, cropH, id }
+        let selectedLayerIndex = -1;
+        let isDragging = false;
+        let isResizing = false;
+        let resizeHandle = null; // 'tl', 'tr', 'bl', 'br', 'ml', 'mr', 'mt', 'mb'
+        let startX, startY;
+        let stream = null;
+
+        // Init
+        window.addEventListener('load', () => {
+            renderGallery('ventanas');
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+        });
+
+        // Event Listeners
+        categorySelect.addEventListener('change', (e) => renderGallery(e.target.value));
+        cameraBtn.addEventListener('click', openCamera);
+        captureBtn.addEventListener('click', capturePhoto);
+        closeCameraBtn.addEventListener('click', closeCamera);
+
+        imageInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) {
+                loading.style.display = 'flex';
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    bgImage = new Image();
+                    bgImage.onload = () => {
+                        placeholderText.style.display = 'none';
+                        deletePhotoBtn.style.display = 'block';
+                        fitImageToCanvas();
+                        centerProduct();
+                        draw();
+                        loading.style.display = 'none';
+                    };
+                    bgImage.src = event.target.result;
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+
+        deletePhotoBtn.addEventListener('click', () => {
+            bgImage = null;
+            imageInput.value = '';
+            placeholderText.style.display = 'block';
+            deletePhotoBtn.style.display = 'none';
+            resizeCanvas();
+            draw();
+        });
+
+        scaleControl.addEventListener('input', (e) => {
+            if (selectedLayerIndex !== -1) {
+                const val = e.target.value / 100;
+                layers[selectedLayerIndex].scaleX = val;
+                layers[selectedLayerIndex].scaleY = val;
+                draw();
+            }
+        });
+
+        opacityControl.addEventListener('input', (e) => {
+            if (selectedLayerIndex !== -1) {
+                layers[selectedLayerIndex].opacity = e.target.value / 100;
+                draw();
+            }
+        });
+
+        document.getElementById('rotationControl').addEventListener('input', (e) => {
+            if (selectedLayerIndex !== -1) {
+                layers[selectedLayerIndex].rotation = parseInt(e.target.value);
+                draw();
+            }
+        });
+
+        document.getElementById('cropWidthControl').addEventListener('input', (e) => {
+            if (selectedLayerIndex !== -1) {
+                layers[selectedLayerIndex].cropW = e.target.value / 100;
+                draw();
+            }
+        });
+
+        document.getElementById('cropHeightControl').addEventListener('input', (e) => {
+            if (selectedLayerIndex !== -1) {
+                layers[selectedLayerIndex].cropH = e.target.value / 100;
+                draw();
+            }
+        });
+
+        document.getElementById('deleteSelectedBtn').addEventListener('click', () => {
+            if (selectedLayerIndex !== -1) {
+                layers.splice(selectedLayerIndex, 1);
+                selectedLayerIndex = -1;
+                updateControlsVisibility();
+                draw();
+            }
+        });
+
+        if (blendToggle) {
+            blendToggle.addEventListener('change', (e) => {
+                useSmartBlend = e.target.checked;
+                draw();
+            });
+        }
+
+        // Dragging Logic
+        canvas.addEventListener('mousedown', startDrag);
+        canvas.addEventListener('mousemove', drag);
+        canvas.addEventListener('mouseup', endDrag);
+        canvas.addEventListener('mouseleave', endDrag);
+
+        canvas.addEventListener('touchstart', startDrag);
+        canvas.addEventListener('touchmove', drag);
+        canvas.addEventListener('touchend', endDrag);
+
+        downloadBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'mi-diseno-spesfidem.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+
+        // Functions
+        function renderGallery(category) {
+            galleryList.innerHTML = '';
+            const images = PRODUCTS[category] || [];
+
+            if (images.length === 0) {
+                galleryList.innerHTML = '<p style="grid-column: 1/-1; color: #64748b; font-size: 0.8rem;">No hay imágenes en esta categoría.</p>';
+            }
+
+            images.forEach(src => {
+                const div = document.createElement('div');
+                div.className = 'product-thumb';
+                div.innerHTML = `<img src="${src}" alt="Producto">`;
+                div.onclick = () => selectProduct(src, div);
+                galleryList.appendChild(div);
+            });
+        }
+
+        function selectProduct(src, el) {
+            document.querySelectorAll('.product-thumb').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+
+            const img = new Image();
+            img.onload = () => {
+                const newLayer = {
+                    img: img,
+                    x: canvas.width / 2,
+                    y: canvas.height / 2,
+                    scaleX: 0.5,
+                    scaleY: 0.5,
+                    opacity: 0.95,
+                    rotation: 0,
+                    cropW: 1.0,
+                    cropH: 1.0,
+                    id: Date.now()
+                };
+                layers.push(newLayer);
+                selectedLayerIndex = layers.length - 1;
+                updateControlsFromLayer(newLayer);
+                updateControlsVisibility();
+                draw();
+            };
+            img.src = src;
+        }
+
+        function updateControlsFromLayer(layer) {
+            scaleControl.value = ((layer.scaleX + layer.scaleY) / 2) * 100;
+            opacityControl.value = layer.opacity * 100;
+            document.getElementById('rotationControl').value = layer.rotation;
+            document.getElementById('cropWidthControl').value = layer.cropW * 100;
+            document.getElementById('cropHeightControl').value = layer.cropH * 100;
+        }
+
+        function updateControlsVisibility() {
+            const btn = document.getElementById('deleteSelectedBtn');
+            btn.style.display = selectedLayerIndex !== -1 ? 'block' : 'none';
+        }
+
+        function resizeCanvas() {
+            const containerWidth = canvasContainer.clientWidth;
+            if (!bgImage) {
+                canvas.width = containerWidth - 40;
+                canvas.height = 500;
+            }
+        }
+
+        function fitImageToCanvas() {
+            const containerW = canvasContainer.clientWidth - 40;
+            const containerH = 600;
+            const ratio = Math.min(containerW / bgImage.width, containerH / bgImage.height);
+            canvas.width = bgImage.width * ratio;
+            canvas.height = bgImage.height * ratio;
+        }
+
+        function centerProduct() {
+            // Deprecated for multi-layer
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (bgImage) {
+                ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+            }
+
+            layers.forEach((layer, index) => {
+                const img = layer.img;
+                const ratio = (canvas.width / 1000);
+                const w = img.width * layer.scaleX * ratio;
+                const h = img.height * layer.scaleY * ratio;
+
+                // Crop dimensions
+                const sw = img.width * layer.cropW;
+                const sh = img.height * layer.cropH;
+                const dw = w * layer.cropW;
+                const dh = h * layer.cropH;
+
+                ctx.save();
+
+                // Position and Rotation
+                ctx.translate(layer.x, layer.y);
+                ctx.rotate(layer.rotation * Math.PI / 180);
+
+                ctx.globalAlpha = layer.opacity;
+
+                if (index === selectedLayerIndex) {
+                    ctx.shadowColor = "var(--accent)";
+                    ctx.shadowBlur = 20;
+                    ctx.strokeStyle = "var(--accent)";
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(-dw / 2, -dh / 2, dw, dh);
+
+                    // Draw Handles
+                    ctx.fillStyle = "white";
+                    const hs = 10; // Handle size
+                    // Corners
+                    ctx.fillRect(-dw / 2 - hs / 2, -dh / 2 - hs / 2, hs, hs); // tl
+                    ctx.fillRect(dw / 2 - hs / 2, -dh / 2 - hs / 2, hs, hs);  // tr
+                    ctx.fillRect(-dw / 2 - hs / 2, dh / 2 - hs / 2, hs, hs);  // bl
+                    ctx.fillRect(dw / 2 - hs / 2, dh / 2 - hs / 2, hs, hs);   // br
+                    // Middles
+                    ctx.fillRect(-dw / 2 - hs / 2, -hs / 2, hs, hs);        // ml
+                    ctx.fillRect(dw / 2 - hs / 2, -hs / 2, hs, hs);         // mr
+                    ctx.fillRect(-hs / 2, -dh / 2 - hs / 2, hs, hs);        // mt
+                    ctx.fillRect(-hs / 2, dh / 2 - hs / 2, hs, hs);         // mb
+                } else {
+                    ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+                    ctx.shadowBlur = 15;
+                }
+
+                // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+                ctx.drawImage(
+                    img,
+                    (img.width - sw) / 2, (img.height - sh) / 2, sw, sh, // Source
+                    -dw / 2, -dh / 2, dw, dh                             // Destination
+                );
+
+                ctx.restore();
+            });
+        }
+
+        function startDrag(e) {
+            const pos = getPos(e);
+
+            // 1. Check if clicking handles of the selected layer
+            if (selectedLayerIndex !== -1) {
+                const layer = layers[selectedLayerIndex];
+                const ratio = (canvas.width / 1000);
+                const dw = layer.img.width * layer.scaleX * ratio * layer.cropW;
+                const dh = layer.img.height * layer.scaleY * ratio * layer.cropH;
+                const hs = 25; // Hit area for handles (slightly larger for touch)
+
+                // Project pos to local space of the layer (ignoring rotation for hit area simplicity for now)
+                const lx = pos.x - layer.x;
+                const ly = pos.y - layer.y;
+
+                let handle = null;
+                if (Math.abs(lx + dw / 2) < hs && Math.abs(ly + dh / 2) < hs) handle = 'tl';
+                else if (Math.abs(lx - dw / 2) < hs && Math.abs(ly + dh / 2) < hs) handle = 'tr';
+                else if (Math.abs(lx + dw / 2) < hs && Math.abs(ly - dh / 2) < hs) handle = 'bl';
+                else if (Math.abs(lx - dw / 2) < hs && Math.abs(ly - dh / 2) < hs) handle = 'br';
+                else if (Math.abs(lx + dw / 2) < hs && Math.abs(ly) < hs) handle = 'ml';
+                else if (Math.abs(lx - dw / 2) < hs && Math.abs(ly) < hs) handle = 'mr';
+                else if (Math.abs(lx) < hs && Math.abs(ly + dh / 2) < hs) handle = 'mt';
+                else if (Math.abs(lx) < hs && Math.abs(ly - dh / 2) < hs) handle = 'mb';
+
+                if (handle) {
+                    isResizing = true;
+                    resizeHandle = handle;
+                    startX = pos.x;
+                    startY = pos.y;
+                    return;
+                }
+            }
+
+            // 2. Selection logic: check from top layer to bottom
+            let found = false;
+            for (let i = layers.length - 1; i >= 0; i--) {
+                const layer = layers[i];
+                const ratio = (canvas.width / 1000);
+                const dw = layer.img.width * layer.scaleX * ratio * layer.cropW;
+                const dh = layer.img.height * layer.scaleY * ratio * layer.cropH;
+
+                // Simple box hit test (not accounting for rotation for now, keep it simple)
+                if (pos.x >= layer.x - dw / 2 && pos.x <= layer.x + dw / 2 &&
+                    pos.y >= layer.y - dh / 2 && pos.y <= layer.y + dh / 2) {
+                    selectedLayerIndex = i;
+                    updateControlsFromLayer(layer);
+                    updateControlsVisibility();
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                // Clicking empty space deselects
+                selectedLayerIndex = -1;
+                updateControlsVisibility();
+            }
+
+            if (selectedLayerIndex !== -1) {
+                isDragging = true;
+                startX = pos.x;
+                startY = pos.y;
+            }
+
+            draw();
+        }
+
+        function drag(e) {
+            if ((!isDragging && !isResizing) || selectedLayerIndex === -1) return;
+            e.preventDefault();
+            const pos = getPos(e);
+            const dx = pos.x - startX;
+            const dy = pos.y - startY;
+            const layer = layers[selectedLayerIndex];
+
+            if (isResizing) {
+                const ratio = (canvas.width / 1000);
+                const baseW = layer.img.width * ratio;
+                const baseH = layer.img.height * ratio;
+
+                if (resizeHandle === 'br' || resizeHandle === 'tl' || resizeHandle === 'tr' || resizeHandle === 'bl') {
+                    // Uniform scaling
+                    const side = (resizeHandle === 'br' || resizeHandle === 'tr') ? 1 : -1;
+                    const change = (dx * side / 500);
+                    layer.scaleX = Math.max(0.1, Math.min(10, layer.scaleX + change));
+                    layer.scaleY = Math.max(0.1, Math.min(10, layer.scaleY + change));
+                } else if (resizeHandle === 'mr' || resizeHandle === 'ml') {
+                    // Width adjustment (stretchX)
+                    const side = resizeHandle === 'mr' ? 1 : -1;
+                    layer.scaleX = Math.max(0.1, Math.min(10, layer.scaleX + (dx * side / 500)));
+                } else if (resizeHandle === 'mb' || resizeHandle === 'mt') {
+                    // Height adjustment (stretchY)
+                    const side = resizeHandle === 'mb' ? 1 : -1;
+                    layer.scaleY = Math.max(0.1, Math.min(10, layer.scaleY + (dy * side / 500)));
+                }
+
+                updateControlsFromLayer(layer);
+            } else if (isDragging) {
+                layer.x += dx;
+                layer.y += dy;
+            }
+
+            startX = pos.x;
+            startY = pos.y;
+            draw();
+        }
+
+        function endDrag() {
+            isDragging = false;
+            isResizing = false;
+            resizeHandle = null;
+        }
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return {
+                x: (clientX - rect.left) * (canvas.width / rect.width),
+                y: (clientY - rect.top) * (canvas.height / rect.height)
+            };
+        }
+
+        // Camera Functions
+        async function openCamera() {
+            try {
+                const constraints = {
+                    video: {
+                        facingMode: 'environment', // Use back camera if available
+                        width: { ideal: 1920 },
+                        height: { ideal: 1080 }
+                    },
+                    audio: false
+                };
+
+                stream = await navigator.mediaDevices.getUserMedia(constraints);
+                cameraFeed.srcObject = stream;
+                cameraInterface.style.display = 'block';
+            } catch (err) {
+                console.error("Error accessing camera: ", err);
+                alert("No se pudo acceder a la cámara. Por favor asegúrate de dar los permisos necesarios o verifica si tu navegador es compatible.");
+            }
+        }
+
+        function capturePhoto() {
+            if (!stream || !cameraFeed.videoWidth) return;
+
+            loading.style.display = 'flex';
+
+            // Create a temporary canvas to capture the frame at high resolution
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = cameraFeed.videoWidth;
+            tempCanvas.height = cameraFeed.videoHeight;
+            const tempCtx = tempCanvas.getContext('2d');
+
+            // Draw the current video frame to the temporary canvas
+            tempCtx.drawImage(cameraFeed, 0, 0, tempCanvas.width, tempCanvas.height);
+
+            // Convert to image
+            const dataUrl = tempCanvas.toDataURL('image/jpeg', 0.9);
+
+            bgImage = new Image();
+            bgImage.onload = () => {
+                placeholderText.style.display = 'none';
+                deletePhotoBtn.style.display = 'block';
+                fitImageToCanvas();
+                centerProduct();
+                draw();
+                loading.style.display = 'none';
+                closeCamera();
+            };
+            bgImage.src = dataUrl;
+        }
+
+        function closeCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            cameraInterface.style.display = 'none';
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Debug Excel</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: 1px solid #ccc;
+            padding: 4px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .sheet-container {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Excel Inspector</h1>
+    <div id="output">Loading...</div>
+
+    <script>
+        async function loadExcel() {
+            try {
+                const resp = await fetch('assets/documents/tabla_descuentos.xlsx?v=' + Date.now());
+                if (!resp.ok) throw new Error("Failed to fetch file");
+                const data = await resp.arrayBuffer();
+                const wb = XLSX.read(new Uint8Array(data), { type: 'array', cellFormula: true });
+
+                const out = document.getElementById('output');
+                out.innerHTML = "";
+
+                wb.SheetNames.forEach(name => {
+                    const ws = wb.Sheets[name];
+                    const html = XLSX.utils.sheet_to_html(ws);
+                    const div = document.createElement('div');
+                    div.className = 'sheet-container';
+                    div.innerHTML = `<h2>${name}</h2>` + html;
+                    out.appendChild(div);
+
+                    // Log raw formulas to console for specific cells if needed
+                    console.log(`Sheet: ${name}`);
+                });
+
+            } catch (e) {
+                document.getElementById('output').innerText = "Error: " + e.message;
+            }
+        }
+        loadExcel();
+    </script>
+</body>
+
+</html>

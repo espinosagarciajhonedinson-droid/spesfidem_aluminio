@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta en Vivo | Spesfidem Aluminio</title>
+    <meta name="description" content="Inicia una videollamada de consultoría con Spesfidem Aluminio. Revisa diseños, medidas y tipos de vidrio en tiempo real.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@300;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-deep: #020617;
+            --primary: #020617;
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        body {
+            background: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===== TOP BAR ===== */
+        .top-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            height: 64px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .top-bar-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        .top-bar-title i {
+            color: var(--accent);
+            font-size: 1.4rem;
+            filter: drop-shadow(0 0 8px var(--accent-glow));
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.5rem 1.2rem;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            transition: all 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        /* ===== HERO CALL SECTION ===== */
+        .call-hero {
+            text-align: center;
+            padding: 3rem 1.5rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .call-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .call-hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #38bdf8 50%, #f8fafc 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 4s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .call-hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        /* ===== WHATSAPP CALL BUTTON ===== */
+        .btn-videocall {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, #064e3b 0%, #10b981 45%, #ecfdf5 50%, #10b981 55%, #064e3b 100%);
+            background-size: 200% auto;
+            color: white;
+            text-decoration: none;
+            border-radius: 60px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 2px solid #065f46;
+            box-shadow: 0 0 40px rgba(16, 185, 129, 0.4), 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: pulse-glow 2s ease-in-out infinite, shimmer 3s linear infinite;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-videocall:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 0 60px rgba(16, 185, 129, 0.6), 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn-videocall i {
+            font-size: 1.6rem;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.3), 0 10px 30px rgba(0, 0, 0, 0.3); }
+            50% { box-shadow: 0 0 50px rgba(16, 185, 129, 0.6), 0 10px 30px rgba(0, 0, 0, 0.3); }
+        }
+
+        .call-info {
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .call-info i {
+            color: var(--success);
+        }
+
+        /* ===== MAIN LAYOUT ===== */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem 4rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        /* ===== RESPONSIVE — ALL DEVICES ===== */
+
+        /* Tablets */
+        @media (max-width: 900px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            .call-hero h1 {
+                font-size: 2rem;
+            }
+            .gallery-section {
+                grid-column: 1;
+            }
+        }
+
+        /* Small Tablets / Large Phones */
+        @media (max-width: 640px) {
+            .call-hero {
+                padding: 2rem 1rem 1.5rem;
+            }
+            .call-hero h1 {
+                font-size: 1.6rem;
+            }
+            .call-hero p {
+                font-size: 0.95rem;
+            }
+            .btn-videocall {
+                padding: 1rem 2rem;
+                font-size: 1.05rem;
+                gap: 10px;
+            }
+            .btn-videocall i {
+                font-size: 1.3rem;
+            }
+            .call-info {
+                font-size: 0.78rem;
+                flex-direction: column;
+                gap: 4px;
+            }
+            .main-content {
+                padding: 0 1rem 2rem;
+                gap: 1.2rem;
+            }
+            .glass-card {
+                padding: 1.2rem;
+                border-radius: 1rem;
+            }
+            .section-label {
+                font-size: 0.95rem;
+                margin-bottom: 1rem;
+            }
+            .design-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 0.8rem;
+            }
+            .mirror-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .mirror-option {
+                padding: 0.6rem 0.7rem;
+                font-size: 0.78rem;
+                gap: 6px;
+            }
+            .action-row {
+                flex-direction: column;
+            }
+            .btn-action {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Phones */
+        @media (max-width: 480px) {
+            .top-bar {
+                padding: 0 0.8rem;
+                height: 56px;
+            }
+            .top-bar-title {
+                font-size: 0.95rem;
+                gap: 8px;
+            }
+            .top-bar-title i {
+                font-size: 1.1rem;
+            }
+            .btn-back {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.75rem;
+            }
+            .call-hero h1 {
+                font-size: 1.35rem;
+            }
+            .call-hero p {
+                font-size: 0.85rem;
+                margin-bottom: 1.5rem;
+            }
+            .btn-videocall {
+                padding: 0.9rem 1.5rem;
+                font-size: 0.95rem;
+                border-radius: 50px;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .form-control {
+                padding: 0.65rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            .form-group label {
+                font-size: 0.7rem;
+            }
+            .preview-container {
+                min-height: 200px;
+                padding: 1rem 1rem 2rem;
+            }
+            .preview-label-h {
+                left: -45px;
+                font-size: 0.75rem;
+            }
+            .preview-label-w {
+                font-size: 0.75rem;
+            }
+            .summary-chips {
+                gap: 6px;
+            }
+            .chip {
+                padding: 4px 10px;
+                font-size: 0.7rem;
+            }
+            .design-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.6rem;
+            }
+            .design-card-overlay {
+                padding: 0.6rem;
+            }
+            .design-card-overlay h4 {
+                font-size: 0.7rem;
+            }
+            .design-card-overlay small {
+                font-size: 0.6rem;
+            }
+            .notes-textarea {
+                min-height: 90px;
+                font-size: 0.85rem;
+            }
+            .lightbox {
+                padding: 0.5rem;
+            }
+            .lightbox img {
+                max-width: 98%;
+                max-height: 80vh;
+                border-radius: 10px;
+            }
+            .lightbox-close {
+                top: 10px;
+                right: 15px;
+                font-size: 1.5rem;
+            }
+            .lightbox-title {
+                font-size: 0.9rem;
+                bottom: 15px;
+            }
+        }
+
+        /* Touch-friendly improvements for mobile */
+        @media (hover: none) and (pointer: coarse) {
+            .form-control {
+                font-size: 16px; /* Prevents iOS zoom on focus */
+                min-height: 44px;
+            }
+            .mirror-option {
+                min-height: 44px;
+            }
+            .btn-action {
+                min-height: 44px;
+            }
+            .design-card:hover {
+                transform: none; /* Disable hover effects on touch */
+            }
+            .design-card:active {
+                transform: scale(0.97);
+                border-color: var(--accent);
+            }
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); }
+
+        /* ===== FOOTER ===== */
+        .page-footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(56, 189, 248, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.15rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+
+        .section-label i {
+            font-size: 1.2rem;
+            filter: drop-shadow(0 0 6px var(--accent-glow));
+        }
+
+        /* ===== FORM CONTROLS ===== */
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            color: var(--text-main);
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .form-control option {
+            background: #0f172a;
+            color: white;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* ===== LIVE PREVIEW ===== */
+        .preview-container {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .preview-window {
+            position: relative;
+            border: 3px solid var(--accent);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(56, 189, 248, 0.05);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.15), inset 0 0 30px rgba(56, 189, 248, 0.05);
+        }
+
+        .preview-divider-v {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: var(--accent);
+            opacity: 0.4;
+        }
+
+        .preview-divider-h {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            opacity: 0.4;
+        }
+
+        .preview-label-w {
+            position: absolute;
+            bottom: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .preview-label-h {
+            position: absolute;
+            left: -55px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .preview-profile-tag {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(56, 189, 248, 0.2);
+            color: var(--accent);
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .preview-glass-tag {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+        }
+
+        /* ===== SUMMARY CHIPS ===== */
+        .summary-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 1.2rem;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        .chip i {
+            font-size: 0.75rem;
+            color: var(--accent);
+        }
+
+        /* ===== DESIGN GALLERY ===== */
+        .gallery-section {
+            grid-column: 1 / -1;
+        }
+
+        .design-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .design-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(15, 23, 42, 0.5);
+            aspect-ratio: 4/3;
+        }
+
+        .design-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: var(--accent);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 20px var(--accent-glow);
+        }
+
+        .design-card.selected {
+            border-color: var(--success);
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.4);
+        }
+
+        .design-card.selected::after {
+            content: '\f058';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: var(--success);
+            font-size: 1.4rem;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+            z-index: 3;
+        }
+
+        .design-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .design-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .design-card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 0.8rem 0.8rem;
+            background: linear-gradient(transparent, rgba(2, 6, 23, 0.95));
+        }
+
+        .design-card-overlay h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 2px;
+        }
+
+        .design-card-overlay small {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== LIGHTBOX ===== */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            cursor: pointer;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            animation: lightboxIn 0.4s ease;
+        }
+
+        @keyframes lightboxIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .lightbox-close:hover {
+            transform: rotate(90deg);
+        }
+
+        .lightbox-title {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+            letter-spacing: 1px;
+        }
+
+        /* ===== NOTES ===== */
+        .notes-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            resize: vertical;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .notes-textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .notes-textarea::placeholder {
+            color: rgba(148, 163, 184, 0.5);
+        }
+
+        /* ===== BTN COPY / SHARE ===== */
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+        }
+
+        .btn-action.primary {
+            background: linear-gradient(135deg, var(--accent), #0ea5e9);
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-action.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.5);
+        }
+
+        .btn-action.secondary {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .btn-action.secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--accent);
+        }
+
+        .action-row {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        /* ===== MIRROR TYPES ===== */
+        .mirror-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .mirror-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.7rem 1rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        .mirror-option:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        .mirror-option.selected {
+            border-color: #8b5cf6;
+            background: rgba(139, 92, 246, 0.12);
+            color: white;
+        }
+
+        .mirror-option i {
+            color: #8b5cf6;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-title">
+            <i class="fas fa-video"></i>
+            <span>CONSULTA EN VIVO</span>
+        </div>
+        <a href="index.html" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Volver al Inicio
+        </a>
+    </div>
+
+    <!-- Hero / Call Section -->
+    <section class="call-hero" id="callHero">
+        <h1>Consultoría Visual en Tiempo Real</h1>
+        <p>Conéctese a nuestra nueva sala virtual. Muestre su espacio, revise diseños y defina medidas en conjunto con el asesor, todo en tiempo real.</p>
+
+        <a href="http://localhost:5173" target="_blank" rel="noopener" class="btn-videocall" id="btnVideoCall">
+            <i class="fas fa-video"></i>
+            INGRESAR A LA SALA INTERACTIVA
+        </a>
+
+        <div class="call-info">
+            <i class="fas fa-shield-alt"></i>
+            <span>Conexión WebRTC P2P Segura</span>
+        </div>
+    </section>
+
+    <!-- Main Content Grid -->
+    <div class="main-content">
+
+        <!-- LEFT: Measurements Panel -->
+        <div class="glass-card" id="measurePanel">
+            <div class="section-label">
+                <i class="fas fa-ruler-combined"></i>
+                <span>Medidas y Especificaciones</span>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Ancho (metros)</label>
+                    <input type="number" class="form-control" id="inputWidth" placeholder="Ej: 1.50" step="0.01" min="0.1" max="10" value="1.20">
+                </div>
+                <div class="form-group">
+                    <label>Alto (metros)</label>
+                    <input type="number" class="form-control" id="inputHeight" placeholder="Ej: 1.80" step="0.01" min="0.1" max="10" value="1.50">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Perfil de Aluminio</label>
+                <select class="form-control" id="selectProfile">
+                    <option value="Natural">Natural (Plateado)</option>
+                    <option value="Negro">Negro Mate</option>
+                    <option value="Blanco">Blanco Texturizado</option>
+                    <option value="Champagne">Champagne / Dorado</option>
+                    <option value="Madera">Efecto Madera</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Tipo de Vidrio</label>
+                <select class="form-control" id="selectGlass">
+                    <option value="">— Seleccionar —</option>
+                    <optgroup label="Vidrio Monolítico">
+                        <option value="Claro 4mm">Claro (4mm)</option>
+                        <option value="Claro 5mm">Claro (5mm)</option>
+                        <option value="Bronce">Bronce</option>
+                        <option value="Gris Humo">Gris (Humo)</option>
+                        <option value="Azul">Azul</option>
+                        <option value="Verde">Verde</option>
+                    </optgroup>
+                    <optgroup label="Reflectivo / Especial">
+                        <option value="Bronce Reflectivo">Bronce Reflectivo</option>
+                        <option value="Azul Reflectivo">Azul Reflectivo</option>
+                        <option value="Esmerilado">Esmerilado (Sandblasted)</option>
+                    </optgroup>
+                    <optgroup label="Vidrio Templado">
+                        <option value="Templado 6mm">Templado 6mm Incoloro</option>
+                        <option value="Templado 8mm">Templado 8mm Incoloro</option>
+                        <option value="Templado 10mm">Templado 10mm Incoloro</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <!-- Live Preview -->
+            <div class="preview-container" id="previewContainer">
+                <div class="preview-window" id="previewWindow" style="width: 150px; height: 180px;">
+                    <div class="preview-divider-v"></div>
+                    <div class="preview-divider-h"></div>
+                    <span class="preview-label-w" id="labelW">1.20 m</span>
+                    <span class="preview-label-h" id="labelH">1.50 m</span>
+                    <span class="preview-profile-tag" id="tagProfile">NATURAL</span>
+                    <span class="preview-glass-tag" id="tagGlass">—</span>
+                </div>
+            </div>
+
+            <!-- Summary Chips -->
+            <div class="summary-chips" id="summaryChips">
+                <div class="chip"><i class="fas fa-arrows-alt-h"></i> <span id="chipW">1.20 m</span></div>
+                <div class="chip"><i class="fas fa-arrows-alt-v"></i> <span id="chipH">1.50 m</span></div>
+                <div class="chip"><i class="fas fa-layer-group"></i> <span id="chipProfile">Natural</span></div>
+                <div class="chip"><i class="fas fa-gem"></i> <span id="chipGlass">—</span></div>
+            </div>
+        </div>
+
+        <!-- RIGHT: Mirrors & Notes -->
+        <div style="display: flex; flex-direction: column; gap: 2rem;">
+
+            <!-- Mirror Types -->
+            <div class="glass-card">
+                <div class="section-label">
+                    <i class="fas fa-magic"></i>
+                    <span>Tipos de Espejo</span>
+                </div>
+                <div class="mirror-grid" id="mirrorGrid">
+                    <div class="mirror-option" data-mirror="Biselado" onclick="selectMirror(this)">
+                        <i class="fas fa-square"></i> Biselado
+                    </div>
+                    <div class="mirror-option" data-mirror="Arenado" onclick="selectMirror(this)">
+                        <i class="fas fa-cloud"></i> Arenado
+                    </div>
+                    <div class="mirror-option" data-mirror="Flotado" onclick="selectMirror(this)">
+                        <i class="fas fa-water"></i> Flotado
+                    </div>
+                    <div class="mirror-option" data-mirror="LED Integrado" onclick="selectMirror(this)">
+                        <i class="fas fa-lightbulb"></i> LED Integrado
+                    </div>
+                    <div class="mirror-option" data-mirror="Ovalado" onclick="selectMirror(this)">
+                        <i class="fas fa-circle"></i> Ovalado
+                    </div>
+                    <div class="mirror-option" data-mirror="Mosaico" onclick="selectMirror(this)">
+                        <i class="fas fa-th-large"></i> Mosaico
+                    </div>
+                    <div class="mirror-option" data-mirror="Bisel Diamante" onclick="selectMirror(this)">
+                        <i class="fas fa-gem"></i> Bisel Diamante
+                    </div>
+                    <div class="mirror-option" data-mirror="Marco Aluminio" onclick="selectMirror(this)">
+                        <i class="fas fa-vector-square"></i> Marco Aluminio
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="glass-card">
+                <div class="section-label">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Notas de Consulta</span>
+                </div>
+                <textarea class="notes-textarea" id="notesArea" placeholder="Escriba aquí notas durante la videollamada: especificaciones del cliente, observaciones, detalles adicionales..."></textarea>
+                <div class="action-row">
+                    <button class="btn-action primary" onclick="copySummary()">
+                        <i class="fas fa-copy"></i> Copiar Resumen
+                    </button>
+                    <button class="btn-action secondary" onclick="shareWhatsApp()">
+                        <i class="fab fa-whatsapp"></i> Enviar por WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- FULL WIDTH: Design Gallery -->
+        <div class="glass-card gallery-section">
+            <div class="section-label">
+                <i class="fas fa-th-large"></i>
+                <span>Galería de Diseños — Seleccione referencias</span>
+            </div>
+            <div class="design-grid" id="designGrid">
+                <!-- Cards injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <i class="fas fa-times lightbox-close"></i>
+        <img src="" alt="Vista ampliada" id="lightboxImg">
+        <div class="lightbox-title" id="lightboxTitle"></div>
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+        &copy; 2025 Spesfidem Aluminio — Consulta en Vivo
+    </div>
+
+    <script>
+        // ===== DESIGN GALLERY DATA =====
+        const designs = [
+            { title: 'Ventana Corrediza', category: 'Ventanas', img: 'images/gallery/ventana_corrediza/1.jpg', fallback: 'images/products/ventanas_hq.png' },
+            { title: 'Ventana Corrediza Premium', category: 'Ventanas', img: 'images/gallery/ventana_corrediza/5.jpg', fallback: 'images/gallery/ventana_corrediza/1.jpg' },
+            { title: 'Ventana Proyectante', category: 'Ventanas', img: 'images/gallery/ventana_proyectante/8.jpg', fallback: 'images/products/ventana_batiente.jpg' },
+            { title: 'Puerta Principal', category: 'Puertas', img: 'images/gallery/puerta_principal/3.jpg', fallback: 'images/products/puerta_principal_hq.png' },
+            { title: 'División de Baño', category: 'Baño', img: 'images/gallery/division_bano/1.jpg', fallback: 'images/products/division_bano_hq.png' },
+            { title: 'Vidrio Templado', category: 'Vidrio', img: 'images/gallery/vidrio_templado/8.jpg', fallback: 'images/products/division_bano.jpg' },
+            { title: 'Vidrio Templado Elite', category: 'Vidrio', img: 'images/gallery/vidrio_templado/2.jpg', fallback: 'images/gallery/vidrio_templado/8.jpg' },
+            { title: 'Espejo Decorativo', category: 'Espejos', img: 'images/gallery/espejos_decorativos/1.png', fallback: 'images/products/espejos_hq.png' },
+            { title: 'Ventana Corrediza Moderna', category: 'Ventanas', img: 'images/gallery/ventana_corrediza/2.jpg', fallback: 'images/gallery/ventana_corrediza/1.jpg' },
+        ];
+
+        // ===== RENDER GALLERY =====
+        function renderGallery() {
+            const grid = document.getElementById('designGrid');
+            grid.innerHTML = '';
+            designs.forEach((d, i) => {
+                const card = document.createElement('div');
+                card.className = 'design-card';
+                card.dataset.index = i;
+                card.onclick = () => toggleSelect(card, i);
+                card.innerHTML = `
+                    <img src="${d.img}" alt="${d.title}" onerror="this.src='${d.fallback}'" loading="lazy">
+                    <div class="design-card-overlay">
+                        <h4>${d.title}</h4>
+                        <small>${d.category}</small>
+                    </div>
+                `;
+                // Double click = lightbox
+                card.ondblclick = (e) => {
+                    e.stopPropagation();
+                    openLightbox(d.img, d.fallback, d.title);
+                };
+                grid.appendChild(card);
+            });
+        }
+
+        const selectedDesigns = new Set();
+
+        function toggleSelect(card, index) {
+            card.classList.toggle('selected');
+            if (selectedDesigns.has(index)) {
+                selectedDesigns.delete(index);
+            } else {
+                selectedDesigns.add(index);
+            }
+        }
+
+        // ===== LIGHTBOX =====
+        function openLightbox(src, fallback, title) {
+            const lb = document.getElementById('lightbox');
+            const img = document.getElementById('lightboxImg');
+            const titleEl = document.getElementById('lightboxTitle');
+            img.src = src;
+            img.onerror = () => { img.src = fallback; };
+            titleEl.textContent = title;
+            lb.classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        // ===== LIVE PREVIEW =====
+        const inputW = document.getElementById('inputWidth');
+        const inputH = document.getElementById('inputHeight');
+        const selectProfile = document.getElementById('selectProfile');
+        const selectGlass = document.getElementById('selectGlass');
+        const previewWindow = document.getElementById('previewWindow');
+        const labelW = document.getElementById('labelW');
+        const labelH = document.getElementById('labelH');
+        const tagProfile = document.getElementById('tagProfile');
+        const tagGlass = document.getElementById('tagGlass');
+        const chipW = document.getElementById('chipW');
+        const chipH = document.getElementById('chipH');
+        const chipProfile = document.getElementById('chipProfile');
+        const chipGlass = document.getElementById('chipGlass');
+
+        function updatePreview() {
+            const w = parseFloat(inputW.value) || 1;
+            const h = parseFloat(inputH.value) || 1;
+            const profile = selectProfile.value;
+            const glass = selectGlass.value || '—';
+
+            // Scale to fit preview (max 200px)
+            const maxDim = 200;
+            const ratio = w / h;
+            let pxW, pxH;
+            if (ratio >= 1) {
+                pxW = maxDim;
+                pxH = maxDim / ratio;
+            } else {
+                pxH = maxDim;
+                pxW = maxDim * ratio;
+            }
+            pxW = Math.max(60, pxW);
+            pxH = Math.max(60, pxH);
+
+            previewWindow.style.width = pxW + 'px';
+            previewWindow.style.height = pxH + 'px';
+
+            // Color based on profile
+            const profileColors = {
+                'Natural': '#94a3b8',
+                'Negro': '#1e293b',
+                'Blanco': '#e2e8f0',
+                'Champagne': '#d4a574',
+                'Madera': '#8B4513'
+            };
+            previewWindow.style.borderColor = profileColors[profile] || 'var(--accent)';
+
+            labelW.textContent = w.toFixed(2) + ' m';
+            labelH.textContent = h.toFixed(2) + ' m';
+            tagProfile.textContent = profile.toUpperCase();
+            tagGlass.textContent = glass;
+
+            chipW.textContent = w.toFixed(2) + ' m';
+            chipH.textContent = h.toFixed(2) + ' m';
+            chipProfile.textContent = profile;
+            chipGlass.textContent = glass;
+
+            // Color the label for profile
+            labelW.style.color = profileColors[profile] || 'var(--accent)';
+            labelH.style.color = profileColors[profile] || 'var(--accent)';
+        }
+
+        inputW.addEventListener('input', updatePreview);
+        inputH.addEventListener('input', updatePreview);
+        selectProfile.addEventListener('change', updatePreview);
+        selectGlass.addEventListener('change', updatePreview);
+
+        // ===== MIRROR SELECTION =====
+        let selectedMirror = '';
+        function selectMirror(el) {
+            document.querySelectorAll('.mirror-option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedMirror = el.dataset.mirror;
+        }
+
+        // ===== COPY SUMMARY =====
+        function buildSummary() {
+            const w = inputW.value || '—';
+            const h = inputH.value || '—';
+            const profile = selectProfile.value;
+            const glass = selectGlass.value || 'No seleccionado';
+            const mirror = selectedMirror || 'No seleccionado';
+            const notes = document.getElementById('notesArea').value;
+            const selectedNames = [...selectedDesigns].map(i => designs[i].title);
+
+            let text = `━━━ CONSULTA SPESFIDEM ━━━\n`;
+            text += `📅 Fecha: ${new Date().toLocaleDateString('es-CO')}\n\n`;
+            text += `📐 MEDIDAS:\n`;
+            text += `   Ancho: ${w} m\n`;
+            text += `   Alto: ${h} m\n\n`;
+            text += `🔧 PERFIL: ${profile}\n`;
+            text += `🪟 VIDRIO: ${glass}\n`;
+            text += `🪞 ESPEJO: ${mirror}\n\n`;
+
+            if (selectedNames.length > 0) {
+                text += `🎨 DISEÑOS SELECCIONADOS:\n`;
+                selectedNames.forEach(n => text += `   • ${n}\n`);
+                text += '\n';
+            }
+
+            if (notes.trim()) {
+                text += `📝 NOTAS:\n${notes}\n\n`;
+            }
+
+            text += `━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+            text += `Spesfidem Aluminio — Ibagué, Tolima\n`;
+            text += `📞 304 629 1152 | 323 204 5129`;
+            return text;
+        }
+
+        function copySummary() {
+            const text = buildSummary();
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('✅ Resumen copiado al portapapeles');
+            }).catch(() => {
+                // Fallback
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                ta.remove();
+                showToast('✅ Resumen copiado');
+            });
+        }
+
+        function shareWhatsApp() {
+            const text = encodeURIComponent(buildSummary());
+            window.open(`https://wa.me/573046291152?text=${text}`, '_blank');
+        }
+
+        // ===== TOAST =====
+        function showToast(message) {
+            let container = document.getElementById('toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                container.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:20000;';
+                document.body.appendChild(container);
+            }
+            const t = document.createElement('div');
+            t.style.cssText = 'background:#0f172a;color:white;padding:12px 24px;border-radius:50px;box-shadow:0 10px 25px rgba(0,0,0,0.5);font-weight:600;font-size:0.9rem;border:1px solid rgba(255,255,255,0.1);animation:fadeInUp 0.3s ease;margin-bottom:10px;';
+            t.textContent = message;
+
+            if (!document.getElementById('toast-anim-css')) {
+                const s = document.createElement('style');
+                s.id = 'toast-anim-css';
+                s.textContent = '@keyframes fadeInUp{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}';
+                document.head.appendChild(s);
+            }
+
+            container.appendChild(t);
+            setTimeout(() => t.remove(), 3000);
+        }
+
+        // ===== INIT =====
+        document.addEventListener('DOMContentLoaded', () => {
+            renderGallery();
+            updatePreview();
+        });
+    </script>
+</body>
+
+</html>
