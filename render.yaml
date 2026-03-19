@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: spesfidem-video-server
+    env: node
+    rootDir: consultoria-app/backend
+    buildCommand: npm install
+    startCommand: node server.js
+    plan: free
+    repo: https://github.com/FelipeMlna/SpesFidem # URL de tu repositorio principal
+    branch: master
+    envVars:
+      - key: NODE_ENV
+        value: production
