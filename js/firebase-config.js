@@ -9,12 +9,13 @@
 // ============================================================
 
 const FIREBASE_CONFIG = {
-  apiKey:            "TU_API_KEY_AQUI",
-  authDomain:        "TU_PROYECTO.firebaseapp.com",
-  projectId:         "TU_PROYECTO_ID",
-  storageBucket:     "TU_PROYECTO.appspot.com",
-  messagingSenderId: "TU_MESSAGING_SENDER_ID",
-  appId:             "TU_APP_ID"
+  apiKey: "AIzaSyAVRSFnteNy5TuD6Hl797jWV6v6uCukzO4",
+  authDomain: "spesfidem-aluminio.firebaseapp.com",
+  projectId: "spesfidem-aluminio",
+  storageBucket: "spesfidem-aluminio.firebasestorage.app",
+  messagingSenderId: "146991903010",
+  appId: "1:146991903010:web:60afffaeb49c99f976757b",
+  measurementId: "G-TRCJ8ZHHQZ"
 };
 
 // ── Detect if Firebase is configured ──
