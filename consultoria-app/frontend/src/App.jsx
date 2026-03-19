@@ -53,6 +53,16 @@ function App() {
     setRoomId(id);
     if (socket) socket.emit('join-room', id);
     setJoined(true);
+    
+    // Auto-generate WhatsApp notification to the admin (573046291152)
+    const roomUrl = `${window.location.protocol}//${window.location.host}/consultoria/?room=${id}`;
+    const fallbackUrl = `${window.location.protocol}//${window.location.host}/consulta.html?room=${id}`;
+    const phone = '573046291152';
+    const waMessage = `Nueva solicitud de consultoría Spesfidem, cliente esperando\n\nSala: ${id}\nEnlace Principal: ${roomUrl}\nEnlace Alterno: ${fallbackUrl}`;
+    const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(waMessage)}`;
+    
+    // Open WhatsApp in a new tab
+    window.open(waUrl, '_blank');
   };
 
   // ── Join existing room ──
@@ -72,7 +82,7 @@ function App() {
   };
 
   const copyLink = () => {
-    const url = `${window.location.protocol}//${window.location.hostname}:5173?room=${roomId}`;
+    const url = `${window.location.protocol}//${window.location.host}/consultoria/?room=${roomId}`;
     navigator.clipboard.writeText(url).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
@@ -85,7 +95,7 @@ function App() {
       <div className="min-h-screen bg-bg-deep flex items-center justify-center p-4">
         <div className="glass-card max-w-md w-full p-8 text-center relative">
           {/* Back button */}
-          <a href={`${window.location.protocol}//${window.location.hostname}:3000/videocall.html`}
+          <a href="/index.html"
             className="absolute top-5 left-5 bg-white/8 hover:bg-white/15 text-text-muted hover:text-white w-9 h-9 rounded-full flex items-center justify-center transition-colors border border-white/10"
             title="Volver">
             <i className="fas fa-arrow-left text-sm"></i>
@@ -100,7 +110,7 @@ function App() {
 
           <button onClick={createRoom}
             className="w-full bg-accent hover:bg-sky-400 text-slate-900 font-bold py-3.5 px-4 rounded-xl transition-all shadow-[0_0_25px_rgba(56,189,248,0.3)] hover:shadow-[0_0_35px_rgba(56,189,248,0.5)] mb-6 flex items-center justify-center gap-3 text-base">
-            <i className="fas fa-plus-circle"></i> Crear Nueva Sesión
+            <i className="fas fa-plus-circle"></i> Crear y Notificar a Spesfidem
           </button>
 
           <div className="flex items-center gap-4 mb-6">
@@ -155,9 +165,9 @@ function App() {
             title="Copiar enlace">
             <i className={`fas ${copied ? 'fa-check' : 'fa-link'} text-sm`}></i>
           </button>
-          <a href={`${window.location.protocol}//${window.location.hostname}:3000/videocall.html`}
+          <a href="/index.html"
             className="bg-red-500/10 hover:bg-red-500/20 text-red-400 p-2 rounded-full transition-colors border border-red-500/20"
-            title="Salir">
+            title="Salir y Volver al Inicio">
             <i className="fas fa-sign-out-alt text-sm"></i>
           </a>
         </div>
