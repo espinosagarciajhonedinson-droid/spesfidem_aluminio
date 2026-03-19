@@ -5,8 +5,7 @@ import Workspace from './components/Workspace';
 import Visualizer from './components/Visualizer';
 import Gallery from './components/Gallery';
 
-// Usamos un .env si existe, si no asumimos que está en el mismo dominio host pero puerto 3001
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || `${window.location.protocol}//${window.location.hostname}:3001`;
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://spesfidem-video-server.onrender.com';
 
 const INITIAL_SPECS = {
   width: 1.5, height: 2.0,
