@@ -994,26 +994,30 @@
                 const roomId = Math.random().toString(36).substring(2,8).toUpperCase();
                 console.log('[Spesfidem] 🎲 Sala:', roomId);
 
-                // 2. URL de la sala standalone (no necesita Vite, funciona con el servidor Python)
+                // 2. URL de la sala - Restauramos la versión de React (Vite) en el puerto 5173
+                const hostname = window.location.hostname;
+                const viteUrl = `${window.location.protocol}//${hostname}:5173/room/${roomId}`;
+                
+                // Backup: La sala standalone (no depende de Vite)
                 let baseUrl = `${window.location.protocol}//${window.location.host}`;
-                // Si se abre desde file:// o desde el servidor Python (puerto 3000), calcular base correctamente
                 if (window.location.protocol === 'file:') {
-                    const docPath = window.location.href.replace(/videocall\.html.*$/, '');
-                    baseUrl = docPath;
+                    baseUrl = window.location.href.replace(/videocall\.html.*$/, '');
                 }
-                // La sala de consultoría es el archivo standalone (no depende de Vite)
-                const consultaPage = baseUrl.startsWith('file:') ? 'consulta.html' : (baseUrl + '/consulta.html');
-                const consultaUrl = `${consultaPage}?room=${roomId}`;
-                currentRoomUrlGlobal = consultaUrl;
+                const standaloneUrl = baseUrl.startsWith('file:') ? 'consulta.html' : (baseUrl + '/consulta.html');
+                const fallbackUrl = `${standaloneUrl}?room=${roomId}`;
+                
+                // Usamos la versión de React como principal
+                const finalUrl = viteUrl;
+                currentRoomUrlGlobal = finalUrl;
 
                 // 3. Generar mensaje de WhatsApp
                 const phone = '573046291152';
-                const waMessage = `Nueva solicitud de consultoría Spesfidem, cliente esperando\nSala: ${roomId}\nEnlace: ${consultaUrl}`;
+                const waMessage = `Nueva solicitud de consultoría Spesfidem, cliente esperando\nSala: ${roomId}\nEnlace Principal: ${viteUrl}\nEnlace Alterno: ${fallbackUrl}`;
                 const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(waMessage)}`;
 
                 // 4. Actualizar estado del Modal
                 document.getElementById('modalRoomId').textContent = roomId;
-                document.getElementById('btnEntrarSala').href = consultaUrl;
+                document.getElementById('btnEntrarSala').href = viteUrl;
                 document.getElementById('btnWaModal').href = waUrl;
                 
                 // 5. Intento Automático de Apertura
