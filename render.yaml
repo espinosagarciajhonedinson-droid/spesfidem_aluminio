@@ -6,7 +6,7 @@ services:
     buildCommand: npm install
     startCommand: node server.js
     plan: free
-    repo: https://github.com/FelipeMlna/SpesFidem # URL de tu repositorio principal
+    repo: https://github.com/espinosagarciajhonedinson-droid/spesfidem_aluminio
     branch: master
     envVars:
       - key: NODE_ENV
