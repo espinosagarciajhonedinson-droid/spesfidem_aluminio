@@ -4,10 +4,11 @@
 // ============================================================
 
 const CRM_LOCAL_USERS = {
-  'jhon@spesfidem.com':   { pass: 'Spesfidem2024!', name: 'Jhon Espinosa',  role: 'admin'    },
-  'felipe@spesfidem.com': { pass: 'Felipe2024!',    name: 'Felipe Molina',  role: 'admin'    },
-  'sergio@spesfidem.com': { pass: 'Sergio2024!',    name: 'Sergio Suarez',  role: 'vendedor' },
-  'caleb@spesfidem.com':  { pass: 'Caleb2024!',     name: 'Caleb Perez',    role: 'vendedor' }
+  'jhon@spesfidem.com':   { pass: 'Spesfidem2026!', name: 'Jhon Espinosa',  role: 'admin'    },
+  'felipe@spesfidem.com': { pass: 'Felipe2026!',    name: 'Felipe Molina',  role: 'admin'    },
+  'ventas@spesfidem.com': { pass: 'Ventas2026!',    name: 'Ventas Spesfidem',role: 'vendedor'},
+  'sergio@spesfidem.com': { pass: 'Sergio2026!',    name: 'Sergio Suarez',  role: 'vendedor' },
+  'caleb@spesfidem.com':  { pass: 'Caleb2026!',     name: 'Caleb Perez',    role: 'vendedor' }
 };
 
 const CRM_AUTH_KEY = 'spesfidem_crm_session';
