@@ -994,16 +994,16 @@
                 const roomId = Math.random().toString(36).substring(2,8).toUpperCase();
                 console.log('[Spesfidem] 🎲 Sala:', roomId);
 
-                // 2. URL de consultoría (detectando host actual para que sea pública)
-                let currentHostname = window.location.hostname;
-                let baseUrl = `${window.location.protocol}//${currentHostname}`;
-                
-                if (currentHostname === '' || currentHostname === 'localhost' || currentHostname === '127.0.0.1' || currentHostname.startsWith('192.168.')) {
-                     baseUrl = `http://${currentHostname || '127.0.0.1'}:${VITE_PORT}`; 
-                } else {
-                     baseUrl = `${window.location.protocol}//${window.location.host}`; 
+                // 2. URL de la sala standalone (no necesita Vite, funciona con el servidor Python)
+                let baseUrl = `${window.location.protocol}//${window.location.host}`;
+                // Si se abre desde file:// o desde el servidor Python (puerto 3000), calcular base correctamente
+                if (window.location.protocol === 'file:') {
+                    const docPath = window.location.href.replace(/videocall\.html.*$/, '');
+                    baseUrl = docPath;
                 }
-                const consultaUrl = `${baseUrl}?room=${roomId}`;
+                // La sala de consultoría es el archivo standalone (no depende de Vite)
+                const consultaPage = baseUrl.startsWith('file:') ? 'consulta.html' : (baseUrl + '/consulta.html');
+                const consultaUrl = `${consultaPage}?room=${roomId}`;
                 currentRoomUrlGlobal = consultaUrl;
 
                 // 3. Generar mensaje de WhatsApp

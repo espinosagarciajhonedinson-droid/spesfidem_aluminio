@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consultoría Visual en Vivo | Spesfidem</title>
+  <meta name="description" content="Sala de videoconsultoría en tiempo real con Spesfidem Aluminio.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@300;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <style>
+    :root {
+      --bg: #020617; --accent: #38bdf8; --accent-glow: rgba(56,189,248,0.35);
+      --glass: rgba(15,23,42,0.7); --border: rgba(255,255,255,0.1);
+      --text: #f8fafc; --muted: #94a3b8; --success: #10b981;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+    body { background:var(--bg); color:var(--text); height:100vh; overflow:hidden; display:flex; flex-direction:column; }
+
+    /* ─── HEADER ─── */
+    header {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 1.5rem; height:60px; flex-shrink:0;
+      background:rgba(15,23,42,0.95); border-bottom:1px solid var(--border);
+      backdrop-filter:blur(20px);
+    }
+    .logo { display:flex; align-items:center; gap:10px; font-family:'Outfit',sans-serif; font-weight:800; font-size:1.1rem; }
+    .logo i { color:var(--accent); font-size:1.3rem; filter:drop-shadow(0 0 8px var(--accent-glow)); }
+    .room-badge {
+      display:flex; align-items:center; gap:8px;
+      background:rgba(255,255,255,0.05); border:1px solid var(--border);
+      border-radius:50px; padding:0.35rem 1rem; font-size:0.85rem;
+    }
+    .room-badge span { color:var(--accent); font-family:monospace; font-weight:800; letter-spacing:2px; }
+    .dot { width:8px; height:8px; border-radius:50%; background:var(--success); animation:pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .btn-exit {
+      display:flex; align-items:center; gap:6px;
+      background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.25);
+      color:#f87171; padding:0.4rem 0.9rem; border-radius:50px;
+      font-size:0.82rem; font-weight:600; cursor:pointer; text-decoration:none;
+      transition:all 0.3s;
+    }
+    .btn-exit:hover { background:rgba(239,68,68,0.2); color:white; }
+
+    /* ─── LOBBY ─── */
+    #lobby {
+      flex:1; display:flex; align-items:center; justify-content:center; padding:1.5rem;
+    }
+    .lobby-card {
+      background:var(--glass); border:1px solid var(--border); border-radius:2rem;
+      padding:2.5rem 2rem; max-width:440px; width:100%; text-align:center;
+      box-shadow:0 30px 80px rgba(0,0,0,0.5);
+    }
+    .lobby-icon {
+      width:72px; height:72px; border-radius:50%;
+      background:rgba(56,189,248,0.12); border:2px solid rgba(56,189,248,0.3);
+      display:flex; align-items:center; justify-content:center; margin:0 auto 1.5rem;
+    }
+    .lobby-icon i { color:var(--accent); font-size:2rem; }
+    .lobby-card h1 { font-family:'Outfit',sans-serif; font-size:1.8rem; font-weight:800; margin-bottom:0.5rem; }
+    .lobby-card p { color:var(--muted); font-size:0.95rem; margin-bottom:1.8rem; line-height:1.5; }
+
+    .input-group { position:relative; margin-bottom:0.8rem; }
+    .input-group i { position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--muted); }
+    input[type=text] {
+      width:100%; padding:0.85rem 0.85rem 0.85rem 40px;
+      background:rgba(255,255,255,0.06); border:1px solid var(--border);
+      border-radius:12px; color:var(--text); font-size:1rem; outline:none;
+      transition:all 0.3s; text-transform:uppercase; letter-spacing:2px; font-weight:700;
+    }
+    input[type=text]:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-glow); }
+    input[type=text]::placeholder { text-transform:none; letter-spacing:0; font-weight:400; color:var(--muted); }
+
+    .btn-primary {
+      width:100%; padding:1rem; background:linear-gradient(135deg, #0369a1, var(--accent));
+      border:none; border-radius:14px; color:#0f172a; font-weight:800;
+      font-size:1.05rem; cursor:pointer; transition:all 0.3s;
+      display:flex; align-items:center; justify-content:center; gap:10px;
+    }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 6px 25px var(--accent-glow); }
+    .btn-primary:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+
+    .or-divider { display:flex; align-items:center; gap:12px; margin:1rem 0; color:var(--muted); font-size:0.8rem; }
+    .or-divider::before, .or-divider::after { content:''; flex:1; height:1px; background:var(--border); }
+
+    .btn-secondary {
+      width:100%; padding:0.85rem; background:rgba(255,255,255,0.05);
+      border:1px solid var(--border); border-radius:14px; color:var(--text);
+      font-weight:700; font-size:0.95rem; cursor:pointer; transition:all 0.3s;
+      display:flex; align-items:center; justify-content:center; gap:10px;
+    }
+    .btn-secondary:hover { background:rgba(255,255,255,0.1); border-color:var(--accent); }
+
+    /* ─── MAIN ROOM ─── */
+    #room { flex:1; display:none; gap:0.75rem; padding:0.75rem; overflow:hidden; }
+
+    /* Grid: video left, workspace right */
+    .grid-layout { display:grid; grid-template-columns: 1fr 2fr; gap:0.75rem; height:100%; min-height:0; }
+    @media (max-width:768px) { .grid-layout { grid-template-columns:1fr; } }
+
+    .panel {
+      background:var(--glass); border:1px solid var(--border);
+      border-radius:1.2rem; overflow:hidden; display:flex; flex-direction:column;
+    }
+    .panel-header {
+      padding:0.75rem 1rem; border-bottom:1px solid var(--border);
+      font-family:'Outfit',sans-serif; font-weight:700; font-size:0.85rem;
+      text-transform:uppercase; letter-spacing:1px; color:var(--accent);
+      display:flex; align-items:center; gap:8px; flex-shrink:0;
+    }
+
+    /* Video panel */
+    .video-panel { position:relative; flex:1; background:#000; min-height:0; }
+    #remoteVideo { width:100%; height:100%; object-fit:cover; }
+    .waiting-overlay {
+      position:absolute; inset:0; display:flex; flex-direction:column;
+      align-items:center; justify-content:center; gap:12px; color:var(--muted);
+    }
+    .waiting-icon { width:60px; height:60px; border-radius:50%; background:rgba(56,189,248,0.08); border:1px solid rgba(56,189,248,0.2); display:flex; align-items:center; justify-content:center; }
+    .waiting-icon i { color:var(--accent); font-size:1.5rem; }
+    #localPip {
+      position:absolute; bottom:12px; right:12px; width:110px; height:80px;
+      border-radius:12px; overflow:hidden; border:2px solid rgba(56,189,248,0.4);
+      background:#111; box-shadow:0 4px 20px rgba(0,0,0,0.5);
+    }
+    #localVideo { width:100%; height:100%; object-fit:cover; transform:scaleX(-1); }
+    .controls {
+      position:absolute; bottom:12px; left:50%; transform:translateX(-50%);
+      display:flex; gap:10px; background:rgba(2,6,23,0.85);
+      padding:0.6rem 1rem; border-radius:50px; border:1px solid var(--border);
+      backdrop-filter:blur(10px);
+    }
+    .ctrl-btn {
+      width:40px; height:40px; border-radius:50%; border:none; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      background:rgba(255,255,255,0.1); color:white; font-size:0.9rem; transition:all 0.3s;
+    }
+    .ctrl-btn:hover { background:rgba(255,255,255,0.2); }
+    .ctrl-btn.off { background:rgba(239,68,68,0.8); }
+
+    /* Workspace panel */
+    .workspace { flex:1; padding:1.2rem; overflow-y:auto; display:flex; flex-direction:column; gap:1rem; }
+    .form-group label { display:block; font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:0.4rem; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; }
+    .form-control {
+      width:100%; padding:0.65rem 0.9rem;
+      background:rgba(255,255,255,0.05); border:1px solid var(--border);
+      border-radius:10px; color:var(--text); font-size:0.9rem; outline:none; transition:all 0.3s;
+    }
+    .form-control:focus { border-color:var(--accent); box-shadow:0 0 0 2px var(--accent-glow); }
+    .form-control option { background:#0f172a; }
+
+    /* Preview */
+    .preview-box {
+      background:rgba(0,0,0,0.3); border-radius:12px; border:1px dashed var(--border);
+      min-height:160px; display:flex; align-items:center; justify-content:center; position:relative; padding:1rem;
+    }
+    #previewWindow {
+      border:3px solid var(--accent); border-radius:6px;
+      background:rgba(56,189,248,0.04); transition:all 0.5s ease;
+      box-shadow:0 0 20px var(--accent-glow);
+      position:relative;
+    }
+
+    /* Toast */
+    #toast {
+      position:fixed; top:80px; left:50%; transform:translateX(-50%);
+      background:#0f172a; color:white; padding:10px 20px; border-radius:50px;
+      font-size:0.85rem; font-weight:600; box-shadow:0 8px 25px rgba(0,0,0,0.5);
+      border:1px solid var(--border); opacity:0; transition:opacity 0.3s; z-index:9999;
+      pointer-events:none;
+    }
+    #toast.show { opacity:1; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo"><i class="fas fa-video"></i> Consultoría Spesfidem</div>
+    <div id="headerCenter" style="display:none;">
+      <div class="room-badge">
+        <div class="dot"></div>
+        <span id="roomCode">——</span>
+        <span style="color:var(--muted);font-size:0.75rem;">En sesión</span>
+      </div>
+    </div>
+    <a href="videocall.html" class="btn-exit"><i class="fas fa-sign-out-alt"></i> Salir</a>
+  </header>
+
+  <!-- Toast -->
+  <div id="toast"></div>
+
+  <!-- LOBBY -->
+  <div id="lobby">
+    <div class="lobby-card">
+      <div class="lobby-icon"><i class="fas fa-video"></i></div>
+      <h1>Sala de Consultoría</h1>
+      <p>Crea una sala nueva o únete a una existente con el código que te compartieron.</p>
+
+      <div class="input-group">
+        <i class="fas fa-hashtag"></i>
+        <input type="text" id="roomInput" placeholder="Código de sala (ej: AB34XZ)" maxlength="8">
+      </div>
+
+      <button class="btn-primary" id="joinBtn" onclick="joinRoom()">
+        <i class="fas fa-sign-in-alt"></i> Unirse a Sala
+      </button>
+
+      <div class="or-divider">o</div>
+
+      <button class="btn-secondary" onclick="createRoom()">
+        <i class="fas fa-plus-circle" style="color:var(--accent)"></i> Crear Nueva Sala
+      </button>
+    </div>
+  </div>
+
+  <!-- ROOM -->
+  <div id="room">
+    <div class="grid-layout">
+
+      <!-- Left: Video -->
+      <div class="panel" style="min-height:0;">
+        <div class="panel-header"><i class="fas fa-video"></i> Video</div>
+        <div class="video-panel">
+          <video id="remoteVideo" autoplay playsinline></video>
+          <div class="waiting-overlay" id="waitingOverlay">
+            <div class="waiting-icon"><i class="fas fa-user"></i></div>
+            <span style="font-size:0.85rem;">Esperando al asesor...</span>
+            <span style="font-size:0.75rem;opacity:0.5;">La llamada inicia al conectarse</span>
+          </div>
+          <div id="localPip">
+            <video id="localVideo" autoplay playsinline muted></video>
+          </div>
+          <div class="controls">
+            <button class="ctrl-btn" id="micBtn" onclick="toggleMic()" title="Silenciar"><i class="fas fa-microphone"></i></button>
+            <button class="ctrl-btn" id="camBtn" onclick="toggleCam()" title="Cámara"><i class="fas fa-video"></i></button>
+            <button class="ctrl-btn" onclick="copyLink()" title="Copiar enlace" style="background:rgba(56,189,248,0.15);"><i class="fas fa-link"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Workspace -->
+      <div class="panel" style="min-height:0;overflow:hidden;">
+        <div class="panel-header"><i class="fas fa-ruler-combined"></i> Especificaciones del Proyecto</div>
+        <div class="workspace">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Ancho (metros)</label>
+              <input type="number" class="form-control" id="ws_width" placeholder="Ej: 1.50" step="0.01" min="0.1" max="10" value="1.20"
+                onchange="syncSpec('width', this.value)">
+            </div>
+            <div class="form-group">
+              <label>Alto (metros)</label>
+              <input type="number" class="form-control" id="ws_height" placeholder="Ej: 1.80" step="0.01" min="0.1" max="10" value="1.50"
+                onchange="syncSpec('height', this.value)">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Perfil de Aluminio</label>
+            <select class="form-control" id="ws_profile" onchange="syncSpec('profile', this.value)">
+              <option value="Natural">Natural (Plateado)</option>
+              <option value="Negro">Negro Mate</option>
+              <option value="Blanco">Blanco Texturizado</option>
+              <option value="Champagne">Champagne / Dorado</option>
+              <option value="Madera">Efecto Madera</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Tipo de Vidrio</label>
+            <select class="form-control" id="ws_glass" onchange="syncSpec('glass', this.value)">
+              <option value="">— Seleccionar —</option>
+              <optgroup label="Vidrio Monolítico">
+                <option value="Claro 4mm">Claro (4mm)</option>
+                <option value="Claro 5mm">Claro (5mm)</option>
+                <option value="Bronce">Bronce</option>
+                <option value="Gris Humo">Gris (Humo)</option>
+              </optgroup>
+              <optgroup label="Reflectivo / Especial">
+                <option value="Bronce Reflectivo">Bronce Reflectivo</option>
+                <option value="Azul Reflectivo">Azul Reflectivo</option>
+                <option value="Esmerilado">Esmerilado (Sandblasted)</option>
+              </optgroup>
+              <optgroup label="Vidrio Templado">
+                <option value="Templado 6mm">Templado 6mm</option>
+                <option value="Templado 8mm">Templado 8mm</option>
+                <option value="Templado 10mm">Templado 10mm</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Vista Previa</label>
+            <div class="preview-box" id="previewBox">
+              <div id="previewWindow"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Notas del Proyecto</label>
+            <textarea class="form-control" id="ws_notes" rows="3" style="resize:vertical"
+              placeholder="Describa detalles adicionales, materiales, acabados..."
+              onchange="syncSpec('notes', this.value)"></textarea>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  // ══════════════════════════════════════════════════════════════════
+  //  CONFIGURACIÓN: Detecta el servidor de señalización automáticamente
+  // ══════════════════════════════════════════════════════════════════
+  const BACKEND_URL = (() => {
+    const h = window.location.hostname || 'localhost';
+    return `http://${h}:3001`;
+  })();
+
+  const ICE_SERVERS = {
+    iceServers: [
+      { urls: 'stun:stun.l.google.com:19302' },
+      { urls: 'stun:stun1.l.google.com:19302' },
+    ]
+  };
+
+  let socket, localStream, pcs = {}, myRoomId = '', micOn = true, camOn = true;
+
+  // ── Init socket ──
+  function initSocket() {
+    socket = io(BACKEND_URL, { transports: ['websocket', 'polling'] });
+    socket.on('connect', () => toast('Conectado al servidor ✓', 'success'));
+    socket.on('connect_error', () => toast('Error de conexión. ¿Está el servidor Node.js corriendo?'));
+    socket.on('existing-peers', onExistingPeers);
+    socket.on('user-joined',    onUserJoined);
+    socket.on('offer',          onOffer);
+    socket.on('answer',         onAnswer);
+    socket.on('ice-candidate',  onIce);
+    socket.on('user-left',      onUserLeft);
+    socket.on('state-updated',  onStateUpdated);
+  }
+
+  // ── Room join/create ──
+  async function createRoom() {
+    const id = Math.random().toString(36).substring(2,8).toUpperCase();
+    document.getElementById('roomInput').value = id;
+    joinRoom();
+  }
+
+  async function joinRoom() {
+    const id = document.getElementById('roomInput').value.trim().toUpperCase();
+    if (!id) { toast('Ingresa un código de sala'); return; }
+    myRoomId = id;
+
+    // Start media
+    try {
+      localStream = await navigator.mediaDevices.getUserMedia({ video:true, audio:true });
+      document.getElementById('localVideo').srcObject = localStream;
+    } catch (e) {
+      toast('No se pudo acceder a la cámara/micrófono: ' + e.message);
+    }
+
+    // Show room UI
+    document.getElementById('lobby').style.display = 'none';
+    document.getElementById('room').style.display = 'flex';
+    document.getElementById('headerCenter').style.display = 'block';
+    document.getElementById('roomCode').textContent = id;
+
+    // Update URL without reload
+    const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?room=${id}`;
+    window.history.replaceState({}, '', newUrl);
+
+    // Join socket room
+    if (!socket) initSocket();
+    socket.emit('join-room', id);
+    updatePreview();
+  }
+
+  // Auto-join from URL param
+  window.addEventListener('load', () => {
+    initSocket();
+    const params = new URLSearchParams(window.location.search);
+    const r = params.get('room');
+    if (r) {
+      document.getElementById('roomInput').value = r.toUpperCase();
+    }
+  });
+
+  // ── WebRTC helpers ──
+  function createPC(remoteId) {
+    if (pcs[remoteId]) return pcs[remoteId];
+    const pc = new RTCPeerConnection(ICE_SERVERS);
+    pcs[remoteId] = pc;
+    if (localStream) localStream.getTracks().forEach(t => pc.addTrack(t, localStream));
+    pc.ontrack = e => {
+      document.getElementById('remoteVideo').srcObject = e.streams[0];
+      document.getElementById('waitingOverlay').style.display = 'none';
+    };
+    pc.onicecandidate = e => {
+      if (e.candidate) socket.emit('ice-candidate', { target: remoteId, candidate: e.candidate });
+    };
+    pc.onconnectionstatechange = () => {
+      if (['disconnected','failed','closed'].includes(pc.connectionState)) {
+        pc.close(); delete pcs[remoteId];
+        if (Object.keys(pcs).length === 0) {
+          document.getElementById('remoteVideo').srcObject = null;
+          document.getElementById('waitingOverlay').style.display = 'flex';
+        }
+      }
+    };
+    return pc;
+  }
+
+  async function onExistingPeers(peerIds) {
+    for (const pid of peerIds) {
+      const pc = createPC(pid);
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+      socket.emit('offer', { target: pid, sdp: offer });
+    }
+  }
+  function onUserJoined(id) { createPC(id); }
+
+  async function onOffer({ caller, sdp }) {
+    const pc = createPC(caller);
+    await pc.setRemoteDescription(new RTCSessionDescription(sdp));
+    const answer = await pc.createAnswer();
+    await pc.setLocalDescription(answer);
+    socket.emit('answer', { target: caller, sdp: answer });
+  }
+  async function onAnswer({ callee, sdp }) {
+    if (pcs[callee]) await pcs[callee].setRemoteDescription(new RTCSessionDescription(sdp));
+  }
+  async function onIce({ sender, candidate }) {
+    if (pcs[sender]) { try { await pcs[sender].addIceCandidate(new RTCIceCandidate(candidate)); } catch{} }
+  }
+  function onUserLeft(id) {
+    if (pcs[id]) { pcs[id].close(); delete pcs[id]; }
+    if (Object.keys(pcs).length === 0) {
+      document.getElementById('remoteVideo').srcObject = null;
+      document.getElementById('waitingOverlay').style.display = 'flex';
+    }
+  }
+
+  // ── Controls ──
+  function toggleMic() {
+    micOn = !micOn;
+    if (localStream) localStream.getAudioTracks().forEach(t => t.enabled = micOn);
+    const btn = document.getElementById('micBtn');
+    btn.classList.toggle('off', !micOn);
+    btn.innerHTML = micOn ? '<i class="fas fa-microphone"></i>' : '<i class="fas fa-microphone-slash"></i>';
+  }
+  function toggleCam() {
+    camOn = !camOn;
+    if (localStream) localStream.getVideoTracks().forEach(t => t.enabled = camOn);
+    const btn = document.getElementById('camBtn');
+    btn.classList.toggle('off', !camOn);
+    btn.innerHTML = camOn ? '<i class="fas fa-video"></i>' : '<i class="fas fa-video-slash"></i>';
+  }
+  function copyLink() {
+    const link = `${window.location.protocol}//${window.location.host}${window.location.pathname}?room=${myRoomId}`;
+    navigator.clipboard.writeText(link).then(() => toast('¡Enlace copiado!', 'success')).catch(() => toast('No se pudo copiar'));
+  }
+
+  // ── Live sync ──
+  function syncSpec(key, value) {
+    if (socket && myRoomId) socket.emit('update-state', { roomId: myRoomId, key, value });
+    updatePreview();
+  }
+  function onStateUpdated({ key, value }) {
+    const el = document.getElementById('ws_' + key);
+    if (el) el.value = value;
+    updatePreview();
+  }
+
+  // ── Preview ──
+  function updatePreview() {
+    const w = parseFloat(document.getElementById('ws_width')?.value) || 1.2;
+    const h = parseFloat(document.getElementById('ws_height')?.value) || 1.5;
+    const box = document.getElementById('previewBox');
+    const win = document.getElementById('previewWindow');
+    if (!box || !win) return;
+    const maxW = box.offsetWidth - 40, maxH = box.offsetHeight - 40 || 120;
+    const scale = Math.min(maxW / w, maxH / h, 80);
+    win.style.width  = (w * scale) + 'px';
+    win.style.height = (h * scale) + 'px';
+    const glassColorMap = {
+      'Bronce':'rgba(139,90,43,0.15)', 'Bronce Reflectivo':'rgba(139,90,43,0.2)',
+      'Azul Reflectivo':'rgba(56,100,210,0.15)', 'Esmerilado':'rgba(200,200,200,0.12)',
+    };
+    const glass = document.getElementById('ws_glass')?.value || '';
+    win.style.background = glassColorMap[glass] || 'rgba(56,189,248,0.05)';
+  }
+
+  // ── Toast ──
+  function toast(msg, type='info') {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.style.borderColor = type === 'success' ? 'rgba(16,185,129,0.4)' : 'rgba(255,255,255,0.1)';
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 3000);
+  }
+  </script>
+</body>
+</html>
