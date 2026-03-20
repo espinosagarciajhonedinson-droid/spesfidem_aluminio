@@ -36,7 +36,7 @@ function App() {
     return () => s.close();
   }, []);
 
-  // ── Auto-join from URL (owner clicks WhatsApp link) ──
+  // ── Auto-join from URL ──
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const roomFromUrl = params.get('room');
@@ -50,24 +50,10 @@ function App() {
       socket.emit('join-room', id);
       setJoined(true);
 
-      // Auto-trigger WhatsApp if coming from videocall.html redirect
-      if (params.get('autoWa') === 'true') {
-        const phone = '573046291152';
-        const cleanUrl = window.location.href.split('&autoWa')[0];
-        const waMessage = `Nueva solicitud de consultoría Spesfidem, cliente esperando\n\nSala: ${id}\nEnlace Principal: ${cleanUrl}`;
-        const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(waMessage)}`;
-        
-        // Limpiamos la URL para evitar loop y que el Back no rebote
-        const urlObj = new URL(window.location);
-        urlObj.searchParams.delete('autoWa');
-        window.history.replaceState({}, '', urlObj);
-
-        // Abrimos WA con un ligero retraso para asegurar que React haya pintado la sala WebRTC
-        setTimeout(() => {
-          let win = window.open(waUrl, '_blank');
-          if (!win) window.location.href = waUrl;
-        }, 500);
-      }
+      // Limpiar parámetros extra de la URL
+      const urlObj = new URL(window.location);
+      urlObj.searchParams.delete('autoWa');
+      window.history.replaceState({}, '', urlObj);
     }
   }, [socket, joined]);
 
