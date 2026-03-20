@@ -65,9 +65,10 @@ export default function VideoCall({ socket, roomId, role = 'client' }) {
           </button>
           
           <button onClick={switchCamera}
-            className="p-2.5 rounded-full transition-all bg-white/10 hover:bg-white/20 text-white shadow-[0_0_10px_rgba(255,255,255,0.1)]"
+            className="px-4 py-2.5 rounded-full transition-all bg-blue-600/90 hover:bg-blue-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.5)] flex items-center justify-center gap-2 font-bold"
             title="Voltear Cámara (Frontal/Trasera)">
             <RefreshCw size={18} />
+            <span className="text-sm">Girar</span>
           </button>
           {/* Botón de Colgar */}
           <button onClick={endCall}

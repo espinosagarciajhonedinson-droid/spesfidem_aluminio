@@ -117,9 +117,7 @@ export default function useWebRTC(socket, roomId) {
         pcs.current[userId].close();
         delete pcs.current[userId];
         setRemoteStream(null);
-        
-        // El usuario remoto se desconectó, redirigimos al inicio
-        window.location.href = '/index.html';
+        // NOTA: Se elimina la redirección para evitar que la llamada se caiga si hay un pequeño corte de red.
       }
     };
 
