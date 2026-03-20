@@ -52,27 +52,27 @@ export default function VideoCall({ socket, roomId, role = 'client' }) {
         </div>
 
         {/* Controls */}
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-3 bg-slate-900/80 px-5 py-2.5 rounded-full backdrop-blur-md border border-white/10">
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 sm:gap-3 bg-slate-900/80 p-2 sm:px-5 sm:py-2.5 rounded-full backdrop-blur-md border border-white/10 max-w-[95%] overflow-x-auto scrollbar-hide">
           <button onClick={toggleMic}
-            className={`p-2.5 rounded-full transition-all ${micActive ? 'bg-white/10 hover:bg-white/20' : 'bg-orange-500/90 hover:bg-orange-500 text-white'}`}
+            className={`p-2 sm:p-2.5 rounded-full transition-all ${micActive ? 'bg-white/10 hover:bg-white/20' : 'bg-orange-500/90 hover:bg-orange-500 text-white'}`}
             title={micActive ? 'Silenciar' : 'Activar micrófono'}>
             {micActive ? <Mic size={18} /> : <MicOff size={18} />}
           </button>
           <button onClick={toggleCamera}
-            className={`p-2.5 rounded-full transition-all ${cameraActive ? 'bg-white/10 hover:bg-white/20' : 'bg-orange-500/90 hover:bg-orange-500 text-white'}`}
+            className={`p-2 sm:p-2.5 rounded-full transition-all ${cameraActive ? 'bg-white/10 hover:bg-white/20' : 'bg-orange-500/90 hover:bg-orange-500 text-white'}`}
             title={cameraActive ? 'Apagar cámara' : 'Activar cámara'}>
             {cameraActive ? <Camera size={18} /> : <CameraOff size={18} />}
           </button>
           
           <button onClick={switchCamera}
-            className="px-4 py-2.5 rounded-full transition-all bg-blue-600/90 hover:bg-blue-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.5)] flex items-center justify-center gap-2 font-bold"
+            className="px-3 sm:px-4 py-2 sm:py-2.5 rounded-full transition-all bg-blue-600/90 hover:bg-blue-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.5)] flex items-center justify-center gap-1.5 sm:gap-2 font-bold whitespace-nowrap"
             title="Cambiar Cámara">
             <RefreshCw size={18} />
-            <span className="text-sm">Girar</span>
+            <span className="text-[10px] sm:text-sm">Girar</span>
           </button>
-          {/* Botón de Colgar */}
+          
           <button onClick={endCall}
-            className="p-2.5 rounded-full transition-all bg-red-600/90 hover:bg-red-600 shadow-[0_0_15px_rgba(220,38,38,0.5)] flex items-center justify-center text-white ml-2"
+            className="p-2 sm:p-2.5 rounded-full transition-all bg-red-600/90 hover:bg-red-600 shadow-[0_0_15px_rgba(220,38,38,0.5)] flex items-center justify-center text-white ml-0.5 sm:ml-2"
             title="Finalizar Videollamada">
             <PhoneOff size={18} />
           </button>

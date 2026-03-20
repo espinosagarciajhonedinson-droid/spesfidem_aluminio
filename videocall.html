@@ -902,7 +902,7 @@
 
         <div class="call-info">
             <i class="fas fa-shield-alt"></i>
-            <span>Conexión WebRTC P2P Segura &nbsp;|&nbsp; <i class="fab fa-whatsapp" style="color:#25d366"></i> Se notificará al asesor por WhatsApp</span>
+            <span>Conexión WebRTC P2P Segura</span>
         </div>
 
 
@@ -1073,9 +1073,6 @@
                 <div class="action-row">
                     <button class="btn-action primary" onclick="copySummary()">
                         <i class="fas fa-copy"></i> Copiar Resumen
-                    </button>
-                    <button class="btn-action secondary" onclick="shareWhatsApp()">
-                        <i class="fab fa-whatsapp"></i> Enviar por WhatsApp
                     </button>
                 </div>
             </div>
@@ -1299,11 +1296,6 @@
                 ta.remove();
                 showToast('✅ Resumen copiado');
             });
-        }
-
-        function shareWhatsApp() {
-            const text = encodeURIComponent(buildSummary());
-            window.open(`https://wa.me/573046291152?text=${text}`, '_blank');
         }
 
         // ===== TOAST =====
