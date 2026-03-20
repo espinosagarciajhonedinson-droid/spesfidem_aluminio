@@ -205,25 +205,25 @@ function App() {
       </header>
 
       {/* Main Grid */}
-      <main className="flex-1 flex flex-col lg:grid lg:grid-cols-12 gap-3 h-full min-h-0 overflow-y-auto lg:overflow-hidden pb-4 lg:pb-0">
+      <main className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-3 h-full min-h-0 overflow-y-auto lg:overflow-hidden p-3 lg:p-0">
 
-        {/* Left: Video + Visualizer */}
-        <div className="lg:col-span-4 flex flex-col gap-3 h-auto lg:h-full shrink-0 lg:shrink min-h-0">
-          <div className="h-[40vh] lg:flex-1 min-h-[250px] lg:min-h-0 rounded-2xl overflow-hidden bg-slate-800 shadow-lg border border-slate-700/50">
+        {/* Left: Video + Visualizer (Col-span 4) */}
+        <div className="lg:col-span-4 flex flex-col gap-4 lg:gap-3 h-auto lg:h-full min-h-[400px] lg:min-h-0">
+          <div className="flex-1 min-h-[300px] lg:min-h-0">
             <VideoCall socket={socket} roomId={roomId} role={role} />
           </div>
-          <div className="h-auto lg:h-[38%] shrink-0">
+          <div className="h-[280px] lg:h-[220px] shrink-0">
             <Visualizer specs={specs} />
           </div>
         </div>
 
-        {/* Center: Workspace */}
-        <div className="lg:col-span-4 h-auto lg:h-full shrink-0 min-h-0">
+        {/* Center: Workspace (Col-span 4) */}
+        <div className="lg:col-span-4 h-auto lg:h-full min-h-[500px] lg:min-h-0">
           <Workspace specs={specs} onChange={handleSpecChange} />
         </div>
 
-        {/* Right: Gallery */}
-        <div className="lg:col-span-4 h-auto lg:h-full shrink-0 min-h-0">
+        {/* Right: Gallery (Col-span 4) */}
+        <div className="lg:col-span-4 h-auto lg:h-full min-h-[400px] lg:min-h-0 pb-6 lg:pb-0">
           <Gallery socket={socket} roomId={roomId} />
         </div>
 

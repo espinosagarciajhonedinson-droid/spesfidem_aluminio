@@ -34,12 +34,12 @@ export default function Gallery({ socket, roomId }) {
         <i className="fas fa-images"></i> Diseños de Referencia
       </h2>
       
-      <div className="grid grid-cols-2 gap-4 overflow-y-auto pr-2 pb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 overflow-y-auto pr-2 pb-4">
         {DESIGNS.map(design => (
           <div 
             key={design.id}
             onClick={() => handleSelect(design.id)}
-            className={`relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer border-2 transition-all duration-300 ${
+            className={`relative aspect-video sm:aspect-[4/3] rounded-xl overflow-hidden cursor-pointer border-2 transition-all duration-300 ${
               selectedId === design.id 
                 ? 'border-success shadow-[0_0_20px_rgba(16,185,129,0.3)] transform scale-[1.02]' 
                 : 'border-transparent hover:border-accent/50 hover:shadow-[0_0_15px_rgba(56,189,248,0.2)]'
