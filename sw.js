@@ -1,4 +1,4 @@
-const CACHE_NAME = 'spesfidem-v3-login-fix';
+const CACHE_NAME = 'spesfidem-v4-no-wa';
 
 // Core Application Assets
 const CORE_ASSETS = [
