@@ -42,11 +42,13 @@ export default function useWebRTC(socket, roomId) {
     };
 
     pc.onconnectionstatechange = () => {
-      if (['disconnected','failed','closed'].includes(pc.connectionState)) {
+      console.log(`[WebRTC] Connection state with ${remoteId}: ${pc.connectionState}`);
+      if (['failed','closed'].includes(pc.connectionState)) {
         setRemoteStream(null);
         pc.close();
         delete pcs.current[remoteId];
       }
+      // Note: 'disconnected' is ignored to allow for ICE restarts or temporary network drops.
     };
 
     return pc;
@@ -213,5 +215,5 @@ export default function useWebRTC(socket, roomId) {
     }
   };
 
-  return { localStream, remoteStream, toggleCamera, toggleMic, cameraActive, micActive, switchCamera };
+  return { localStream, remoteStream, toggleCamera, toggleMic, cameraActive, micActive, switchCamera, facingMode };
 }
