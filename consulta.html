@@ -182,9 +182,11 @@
         <video id="remoteVideo" autoplay playsinline></video>
         <div id="localPip"><video id="localVideo" autoplay playsinline muted></video></div>
         <div class="video-controls">
-          <button class="btn-icon" id="micBtn" onclick="toggleMic()"><i class="fas fa-microphone"></i></button>
-          <button class="btn-icon" id="camBtn" onclick="toggleCam()"><i class="fas fa-video"></i></button>
-          <button class="btn-icon" onclick="switchCam()"><i class="fas fa-sync"></i></button>
+          <button class="btn-icon" id="micBtn" onclick="toggleMic()" title="Micrófono"><i class="fas fa-microphone"></i></button>
+          <button class="btn-icon" id="camBtn" onclick="toggleCam()" title="Cámara"><i class="fas fa-video"></i></button>
+          <button class="btn-icon" onclick="switchCam()" style="width: auto; padding: 0 15px; border-radius: 50px; background: #2563eb; font-weight: bold; font-size: 0.8rem; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-sync"></i> Girar Cámara
+          </button>
         </div>
       </div>
       <div class="viz-container">
@@ -375,13 +377,32 @@
       document.getElementById('camBtn').classList.toggle('off', !t.enabled);
     }
     async function switchCam() {
-      facing = facing === 'user' ? 'environment' : 'user';
-      localStream.getTracks().forEach(t => t.stop());
-      localStream = await navigator.mediaDevices.getUserMedia({video: {facingMode: facing}, audio:true});
-      document.getElementById('localVideo').srcObject = localStream;
-      document.getElementById('localVideo').style.transform = facing === 'user' ? 'scaleX(-1)' : 'scaleX(1)';
-      // Trigger renegotiation if possible, or just re-join (simplified for standalone)
-      location.reload(); 
+      try {
+        facing = facing === 'user' ? 'environment' : 'user';
+        const newStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: facing },
+          audio: false
+        });
+        
+        const newTrack = newStream.getVideoTracks()[0];
+        const oldTrack = localStream.getVideoTracks()[0];
+        
+        if (oldTrack) oldTrack.stop();
+        localStream.removeTrack(oldTrack);
+        localStream.addTrack(newTrack);
+        
+        document.getElementById('localVideo').srcObject = new MediaStream([newTrack]);
+        document.getElementById('localVideo').style.transform = facing === 'user' ? 'scaleX(-1)' : 'scaleX(1)';
+
+        // Replace track in peer connection
+        if (pc) {
+          const sender = pc.getSenders().find(s => s.track && s.track.kind === 'video');
+          if (sender) sender.replaceTrack(newTrack);
+        }
+      } catch (e) {
+        console.error("Error switching camera:", e);
+        alert("No se pudo cambiar la cámara");
+      }
     }
 
     // Auto-join
