@@ -118,8 +118,11 @@ export default function useWebRTC(socket, roomId) {
       if (pcs.current[userId]) {
         pcs.current[userId].close();
         delete pcs.current[userId];
-        setRemoteStream(null);
-        // NOTA: Se elimina la redirección para evitar que la llamada se caiga si hay un pequeño corte de red.
+        
+        // Only remove remote stream if no other active connections exist
+        if (Object.keys(pcs.current).length === 0) {
+          setRemoteStream(null);
+        }
       }
     };
 

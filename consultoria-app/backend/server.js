@@ -62,6 +62,11 @@ io.on('connection', (socket) => {
     socket.to(payload.roomId).emit('state-updated', payload);
   });
 
+  socket.on('sync-full-state', (payload) => {
+    // Send full specs to specific peer when they join
+    io.to(payload.target).emit('full-state-updated', payload.specs);
+  });
+
   // ========== Disconnect ==========
   socket.on('disconnect', () => {
     console.log(`[-] Desconectado: ${socket.id}`);

@@ -136,13 +136,13 @@
             line-height: 1.6;
         }
 
-        /* ===== WHATSAPP CALL BUTTON ===== */
+        /* ===== CALL BUTTON ===== */
         .btn-videocall {
             display: inline-flex;
             align-items: center;
             gap: 14px;
             padding: 1.2rem 3rem;
-            background: linear-gradient(135deg, #064e3b 0%, #10b981 45%, #ecfdf5 50%, #10b981 55%, #064e3b 100%);
+            background: linear-gradient(135deg, var(--accent) 0%, #0ea5e9 100%);
             background-size: 200% auto;
             color: white;
             text-decoration: none;
@@ -152,8 +152,8 @@
             font-size: 1.3rem;
             letter-spacing: 1px;
             text-transform: uppercase;
-            border: 2px solid #065f46;
-            box-shadow: 0 0 40px rgba(16, 185, 129, 0.4), 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(56, 189, 248, 0.1);
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3), 0 10px 30px rgba(0, 0, 0, 0.3);
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             animation: pulse-glow 2s ease-in-out infinite, shimmer 3s linear infinite;
@@ -163,7 +163,7 @@
 
         .btn-videocall:hover {
             transform: translateY(-4px) scale(1.03);
-            box-shadow: 0 0 60px rgba(16, 185, 129, 0.6), 0 15px 40px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.5), 0 15px 40px rgba(0, 0, 0, 0.4);
         }
 
         .btn-videocall i {
@@ -171,8 +171,8 @@
         }
 
         @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.3), 0 10px 30px rgba(0, 0, 0, 0.3); }
-            50% { box-shadow: 0 0 50px rgba(16, 185, 129, 0.6), 0 10px 30px rgba(0, 0, 0, 0.3); }
+            0%, 100% { box-shadow: 0 0 30px rgba(56, 189, 248, 0.2), 0 10px 30px rgba(0, 0, 0, 0.3); }
+            50% { box-shadow: 0 0 50px rgba(56, 189, 248, 0.4), 0 10px 30px rgba(0, 0, 0, 0.3); }
         }
 
         .call-info {
@@ -895,9 +895,14 @@
             <p style="font-size: 0.75rem; color: var(--text-muted);">Puedes escribir un nombre de sala único o usar el generado.</p>
         </div>
 
+        <div id="urlPreviewContainer" style="margin-bottom: 2rem; padding: 0.8rem; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.2); font-size: 0.85rem; color: var(--text-muted); word-break: break-all; text-align: center; max-width: 400px; margin-left: auto; margin-right: auto;">
+            Enlace de la sala para compartir:<br>
+            <span id="urlPreviewText" style="color: var(--accent); font-weight: 700; user-select: text;"></span>
+        </div>
+
         <button onclick="iniciarConsultoria()" class="btn-videocall" id="btnVideoCall">
-            <i class="fas fa-video"></i>
-            INICIAR VIDEO CONSULTA
+            <i class="fas fa-sign-in-alt"></i>
+            ENTRAR A LA SALA
         </button>
 
         <div class="call-info">
@@ -909,6 +914,18 @@
 
 
         <script>
+        function generateNewId() {
+            const id = Math.random().toString(36).substring(2,8).toUpperCase();
+            document.getElementById('customRoomId').value = id;
+            updateLinksPreview();
+        }
+
+        function updateLinksPreview() {
+            let roomId = document.getElementById('customRoomId').value.trim().toUpperCase();
+            if(!roomId) roomId = "SALA-01";
+            let baseUrl = `${window.location.protocol}//${window.location.host}`;
+            document.getElementById('urlPreviewText').innerText = `${baseUrl}/consultoria/?room=${roomId}`;
+        }
         // ══════════════════════════════════════════════════════════════
         //  CONFIGURACIÓN DE IP / DOMINIO
         //  Si el cliente y el asesor están en la MISMA red WiFi:
@@ -935,7 +952,7 @@
 
                 // 2. URL de la sala (Vite React App)
                 let baseUrl = `${window.location.protocol}//${window.location.host}`;
-                const viteUrl = `${baseUrl}/consultoria/?room=${roomId}`;
+                const viteUrl = `${baseUrl}/consultoria/?room=${roomId}&role=client`;
                 
                 // 3. Redirección inmediata con bandera de notificación automática
                 window.location.assign(viteUrl);

@@ -23,6 +23,10 @@ function App() {
   const [specs,      setSpecs]      = useState(INITIAL_SPECS);
   const [copied,     setCopied]     = useState(false);
 
+  // Use a ref to access latest specs inside socket listeners
+  const specsRef = useRef(specs);
+  useEffect(() => { specsRef.current = specs; }, [specs]);
+
   // ── Init socket ──
   useEffect(() => {
     const s = io(BACKEND_URL, { transports: ['websocket', 'polling'] });
@@ -31,6 +35,15 @@ function App() {
     // Sync specs from the remote peer
     s.on('state-updated', ({ key, value }) => {
       setSpecs(prev => ({ ...prev, [key]: value }));
+    });
+
+    s.on('full-state-updated', (fullState) => {
+      setSpecs(fullState);
+    });
+
+    s.on('user-joined', (userId) => {
+      // Broadcast our current state to the new user
+      s.emit('sync-full-state', { target: userId, specs: specsRef.current });
     });
 
     return () => s.close();
@@ -42,10 +55,14 @@ function App() {
     const roomFromUrl = params.get('room');
     const roleFromUrl = params.get('role');
     
-    if (roleFromUrl) setRole(roleFromUrl);
+    if (roomFromUrl) {
+      setInputRoom(roomFromUrl.toUpperCase());
+    }
 
-    if (roomFromUrl && socket && !joined) {
+    // Auto-join ONLY if role is provided
+    if (roomFromUrl && roleFromUrl && socket && !joined) {
       const id = roomFromUrl.toUpperCase();
+      setRole(roleFromUrl);
       setRoomId(id);
       socket.emit('join-room', id);
       setJoined(true);
@@ -68,23 +85,13 @@ function App() {
     const url = new URL(window.location);
     url.searchParams.set('room', id);
     window.history.replaceState({}, '', url);
-
-    // Notificar al asesor en segundo plano (fetch silencioso via wa.me sin abrir pestaña visible)
-    try {
-      const roomUrl = `${window.location.protocol}//${window.location.host}/consultoria/?room=${id}`;
-      const phone = '573046291152';
-      const waMessage = `Nueva solicitud de consultoría Spesfidem, cliente esperando\n\nSala: ${id}\nEnlace: ${roomUrl}`;
-      const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(waMessage)}`;
-      // Guardamos el enlace por si el asesor necesita abrirlo manualmente
-      sessionStorage.setItem('spesfidem_wa_link', waUrl);
-    } catch(e) {}
   };
 
   // ── Join existing room ──
-  const joinRoom = (e) => {
-    e.preventDefault();
+  const joinRoom = (selectedRole) => {
     const id = inputRoom.trim().toUpperCase();
     if (!id) return;
+    setRole(selectedRole);
     setRoomId(id);
     if (socket) socket.emit('join-room', id);
     setJoined(true);
@@ -124,21 +131,31 @@ function App() {
           <p className="text-text-muted mb-6 text-sm">Spesfidem · Sesión de video en tiempo real</p>
 
           {/* Botón principal: Entrar a sala */}
-          <button onClick={createRoom}
-            className="w-full bg-accent hover:bg-sky-400 text-slate-900 font-bold py-4 px-4 rounded-xl transition-all shadow-[0_0_25px_rgba(56,189,248,0.3)] hover:shadow-[0_0_35px_rgba(56,189,248,0.5)] mb-4 flex items-center justify-center gap-3 text-lg">
-            <i className="fas fa-video"></i> Entrar a mi sala
-          </button>
+          {!inputRoom.trim() ? (
+            <button onClick={createRoom}
+              className="w-full bg-accent hover:bg-sky-400 text-slate-900 font-bold py-4 px-4 rounded-xl transition-all shadow-[0_0_25px_rgba(56,189,248,0.3)] hover:shadow-[0_0_35px_rgba(56,189,248,0.5)] mb-4 flex items-center justify-center gap-3 text-lg">
+              <i className="fas fa-video"></i> Crear nueva sala
+            </button>
+          ) : (
+            <div className="flex flex-col gap-3 mb-4">
+              <p className="text-text-muted text-sm font-semibold">CÓDIGO: <span className="text-accent">{inputRoom}</span></p>
+              <button onClick={() => joinRoom('client')}
+                className="w-full bg-accent/90 hover:bg-accent text-slate-900 font-bold py-3 px-4 rounded-xl transition-all shadow-[0_0_15px_rgba(56,189,248,0.2)] flex items-center justify-center gap-3 text-base">
+                <i className="fas fa-user"></i> Entrar como Cliente
+              </button>
+              <button onClick={() => joinRoom('admin')}
+                className="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-4 rounded-xl border border-white/10 transition-all flex items-center justify-center gap-3 text-base">
+                <i className="fas fa-user-shield text-accent"></i> Entrar como Asesor
+              </button>
+            </div>
+          )}
 
           {/* Unirse con código */}
-          <form onSubmit={joinRoom} className="flex gap-2">
+          <div className="flex gap-2">
             <input type="text" placeholder="Tengo un código de sala…"
               value={inputRoom} onChange={e => setInputRoom(e.target.value)}
-              className="flex-1 bg-white/5 border border-white/10 focus:border-accent rounded-xl px-4 py-3 text-white outline-none transition-colors text-sm" />
-            <button type="submit" disabled={!inputRoom.trim()}
-              className="bg-white/10 hover:bg-white/20 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold py-3 px-5 rounded-xl transition-all text-sm">
-              Unirse
-            </button>
-          </form>
+              className="flex-1 bg-white/5 border border-white/10 focus:border-accent rounded-xl px-4 py-3 text-white outline-none transition-colors text-center font-mono tracking-widest text-lg" />
+          </div>
         </div>
       </div>
     );
