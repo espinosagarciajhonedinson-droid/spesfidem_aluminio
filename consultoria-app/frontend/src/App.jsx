@@ -32,18 +32,23 @@ function App() {
     const s = io(BACKEND_URL, { transports: ['websocket', 'polling'] });
     setSocket(s);
 
-    // Sync specs from the remote peer
     s.on('state-updated', ({ key, value }) => {
-      setSpecs(prev => ({ ...prev, [key]: value }));
-    });
-
-    s.on('full-state-updated', (fullState) => {
-      setSpecs(fullState);
+      if (key === 'FULL_SYNC') {
+        setSpecs(value);
+      } else {
+        setSpecs(prev => ({ ...prev, [key]: value }));
+      }
     });
 
     s.on('user-joined', (userId) => {
-      // Broadcast our current state to the new user
-      s.emit('sync-full-state', { target: userId, specs: specsRef.current });
+      // Broadcast current state to the new user relying ONLY on the existing 'update-state'
+      // which the older backend already supports and broadcasts to the room.
+      const currentRoomId = new URLSearchParams(window.location.search).get('room') || '';
+      s.emit('update-state', { 
+        roomId: currentRoomId,
+        key: 'FULL_SYNC', 
+        value: specsRef.current 
+      });
     });
 
     return () => s.close();
