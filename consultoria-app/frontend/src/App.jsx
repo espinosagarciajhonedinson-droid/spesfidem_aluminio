@@ -71,16 +71,18 @@ function App() {
       setInputRoom(roomFromUrl.toUpperCase());
     }
 
-    // Auto-join ONLY if role is provided
-    if (roomFromUrl && roleFromUrl && socket && !joined) {
+    // Auto-join ONLY if room is provided
+    if (roomFromUrl && socket && !joined) {
       const id = roomFromUrl.toUpperCase();
-      setRole(roleFromUrl);
+      const currentRole = roleFromUrl || 'client';
+      setRole(currentRole);
       setRoomId(id);
       socket.emit('join-room', id);
       setJoined(true);
 
-      // Limpiar parámetros extra de la URL
+      // Persistir rol en URL si faltaba
       const urlObj = new URL(window.location);
+      urlObj.searchParams.set('role', currentRole);
       urlObj.searchParams.delete('autoWa');
       window.history.replaceState({}, '', urlObj);
     }

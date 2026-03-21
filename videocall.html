@@ -609,142 +609,7 @@
             color: var(--accent);
         }
 
-        /* ===== DESIGN GALLERY ===== */
-        .gallery-section {
-            grid-column: 1 / -1;
-        }
-
-        .design-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1.2rem;
-        }
-
-        .design-card {
-            position: relative;
-            border-radius: 16px;
-            overflow: hidden;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(15, 23, 42, 0.5);
-            aspect-ratio: 4/3;
-        }
-
-        .design-card:hover {
-            transform: translateY(-6px) scale(1.02);
-            border-color: var(--accent);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 20px var(--accent-glow);
-        }
-
-        .design-card.selected {
-            border-color: var(--success);
-            box-shadow: 0 0 25px rgba(16, 185, 129, 0.4);
-        }
-
-        .design-card.selected::after {
-            content: '\f058';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            color: var(--success);
-            font-size: 1.4rem;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
-            z-index: 3;
-        }
-
-        .design-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-        }
-
-        .design-card:hover img {
-            transform: scale(1.08);
-        }
-
-        .design-card-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 1rem 0.8rem 0.8rem;
-            background: linear-gradient(transparent, rgba(2, 6, 23, 0.95));
-        }
-
-        .design-card-overlay h4 {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 2px;
-        }
-
-        .design-card-overlay small {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-        }
-
-        /* ===== LIGHTBOX ===== */
-        .lightbox {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: rgba(0, 0, 0, 0.92);
-            backdrop-filter: blur(10px);
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            cursor: pointer;
-        }
-
-        .lightbox.active {
-            display: flex;
-        }
-
-        .lightbox img {
-            max-width: 90%;
-            max-height: 85vh;
-            object-fit: contain;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-            animation: lightboxIn 0.4s ease;
-        }
-
-        @keyframes lightboxIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .lightbox-close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: white;
-            font-size: 2rem;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .lightbox-close:hover {
-            transform: rotate(90deg);
-        }
-
-        .lightbox-title {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 700;
-            font-size: 1.2rem;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-            letter-spacing: 1px;
-        }
+        /* ===== NOTES ===== */
 
         /* ===== NOTES ===== */
         .notes-textarea {
@@ -1095,23 +960,7 @@
             </div>
         </div>
 
-        <!-- FULL WIDTH: Design Gallery -->
-        <div class="glass-card gallery-section">
-            <div class="section-label">
-                <i class="fas fa-th-large"></i>
-                <span>Galería de Diseños — Seleccione referencias</span>
-            </div>
-            <div class="design-grid" id="designGrid">
-                <!-- Cards injected by JS -->
-            </div>
         </div>
-    </div>
-
-    <!-- Lightbox -->
-    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-        <i class="fas fa-times lightbox-close"></i>
-        <img src="" alt="Vista ampliada" id="lightboxImg">
-        <div class="lightbox-title" id="lightboxTitle"></div>
     </div>
 
     <!-- Footer -->
@@ -1120,70 +969,6 @@
     </div>
 
     <script>
-        // ===== DESIGN GALLERY DATA =====
-        const designs = [
-            { title: 'Ventana Corrediza', category: 'Ventanas', img: 'images/gallery/ventana_corrediza/1.jpg', fallback: 'images/products/ventanas_hq.png' },
-            { title: 'Ventana Corrediza Premium', category: 'Ventanas', img: 'images/gallery/ventana_corrediza/5.jpg', fallback: 'images/gallery/ventana_corrediza/1.jpg' },
-            { title: 'Ventana Proyectante', category: 'Ventanas', img: 'images/gallery/ventana_proyectante/8.jpg', fallback: 'images/products/ventana_batiente.jpg' },
-            { title: 'Puerta Principal', category: 'Puertas', img: 'images/gallery/puerta_principal/3.jpg', fallback: 'images/products/puerta_principal_hq.png' },
-            { title: 'División de Baño', category: 'Baño', img: 'images/gallery/division_bano/1.jpg', fallback: 'images/products/division_bano_hq.png' },
-            { title: 'Vidrio Templado', category: 'Vidrio', img: 'images/gallery/vidrio_templado/8.jpg', fallback: 'images/products/division_bano.jpg' },
-            { title: 'Vidrio Templado Elite', category: 'Vidrio', img: 'images/gallery/vidrio_templado/2.jpg', fallback: 'images/gallery/vidrio_templado/8.jpg' },
-            { title: 'Espejo Decorativo', category: 'Espejos', img: 'images/gallery/espejos_decorativos/1.png', fallback: 'images/products/espejos_hq.png' },
-            { title: 'Ventana Corrediza Moderna', category: 'Ventanas', img: 'images/gallery/ventana_corrediza/2.jpg', fallback: 'images/gallery/ventana_corrediza/1.jpg' },
-        ];
-
-        // ===== RENDER GALLERY =====
-        function renderGallery() {
-            const grid = document.getElementById('designGrid');
-            grid.innerHTML = '';
-            designs.forEach((d, i) => {
-                const card = document.createElement('div');
-                card.className = 'design-card';
-                card.dataset.index = i;
-                card.onclick = () => toggleSelect(card, i);
-                card.innerHTML = `
-                    <img src="${d.img}" alt="${d.title}" onerror="this.src='${d.fallback}'" loading="lazy">
-                    <div class="design-card-overlay">
-                        <h4>${d.title}</h4>
-                        <small>${d.category}</small>
-                    </div>
-                `;
-                // Double click = lightbox
-                card.ondblclick = (e) => {
-                    e.stopPropagation();
-                    openLightbox(d.img, d.fallback, d.title);
-                };
-                grid.appendChild(card);
-            });
-        }
-
-        const selectedDesigns = new Set();
-
-        function toggleSelect(card, index) {
-            card.classList.toggle('selected');
-            if (selectedDesigns.has(index)) {
-                selectedDesigns.delete(index);
-            } else {
-                selectedDesigns.add(index);
-            }
-        }
-
-        // ===== LIGHTBOX =====
-        function openLightbox(src, fallback, title) {
-            const lb = document.getElementById('lightbox');
-            const img = document.getElementById('lightboxImg');
-            const titleEl = document.getElementById('lightboxTitle');
-            img.src = src;
-            img.onerror = () => { img.src = fallback; };
-            titleEl.textContent = title;
-            lb.classList.add('active');
-        }
-
-        function closeLightbox() {
-            document.getElementById('lightbox').classList.remove('active');
-        }
-
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeLightbox();
         });
@@ -1341,7 +1126,6 @@
 
         // ===== INIT =====
         document.addEventListener('DOMContentLoaded', () => {
-            renderGallery();
             updatePreview();
             generateNewId(); // Inicializar con un código aleatorio
         });
