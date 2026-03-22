@@ -1,4 +1,4 @@
-const CACHE_NAME = 'spesfidem-v4-no-wa';
+const CACHE_NAME = 'spesfidem-v5-no-gallery';
 
 // Core Application Assets
 const CORE_ASSETS = [
