@@ -195,7 +195,7 @@
             margin: 0 auto;
             padding: 0 1.5rem 4rem;
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1.5fr 1fr;
             gap: 2rem;
         }
 
@@ -209,9 +209,7 @@
             .call-hero h1 {
                 font-size: 2rem;
             }
-            .gallery-section {
-                grid-column: 1;
-            }
+/* gallery-section removed */
         }
 
         /* Small Tablets / Large Phones */
@@ -250,10 +248,7 @@
                 font-size: 0.95rem;
                 margin-bottom: 1rem;
             }
-            .design-grid {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-                gap: 0.8rem;
-            }
+
             .mirror-grid {
                 grid-template-columns: 1fr 1fr;
                 gap: 8px;
@@ -333,39 +328,9 @@
                 padding: 4px 10px;
                 font-size: 0.7rem;
             }
-            .design-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 0.6rem;
-            }
-            .design-card-overlay {
-                padding: 0.6rem;
-            }
-            .design-card-overlay h4 {
-                font-size: 0.7rem;
-            }
-            .design-card-overlay small {
-                font-size: 0.6rem;
-            }
             .notes-textarea {
                 min-height: 90px;
                 font-size: 0.85rem;
-            }
-            .lightbox {
-                padding: 0.5rem;
-            }
-            .lightbox img {
-                max-width: 98%;
-                max-height: 80vh;
-                border-radius: 10px;
-            }
-            .lightbox-close {
-                top: 10px;
-                right: 15px;
-                font-size: 1.5rem;
-            }
-            .lightbox-title {
-                font-size: 0.9rem;
-                bottom: 15px;
             }
             .mirror-grid {
                 grid-template-columns: 1fr;
@@ -383,13 +348,6 @@
             }
             .btn-action {
                 min-height: 44px;
-            }
-            .design-card:hover {
-                transform: none; /* Disable hover effects on touch */
-            }
-            .design-card:active {
-                transform: scale(0.97);
-                border-color: var(--accent);
             }
         }
 
@@ -459,25 +417,29 @@
         .form-control {
             width: 100%;
             padding: 0.75rem 1rem;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             border-radius: 12px;
-            color: var(--text-main);
+            color: #ffffff;
             font-size: 1rem;
             font-weight: 600;
             transition: all 0.3s ease;
             outline: none;
+            -webkit-appearance: none;
+            appearance: none;
         }
 
         .form-control:focus {
             border-color: var(--accent);
             box-shadow: 0 0 0 3px var(--accent-glow);
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.12);
         }
 
-        .form-control option {
-            background: #0f172a;
-            color: white;
+        .form-control option,
+        .form-control optgroup {
+            background-color: #0f172a;
+            color: #ffffff;
+            font-weight: 500;
         }
 
         .form-row {
@@ -692,29 +654,31 @@
             align-items: center;
             gap: 10px;
             padding: 0.7rem 1rem;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s;
             font-size: 0.85rem;
             font-weight: 600;
-            color: #cbd5e1;
+            color: #e2e8f0;
         }
 
         .mirror-option:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(139, 92, 246, 0.4);
+            background: rgba(139, 92, 246, 0.15);
+            border-color: rgba(139, 92, 246, 0.5);
+            color: #ffffff;
         }
 
         .mirror-option.selected {
             border-color: #8b5cf6;
-            background: rgba(139, 92, 246, 0.12);
-            color: white;
+            background: rgba(139, 92, 246, 0.2);
+            color: #ffffff;
+            font-weight: 700;
         }
 
         .mirror-option i {
-            color: #8b5cf6;
+            color: #a78bfa;
             font-size: 1rem;
         }
     </style>
@@ -911,40 +875,6 @@
         <!-- RIGHT: Mirrors & Notes -->
         <div style="display: flex; flex-direction: column; gap: 2rem;">
 
-            <!-- Mirror Types -->
-            <div class="glass-card">
-                <div class="section-label">
-                    <i class="fas fa-magic"></i>
-                    <span>Tipos de Espejo</span>
-                </div>
-                <div class="mirror-grid" id="mirrorGrid">
-                    <div class="mirror-option" data-mirror="Biselado" onclick="selectMirror(this)">
-                        <i class="fas fa-square"></i> Biselado
-                    </div>
-                    <div class="mirror-option" data-mirror="Arenado" onclick="selectMirror(this)">
-                        <i class="fas fa-cloud"></i> Arenado
-                    </div>
-                    <div class="mirror-option" data-mirror="Flotado" onclick="selectMirror(this)">
-                        <i class="fas fa-water"></i> Flotado
-                    </div>
-                    <div class="mirror-option" data-mirror="LED Integrado" onclick="selectMirror(this)">
-                        <i class="fas fa-lightbulb"></i> LED Integrado
-                    </div>
-                    <div class="mirror-option" data-mirror="Ovalado" onclick="selectMirror(this)">
-                        <i class="fas fa-circle"></i> Ovalado
-                    </div>
-                    <div class="mirror-option" data-mirror="Mosaico" onclick="selectMirror(this)">
-                        <i class="fas fa-th-large"></i> Mosaico
-                    </div>
-                    <div class="mirror-option" data-mirror="Bisel Diamante" onclick="selectMirror(this)">
-                        <i class="fas fa-gem"></i> Bisel Diamante
-                    </div>
-                    <div class="mirror-option" data-mirror="Marco Aluminio" onclick="selectMirror(this)">
-                        <i class="fas fa-vector-square"></i> Marco Aluminio
-                    </div>
-                </div>
-            </div>
-
             <!-- Notes -->
             <div class="glass-card">
                 <div class="section-label">
@@ -969,9 +899,7 @@
     </div>
 
     <script>
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeLightbox();
-        });
+        // Keyboard handler
 
         // ===== LIVE PREVIEW =====
         const inputW = document.getElementById('inputWidth');
@@ -1041,14 +969,6 @@
         selectProfile.addEventListener('change', updatePreview);
         selectGlass.addEventListener('change', updatePreview);
 
-        // ===== MIRROR SELECTION =====
-        let selectedMirror = '';
-        function selectMirror(el) {
-            document.querySelectorAll('.mirror-option').forEach(o => o.classList.remove('selected'));
-            el.classList.add('selected');
-            selectedMirror = el.dataset.mirror;
-        }
-
         // ===== COPY SUMMARY =====
         function buildSummary() {
             const w = inputW.value || '—';
@@ -1057,22 +977,13 @@
             const glass = selectGlass.value || 'No seleccionado';
             const mirror = selectedMirror || 'No seleccionado';
             const notes = document.getElementById('notesArea').value;
-            const selectedNames = [...selectedDesigns].map(i => designs[i].title);
-
             let text = `━━━ CONSULTA SPESFIDEM ━━━\n`;
             text += `📅 Fecha: ${new Date().toLocaleDateString('es-CO')}\n\n`;
             text += `📐 MEDIDAS:\n`;
             text += `   Ancho: ${w} m\n`;
             text += `   Alto: ${h} m\n\n`;
             text += `🔧 PERFIL: ${profile}\n`;
-            text += `🪟 VIDRIO: ${glass}\n`;
-            text += `🪞 ESPEJO: ${mirror}\n\n`;
-
-            if (selectedNames.length > 0) {
-                text += `🎨 DISEÑOS SELECCIONADOS:\n`;
-                selectedNames.forEach(n => text += `   • ${n}\n`);
-                text += '\n';
-            }
+            text += `🪟 VIDRIO: ${glass}\n\n`;
 
             if (notes.trim()) {
                 text += `📝 NOTAS:\n${notes}\n\n`;

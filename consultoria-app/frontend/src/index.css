@@ -14,10 +14,15 @@
     @apply bg-slate-900/60 backdrop-blur-xl border border-white/10 rounded-2xl;
   }
   .form-control {
-    @apply w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white outline-none focus:border-accent focus:ring-2 focus:ring-accent/30 transition-all font-medium;
+    @apply w-full px-4 py-3 bg-white/10 border border-white/25 rounded-xl text-white outline-none focus:border-accent focus:ring-2 focus:ring-accent/30 transition-all font-semibold;
+    -webkit-appearance: none;
+    appearance: none;
   }
-  .form-control option {
-    @apply bg-slate-900 text-white;
+  .form-control option,
+  .form-control optgroup {
+    background-color: #0f172a;
+    color: #ffffff;
+    font-weight: 500;
   }
 }
 

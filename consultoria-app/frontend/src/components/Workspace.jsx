@@ -10,12 +10,12 @@ export default function Workspace({ specs, onChange }) {
       {/* Dimensiones */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div>
-          <label className="block text-xs font-bold text-text-muted mb-2 uppercase tracking-wide">Ancho (m)</label>
+          <label className="block text-xs font-bold text-slate-300 mb-2 uppercase tracking-wide">Ancho (m)</label>
           <input type="number" step="0.01" className="form-control"
             value={specs.width} onChange={e => onChange('width', e.target.value)} />
         </div>
         <div>
-          <label className="block text-xs font-bold text-text-muted mb-2 uppercase tracking-wide">Alto (m)</label>
+          <label className="block text-xs font-bold text-slate-300 mb-2 uppercase tracking-wide">Alto (m)</label>
           <input type="number" step="0.01" className="form-control"
             value={specs.height} onChange={e => onChange('height', e.target.value)} />
         </div>
@@ -23,7 +23,7 @@ export default function Workspace({ specs, onChange }) {
 
       {/* N° de Hojas / Puertas */}
       <div className="mb-6">
-        <label className="block text-xs font-bold text-text-muted mb-2 uppercase tracking-wide">
+        <label className="block text-xs font-bold text-slate-300 mb-2 uppercase tracking-wide">
           <i className="fas fa-th-large mr-1"></i> N° de Hojas / Puertas
         </label>
         <div className="flex gap-2">
@@ -32,7 +32,7 @@ export default function Workspace({ specs, onChange }) {
               className={`flex-1 py-2 rounded-xl font-bold text-sm transition-all border ${
                 specs.leafCount === n
                   ? 'bg-accent text-slate-900 border-accent shadow-[0_0_12px_rgba(56,189,248,0.4)]'
-                  : 'bg-white/5 text-text-muted border-white/10 hover:bg-white/10'
+                  : 'bg-white/8 text-slate-200 border-white/20 hover:bg-white/15 hover:text-white'
               }`}>
               {n}
             </button>
@@ -42,7 +42,7 @@ export default function Workspace({ specs, onChange }) {
 
       {/* Perfil */}
       <div className="mb-6">
-        <label className="block text-xs font-bold text-text-muted mb-2 uppercase tracking-wide">Perfil de Aluminio</label>
+        <label className="block text-xs font-bold text-slate-300 mb-2 uppercase tracking-wide">Perfil de Aluminio</label>
         <select className="form-control" value={specs.profile} onChange={e => onChange('profile', e.target.value)}>
           <option value="Natural">Natural (Plata)</option>
           <option value="Negro">Negro Intenso</option>
@@ -53,7 +53,7 @@ export default function Workspace({ specs, onChange }) {
 
       {/* Tipo de Vidrio */}
       <div className="mb-4">
-        <label className="block text-xs font-bold text-text-muted mb-2 uppercase tracking-wide">Tipo de Vidrio</label>
+        <label className="block text-xs font-bold text-slate-300 mb-2 uppercase tracking-wide">Tipo de Vidrio</label>
         <select className="form-control" value={specs.glass} onChange={e => onChange('glass', e.target.value)}>
           <optgroup label="— Vidrio de Seguridad —">
             <option value="Templado">Templado de Seguridad</option>
@@ -72,7 +72,7 @@ export default function Workspace({ specs, onChange }) {
       {isCrudo && (
         <div className="bg-accent/5 border border-accent/20 rounded-xl p-4 mb-6 space-y-4">
           <div>
-            <label className="block text-xs font-bold text-text-muted mb-2 uppercase tracking-wide">
+            <label className="block text-xs font-bold text-slate-300 mb-2 uppercase tracking-wide">
               <i className="fas fa-ruler mr-1"></i> Espesor
             </label>
             <div className="flex gap-2">
@@ -81,7 +81,7 @@ export default function Workspace({ specs, onChange }) {
                   className={`flex-1 py-2 rounded-xl font-bold text-sm transition-all border ${
                     specs.glassThickness === mm
                       ? 'bg-accent text-slate-900 border-accent'
-                      : 'bg-white/5 text-text-muted border-white/10 hover:bg-white/10'
+                      : 'bg-white/8 text-slate-200 border-white/20 hover:bg-white/15 hover:text-white'
                   }`}>
                   {mm} mm
                 </button>
@@ -89,7 +89,7 @@ export default function Workspace({ specs, onChange }) {
             </div>
           </div>
           <div>
-            <label className="block text-xs font-bold text-text-muted mb-2 uppercase tracking-wide">
+            <label className="block text-xs font-bold text-slate-300 mb-2 uppercase tracking-wide">
               <i className="fas fa-palette mr-1"></i> Color del Vidrio
             </label>
             <select className="form-control" value={specs.glassColor} onChange={e => onChange('glassColor', e.target.value)}>
@@ -102,21 +102,10 @@ export default function Workspace({ specs, onChange }) {
         </div>
       )}
 
-      {/* Espejo */}
-      <div className="mb-6">
-        <label className="block text-xs font-bold text-text-muted mb-2 uppercase tracking-wide">Opciones de Espejo</label>
-        <select className="form-control" value={specs.mirror} onChange={e => onChange('mirror', e.target.value)}>
-          <option value="Ninguno">Ninguno</option>
-          <option value="Biselado">Biselado</option>
-          <option value="LED">Con Luz LED Integrada</option>
-          <option value="Flotado">Flotado Simple</option>
-          <option value="Mosaico">Mosaico</option>
-        </select>
-      </div>
 
       {/* Notas */}
       <div className="flex-grow flex flex-col mt-auto">
-        <label className="block text-xs font-bold text-text-muted mb-2 uppercase tracking-wide">Notas de Consulta</label>
+        <label className="block text-xs font-bold text-slate-300 mb-2 uppercase tracking-wide">Notas de Consulta</label>
         <textarea className="form-control flex-grow resize-none min-h-[100px]"
           placeholder="Observaciones adicionales, detalles del cliente..."
           value={specs.notes} onChange={e => onChange('notes', e.target.value)} />

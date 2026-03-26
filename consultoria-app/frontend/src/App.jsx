@@ -247,4 +247,3 @@ function App() {
 }
 
 export default App;
-console.log('Cache bypassed: No reference designs');

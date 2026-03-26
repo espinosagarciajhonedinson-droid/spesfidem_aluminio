@@ -134,12 +134,17 @@ body.high-contrast .logo-brand-premium {
     }
 }
 
+@media (max-width: 600px) {
+    #themeLauncher { bottom: 20px; left: 20px; }
+    #accessibilityPanel { bottom: 80px; left: 20px; width: 280px; }
+}
+
 /* Premium Panel */
 #accessibilityPanel {
     position: fixed;
-    bottom: 100px;
-    left: 30px;
-    /* Aligned with Launcher */
+    bottom: 30px;
+    left: 100px;
+    /* Aligned next to Launcher */
     right: auto;
     width: 320px;
     background: rgba(15, 23, 42, 0.95);
