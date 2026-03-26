@@ -10,7 +10,7 @@ const INITIAL_SPECS = {
   width: 1.5, height: 2.0,
   profile: 'Natural', glass: 'Templado',
   glassThickness: '6', glassColor: 'Incoloro',
-  leafCount: '2', mirror: 'Ninguno', notes: ''
+  leafCount: '2', notes: ''
 };
 
 function App() {

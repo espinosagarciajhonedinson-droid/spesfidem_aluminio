@@ -195,7 +195,7 @@
             margin: 0 auto;
             padding: 0 1.5rem 4rem;
             display: grid;
-            grid-template-columns: 1.5fr 1fr;
+            grid-template-columns: 1fr;
             gap: 2rem;
         }
 
@@ -642,45 +642,7 @@
             flex-wrap: wrap;
         }
 
-        /* ===== MIRROR TYPES ===== */
-        .mirror-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .mirror-option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 0.7rem 1rem;
-            background: rgba(255, 255, 255, 0.07);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #e2e8f0;
-        }
-
-        .mirror-option:hover {
-            background: rgba(139, 92, 246, 0.15);
-            border-color: rgba(139, 92, 246, 0.5);
-            color: #ffffff;
-        }
-
-        .mirror-option.selected {
-            border-color: #8b5cf6;
-            background: rgba(139, 92, 246, 0.2);
-            color: #ffffff;
-            font-weight: 700;
-        }
-
-        .mirror-option i {
-            color: #a78bfa;
-            font-size: 1rem;
-        }
+        /* ===== SCROLLBAR ===== */
     </style>
 </head>
 
@@ -975,7 +937,6 @@
             const h = inputH.value || '—';
             const profile = selectProfile.value;
             const glass = selectGlass.value || 'No seleccionado';
-            const mirror = selectedMirror || 'No seleccionado';
             const notes = document.getElementById('notesArea').value;
             let text = `━━━ CONSULTA SPESFIDEM ━━━\n`;
             text += `📅 Fecha: ${new Date().toLocaleDateString('es-CO')}\n\n`;
