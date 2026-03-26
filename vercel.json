@@ -1,17 +1,35 @@
 {
   "buildCommand": "cd consultoria-app/frontend && npm install && npm run build",
   "outputDirectory": "consultoria-app/frontend/dist",
+  "cleanUrls": false,
   "rewrites": [
     {
-      "source": "/consultoria/(.*)",
+      "source": "/consultoria",
+      "destination": "/consultoria/index.html"
+    },
+    {
+      "source": "/consultoria/:path*",
       "destination": "/consultoria/index.html"
     }
   ],
   "headers": [
     {
-      "source": "/consultoria/(.*)",
+      "source": "/consultoria/:path*",
       "headers": [
-        { "key": "Cache-Control", "value": "no-store, no-cache" }
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" }
+      ]
+    },
+    {
+      "source": "/images/:path*",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=604800, immutable" }
+      ]
+    },
+    {
+      "source": "/css/:path*",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
       ]
     }
   ]

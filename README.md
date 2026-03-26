@@ -1,55 +1,66 @@
-# Spesfidem Aluminio - Sistema de Gestión y Cotización
+# Spesfidem Aluminio — Plataforma Web de Consultoría
 
-Este proyecto es una plataforma web para la gestión de clientes, cotizaciones y administración de Spesfidem Aluminio. Incluye una arquitectura híbrida con un frontend dinámico y un backend de persistencia en Python.
+## 🏗️ Arquitectura de Producción
 
-## 🚀 Cómo Iniciar el Proyecto
+| Componente | Plataforma | URL |
+|---|---|---|
+| **Frontend** (HTML estático + React SPA) | **Vercel** | `spesfidem-aluminio.vercel.app` |
+| **Backend WebRTC** (Socket.io) | **Render** | `spesfidem-video-server.onrender.com` |
+| **CRM Backend** (Python/Flask) | **Render** | (ver render.yaml) |
+| **Notificaciones** | `wa.me` | Automático al iniciar consulta |
 
-Sigue estos pasos para poner en marcha el sistema en tu computador local.
+## 📂 Estructura Clave
 
-### 1. Requisitos Previos
-*   **Python 3.x** instalado.
-*   Navegador web moderno (Chrome, Edge, Firefox).
-
-### 2. Iniciar el Servidor de Persistencia
-Abre una terminal en la carpeta raíz del proyecto y ejecuta:
-
-```bash
-python3 server.py
+```
+spesfidem_aluminio/
+├── index.html             → Página principal (Vercel)
+├── videocall.html         → Entrada a la videollamada
+├── admin.html             → Panel de control del asesor
+├── vercel.json            → Configuración de enrutamiento para Vercel
+├── render.yaml            → Configuración de servicios en Render
+├── consultoria-app/
+│   ├── frontend/          → React + Vite (desplegado en /consultoria/)
+│   │   ├── .env.production → VITE_BACKEND_URL=https://spesfidem-video-server.onrender.com
+│   │   └── vite.config.js  → base: '/consultoria/'
+│   └── backend/           → Socket.io Server (Node.js en Render)
+│       └── server.js
+└── server.py              → CRM Backend (Python)
 ```
 
-El servidor se iniciará en el puerto **3000**. Verás un mensaje en la terminal confirmando que el servidor está activo.
+## 🚀 Despliegue
 
-### 3. Acceso al Sistema
+- **Frontend**: Push a `main` en GitHub → Vercel construye automáticamente
+- **Backend**: Render detecta cambios en `consultoria-app/backend/` y redespliega
 
-Existen tres formas de acceder dependiendo de dónde te encuentres:
+## 🔌 Variables de Entorno
 
-*   **Acceso Local (Mismo PC)**: 
-    Abre en tu navegador: `http://localhost:3000/index.html` (o `admin.html` para el panel de control).
-*   **Acceso en Red Local (WiFi de la casa/oficina)**:
-    Usa la dirección IP que muestra la terminal al iniciar el servidor (ej: `http://10.6.87.224:3000/admin.html`). Esto permite entrar desde celulares y otras laptops conectadas al mismo WiFi.
-*   **Acceso Público (Cualquier lugar/Internet)**:
-    Se puede habilitar un túnel temporal con SSH:
-    ```bash
-    ssh -R 80:localhost:3000 serveo.net
-    ```
-    Copia el enlace `https://...` que te entregue la terminal para compartirlo con clientes o administradores externos.
+### Frontend (`consultoria-app/frontend/.env.production`)
+```
+VITE_BACKEND_URL=https://spesfidem-video-server.onrender.com
+```
+
+### Backend (configurable en Render dashboard)
+```
+NODE_ENV=production
+PORT=3001
+```
+
+## 🎥 Flujo de Videollamada
+
+1. Cliente abre `videocall.html` → genera ID de sala → abre WhatsApp + redirige a `/consultoria/?room=ID&role=client`
+2. `useWebRTC.js` registra listeners de Socket.io → solicita cámara → emite `join-room`
+3. Backend (Render) retransmite `offer/answer/ice-candidate` entre peers
+4. Asesor entra a `/consultoria/?room=ID&role=admin` → conexión P2P establecida
+
+## ⚙️ Desarrollo Local
+
+```bash
+# Backend
+cd consultoria-app/backend && npm install && node server.js
+
+# Frontend
+cd consultoria-app/frontend && npm install && npm run dev
+```
 
 ---
-
-## 🛠 Estructura del Proyecto
-
-*   `index.html`: Página principal y catálogo.
-*   `admin.html`: Panel administrativo (requiere login).
-*   `server.py`: Servidor backend Python (maneja datos y seguridad).
-*   `js/app.js`: Lógica principal del sistema y conexión con la base de datos.
-*   `data/clients.json`: Archivo donde se guardan permanentemente todos los clientes y cotizaciones.
-
-## 🔐 Administración
-Para acceder al panel administrativo (`admin.html`), utiliza las credenciales de propietario configuradas en el sistema.
-
-## 📄 Notas de Mantenimiento
-*   **Backups**: Se recomienda descargar periódicamente el archivo ZIP generado en la carpeta de Descargas para tener copias de seguridad de las fotos y datos.
-*   **Caché**: Si realizas cambios en el código y no se ven reflejados, presiona `Ctrl + Shift + R` para forzar la recarga limpia del navegador.
-
----
-*Desarrollado para Spesfidem Aluminio - Gestión Inteligente.*
+*Spesfidem Aluminio — Sistemas de ventanería de alto desempeño*
