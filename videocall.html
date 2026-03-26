@@ -743,10 +743,20 @@
 
                 // 2. URL de la sala (Vite React App)
                 let baseUrl = `${window.location.protocol}//${window.location.host}`;
-                const viteUrl = `${baseUrl}/consultoria/?room=${roomId}&role=client`;
+                const viteUrl = `${baseUrl}/consultoria/?room=${roomId}&role=client&autoWa=1`;
                 
-                // 3. Redirección inmediata con bandera de notificación automática
-                window.location.assign(viteUrl);
+                // 3. Notificación WhatsApp (Discreta, abre en nueva pestaña)
+                const phone = "573046291152";
+                const message = encodeURIComponent(`🚀 *Nueva solicitud de consultoría Spesfidem*\n\nHola, un cliente está esperando en la sala virtual.\n\n*Sala:* ${roomId}\n*Enlace:* ${baseUrl}/consultoria/?room=${roomId}`);
+                const waUrl = `https://wa.me/${phone}?text=${message}`;
+                
+                console.log('[Spesfidem] 📱 Notificando asesor via WhatsApp...');
+                window.open(waUrl, '_blank');
+
+                // 4. Redirección inmediata a la sala
+                setTimeout(() => {
+                    window.location.assign(viteUrl);
+                }, 500);
 
             } catch (error) {
                 console.error('[Spesfidem] ❌ Error:', error);

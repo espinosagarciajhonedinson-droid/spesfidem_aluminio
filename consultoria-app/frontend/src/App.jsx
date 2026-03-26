@@ -80,6 +80,15 @@ function App() {
       socket.emit('join-room', id);
       setJoined(true);
 
+      // Notificar al servidor sobre la nueva consulta (solo si es cliente)
+      if (currentRole === 'client') {
+        socket.emit('new-consultation', {
+          roomId: id,
+          timestamp: new Date().toISOString(),
+          userAgent: navigator.userAgent
+        });
+      }
+
       // Persistir rol en URL si faltaba
       const urlObj = new URL(window.location);
       urlObj.searchParams.set('role', currentRole);
@@ -210,6 +219,23 @@ function App() {
             <span className="text-text-muted">SALA</span>
             <span className="text-accent font-bold">{roomId}</span>
           </div>
+          
+          {/* Notificar Asesor (Fallback Button for Clients) */}
+          {role === 'client' && (
+            <button 
+              onClick={() => {
+                const phone = "573046291152";
+                const baseUrl = `${window.location.protocol}//${window.location.host}`;
+                const message = encodeURIComponent(`🚀 *Consulta Spesfidem*\n\nHola, estoy en la sala virtual y necesito asesoría.\n\n*Sala:* ${roomId}\n*Enlace:* ${baseUrl}/consultoria/?room=${roomId}`);
+                window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+              }}
+              className="bg-success/15 hover:bg-success/25 text-success px-3 py-1.5 rounded-full text-[11px] font-bold border border-success/30 flex items-center gap-1.5 transition-all animate-pulse"
+              title="Notificar al asesor por WhatsApp">
+              <i className="fab fa-whatsapp text-sm"></i>
+              Notificar Asesor
+            </button>
+          )}
+
           <button onClick={copyLink}
             className={`p-2 rounded-full transition-all border ${copied ? 'bg-success/20 border-success/40 text-success' : 'bg-accent/10 border-accent/20 text-accent hover:bg-accent/20'}`}
             title="Copiar enlace">

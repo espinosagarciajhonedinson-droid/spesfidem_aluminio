@@ -66,6 +66,13 @@ io.on('connection', (socket) => {
     io.to(payload.target).emit('full-state-updated', payload.specs);
   });
 
+  // ========== Admin Notifications ==========
+  socket.on('new-consultation', (data) => {
+    // Broadcast new consultation event to all (admin dash will filter)
+    socket.broadcast.emit('new-consultation', data);
+    console.log(`[!] Notificación: Nueva consulta en sala ${data.roomId}`);
+  });
+
   // ========== Disconnect ==========
   socket.on('disconnect', () => {
     console.log(`[-] Desconectado: ${socket.id}`);
