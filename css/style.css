@@ -135,8 +135,28 @@ body.high-contrast .logo-brand-premium {
 }
 
 @media (max-width: 600px) {
-    #themeLauncher { bottom: 20px; left: 20px; }
-    #accessibilityPanel { bottom: 80px; left: 20px; width: 280px; }
+    #themeLauncher { bottom: 20px; left: 20px; scale: 0.85; }
+    #accessibilityPanel { bottom: 75px; left: 15px; width: 260px; scale: 0.9; }
+    
+    /* Ensure backgrounds don't crop aggressively */
+    section {
+        background-attachment: scroll !important;
+        background-position: top center !important;
+    }
+
+    .nav-container {
+        padding: 0 1rem;
+    }
+
+    .logo-brand-premium {
+        font-size: 1.8rem !important;
+        letter-spacing: 2px !important;
+    }
+    
+    .logo-icon-premium {
+        width: 65px !important;
+        height: 65px !important;
+    }
 }
 
 /* Premium Panel */

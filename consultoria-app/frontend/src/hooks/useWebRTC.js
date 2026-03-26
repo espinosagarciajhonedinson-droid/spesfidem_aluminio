@@ -108,6 +108,7 @@ export default function useWebRTC(socket, roomId) {
 
     const onIce = (incoming) => {
       const pc = pcs.current[incoming.sender];
+      console.log(`[WebRTC] ICE candidate received from ${incoming.sender}. PC found: ${!!pc}`);
       if (pc && incoming.candidate) {
         pc.addIceCandidate(new RTCIceCandidate(incoming.candidate))
           .catch(err => console.error('Error adding ICE candidate:', err));
@@ -115,40 +116,46 @@ export default function useWebRTC(socket, roomId) {
     };
 
     const onUserLeft = (userId) => {
+      console.log(`[WebRTC] User left: ${userId}`);
       if (pcs.current[userId]) {
         pcs.current[userId].close();
         delete pcs.current[userId];
-        
-        // Only remove remote stream if no other active connections exist
-        if (Object.keys(pcs.current).length === 0) {
-          setRemoteStream(null);
-        }
+        if (Object.keys(pcs.current).length === 0) setRemoteStream(null);
       }
     };
 
+    // ── Pre-registration of listeners ──
+    socket.on('existing-peers', onExistingPeers);
+    socket.on('user-joined',    onUserJoined);
+    socket.on('offer',          onOffer);
+    socket.on('answer',         onAnswer);
+    socket.on('ice-candidate',  onIce);
+    socket.on('user-left',      onUserLeft);
+
     const init = async () => {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: true });
-        if (!isMounted) { stream.getTracks().forEach(t => t.stop()); return; }
+        console.log('[WebRTC] Requesting local media...');
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+          video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } }, 
+          audio: true 
+        });
+        
+        if (!isMounted) { 
+          stream.getTracks().forEach(t => t.stop()); 
+          return; 
+        }
+
         localStreamRef.current = stream;
         setLocalStream(stream);
-
-        // ONLY register listeners AFTER local stream is ready
-        socket.on('existing-peers', onExistingPeers);
-        socket.on('user-joined',    onUserJoined);
-        socket.on('offer',          onOffer);
-        socket.on('answer',         onAnswer);
-        socket.on('ice-candidate',  onIce);
-        socket.on('user-left',      onUserLeft);
+        console.log('[WebRTC] Local stream ready. Emitting join-room:', roomId);
+        
+        // NOW we join the room, after listeners are ready AND media is prepared
+        socket.emit('join-room', roomId);
 
       } catch (err) {
-        console.warn('Cámara/micrófono no disponible:', err.message);
-        socket.on('existing-peers', onExistingPeers);
-        socket.on('user-joined',    onUserJoined);
-        socket.on('offer',          onOffer);
-        socket.on('answer',         onAnswer);
-        socket.on('ice-candidate',  onIce);
-        socket.on('user-left',      onUserLeft);
+        console.warn('[WebRTC] Media failed (no cam/mic):', err.message);
+        // Still join room even if media fails, to participate in specifications sync
+        socket.emit('join-room', roomId);
       }
     };
 

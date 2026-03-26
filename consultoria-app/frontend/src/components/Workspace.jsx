@@ -8,7 +8,7 @@ export default function Workspace({ specs, onChange }) {
       </h2>
 
       {/* Dimensiones */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <div>
           <label className="block text-xs font-bold text-slate-300 mb-2 uppercase tracking-wide">Ancho (m)</label>
           <input type="number" step="0.01" className="form-control"

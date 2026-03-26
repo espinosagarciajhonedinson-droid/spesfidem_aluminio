@@ -77,7 +77,7 @@ function App() {
       const currentRole = roleFromUrl || 'client';
       setRole(currentRole);
       setRoomId(id);
-      socket.emit('join-room', id);
+      // join-room is now handled by VideoCall/useWebRTC hook
       setJoined(true);
 
       // Notificar al servidor sobre la nueva consulta (solo si es cliente)

@@ -1,0 +1,18 @@
+{
+  "buildCommand": "cd consultoria-app/frontend && npm install && npm run build",
+  "outputDirectory": "consultoria-app/frontend/dist",
+  "rewrites": [
+    {
+      "source": "/consultoria/(.*)",
+      "destination": "/consultoria/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/consultoria/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, no-cache" }
+      ]
+    }
+  ]
+}
