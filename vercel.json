@@ -9,7 +9,11 @@
       "destination": "/consultoria/index.html"
     },
     {
-      "source": "/consultoria/(.*)",
+      "source": "/consultoria/",
+      "destination": "/consultoria/index.html"
+    },
+    {
+      "source": "/consultoria/(?!assets/)(.*)",
       "destination": "/consultoria/index.html"
     }
   ],
