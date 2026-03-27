@@ -15,6 +15,10 @@
       "dest": "/consultoria/index.html"
     },
     {
+      "src": "^/consultoria$",
+      "dest": "/consultoria/index.html"
+    },
+    {
       "src": "^/$",
       "dest": "/index.html"
     },
