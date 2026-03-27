@@ -1,7 +1,7 @@
 {
-  "buildCommand": "bash build_vercel.sh",
+  "installCommand": "echo 'Install handled by build script'",
+  "buildCommand": "chmod +x build_vercel.sh && sh build_vercel.sh",
   "outputDirectory": "vercel_dist",
-  "installCommand": "echo 'Build script handles installs'",
   "cleanUrls": false,
   "rewrites": [
     {
@@ -23,12 +23,6 @@
     },
     {
       "source": "/images/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=604800, immutable" }
-      ]
-    },
-    {
-      "source": "/assets/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=604800, immutable" }
       ]
