@@ -43,16 +43,29 @@ io.on('connection', (socket) => {
   });
 
   // ========== WebRTC Signaling (peer-to-peer by socket ID) ==========
-  socket.on('offer', ({ target, sdp }) => {
-    io.to(target).emit('offer', { caller: socket.id, sdp });
+  socket.on('offer', ({ target, sdp, roomId }) => {
+    console.log(`[WebRTC] SDP Offer received from ${socket.id} to ${target} in ${roomId}`);
+    if (roomId && rooms[roomId] && rooms[roomId].includes(target)) {
+      io.to(target).emit('offer', { caller: socket.id, sdp });
+    } else {
+      console.warn(`[WebRTC] Invalid offer target ${target} or room ${roomId}`);
+    }
   });
 
-  socket.on('answer', ({ target, sdp }) => {
-    io.to(target).emit('answer', { callee: socket.id, sdp });
+  socket.on('answer', ({ target, sdp, roomId }) => {
+    console.log(`[WebRTC] SDP Answer received from ${socket.id} to ${target} in ${roomId}`);
+    if (roomId && rooms[roomId] && rooms[roomId].includes(target)) {
+      io.to(target).emit('answer', { caller: socket.id, callee: socket.id, sdp }); // fallback support for older logic
+    } else {
+      console.warn(`[WebRTC] Invalid answer target ${target} or room ${roomId}`);
+    }
   });
 
-  socket.on('ice-candidate', ({ target, candidate }) => {
-    io.to(target).emit('ice-candidate', { sender: socket.id, candidate });
+  socket.on('ice-candidate', ({ target, candidate, roomId }) => {
+    console.log(`[WebRTC] ICE candidate received from ${socket.id} to ${target}`);
+    if (roomId && rooms[roomId] && rooms[roomId].includes(target)) {
+      io.to(target).emit('ice-candidate', { sender: socket.id, candidate });
+    }
   });
 
   // ========== Collaborative State Sync ==========

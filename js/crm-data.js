@@ -116,8 +116,15 @@ const CrmClients = {
       try {
         const db = window.SpesFirebase.getFirestoreDB();
         const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+        console.log(`⏳ [CRM] Enviando setDoc de cliente ${clientData.id} a Firestore...`);
         await setDoc(doc(db, 'clients', clientData.id), clientData);
-      } catch(e) { console.warn('CRM: Error al guardar cliente:', e.message); }
+        console.log(`✅ [CRM] Cliente guardado exitosamente en Firestore (${clientData.id})`);
+      } catch(e) { 
+        console.error('❌ [CRM] Error CRÍTICO al guardar cliente en Firebase:', e); 
+        if (e.code === 'permission-denied') {
+          console.error("⛔ Firebase bloqueó la escritura por tus Reglas de Seguridad (Rules). Activa modo de prueba (allow write: if true).");
+        }
+      }
     }
 
     this._saveLocal(clientData);
@@ -177,8 +184,15 @@ const CrmQuotations = {
       try {
         const db = window.SpesFirebase.getFirestoreDB();
         const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+        console.log(`⏳ [CRM] Enviando setDoc de cotización ${quotationData.id} a Firestore...`);
         await setDoc(doc(db, 'clients', clientId, 'quotations', quotationData.id), quotationData);
-      } catch(e) { console.warn('CRM: Error al guardar cotización:', e.message); }
+        console.log(`✅ [CRM] Cotización guardada exitosamente en Firestore (${quotationData.id})`);
+      } catch(e) { 
+        console.error('❌ [CRM] Error CRÍTICO al guardar cotización en Firebase:', e);
+        if (e.code === 'permission-denied') {
+          console.error("⛔ Firebase bloqueó la escritura por tus Reglas de Seguridad (Rules). Activa modo de prueba (allow write: if true).");
+        }
+      }
     }
 
     // Also save in local cache

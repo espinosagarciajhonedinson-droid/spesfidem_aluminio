@@ -32,15 +32,29 @@ async function initFirebase() {
   try {
     const { initializeApp, getApps } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
     const { getFirestore }           = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
-    const { getAuth }                = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
+    const { getAuth, signInAnonymously, onAuthStateChanged } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
 
     const app = getApps().length ? getApps()[0] : initializeApp(FIREBASE_CONFIG);
     _db   = getFirestore(app);
     _auth = getAuth(app);
+    
+    // Auto-login anónimo para sortear bloqueos de Firestore (PERMISSION_DENIED)
+    // cuando usuarios públicos usan register.html o quotation.html
+    onAuthStateChanged(_auth, (user) => {
+      if (!user) {
+        console.log("[Spesfidem CRM] 🛡️ Usuario no autenticado. Iniciando sesión anónima para permitir escrituras públicas...");
+        signInAnonymously(_auth)
+          .then(() => console.log("[Spesfidem CRM] ✅ Sesión anónima establecida con éxito."))
+          .catch(err => console.error("[Spesfidem CRM] ⚠️ Fallo guardado anónimo (Activa 'Anónimo' en Firebase Auth > Sign-in providers):", err));
+      } else {
+        console.log(`[Spesfidem CRM] 👤 Usuario activo detectado (UID: ${user.uid})`);
+      }
+    });
+
     console.log("[Spesfidem CRM] ✅ Firebase conectado al proyecto:", FIREBASE_CONFIG.projectId);
     return true;
   } catch (e) {
-    console.error("[Spesfidem CRM] Error al inicializar Firebase:", e);
+    console.error("[Spesfidem CRM] ❌ Error crítico al inicializar Firebase:", e);
     return false;
   }
 }
